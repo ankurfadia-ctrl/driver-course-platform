@@ -13,7 +13,7 @@ const baseUrl = getPublicBaseUrl();
 export const metadata: Metadata = {
   title: "Driver Course Platform",
   description:
-    "Virginia-first driver improvement course platform built to scale to additional states.",
+    "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
   metadataBase: new URL(baseUrl),
   alternates: {
     canonical: "/",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Driver Course Platform",
     description:
-      "Virginia-first driver improvement course platform built to scale to additional states.",
+      "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
     url: baseUrl,
     siteName: "Driver Course Platform",
     images: [
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "Driver Course Platform",
     description:
-      "Virginia-first driver improvement course platform built to scale to additional states.",
+      "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
     images: [`${baseUrl}/logo.svg`],
   },
 };

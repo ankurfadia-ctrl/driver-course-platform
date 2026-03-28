@@ -9,14 +9,14 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
         <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <div className="space-y-6">
-            <div className="section-label">Driver Course Platform</div>
+            <div className="section-label">Online Driver Improvement Courses</div>
             <h1 className="display-balance max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
-              Online driver improvement course delivery with structured enrollment, progress tracking, and completion tools.
+              Online driver improvement courses with clear enrollment, course progress, and certificate completion.
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
-              Students can create accounts, purchase access, complete coursework,
-              satisfy seat-time requirements, take a final exam, and receive a
-              certificate in a structured online course flow.
+              Students can create accounts, enroll online, complete coursework,
+              satisfy course requirements, take a final exam when applicable,
+              and receive a certificate after successful completion.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -43,10 +43,10 @@ export default function HomePage() {
           <div className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white">
             <div className="grid gap-4 p-6 sm:grid-cols-2 sm:p-8">
               {[
-                ["Student flow", "Account creation, secure checkout, course progress, exam, certificate"],
-                ["Operations", "Support inbox, compliance exports, admin review tools"],
-                ["Course controls", "Seat-time tracking, exam gates, certificate release rules"],
-                ["Launch ready", "Production deployment, health checks, verification pages"],
+                ["Enrollment", "Student accounts, secure payment, and protected course access"],
+                ["Course progress", "Seat-time tracking, lesson progression, and completion records"],
+                ["Final exam", "Exam timing, attempt controls, and completion requirements"],
+                ["Certificate", "Certificate delivery, verification, and student support access"],
               ].map(([title, body]) => (
                 <div
                   key={title}
@@ -103,7 +103,7 @@ export default function HomePage() {
                     {config.stateName}
                   </div>
                   <div className="mt-1 text-sm leading-6 text-slate-600">
-                    Online driver improvement course enrollment, student progress tracking, final exam controls, certificate delivery, and support tools.
+                    Online driver improvement course enrollment, course progress, final exam completion, certificate delivery, and support information.
                   </div>
                 </Link>
               ))}

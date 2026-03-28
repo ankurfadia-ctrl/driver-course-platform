@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Driver Course Platform",
     short_name: "Driver Course",
     description:
-      "Virginia-first online driver improvement platform built to expand state by state.",
+      "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
     start_url: "/",
     display: "standalone",
     background_color: "#f8fafc",

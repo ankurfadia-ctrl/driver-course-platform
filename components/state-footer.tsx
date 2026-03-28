@@ -20,7 +20,7 @@ export default function StateFooter({ state }: { state: string }) {
               {config.stateName} Course
             </div>
             <div className="mt-3 text-2xl font-semibold text-slate-950">
-              Built for clear student progress from enrollment to certificate.
+              Clear online enrollment, course progress, and certificate completion.
             </div>
             <p className="mt-3 max-w-xl leading-7">
               {config.marketingDescription}
