@@ -68,6 +68,44 @@ export default function StylePreviewIndexPage() {
             </Link>
           ))}
         </div>
+
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            B Variations
+          </div>
+          <h2 className="mt-3 text-3xl font-semibold text-slate-950">
+            If you like B, compare these tones too.
+          </h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            <Link
+              href="/style-preview/b1"
+              className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 hover:bg-white"
+            >
+              <div className="text-sm font-semibold text-slate-950">B1</div>
+              <div className="mt-2 text-sm leading-6 text-slate-600">
+                Most modern and startup-like.
+              </div>
+            </Link>
+            <Link
+              href="/style-preview/b2"
+              className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 hover:bg-white"
+            >
+              <div className="text-sm font-semibold text-slate-950">B2</div>
+              <div className="mt-2 text-sm leading-6 text-slate-600">
+                Cleaner, more serious, less startup feel.
+              </div>
+            </Link>
+            <Link
+              href="/style-preview/b3"
+              className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 hover:bg-white"
+            >
+              <div className="text-sm font-semibold text-slate-950">B3</div>
+              <div className="mt-2 text-sm leading-6 text-slate-600">
+                Calm, minimal, and softer overall.
+              </div>
+            </Link>
+          </div>
+        </div>
       </div>
     </main>
   )
