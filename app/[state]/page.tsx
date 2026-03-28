@@ -97,7 +97,7 @@ export default async function StateHomePage({
             href={getDisclosuresRoute(state)}
             className="rounded-xl border border-amber-300 bg-white px-5 py-3 font-semibold text-amber-900 transition hover:bg-amber-100"
           >
-            Read Disclosures
+            Read Course Information
           </Link>
         </div>
       </section>

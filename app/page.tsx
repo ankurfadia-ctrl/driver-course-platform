@@ -11,7 +11,7 @@ export default function HomePage() {
           <div className="space-y-6">
             <div className="section-label">Driver Course Platform</div>
             <h1 className="display-balance max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
-              Online driver improvement course delivery with clear student progress and completion tools.
+              Online driver improvement course delivery with structured enrollment, progress tracking, and completion tools.
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
               Students can create accounts, purchase access, complete coursework,
@@ -103,7 +103,7 @@ export default function HomePage() {
                     {config.stateName}
                   </div>
                   <div className="mt-1 text-sm leading-6 text-slate-600">
-                    Online driver improvement course access, student progress tracking, final exam controls, certificate delivery, and support tools.
+                    Online driver improvement course enrollment, student progress tracking, final exam controls, certificate delivery, and support tools.
                   </div>
                 </Link>
               ))}
