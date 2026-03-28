@@ -10,11 +10,11 @@ export default async function StatePrivacyPage({
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
           Privacy
         </div>
-        <h1 className="mt-3 text-3xl font-bold text-slate-900">
+        <h1 className="mt-3 text-3xl font-semibold text-slate-900">
           {config.stateName} course privacy notice
         </h1>
         <p className="mt-4 leading-7 text-slate-700">
@@ -25,7 +25,7 @@ export default async function StatePrivacyPage({
         </p>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
         <h2 className="text-xl font-semibold text-slate-900">
           Information used by the platform
         </h2>
@@ -44,7 +44,7 @@ export default async function StatePrivacyPage({
         </div>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
         <h2 className="text-xl font-semibold text-slate-900">
           Why information is used
         </h2>
@@ -61,12 +61,12 @@ export default async function StatePrivacyPage({
         </div>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
         <h2 className="text-xl font-semibold text-slate-900">
           Questions about privacy
         </h2>
         <p className="mt-4 text-sm leading-7 text-slate-700">
-          If you need help with account or record questions, contact{" "}
+          If you need help with account, record, or privacy questions, contact{" "}
           <a
             href={`mailto:${config.supportEmail}`}
             className="font-medium text-slate-900 underline"

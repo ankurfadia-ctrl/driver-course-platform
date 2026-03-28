@@ -10,20 +10,20 @@ export default async function StateTermsPage({
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
-        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
           Terms
         </div>
-        <h1 className="mt-3 text-3xl font-bold text-slate-900">
+        <h1 className="mt-3 text-3xl font-semibold text-slate-900">
           {config.stateName} course terms
         </h1>
         <p className="mt-4 leading-7 text-slate-700">
-          These terms describe general use expectations for the {config.brandName}{" "}
-          online course experience.
+          These terms describe general student responsibilities and course-use
+          expectations for the {config.brandName} online course experience.
         </p>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
         <h2 className="text-xl font-semibold text-slate-900">
           Student responsibilities
         </h2>
@@ -41,7 +41,7 @@ export default async function StateTermsPage({
         </div>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
         <h2 className="text-xl font-semibold text-slate-900">
           Course controls
         </h2>
@@ -58,7 +58,7 @@ export default async function StateTermsPage({
         </div>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
         <h2 className="text-xl font-semibold text-slate-900">
           Support
         </h2>
