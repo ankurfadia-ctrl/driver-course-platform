@@ -55,7 +55,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Approval status",
         body:
-          "This website should not be represented as Virginia DMV-approved until approval is formally granted. Current course, certificate, and marketing language should remain neutral until that approval is secured.",
+          "Virginia DMV approval has not yet been granted. Students should review course information carefully and confirm acceptance for their specific requirement before enrolling or relying on completion.",
       },
       {
         title: "Court and eligibility responsibility",
