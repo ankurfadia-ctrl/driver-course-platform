@@ -5,6 +5,7 @@ import {
   getDisclosuresRoute,
   getFaqRoute,
   getPrivacyRoute,
+  getSupportRoute,
   getTermsRoute,
 } from "@/lib/course-config"
 
@@ -20,10 +21,10 @@ export default function StateFooter({ state }: { state: string }) {
               {config.stateName} Course
             </div>
             <div className="mt-3 text-2xl font-semibold text-slate-950">
-              Virginia course enrollment and certificate completion.
+              {config.stateName} driver improvement course.
             </div>
             <p className="mt-3 max-w-xl leading-7">
-              {config.marketingDescription}
+              Online enrollment, course access, final exam, and certificate delivery.
             </p>
           </div>
 
@@ -55,18 +56,17 @@ export default function StateFooter({ state }: { state: string }) {
               Support
             </div>
             <div className="mt-3 font-semibold text-slate-950">
-              {config.approvalStatusLabel}
+              Start with online support
             </div>
             <p className="mt-2 leading-6">
-              Students should confirm eligibility and acceptance requirements before
-              enrolling.
+              Use the support page first for course questions, account help, and certificate issues.
             </p>
-            <a
-              href={`mailto:${config.supportEmail}`}
+            <Link
+              href={getSupportRoute(state)}
               className="mt-4 inline-flex rounded-lg border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-950 hover:bg-slate-100"
             >
-              {config.supportEmail}
-            </a>
+              Open Support
+            </Link>
           </div>
         </div>
       </div>

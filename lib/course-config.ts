@@ -200,6 +200,10 @@ export function getFaqRoute(state: string) {
   return getStateRoute(state, "faq")
 }
 
+export function getSupportRoute(state: string) {
+  return getStateRoute(state, "support")
+}
+
 export function getLessonLinks(state: string, lessonCount = 8): LessonLink[] {
   return Array.from({ length: lessonCount }, (_, index) => ({
     id: index + 1,
