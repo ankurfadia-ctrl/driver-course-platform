@@ -171,22 +171,21 @@ export default function StateCheckoutPage() {
           <div className="space-y-4">
             <p className="section-label">{stateDisplayName} Checkout</p>
             <h1 className="text-4xl font-semibold text-slate-950">
-              Choose your course option
+              Course enrollment and payment
             </h1>
             <p className="max-w-3xl leading-8 text-slate-600">
-              Start with the standard course or choose the priority support option for
-              faster help routing. Stripe checkout comes next after this selection page.
+              Review the available enrollment options below. Secure payment is completed through Stripe after you choose a plan.
             </p>
           </div>
 
           <div className="rounded-[1.75rem] border border-[#e5edff] bg-[#f8fbff] p-6">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
-              Before you buy
+              Important information before enrollment
             </div>
             <div className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <p>Course access is a one-time purchase for this state.</p>
               <p>Seat-time, identity checks, and final exam rules still apply.</p>
-              <p>Students should review disclosures before relying on completion.</p>
+              <p>Students should confirm course acceptance for their specific requirement before relying on completion.</p>
             </div>
           </div>
         </div>
@@ -281,13 +280,13 @@ export default function StateCheckoutPage() {
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">
           <h2 className="text-2xl font-semibold text-slate-950">
-            What happens next?
+            Enrollment process
           </h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
             {[
-              ["1. Choose plan", "Pick the standard course or the priority support option."],
-              ["2. Stripe checkout", "Next you will complete secure Stripe payment."],
-              ["3. Start course", "After payment, the student can enter the course flow."],
+              ["1. Select a plan", "Choose the course option you want to purchase."],
+              ["2. Complete payment", "Secure checkout is completed through Stripe."],
+              ["3. Begin the course", "After payment, the student account can enter the course flow."],
             ].map(([title, body]) => (
               <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <div className="font-semibold text-slate-900">{title}</div>
@@ -302,7 +301,7 @@ export default function StateCheckoutPage() {
             {config.approvalStatusLabel}
           </div>
           <h2 className="mt-3 text-2xl font-semibold text-slate-950">
-            Review disclosures before purchasing
+            Review course information before purchasing
           </h2>
           <p className="mt-3 max-w-3xl leading-7 text-slate-700">
             Students should confirm course acceptance for their specific court, DMV, employer, or insurance need before enrolling. Identity checks, seat-time rules, and exam attempt limits may apply.
@@ -312,7 +311,7 @@ export default function StateCheckoutPage() {
               href={getDisclosuresRoute(state)}
               className="inline-flex rounded-xl border border-amber-300 bg-white px-4 py-2.5 font-semibold text-amber-900 hover:bg-amber-100"
             >
-              Read {stateDisplayName} disclosures
+              Read {stateDisplayName} course information
             </Link>
           </div>
         </div>

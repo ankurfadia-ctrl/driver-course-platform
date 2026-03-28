@@ -50,7 +50,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     certificateIssuerLine: "Virginia Driver Improvement Course Platform",
     approvalStatusLabel: "Approval pending",
     disclosuresIntro:
-      "Review these Virginia course disclosures before purchasing, enrolling, or relying on completion for court or DMV purposes.",
+      "Review this Virginia course information before purchasing, enrolling, or relying on completion for court, employer, insurance, or DMV purposes.",
     disclosures: [
       {
         title: "Approval status",
