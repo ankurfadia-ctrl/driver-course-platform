@@ -46,7 +46,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     courseName: "Virginia Driver Improvement Course",
     marketingHeadline: "Complete your Virginia driver improvement course online in a structured 8-hour format.",
     marketingDescription:
-      "Online Virginia driver improvement course enrollment, course progress tracking, final exam completion, certificate delivery, and support information.",
+      "Online Virginia driver improvement course with secure enrollment, course progress, final exam completion, and certificate delivery.",
     certificateIssuerLine: "Virginia Driver Improvement Course Platform",
     approvalStatusLabel: "Approval pending",
     disclosuresIntro:
@@ -115,7 +115,7 @@ export function getCourseConfig(state: string): StateCourseConfig {
       } Driver Improvement Course`,
       marketingHeadline: `Complete your ${normalizedState} driver improvement course online.`,
       marketingDescription:
-        "Online driver improvement course enrollment, progress tracking, final exam completion, certificate delivery, and support information.",
+        "Online driver improvement course with secure enrollment, course progress, final exam completion, and certificate delivery.",
       certificateIssuerLine: `${
         normalizedState.charAt(0).toUpperCase() + normalizedState.slice(1)
       } Driver Improvement Course Platform`,
