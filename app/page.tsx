@@ -11,12 +11,12 @@ export default function HomePage() {
           <div className="space-y-6">
             <div className="section-label">Driver Course Platform</div>
             <h1 className="display-balance max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
-              A modern online driver improvement platform built to scale state by state.
+              Online driver improvement course delivery with clear student progress and completion tools.
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
-              Students can sign up, purchase access, complete lessons, satisfy seat
-              time, pass the final exam, receive a certificate, and verify completion
-              inside one multistate-ready system.
+              Students can create accounts, purchase access, complete coursework,
+              satisfy seat-time requirements, take a final exam, and receive a
+              certificate in a structured online course flow.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -43,9 +43,9 @@ export default function HomePage() {
           <div className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white">
             <div className="grid gap-4 p-6 sm:grid-cols-2 sm:p-8">
               {[
-                ["Student flow", "Signup, login, checkout, course, exam, certificate"],
+                ["Student flow", "Account creation, secure checkout, course progress, exam, certificate"],
                 ["Operations", "Support inbox, compliance exports, admin review tools"],
-                ["Multistate base", "State routing, disclosures, shared course architecture"],
+                ["Course controls", "Seat-time tracking, exam gates, certificate release rules"],
                 ["Launch ready", "Production deployment, health checks, verification pages"],
               ].map(([title, body]) => (
                 <div
@@ -90,7 +90,7 @@ export default function HomePage() {
 
           <div className="glass-panel rounded-[2rem] bg-white p-8">
             <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Active states
+              Current course availability
             </div>
             <div className="mt-6 space-y-4">
               {states.map((config) => (
@@ -103,7 +103,7 @@ export default function HomePage() {
                     {config.stateName}
                   </div>
                   <div className="mt-1 text-sm leading-6 text-slate-600">
-                    {config.marketingDescription}
+                    Online driver improvement course access, student progress tracking, final exam controls, certificate delivery, and support tools.
                   </div>
                 </Link>
               ))}

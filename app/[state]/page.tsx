@@ -19,7 +19,9 @@ export default async function StateHomePage({
               {config.marketingHeadline}
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
-              {config.marketingDescription}
+              Complete lessons online, satisfy the required seat time, take the
+              final exam, and unlock your completion certificate once course
+              requirements are met.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -39,13 +41,13 @@ export default async function StateHomePage({
 
           <div className="rounded-[1.75rem] border border-[#e5edff] bg-[#f8fbff] p-6">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
-              Student journey
+              Virginia course expectations
             </div>
             <div className="mt-5 space-y-3">
               {[
-                "1. Choose a plan and create your account",
-                "2. Complete lessons and required seat time",
-                "3. Pass the final exam and unlock your certificate",
+                "8-hour online course with required seat-time tracking",
+                "Identity verification may be required during course milestones and before or during the final exam",
+                "Final exam attempts may be limited to one attempt per business day",
               ].map((item) => (
                 <div
                   key={item}
@@ -61,9 +63,9 @@ export default async function StateHomePage({
 
       <section className="grid gap-6 lg:grid-cols-3">
         {[
-          ["Step 1", "Choose your plan", "Start with standard access or add priority support for faster routing."],
-          ["Step 2", "Complete the course", "Work through lessons, meet the seat-time requirement, and take the final exam."],
-          ["Step 3", "Get your certificate", "Print, download, and verify course completion once requirements are met."],
+          ["Step 1", "Enroll and create your account", "Purchase course access and log in with your student account before beginning coursework."],
+          ["Step 2", "Complete the required course time", "Work through the online lessons, remain active in the course, and satisfy the full time requirement."],
+          ["Step 3", "Pass the final exam and receive your certificate", "After you meet the course requirements and pass the exam, you can access your completion certificate."],
         ].map(([step, title, body]) => (
           <div key={step} className="glass-panel rounded-[1.75rem] bg-white p-6">
             <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
@@ -82,10 +84,13 @@ export default async function StateHomePage({
               {config.approvalStatusLabel}
             </div>
             <h2 className="mt-3 text-3xl font-semibold text-slate-950">
-              Review {config.stateName} disclosures before enrolling
+              Review Virginia disclosures before enrolling
             </h2>
             <p className="mt-4 leading-7 text-slate-700">
-              Students should confirm court, DMV, employer, or insurance acceptance before purchasing the course. Identity verification, seat-time controls, and final exam rules may apply.
+              Students are responsible for confirming whether an online Virginia
+              driver improvement course is acceptable for their specific court,
+              employer, insurance, or DMV requirement before purchasing. Identity
+              verification, seat-time controls, and final exam rules may apply.
             </p>
           </div>
           <Link

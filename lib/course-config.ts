@@ -44,9 +44,9 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     siteTitle: "Virginia Driver Improvement Course",
     brandName: "Virginia Driver Improvement Course",
     courseName: "Virginia Driver Improvement Course",
-    marketingHeadline: "Complete your Virginia driver improvement course online.",
+    marketingHeadline: "Complete your Virginia driver improvement course online in a structured 8-hour format.",
     marketingDescription:
-      "A Virginia-first driver improvement platform with student login, checkout, progress tracking, final exam, certificate delivery, and support tools built to scale to additional states.",
+      "An online Virginia driver improvement course with student login, secure checkout, progress tracking, final exam controls, certificate delivery, and support tools.",
     certificateIssuerLine: "Virginia Driver Improvement Course Platform",
     approvalStatusLabel: "Approval pending",
     disclosuresIntro:
