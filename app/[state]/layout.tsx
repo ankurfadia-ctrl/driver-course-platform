@@ -59,11 +59,15 @@ export default async function StateLayout({
   const config = getCourseConfig(state)
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="public-shell min-h-screen overflow-hidden">
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(139,169,255,0.2),transparent_44%)]" />
+      <div className="pointer-events-none absolute left-[-10rem] top-44 -z-10 h-72 w-72 rounded-full bg-[rgba(255,255,255,0.4)] blur-3xl" />
+      <div className="pointer-events-none absolute right-[-8rem] top-28 -z-10 h-64 w-64 rounded-full bg-[rgba(245,197,108,0.18)] blur-3xl" />
+
       <CourseHeader state={state} />
 
       <main
-        className="mx-auto max-w-6xl flex-1 px-4 py-6"
+        className="mx-auto max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8"
         data-state={config.stateSlug}
       >
         {children}

@@ -97,27 +97,28 @@ export default function StateSupportPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
-        <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">
-          {stateDisplayName} Student Support
-        </p>
-        <h1 className="text-3xl font-bold text-slate-900">Help & Support</h1>
-        <p className="mt-2 max-w-3xl text-slate-600">
-          Most issues are resolved instantly. Only complex issues are reviewed.
+        <p className="section-label">{stateDisplayName} Student Support</p>
+        <h1 className="mt-4 text-4xl font-semibold text-slate-950 [font-family:var(--font-display)]">
+          Help & Support
+        </h1>
+        <p className="mt-3 max-w-3xl leading-8 text-slate-700">
+          Most issues are resolved instantly. Only more complex issues need
+          review by support.
         </p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="glass-panel rounded-[2rem] p-6">
             <h2 className="text-xl font-semibold text-slate-900">
               Common questions
             </h2>
-            <p className="mt-2 text-slate-600">
+            <p className="mt-2 leading-7 text-slate-600">
               Many issues are resolved with the instant guidance shown as students type.
             </p>
 
             <div className="mt-5 space-y-4">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
                 <div className="font-semibold text-slate-900">
                   Why is my final exam locked?
                 </div>
@@ -126,7 +127,7 @@ export default function StateSupportPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
                 <div className="font-semibold text-slate-900">
                   Why is my certificate locked?
                 </div>
@@ -135,7 +136,7 @@ export default function StateSupportPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
                 <div className="font-semibold text-slate-900">
                   Why is my timer not done yet?
                 </div>
@@ -146,27 +147,27 @@ export default function StateSupportPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="glass-panel rounded-[2rem] p-6">
             <h2 className="text-xl font-semibold text-slate-900">Quick links</h2>
 
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
                 href={`/${state}/course`}
-                className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex rounded-full border border-white/80 bg-white/80 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-white"
               >
                 Course Dashboard
               </Link>
 
               <Link
                 href={`/${state}/course/final-exam`}
-                className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex rounded-full border border-white/80 bg-white/80 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-white"
               >
                 Final Exam
               </Link>
 
               <Link
                 href={`/${state}/certificate`}
-                className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="inline-flex rounded-full border border-white/80 bg-white/80 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-white"
               >
                 Certificate
               </Link>
@@ -174,11 +175,11 @@ export default function StateSupportPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="glass-panel rounded-[2rem] p-6">
           <h2 className="text-xl font-semibold text-slate-900">
             Ask a question
           </h2>
-          <p className="mt-2 text-slate-600">
+          <p className="mt-2 leading-7 text-slate-600">
             Type your issue below. Even short messages like &quot;exam
             locked&quot; work.
           </p>
@@ -198,7 +199,7 @@ export default function StateSupportPage() {
                   onChange={(event) =>
                     setCategory(event.target.value as SupportCategory)
                   }
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none transition focus:border-blue-500"
+                  className="w-full rounded-2xl border border-white/80 bg-white/78 px-3 py-2.5 text-slate-900 outline-none transition focus:border-[#3054a5]"
                 >
                   {CATEGORY_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -221,7 +222,7 @@ export default function StateSupportPage() {
                   value={subject}
                   onChange={(event) => setSubject(event.target.value)}
                   placeholder="Example: Exam locked"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none transition focus:border-blue-500"
+                  className="w-full rounded-2xl border border-white/80 bg-white/78 px-3 py-2.5 text-slate-900 outline-none transition focus:border-[#3054a5]"
                 />
               </div>
 
@@ -238,19 +239,19 @@ export default function StateSupportPage() {
                   onChange={(event) => setMessage(event.target.value)}
                   placeholder="Describe your issue"
                   rows={6}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none transition focus:border-blue-500"
+                  className="w-full rounded-2xl border border-white/80 bg-white/78 px-3 py-2.5 text-slate-900 outline-none transition focus:border-[#3054a5]"
                 />
               </div>
 
               {!canPreview ? (
-                <div className="rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
+                <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4 text-sm text-slate-600">
                   Enter at least 5 total characters in Subject or Message to get an instant answer.
                 </div>
               ) : null}
 
               {aiResponse ? (
-                <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
-                  <div className="text-sm font-semibold uppercase tracking-wide text-blue-700">
+                <div className="rounded-[1.7rem] border border-[#c9d8ff] bg-[#eef3ff] p-5">
+                  <div className="text-sm font-semibold uppercase tracking-[0.18em] text-[#3054a5]">
                     Instant suggested answer
                   </div>
 
@@ -283,7 +284,7 @@ export default function StateSupportPage() {
                 </div>
               ) : null}
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded-[1.7rem] border border-white/70 bg-white/72 p-4">
                 <label className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -312,9 +313,9 @@ export default function StateSupportPage() {
               <button
                 type="submit"
                 disabled={!canSubmit}
-                className={`inline-flex rounded-lg px-4 py-2 font-semibold text-white transition ${
+                className={`inline-flex rounded-full px-5 py-2.5 font-semibold text-white transition ${
                   canSubmit
-                    ? "bg-blue-600 hover:bg-blue-700"
+                    ? "bg-slate-950 hover:bg-slate-800"
                     : "cursor-not-allowed bg-slate-400"
                 }`}
               >
@@ -322,8 +323,8 @@ export default function StateSupportPage() {
               </button>
             </form>
           ) : (
-            <div className="mt-5 rounded-2xl border border-green-200 bg-green-50 p-5">
-              <div className="text-sm font-semibold uppercase tracking-wide text-green-700">
+            <div className="mt-5 rounded-[1.8rem] border border-green-200 bg-green-50 p-5">
+              <div className="text-sm font-semibold uppercase tracking-[0.18em] text-green-700">
                 Support request submitted
               </div>
               <h3 className="mt-2 text-xl font-semibold text-slate-900">
@@ -340,13 +341,13 @@ export default function StateSupportPage() {
               ) : null}
 
               {aiResponse ? (
-                <div className="mt-5 rounded-xl bg-white p-4">
+                <div className="mt-5 rounded-[1.4rem] bg-white p-4">
                   <div className="text-sm text-slate-500">AI suggested summary</div>
                   <div className="mt-1 text-slate-900">{aiResponse.summary}</div>
                 </div>
               ) : null}
 
-              <div className="mt-5 space-y-3 rounded-xl bg-white p-4">
+              <div className="mt-5 space-y-3 rounded-[1.4rem] bg-white p-4">
                 <div>
                   <div className="text-sm text-slate-500">Category</div>
                   <div className="font-medium text-slate-900">
@@ -379,7 +380,7 @@ export default function StateSupportPage() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="mt-4 inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="mt-4 inline-flex rounded-full border border-slate-300 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-slate-50"
               >
                 New Request
               </button>

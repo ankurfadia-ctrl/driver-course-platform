@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
+import { Fraunces, Plus_Jakarta_Sans } from "next/font/google";
 import { getPublicBaseUrl } from "@/lib/runtime-config";
 import "./globals.css";
+
+const sansFont = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans-ui",
+});
+
+const displayFont = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-display-ui",
+});
 
 const baseUrl = getPublicBaseUrl();
 
@@ -44,8 +55,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html
+      lang="en"
+      className={`${sansFont.variable} ${displayFont.variable} h-full antialiased`}
+    >
+      <body className={`${sansFont.className} min-h-full flex flex-col`}>
+        {children}
+      </body>
     </html>
   );
 }
