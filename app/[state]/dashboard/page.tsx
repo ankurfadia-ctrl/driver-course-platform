@@ -5,8 +5,9 @@ import { createClient } from '@/lib/supabase/server'
 export default async function DashboardPage({
   params,
 }: {
-  params: { state: string }
+  params: Promise<{ state: string }>
 }) {
+  const { state } = await params
   const supabase = await createClient()
 
   const {
@@ -14,14 +15,14 @@ export default async function DashboardPage({
   } = await supabase.auth.getUser()
 
   if (!user) {
-    redirect(`/${params.state}/login`)
+    redirect(`/${state}/login`)
   }
 
   async function logout() {
     "use server"
     const supabase = await createClient()
     await supabase.auth.signOut()
-    redirect(`/${params.state}/login`)
+    redirect(`/${state}/login`)
   }
 
   return (
@@ -34,14 +35,14 @@ export default async function DashboardPage({
 
       <div className="flex flex-col sm:flex-row gap-3">
         <Link
-          href={`/${params.state}/course`}
+          href={`/${state}/course`}
           className="bg-blue-600 text-white px-6 py-3 rounded-lg"
         >
           Go to Course
         </Link>
 
         <Link
-          href={`/${params.state}/checkout`}
+          href={`/${state}/checkout`}
           className="border border-slate-300 px-6 py-3 rounded-lg"
         >
           View Plans
