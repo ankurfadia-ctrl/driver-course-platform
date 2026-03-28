@@ -35,7 +35,7 @@ export default function VerifyCertificateEntryPage() {
             Verify a course completion certificate
           </h1>
           <p className="max-w-2xl text-lg leading-8 text-slate-600">
-            Enter the certificate ID exactly as shown on the student’s certificate to confirm completion details.
+            Enter the certificate ID exactly as shown on the student&apos;s certificate to confirm completion details.
           </p>
         </div>
 

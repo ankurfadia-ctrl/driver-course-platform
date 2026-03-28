@@ -19,7 +19,7 @@ function getStateDisplayName(state: string) {
 
 function getPlanDescription(plan: CoursePlan) {
   if (plan.includesPrioritySupport) {
-    return "Includes the full course, certificate eligibility, and priority support routing."
+    return "Includes the full course, certificate eligibility, and priority support."
   }
 
   return "Includes the full course and certificate eligibility."
@@ -174,7 +174,7 @@ export default function StateCheckoutPage() {
               Course enrollment and payment
             </h1>
             <p className="max-w-3xl leading-8 text-slate-600">
-              Review the available enrollment options below. Secure payment is completed through Stripe after you choose a plan.
+              Review the available course options below. Payment is completed securely through Stripe after you choose a plan.
             </p>
           </div>
 
@@ -185,7 +185,7 @@ export default function StateCheckoutPage() {
             <div className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <p>Course access is a one-time purchase for this state.</p>
               <p>Seat-time, identity checks, and final exam rules still apply.</p>
-              <p>Students should confirm course acceptance for their specific requirement before relying on completion.</p>
+              <p>Students should confirm course acceptance for their specific requirement before enrolling.</p>
             </div>
           </div>
         </div>
@@ -304,7 +304,7 @@ export default function StateCheckoutPage() {
             Review course information before purchasing
           </h2>
           <p className="mt-3 max-w-3xl leading-7 text-slate-700">
-            Students should confirm course acceptance for their specific court, DMV, employer, or insurance need before enrolling. Identity checks, seat-time rules, and exam attempt limits may apply.
+            Students should confirm course acceptance for their specific court, DMV, employer, or insurance need before enrolling. Identity checks, seat-time rules, and exam limits may apply.
           </p>
           <div className="mt-5">
             <Link

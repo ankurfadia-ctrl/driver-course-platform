@@ -81,15 +81,15 @@ export default function LoginPage() {
           </h1>
           <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
             {mode === "login"
-              ? "Access your dashboard, progress, final exam, and certificate from one secure student account."
-              : "Create a student login to purchase access, track progress, and manage course completion."}
+              ? "Access your dashboard, course progress, final exam, and certificate from one student account."
+              : "Create a student account to purchase access and complete the course."}
           </p>
 
           <div className="mt-8 grid gap-4">
             {[
-              "Secure student login and dashboard access",
+              "Student login and dashboard access",
               "Course progress, exam, and certificate tied to one account",
-              "Support access if you need help during the course",
+              "Support access during the course",
             ].map((item) => (
               <div
                 key={item}
@@ -124,7 +124,7 @@ export default function LoginPage() {
               href={getDisclosuresRoute(state)}
               className="mt-4 inline-flex rounded-xl border border-amber-300 bg-white px-4 py-2 font-semibold text-amber-900 hover:bg-amber-100"
             >
-              Read disclosures
+              Read course information
             </Link>
           </div>
 

@@ -11,12 +11,12 @@ export default function HomePage() {
           <div className="space-y-6">
             <div className="section-label">Online Driver Improvement Courses</div>
             <h1 className="display-balance max-w-4xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
-              Online driver improvement courses with clear enrollment, course progress, and certificate completion.
+              Online driver improvement courses with clear enrollment and completion.
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
               Students can create accounts, enroll online, complete coursework,
-              satisfy course requirements, take a final exam when applicable,
-              and receive a certificate after successful completion.
+              meet course requirements, take a final exam when required, and
+              receive a certificate after completion.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -44,9 +44,9 @@ export default function HomePage() {
             <div className="grid gap-4 p-6 sm:grid-cols-2 sm:p-8">
               {[
                 ["Enrollment", "Student accounts, secure payment, and protected course access"],
-                ["Course progress", "Seat-time tracking, lesson progression, and completion records"],
-                ["Final exam", "Exam timing, attempt controls, and completion requirements"],
-                ["Certificate", "Certificate delivery, verification, and student support access"],
+                ["Course progress", "Seat-time tracking, lesson progress, and completion records"],
+                ["Final exam", "Exam timing, attempt controls, and passing requirements"],
+                ["Certificate", "Certificate access, verification, and support information"],
               ].map(([title, body]) => (
                 <div
                   key={title}
@@ -103,7 +103,7 @@ export default function HomePage() {
                     {config.stateName}
                   </div>
                   <div className="mt-1 text-sm leading-6 text-slate-600">
-                    Online driver improvement course enrollment, course progress, final exam completion, certificate delivery, and support information.
+                    Online driver improvement course enrollment, progress tracking, final exam completion, and certificate access.
                   </div>
                 </Link>
               ))}

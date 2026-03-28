@@ -20,8 +20,8 @@ export default async function StateHomePage({
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
               Complete lessons online, satisfy the required seat time, take the
-              final exam, and unlock your completion certificate once course
-              requirements are met.
+              final exam, and access your certificate after completing the
+              course requirements.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -65,7 +65,7 @@ export default async function StateHomePage({
         {[
           ["Step 1", "Enroll and create your account", "Purchase course access and log in with your student account before beginning coursework."],
           ["Step 2", "Complete the required course time", "Work through the online lessons, remain active in the course, and satisfy the full time requirement."],
-          ["Step 3", "Pass the final exam and receive your certificate", "After you meet the course requirements and pass the exam, you can access your completion certificate."],
+          ["Step 3", "Pass the final exam and receive your certificate", "After you meet the course requirements and pass the exam, your certificate will be available in your account."],
         ].map(([step, title, body]) => (
           <div key={step} className="glass-panel rounded-[1.75rem] bg-white p-6">
             <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
