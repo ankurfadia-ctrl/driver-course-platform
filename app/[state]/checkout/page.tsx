@@ -87,7 +87,7 @@ export default function StateCheckoutPage() {
   if (checkingPurchase) {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
-        <div className="glass-panel rounded-[2rem] p-6">
+        <div className="glass-panel rounded-[2rem] bg-white p-6">
           <h1 className="text-2xl font-bold text-slate-900">
             Checking your purchase status...
           </h1>
@@ -102,12 +102,12 @@ export default function StateCheckoutPage() {
   if (hasPaidPurchase) {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
-        <div className="glass-panel rounded-[2rem] p-6 sm:p-7">
+        <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">
           <div className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
             Already purchased
           </div>
 
-          <h1 className="mt-4 text-3xl font-semibold text-slate-950 [font-family:var(--font-display)]">
+          <h1 className="mt-4 text-3xl font-semibold text-slate-950">
             You already have access to the {stateDisplayName} course
           </h1>
 
@@ -116,14 +116,14 @@ export default function StateCheckoutPage() {
           </p>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div className="text-sm text-slate-500">Plan code</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {purchasePlanCode ?? "Paid"}
               </div>
             </div>
 
-            <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div className="text-sm text-slate-500">Support tier</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {purchaseSupportTier ?? "Standard"}
@@ -140,21 +140,21 @@ export default function StateCheckoutPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href={`/${state}/course`}
-              className="inline-flex rounded-full bg-slate-950 px-5 py-3 font-semibold text-white transition hover:bg-slate-800"
+              className="inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
             >
               Go to Course
             </Link>
 
             <Link
               href={`/${state}/dashboard`}
-              className="inline-flex rounded-full border border-white/80 bg-white/80 px-5 py-3 font-semibold text-slate-700 transition hover:bg-white"
+              className="inline-flex rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
             >
               Go to Dashboard
             </Link>
 
             <Link
               href={`/${state}/support`}
-              className="inline-flex rounded-full border border-white/80 bg-white/80 px-5 py-3 font-semibold text-slate-700 transition hover:bg-white"
+              className="inline-flex rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
             >
               Contact Support
             </Link>
@@ -166,24 +166,24 @@ export default function StateCheckoutPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
-      <section className="glass-panel rounded-[2.25rem] p-7 sm:p-8">
+      <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-7 sm:p-8">
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <div className="space-y-4">
             <p className="section-label">{stateDisplayName} Checkout</p>
-            <h1 className="text-4xl font-semibold text-slate-950 [font-family:var(--font-display)]">
+            <h1 className="text-4xl font-semibold text-slate-950">
               Choose your course option
             </h1>
-            <p className="max-w-3xl leading-8 text-slate-700">
+            <p className="max-w-3xl leading-8 text-slate-600">
               Start with the standard course or choose the priority support option for
               faster help routing. Stripe checkout comes next after this selection page.
             </p>
           </div>
 
-          <div className="rounded-[1.8rem] bg-[linear-gradient(145deg,#203255_0%,#335899_100%)] p-6 text-white shadow-[0_24px_45px_rgba(28,42,77,0.24)]">
-            <div className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-100/90">
-              What you are buying
+          <div className="rounded-[1.75rem] border border-[#e5edff] bg-[#f8fbff] p-6">
+            <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+              Before you buy
             </div>
-            <div className="mt-4 space-y-3 text-sm leading-7 text-blue-50/90">
+            <div className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <p>Course access is a one-time purchase for this state.</p>
               <p>Seat-time, identity checks, and final exam rules still apply.</p>
               <p>Students should review disclosures before relying on completion.</p>
@@ -205,25 +205,21 @@ export default function StateCheckoutPage() {
           return (
             <div
               key={plan.planCode}
-              className={`glass-panel rounded-[2rem] p-6 sm:p-7 ${
-                isPriority
-                  ? "border-[rgba(48,84,165,0.18)]"
-                  : "border-white/70"
-              }`}
+              className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-6 sm:p-7"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <div
                     className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
                       isPriority
-                        ? "bg-[#eef3ff] text-[#3054a5]"
+                        ? "bg-blue-50 text-blue-700"
                         : "bg-slate-100 text-slate-700"
                     }`}
                   >
                     {isPriority ? "Priority Support" : "Standard"}
                   </div>
 
-                  <h2 className="mt-4 text-3xl font-semibold text-slate-950 [font-family:var(--font-display)]">
+                  <h2 className="mt-4 text-3xl font-semibold text-slate-950">
                     {plan.displayName}
                   </h2>
 
@@ -232,7 +228,7 @@ export default function StateCheckoutPage() {
                   </p>
                 </div>
 
-                <div className="rounded-[1.3rem] border border-white/70 bg-white/72 px-5 py-4 text-right">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right">
                   <div className="text-3xl font-semibold text-slate-950">
                     {formatPriceFromCents(plan.priceCents, plan.currency)}
                   </div>
@@ -240,7 +236,7 @@ export default function StateCheckoutPage() {
                 </div>
               </div>
 
-              <div className="mt-6 space-y-3 rounded-[1.6rem] border border-white/70 bg-white/70 p-5">
+              <div className="mt-6 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">Full course access</span>
                   <span className="font-semibold text-slate-900">Included</span>
@@ -255,11 +251,7 @@ export default function StateCheckoutPage() {
 
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">Support tier</span>
-                  <span
-                    className={`font-semibold ${
-                      isPriority ? "text-[#3054a5]" : "text-slate-900"
-                    }`}
-                  >
+                  <span className="font-semibold text-slate-900">
                     {isPriority ? "Priority" : "Standard"}
                   </span>
                 </div>
@@ -268,10 +260,10 @@ export default function StateCheckoutPage() {
               <div className="mt-6 space-y-3">
                 <Link
                   href={`/${state}/checkout/${plan.planCode}`}
-                  className={`inline-flex w-full items-center justify-center rounded-full px-4 py-3 text-center font-semibold text-white transition ${
+                  className={`inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-center font-semibold text-white ${
                     isPriority
-                      ? "bg-[#3054a5] hover:bg-[#27458c]"
-                      : "bg-slate-950 hover:bg-slate-800"
+                      ? "bg-slate-900 hover:bg-slate-800"
+                      : "bg-blue-600 hover:bg-blue-700"
                   }`}
                 >
                   Select {isPriority ? "Priority" : "Standard"}
@@ -287,39 +279,29 @@ export default function StateCheckoutPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="glass-panel rounded-[2rem] p-6 sm:p-7">
+        <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">
           <h2 className="text-2xl font-semibold text-slate-950">
             What happens next?
           </h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
-            <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
-              <div className="font-semibold text-slate-900">1. Choose plan</div>
-              <div className="mt-2 text-sm leading-6 text-slate-600">
-                Pick the standard course or the priority support option.
+            {[
+              ["1. Choose plan", "Pick the standard course or the priority support option."],
+              ["2. Stripe checkout", "Next you will complete secure Stripe payment."],
+              ["3. Start course", "After payment, the student can enter the course flow."],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="font-semibold text-slate-900">{title}</div>
+                <div className="mt-2 text-sm leading-6 text-slate-600">{body}</div>
               </div>
-            </div>
-
-            <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
-              <div className="font-semibold text-slate-900">2. Stripe checkout</div>
-              <div className="mt-2 text-sm leading-6 text-slate-600">
-                Next you will complete secure Stripe payment.
-              </div>
-            </div>
-
-            <div className="rounded-[1.4rem] border border-white/70 bg-white/72 p-4">
-              <div className="font-semibold text-slate-900">3. Start course</div>
-              <div className="mt-2 text-sm leading-6 text-slate-600">
-                After payment, the student can enter the course flow.
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-[rgba(166,117,63,0.18)] bg-[linear-gradient(180deg,rgba(255,248,236,0.9)_0%,rgba(255,241,214,0.75)_100%)] p-6 shadow-[0_18px_38px_rgba(138,98,36,0.08)]">
-          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-[#8d6d2b]">
+        <div className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 shadow-sm">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
             {config.approvalStatusLabel}
           </div>
-          <h2 className="mt-3 text-2xl font-semibold text-slate-950 [font-family:var(--font-display)]">
+          <h2 className="mt-3 text-2xl font-semibold text-slate-950">
             Review disclosures before purchasing
           </h2>
           <p className="mt-3 max-w-3xl leading-7 text-slate-700">
@@ -328,7 +310,7 @@ export default function StateCheckoutPage() {
           <div className="mt-5">
             <Link
               href={getDisclosuresRoute(state)}
-              className="inline-flex rounded-full border border-[rgba(166,117,63,0.24)] bg-white/80 px-4 py-2.5 font-semibold text-[#6f5216] transition hover:bg-white"
+              className="inline-flex rounded-xl border border-amber-300 bg-white px-4 py-2.5 font-semibold text-amber-900 hover:bg-amber-100"
             >
               Read {stateDisplayName} disclosures
             </Link>
@@ -339,14 +321,14 @@ export default function StateCheckoutPage() {
       <div className="flex flex-wrap gap-3">
         <Link
           href={`/${state}/course`}
-          className="inline-flex rounded-full border border-white/80 bg-white/80 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-white"
+          className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
         >
           Back to Course
         </Link>
 
         <Link
           href={`/${state}/support`}
-          className="inline-flex rounded-full border border-white/80 bg-white/80 px-4 py-2.5 font-semibold text-slate-700 transition hover:bg-white"
+          className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
         >
           Questions Before Buying?
         </Link>

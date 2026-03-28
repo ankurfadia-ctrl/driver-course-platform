@@ -73,15 +73,13 @@ export default function LoginPage() {
 
   return (
     <main className="min-h-screen px-4 py-10 sm:py-14">
-      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-        <section className="rounded-[2.25rem] bg-[linear-gradient(145deg,#203255_0%,#335899_100%)] p-7 text-white shadow-[0_24px_45px_rgba(28,42,77,0.24)] sm:p-8">
-          <div className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-blue-100">
-            {config.stateName} Student Access
-          </div>
-          <h1 className="mt-5 text-4xl font-semibold leading-tight [font-family:var(--font-display)] sm:text-5xl">
+      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_1fr]">
+        <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-7 sm:p-8">
+          <div className="section-label">{config.stateName} Student Access</div>
+          <h1 className="mt-5 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
             {mode === "login" ? "Return to your course." : "Create your student account."}
           </h1>
-          <p className="mt-4 max-w-xl text-base leading-8 text-blue-50/90">
+          <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
             {mode === "login"
               ? "Access your dashboard, progress, final exam, and certificate from one secure student account."
               : "Create a student login to purchase access, track progress, and manage course completion."}
@@ -95,7 +93,7 @@ export default function LoginPage() {
             ].map((item) => (
               <div
                 key={item}
-                className="rounded-[1.4rem] border border-white/12 bg-white/8 p-4 text-sm leading-7 text-blue-50/92"
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700"
               >
                 {item}
               </div>
@@ -103,7 +101,7 @@ export default function LoginPage() {
           </div>
         </section>
 
-        <section className="glass-panel rounded-[2.25rem] p-6 sm:p-8">
+        <section className="glass-panel rounded-[2rem] bg-white p-6 sm:p-8">
           <div className="mb-6">
             <h2 className="text-3xl font-semibold text-slate-950">
               {mode === "login" ? "Log in" : "Create account"}
@@ -115,8 +113,8 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <div className="mb-6 rounded-[1.6rem] border border-[rgba(166,117,63,0.18)] bg-[linear-gradient(180deg,rgba(255,248,236,0.9)_0%,rgba(255,241,214,0.75)_100%)] p-5 text-sm text-slate-700">
-            <div className="font-semibold uppercase tracking-[0.16em] text-[#8d6d2b]">
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-slate-700">
+            <div className="font-semibold uppercase tracking-[0.16em] text-amber-700">
               {config.approvalStatusLabel}
             </div>
             <p className="mt-3 leading-7">
@@ -124,7 +122,7 @@ export default function LoginPage() {
             </p>
             <Link
               href={getDisclosuresRoute(state)}
-              className="mt-4 inline-flex rounded-full border border-[rgba(166,117,63,0.24)] bg-white/80 px-4 py-2 font-semibold text-[#6f5216] transition hover:bg-white"
+              className="mt-4 inline-flex rounded-xl border border-amber-300 bg-white px-4 py-2 font-semibold text-amber-900 hover:bg-amber-100"
             >
               Read disclosures
             </Link>
@@ -136,7 +134,7 @@ export default function LoginPage() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="rounded-2xl border border-white/80 bg-white/78 px-4 py-3 text-slate-900 outline-none focus:border-[#3054a5]"
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
               required
               autoComplete="email"
             />
@@ -146,7 +144,7 @@ export default function LoginPage() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="rounded-2xl border border-white/80 bg-white/78 px-4 py-3 text-slate-900 outline-none focus:border-[#3054a5]"
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
               required
               autoComplete={mode === "login" ? "current-password" : "new-password"}
             />
@@ -154,7 +152,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="rounded-full bg-slate-950 px-5 py-3 font-semibold text-white disabled:opacity-60"
+              className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
             >
               {loading
                 ? mode === "login"
@@ -176,7 +174,7 @@ export default function LoginPage() {
                     setMode("signup")
                     setMessage("")
                   }}
-                  className="font-semibold text-[#3054a5] underline"
+                  className="font-semibold text-blue-600 underline"
                 >
                   Create an account
                 </button>
@@ -190,7 +188,7 @@ export default function LoginPage() {
                     setMode("login")
                     setMessage("")
                   }}
-                  className="font-semibold text-[#3054a5] underline"
+                  className="font-semibold text-blue-600 underline"
                 >
                   Log in
                 </button>
@@ -208,7 +206,7 @@ export default function LoginPage() {
           </div>
 
           {message ? (
-            <div className="mt-5 rounded-[1.4rem] border border-white/70 bg-white/72 p-4 text-sm leading-6 text-slate-700">
+            <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
               {message}
             </div>
           ) : null}
