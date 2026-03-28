@@ -179,7 +179,8 @@ export default function StateSupportPage() {
             Ask a question
           </h2>
           <p className="mt-2 text-slate-600">
-            Type your issue below. Even short messages like “exam locked” work.
+            Type your issue below. Even short messages like &quot;exam
+            locked&quot; work.
           </p>
 
           {!submitted ? (
@@ -295,7 +296,8 @@ export default function StateSupportPage() {
                       Priority support request
                     </div>
                     <div className="mt-1 text-sm text-slate-600">
-                      You can mark this request as priority now. This is saved for future paid priority support workflow and admin triage.
+                      Mark this request as priority if it needs faster review or
+                      additional attention from support.
                     </div>
                   </div>
                 </label>
@@ -355,14 +357,14 @@ export default function StateSupportPage() {
                 <div>
                   <div className="text-sm text-slate-500">Subject</div>
                   <div className="font-medium text-slate-900">
-                    {trimmedSubject || "—"}
+                    {trimmedSubject || "-"}
                   </div>
                 </div>
 
                 <div>
                   <div className="text-sm text-slate-500">Message</div>
                   <div className="whitespace-pre-wrap text-slate-900">
-                    {trimmedMessage || "—"}
+                    {trimmedMessage || "-"}
                   </div>
                 </div>
 
