@@ -321,12 +321,12 @@ function RoadSharingSpaceVisual() {
 function LessonFiveTable() {
   return (
     <DataTable
-      headers={["Road user", "Common risk", "Safer response"]}
+      headers={["Situation", "What creates the risk", "Safer choice"]}
       rows={[
-        ["Pedestrians", "May appear late from behind parked vehicles or at crossings", "Slow early and be ready to stop smoothly"],
-        ["Cyclists", "May move left to avoid doors, debris, or rough pavement", "Give room and do not squeeze past"],
-        ["Motorcycles", "Harder to judge for distance and speed", "Double-check before turning or changing lanes"],
-        ["Trucks and buses", "Need more space to stop, turn, and see around the vehicle", "Stay back, pass steadily, and leave extra room"],
+        ["Passing a cyclist", "A rider may move left to avoid doors, debris, or rough pavement", "Pass only when you can give clear lateral space"],
+        ["Following a motorcycle", "Its speed or distance may be harder to judge than a car", "Increase following distance and avoid crowding"],
+        ["Driving near a truck", "Large vehicles need more room to stop and may hide traffic ahead", "Stay out of blind areas and do not cut in close"],
+        ["Approaching responders", "Stopped emergency or service vehicles create a high-risk roadside zone", "Slow down, move over when possible, and stay alert"],
       ]}
     />
   );
@@ -458,9 +458,9 @@ export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
         </VisualShell>
 
         <VisualShell
-          label="Road-sharing table"
-          title="Different road users call for different adjustments"
-          description="This quick-reference table keeps the main sharing-the-road risks and safer responses in one place."
+          label="Common situations"
+          title="A few sharing-the-road situations need special judgment"
+          description="This table focuses on the roadway situations most likely to create conflict when space, visibility, and patience are limited."
         >
           <LessonFiveTable />
         </VisualShell>
