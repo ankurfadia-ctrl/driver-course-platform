@@ -1,4 +1,5 @@
-import { getCourseConfig } from "@/lib/course-config"
+import Link from "next/link"
+import { getCourseConfig, getSupportRoute } from "@/lib/course-config"
 
 export default async function StateTermsPage({
   params,
@@ -63,13 +64,13 @@ export default async function StateTermsPage({
           Support
         </h2>
         <p className="mt-4 text-sm leading-7 text-slate-700">
-          For account, course, or certificate issues, contact{" "}
-          <a
-            href={`mailto:${config.supportEmail}`}
+          For account, course, or certificate issues, start with the{" "}
+          <Link
+            href={getSupportRoute(state)}
             className="font-medium text-slate-900 underline"
           >
-            {config.supportEmail}
-          </a>
+            support page
+          </Link>
           .
         </p>
       </section>

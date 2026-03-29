@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { getCourseConfig } from "@/lib/course-config"
+import { getCourseConfig, getSupportRoute } from "@/lib/course-config"
 
 export default async function StateContactPage({
   params,
@@ -19,8 +19,8 @@ export default async function StateContactPage({
           Contact {config.brandName}
         </h1>
         <p className="mt-4 leading-7 text-slate-700">
-          Use the student support process for course-specific issues, or use the
-          contact information below for general questions.
+          Start with the student support process for course-specific questions,
+          account issues, certificate issues, and most general requests.
         </p>
       </section>
 
@@ -28,18 +28,13 @@ export default async function StateContactPage({
         <h2 className="text-xl font-semibold text-slate-900">Support options</h2>
         <div className="mt-4 space-y-4 text-sm leading-7 text-slate-700">
           <p>
-            Student support email:{" "}
-            <a
-              href={`mailto:${config.supportEmail}`}
-              className="font-medium text-slate-900 underline"
-            >
-              {config.supportEmail}
-            </a>
+            The support page provides instant guidance first and captures
+            unresolved issues for follow-up review.
           </p>
           <p>
-            Logged-in students may also submit an issue through the{" "}
+            Logged-in students can submit an issue through the{" "}
             <Link
-              href={`/${state}/support`}
+              href={getSupportRoute(state)}
               className="font-medium text-slate-900 underline"
             >
               support page
