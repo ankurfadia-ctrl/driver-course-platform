@@ -72,6 +72,14 @@ export const EMPTY_IDENTITY_VERIFICATION_ANSWERS: IdentityVerificationAnswerSet 
     securityAnswer2: "",
   }
 
-export function getIdentityVerificationStorageKey(state: string) {
-  return `identity-verification-${state.toLowerCase()}`
+export function getIdentityVerificationStorageKey(
+  state: string,
+  userId?: string | null
+) {
+  const normalizedUserId =
+    typeof userId === "string" && userId.trim().length > 0
+      ? userId.trim().toLowerCase()
+      : "anonymous"
+
+  return `identity-verification-${state.toLowerCase()}-${normalizedUserId}`
 }

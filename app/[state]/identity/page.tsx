@@ -23,18 +23,29 @@ export default function IdentitySetupPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
 
-  const storageKey = getIdentityVerificationStorageKey(state)
-
   const [form, setForm] = useState<IdentityVerificationAnswerSet>(
     EMPTY_IDENTITY_VERIFICATION_ANSWERS
   )
   const [ready, setReady] = useState(false)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState("")
+  const [identityUserId, setIdentityUserId] = useState<string | null>(null)
+  const storageKey = getIdentityVerificationStorageKey(state, identityUserId)
 
   useEffect(() => {
     const loadIdentity = async () => {
       try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        const resolvedStorageKey = getIdentityVerificationStorageKey(
+          state,
+          user?.id
+        )
+
+        setIdentityUserId(user?.id ?? null)
+
         const dbIdentity = await getStudentIdentityProfile(state)
 
         if (dbIdentity) {
@@ -50,14 +61,10 @@ export default function IdentitySetupPage() {
           }
 
           setForm(mapped)
-          localStorage.setItem(storageKey, JSON.stringify(mapped))
+          localStorage.setItem(resolvedStorageKey, JSON.stringify(mapped))
           setReady(true)
           return
         }
-
-        const {
-          data: { user },
-        } = await supabase.auth.getUser()
 
         const rawPendingIdentity =
           user?.user_metadata &&
@@ -80,7 +87,7 @@ export default function IdentitySetupPage() {
           }))
         }
 
-        const raw = localStorage.getItem(storageKey)
+        const raw = localStorage.getItem(resolvedStorageKey)
 
         if (raw) {
           try {
@@ -90,7 +97,7 @@ export default function IdentitySetupPage() {
               ...parsed,
             })
           } catch {
-            localStorage.removeItem(storageKey)
+            localStorage.removeItem(resolvedStorageKey)
           }
         }
       } catch (error) {
