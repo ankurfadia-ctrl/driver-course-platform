@@ -1,10 +1,11 @@
 export type ReasonForAttendingCode =
-  | "court-required"
-  | "court-voluntary"
-  | "dmv"
-  | "insurance"
-  | "employer"
-  | "personal"
+  | "COU"
+  | "DMV"
+  | "INS"
+  | "VOL"
+  | "CMC"
+  | "CMD"
+  | "CMV"
 
 export type DriverCourseProfileMetadata = {
   reasonForAttending: ReasonForAttendingCode | ""
@@ -20,22 +21,85 @@ export type DriverCourseProfileMetadata = {
 export const REASON_FOR_ATTENDING_OPTIONS: Array<{
   value: ReasonForAttendingCode
   label: string
+  studentLabel: string
+  description: string
 }> = [
-  { value: "court-required", label: "Court required" },
-  { value: "court-voluntary", label: "Court related / voluntary" },
-  { value: "dmv", label: "DMV related" },
-  { value: "insurance", label: "Insurance related" },
-  { value: "employer", label: "Employer related" },
-  { value: "personal", label: "Personal improvement" },
+  {
+    value: "COU",
+    label: "Court Required (COU)",
+    studentLabel: "Court required",
+    description:
+      "Choose this only if a court required you to complete a Virginia driver improvement course.",
+  },
+  {
+    value: "DMV",
+    label: "DMV Required (DMV)",
+    studentLabel: "DMV required",
+    description:
+      "Choose this if Virginia DMV required you to complete the course.",
+  },
+  {
+    value: "INS",
+    label: "Insurance (INS)",
+    studentLabel: "Insurance discount",
+    description:
+      "Choose this if you are taking the course for a possible insurance discount.",
+  },
+  {
+    value: "VOL",
+    label: "Volunteer (VOL)",
+    studentLabel: "Voluntary / personal",
+    description:
+      "Choose this if you are taking the course voluntarily for safe driving points or personal improvement.",
+  },
+  {
+    value: "CMC",
+    label: "Commercial Driver Court Required (CMC)",
+    studentLabel: "Commercial driver court required",
+    description:
+      "Choose this only if you are a CDL/commercial driver and a court required a commercial driver clinic.",
+  },
+  {
+    value: "CMD",
+    label: "Commercial Driver DMV Required (CMD)",
+    studentLabel: "Commercial driver DMV required",
+    description:
+      "Choose this if you are a CDL/commercial driver and DMV required a commercial driver clinic.",
+  },
+  {
+    value: "CMV",
+    label: "Commercial Driver Volunteer (CMV)",
+    studentLabel: "Commercial driver voluntary",
+    description:
+      "Choose this if you are a CDL/commercial driver taking the course voluntarily.",
+  },
 ]
 
 export function isCourtRelatedReason(value: string | null | undefined) {
-  return value === "court-required" || value === "court-voluntary"
+  return value === "COU" || value === "CMC"
+}
+
+export function isCommercialReason(value: string | null | undefined) {
+  return value === "CMC" || value === "CMD" || value === "CMV"
 }
 
 export function getReasonForAttendingLabel(value: string | null | undefined) {
   const match = REASON_FOR_ATTENDING_OPTIONS.find((option) => option.value === value)
   return match?.label ?? "-"
+}
+
+export function getReasonForAttendingStudentLabel(
+  value: string | null | undefined
+) {
+  const match = REASON_FOR_ATTENDING_OPTIONS.find((option) => option.value === value)
+  return match?.studentLabel ?? "-"
+}
+
+export function getReasonForAttendingDescription(
+  value: string | null | undefined
+) {
+  const match = REASON_FOR_ATTENDING_OPTIONS.find((option) => option.value === value)
+  return match?.description ?? ""
 }
 
 export function normalizeDriverCourseProfileMetadata(

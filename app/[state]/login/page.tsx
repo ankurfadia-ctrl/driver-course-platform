@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 import {
+  getReasonForAttendingDescription,
   getReasonForAttendingLabel,
   isCourtRelatedReason,
   REASON_FOR_ATTENDING_OPTIONS,
@@ -66,6 +67,8 @@ export default function LoginPage() {
             "Cuenta creada correctamente. Ya puedes iniciar sesion.",
           reasonLabel: "Motivo de asistencia",
           reasonPlaceholder: "Selecciona un motivo",
+          reasonHelp:
+            "Elige la opcion que mejor coincida con el motivo oficial por el que tomas el curso.",
           courtName: "Nombre del tribunal",
           caseOrTicketNumber: "Numero de caso o multa",
           courtDocumentNotes: "Notas del documento judicial",
@@ -118,6 +121,8 @@ export default function LoginPage() {
             "Account created successfully. You can log in now.",
           reasonLabel: "Reason for attending",
           reasonPlaceholder: "Select a reason",
+          reasonHelp:
+            "Choose the option that best matches your official reason for taking the course.",
           courtName: "Court name",
           caseOrTicketNumber: "Case or ticket number",
           courtDocumentNotes: "Court document notes",
@@ -318,21 +323,32 @@ export default function LoginPage() {
                   {REASON_FOR_ATTENDING_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
                       {language === "es"
-                        ? option.value === "court-required"
-                          ? "Requerido por tribunal"
-                          : option.value === "court-voluntary"
-                          ? "Relacionado con tribunal / voluntario"
-                          : option.value === "dmv"
-                          ? "Relacionado con DMV"
-                          : option.value === "insurance"
-                          ? "Relacionado con seguro"
-                          : option.value === "employer"
-                          ? "Relacionado con empleador"
-                          : "Mejora personal"
+                        ? option.value === "COU"
+                          ? "Requerido por tribunal (COU)"
+                          : option.value === "DMV"
+                          ? "Requerido por DMV (DMV)"
+                          : option.value === "INS"
+                          ? "Seguro (INS)"
+                          : option.value === "VOL"
+                          ? "Voluntario / personal (VOL)"
+                          : option.value === "CMC"
+                          ? "Conductor comercial requerido por tribunal (CMC)"
+                          : option.value === "CMD"
+                          ? "Conductor comercial requerido por DMV (CMD)"
+                          : "Conductor comercial voluntario (CMV)"
                         : option.label}
                     </option>
                   ))}
                 </select>
+                <p className="-mt-2 text-xs leading-6 text-slate-500">
+                  {copy.reasonHelp}
+                </p>
+
+                {reasonForAttending ? (
+                  <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
+                    {getReasonForAttendingDescription(reasonForAttending)}
+                  </div>
+                ) : null}
 
                 {isCourtRelatedReason(reasonForAttending) ? (
                   <>
