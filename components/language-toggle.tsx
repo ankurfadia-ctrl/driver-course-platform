@@ -37,7 +37,7 @@ export default function LanguageToggle({
     >
       {([
         ["en", "English"],
-        ["es", "Espanol"],
+        ["es", "Español"],
       ] as const).map(([value, label]) => {
         const active = language === value
 
