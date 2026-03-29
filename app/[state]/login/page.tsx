@@ -69,16 +69,22 @@ export default function LoginPage() {
           reasonPlaceholder: "Selecciona un motivo",
           reasonHelp:
             "Elige la opcion que mejor coincida con el motivo oficial por el que tomas el curso.",
+          firstName: "Nombre legal",
+          lastName: "Apellido legal",
+          dateOfBirth: "Fecha de nacimiento",
+          driversLicenseNumber: "Numero de licencia",
           courtName: "Nombre del tribunal",
           caseOrTicketNumber: "Numero de caso o multa",
           courtDocumentNotes: "Notas del documento judicial",
           courtDocumentHelp:
             "Si el tribunal te entrego una orden o documento, agrega aqui los detalles que te ayudaran a encontrarlo.",
           accuracyLabel:
-            "Confirmo que la informacion de identidad e inscripcion es correcta y entiendo que los errores pueden impedir la finalizacion, el certificado o el credito informado.",
+            "Confirmo que mi informacion de identidad e inscripcion es correcta y entiendo que los errores pueden impedir la finalizacion, el certificado o el credito informado.",
           reasonRequired: "Selecciona un motivo de asistencia antes de crear la cuenta.",
           courtFieldsRequired:
             "Completa la informacion del tribunal antes de crear la cuenta.",
+          identityFieldsRequired:
+            "Completa tu nombre legal, fecha de nacimiento y numero de licencia antes de crear la cuenta.",
         }
       : {
           sectionLabel: `${config.stateName} Student Access`,
@@ -123,6 +129,10 @@ export default function LoginPage() {
           reasonPlaceholder: "Select a reason",
           reasonHelp:
             "Choose the option that best matches your official reason for taking the course.",
+          firstName: "Legal first name",
+          lastName: "Legal last name",
+          dateOfBirth: "Date of birth",
+          driversLicenseNumber: "Driver's license number",
           courtName: "Court name",
           caseOrTicketNumber: "Case or ticket number",
           courtDocumentNotes: "Court document notes",
@@ -133,6 +143,8 @@ export default function LoginPage() {
           reasonRequired: "Select a reason for attending before creating the account.",
           courtFieldsRequired:
             "Complete the court information before creating the account.",
+          identityFieldsRequired:
+            "Complete your legal name, date of birth, and driver's license number before creating the account.",
         }
 
   const requestedMode = searchParams.get("mode") === "signup" ? "signup" : "login"
@@ -141,6 +153,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [reasonForAttending, setReasonForAttending] =
     useState<ReasonForAttendingCode | "">("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [dateOfBirth, setDateOfBirth] = useState("")
+  const [driversLicenseNumber, setDriversLicenseNumber] = useState("")
   const [courtName, setCourtName] = useState("")
   const [caseOrTicketNumber, setCaseOrTicketNumber] = useState("")
   const [courtDocumentNotes, setCourtDocumentNotes] = useState("")
@@ -182,6 +198,16 @@ export default function LoginPage() {
       }
 
       if (
+        !firstName.trim() ||
+        !lastName.trim() ||
+        !dateOfBirth.trim() ||
+        !driversLicenseNumber.trim()
+      ) {
+        setMessage(copy.identityFieldsRequired)
+        return
+      }
+
+      if (
         isCourtRelatedReason(reasonForAttending) &&
         (!courtName.trim() || !caseOrTicketNumber.trim())
       ) {
@@ -210,6 +236,10 @@ export default function LoginPage() {
             driverCourseProfile: {
               reasonForAttending,
               reasonForAttendingLabel: getReasonForAttendingLabel(reasonForAttending),
+              firstName: firstName.trim(),
+              lastName: lastName.trim(),
+              dateOfBirth: dateOfBirth.trim(),
+              driversLicenseNumber: driversLicenseNumber.trim(),
               courtName: isCourtRelatedReason(reasonForAttending) ? courtName.trim() : "",
               caseOrTicketNumber: isCourtRelatedReason(reasonForAttending)
                 ? caseOrTicketNumber.trim()
@@ -219,6 +249,12 @@ export default function LoginPage() {
                 : "",
               accuracyAcknowledged: accuracyConfirmed,
               accuracyAcknowledgedAt: new Date().toISOString(),
+            },
+            pendingIdentityProfile: {
+              firstName: firstName.trim(),
+              lastName: lastName.trim(),
+              dateOfBirth: dateOfBirth.trim(),
+              driversLicenseNumber: driversLicenseNumber.trim(),
             },
           },
           emailRedirectTo: redirectBaseUrl
@@ -349,6 +385,46 @@ export default function LoginPage() {
                     {getReasonForAttendingDescription(reasonForAttending)}
                   </div>
                 ) : null}
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <input
+                    type="text"
+                    placeholder={copy.firstName}
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                    required
+                  />
+
+                  <input
+                    type="text"
+                    placeholder={copy.lastName}
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                    required
+                  />
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <input
+                    type="date"
+                    placeholder={copy.dateOfBirth}
+                    value={dateOfBirth}
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                    required
+                  />
+
+                  <input
+                    type="text"
+                    placeholder={copy.driversLicenseNumber}
+                    value={driversLicenseNumber}
+                    onChange={(e) => setDriversLicenseNumber(e.target.value)}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                    required
+                  />
+                </div>
 
                 {isCourtRelatedReason(reasonForAttending) ? (
                   <>

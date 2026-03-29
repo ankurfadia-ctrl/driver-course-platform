@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
+import { createClient } from "@/lib/supabase/client"
 import {
   EMPTY_IDENTITY_VERIFICATION_ANSWERS,
   IDENTITY_VERIFICATION_QUESTIONS,
@@ -18,6 +19,7 @@ import {
 export default function IdentitySetupPage() {
   const params = useParams()
   const router = useRouter()
+  const supabase = createClient()
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
 
@@ -51,6 +53,31 @@ export default function IdentitySetupPage() {
           localStorage.setItem(storageKey, JSON.stringify(mapped))
           setReady(true)
           return
+        }
+
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        const rawPendingIdentity =
+          user?.user_metadata &&
+          typeof user.user_metadata === "object" &&
+          "pendingIdentityProfile" in user.user_metadata
+            ? (user.user_metadata.pendingIdentityProfile as
+                | Partial<IdentityVerificationAnswerSet>
+                | undefined)
+            : undefined
+
+        if (rawPendingIdentity) {
+          setForm((current) => ({
+            ...current,
+            firstName: String(rawPendingIdentity.firstName ?? ""),
+            lastName: String(rawPendingIdentity.lastName ?? ""),
+            dateOfBirth: String(rawPendingIdentity.dateOfBirth ?? ""),
+            driversLicenseNumber: String(
+              rawPendingIdentity.driversLicenseNumber ?? ""
+            ),
+          }))
         }
 
         const raw = localStorage.getItem(storageKey)
