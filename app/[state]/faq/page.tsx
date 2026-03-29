@@ -1,5 +1,9 @@
 import Link from "next/link"
-import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
+import {
+  getCourseConfig,
+  getDisclosuresRoute,
+  getSupportRoute,
+} from "@/lib/course-config"
 
 export default async function StateFaqPage({
   params,
@@ -33,7 +37,7 @@ export default async function StateFaqPage({
     {
       question: "What if I have an issue with payment, access, or my certificate?",
       answer:
-        "Use the support page after signing in, or email the support address listed below for help with course-related issues.",
+        "Use the support page after signing in for help with payment, access, certificate, or course-related issues.",
     },
   ]
 
@@ -71,8 +75,9 @@ export default async function StateFaqPage({
           Need more information?
         </h2>
         <p className="mt-3 text-sm leading-7 text-slate-700">
-          Review the course information page or contact support if you need help
-          deciding whether this course is appropriate for your situation.
+          Review the course information page or start with the support page if
+          you need help deciding whether this course is appropriate for your
+          situation.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
@@ -81,12 +86,12 @@ export default async function StateFaqPage({
           >
             Read Course Information
           </Link>
-          <a
-            href={`mailto:${config.supportEmail}`}
+          <Link
+            href={getSupportRoute(state)}
             className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
-            Email Support
-          </a>
+            Open Support
+          </Link>
         </div>
       </section>
     </div>
