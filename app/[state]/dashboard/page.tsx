@@ -1,6 +1,11 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import {
+  formatCourseAccessDeadline,
+  isCourseAccessExpired,
+  VIRGINIA_COURSE_ACCESS_DAYS,
+} from '@/lib/course-deadline'
 import { getCoursePlanByCode } from '@/lib/payment/plans'
 
 export default async function DashboardPage({
@@ -31,8 +36,24 @@ export default async function DashboardPage({
   const hasPaidCourseAccess = Boolean(
     (purchases ?? []).find((purchase) => {
       const plan = getCoursePlanByCode(String(purchase.plan_code ?? ''))
-      return plan?.planKind === 'full-course'
+      return (
+        plan?.planKind === 'full-course' &&
+        !isCourseAccessExpired(purchase.purchased_at)
+      )
     })
+  )
+
+  const latestFullCoursePurchase =
+    (purchases ?? []).find((purchase) => {
+      const plan = getCoursePlanByCode(String(purchase.plan_code ?? ''))
+      return plan?.planKind === 'full-course'
+    }) ?? null
+
+  const accessDeadline = formatCourseAccessDeadline(
+    latestFullCoursePurchase?.purchased_at ?? null
+  )
+  const accessExpired = isCourseAccessExpired(
+    latestFullCoursePurchase?.purchased_at ?? null
   )
 
   async function logout() {
@@ -49,6 +70,18 @@ export default async function DashboardPage({
       <p className="text-slate-600">
         Logged in as <span className="font-medium">{user.email}</span>
       </p>
+
+      {latestFullCoursePurchase ? (
+        <div className={`rounded-xl border p-4 text-sm ${
+          accessExpired
+            ? 'border-amber-200 bg-amber-50 text-amber-900'
+            : 'border-slate-200 bg-slate-50 text-slate-700'
+        }`}>
+          {accessExpired
+            ? `Your ${state} course access has expired. Course access is available for ${VIRGINIA_COURSE_ACCESS_DAYS} days from purchase.`
+            : `Your ${state} course access remains available through ${accessDeadline}.`}
+        </div>
+      ) : null}
 
       <div className="flex flex-col sm:flex-row gap-3">
         <Link

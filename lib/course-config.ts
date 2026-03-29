@@ -68,6 +68,11 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
           "Virginia online driver improvement courses include at least eight hours of instruction. Students should expect seat-time controls, activity monitoring, and completion tracking as part of the course workflow.",
       },
       {
+        title: "Course completion window",
+        body:
+          "Students should plan to complete the course within 90 days of purchase. A court order or other outside requirement may impose an earlier deadline, and students remain responsible for meeting that deadline.",
+      },
+      {
         title: "Identity verification",
         body:
           "Identity verification is required throughout the course and before the final exam. A student who cannot complete identity validation may be prevented from finishing the course.",

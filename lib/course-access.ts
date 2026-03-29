@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client"
+import { isCourseAccessExpired } from "@/lib/course-deadline"
 import { getCoursePlanByCode } from "@/lib/payment/plans"
 
 export type CourseAccessStatus = {
@@ -7,6 +8,8 @@ export type CourseAccessStatus = {
   userId: string | null
   planCode: string | null
   supportTier: string | null
+  purchasedAt: string | null
+  accessExpired: boolean
   error: string | null
 }
 
@@ -33,6 +36,8 @@ export async function getCourseAccessStatus(
         userId: null,
         planCode: null,
         supportTier: null,
+        purchasedAt: null,
+        accessExpired: false,
         error: "Could not verify signed-in user.",
       }
     }
@@ -44,6 +49,8 @@ export async function getCourseAccessStatus(
         userId: null,
         planCode: null,
         supportTier: null,
+        purchasedAt: null,
+        accessExpired: false,
         error: "No signed-in user found.",
       }
     }
@@ -64,6 +71,8 @@ export async function getCourseAccessStatus(
         userId: user.id,
         planCode: null,
         supportTier: null,
+        purchasedAt: null,
+        accessExpired: false,
         error: "Could not verify course purchase.",
       }
     }
@@ -88,14 +97,20 @@ export async function getCourseAccessStatus(
       ) && purchase.support_tier === "priority"
     })
 
+    const accessExpired = isCourseAccessExpired(
+      fullCoursePurchase?.purchased_at ?? null
+    )
+
     return {
       isAuthenticated: true,
-      hasPaidAccess: Boolean(fullCoursePurchase),
+      hasPaidAccess: Boolean(fullCoursePurchase) && !accessExpired,
       userId: user.id,
       planCode: fullCoursePurchase?.plan_code ?? null,
       supportTier: priorityPurchase
         ? "priority"
         : fullCoursePurchase?.support_tier ?? null,
+      purchasedAt: fullCoursePurchase?.purchased_at ?? null,
+      accessExpired,
       error: null,
     }
   } catch (error) {
@@ -107,6 +122,8 @@ export async function getCourseAccessStatus(
       userId: null,
       planCode: null,
       supportTier: null,
+      purchasedAt: null,
+      accessExpired: false,
       error: "Unexpected error while checking access.",
     }
   }

@@ -67,11 +67,11 @@ export default function StateCheckoutPage() {
           infoTitle: "Informacion importante antes de inscribirte",
           infoOne: "El acceso al curso es una compra unica para este estado.",
           infoTwo:
-            "Siguen aplicando el tiempo del curso, las verificaciones de identidad y las reglas del examen final.",
+            "Los estudiantes deben planear completar el curso dentro de 90 dias desde la compra.",
           infoThreeUpgrade:
             "Las mejoras a soporte prioritario solo estan disponibles para compras estandar existentes.",
           infoThreeCheckout:
-            "Los estudiantes deben confirmar la aceptacion del curso para su requisito especifico antes de inscribirse.",
+            "Siguen aplicando el tiempo del curso, las verificaciones de identidad, las reglas del examen final y cualquier plazo externo mas corto.",
           currentPlan: "Plan actual: soporte estandar",
           currentPlanBody:
             "Ya tienes acceso al curso. Si quieres una atencion mas rapida, puedes comprar la mejora a soporte prioritario abajo.",
@@ -109,7 +109,7 @@ export default function StateCheckoutPage() {
           approvalLabel: "Aprobacion pendiente",
           reviewTitle: "Revisa la informacion del curso antes de comprar",
           reviewBody:
-            "Los estudiantes deben confirmar la aceptacion del curso para su necesidad especifica ante tribunal, DMV, empleador o seguro antes de inscribirse. Pueden aplicarse verificaciones de identidad, reglas de tiempo del curso y limites del examen.",
+            "Los estudiantes deben confirmar la aceptacion del curso para su necesidad especifica ante tribunal, DMV, empleador o seguro antes de inscribirse. Tambien deben planear completar el curso dentro de 90 dias desde la compra, salvo que su requisito externo les otorgue menos tiempo.",
           reviewCta: `Leer informacion del curso de ${stateDisplayName}`,
           refundTitle: "Resumen de reembolso",
           refundBody:
@@ -146,11 +146,11 @@ export default function StateCheckoutPage() {
             "Review the available course options below. Payment is completed securely through Stripe after you choose a plan.",
           infoTitle: "Important information before enrollment",
           infoOne: "Course access is a one-time purchase for this state.",
-          infoTwo: "Seat-time, identity checks, and final exam rules still apply.",
+          infoTwo: "Students should plan to complete the course within 90 days of purchase.",
           infoThreeUpgrade:
             "Priority support upgrades are available only for existing standard purchases.",
           infoThreeCheckout:
-            "Students should confirm course acceptance for their specific requirement before enrolling.",
+            "Seat-time, identity checks, final exam rules, and any earlier outside deadline still apply.",
           currentPlan: "Current plan: standard support",
           currentPlanBody:
             "You already have course access. If you want faster support handling, you can purchase the priority support upgrade below.",
@@ -188,7 +188,7 @@ export default function StateCheckoutPage() {
           approvalLabel: config.approvalStatusLabel,
           reviewTitle: "Review course information before purchasing",
           reviewBody:
-            "Students should confirm course acceptance for their specific court, DMV, employer, or insurance need before enrolling. Identity checks, seat-time rules, and exam limits may apply.",
+            "Students should confirm course acceptance for their specific court, DMV, employer, or insurance need before enrolling. Students should also plan to complete the course within 90 days of purchase, unless their outside requirement gives them less time.",
           reviewCta: `Read ${stateDisplayName} course information`,
           refundTitle: "Refund summary",
           refundBody:

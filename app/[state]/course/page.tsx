@@ -11,6 +11,10 @@ import {
   isLessonCompleted,
   type CourseProgressRow,
 } from "@/lib/course-progress"
+import {
+  formatCourseAccessDeadline,
+  VIRGINIA_COURSE_ACCESS_DAYS,
+} from "@/lib/course-deadline"
 import { getLatestExamResult } from "@/lib/exam-results"
 import { isFinalExamSeatTimeBypassed } from "@/lib/dev-config"
 import { getCourseConfig } from "@/lib/course-config"
@@ -38,6 +42,8 @@ export default function StateCoursePage() {
 
   const [hasAccess, setHasAccess] = useState<boolean | null>(null)
   const [accessError, setAccessError] = useState<string | null>(null)
+  const [accessExpired, setAccessExpired] = useState(false)
+  const [accessDeadline, setAccessDeadline] = useState<string | null>(null)
   const [identityReady, setIdentityReady] = useState<boolean | null>(null)
 
   const [seatTimeComplete, setSeatTimeComplete] = useState(false)
@@ -56,6 +62,8 @@ export default function StateCoursePage() {
       if (!isMounted) return
       setHasAccess(access.hasPaidAccess)
       setAccessError(access.error)
+      setAccessExpired(access.accessExpired)
+      setAccessDeadline(formatCourseAccessDeadline(access.purchasedAt))
     }
 
     void checkAccess()
@@ -167,10 +175,20 @@ export default function StateCoursePage() {
   if (!hasAccess) {
     return (
       <div className="max-w-xl mx-auto mt-10 p-6 border rounded-xl text-center space-y-4">
-        <h1 className="text-2xl font-bold">Course Locked</h1>
+        <h1 className="text-2xl font-bold">
+          {accessExpired ? "Course Access Expired" : "Course Locked"}
+        </h1>
         <p className="text-slate-600">
-          You need to purchase this course before accessing lessons.
+          {accessExpired
+            ? `This course is available for ${VIRGINIA_COURSE_ACCESS_DAYS} days from purchase.`
+            : "You need to purchase this course before accessing lessons."}
         </p>
+
+        {accessExpired && accessDeadline ? (
+          <p className="text-sm text-amber-700">
+            Your access expired after {accessDeadline}.
+          </p>
+        ) : null}
 
         {accessError ? (
           <p className="text-sm text-amber-700">{accessError}</p>

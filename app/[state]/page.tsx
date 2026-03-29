@@ -23,8 +23,9 @@ export default async function StateHomePage({
           expectationsLabel: "Expectativas del curso en Virginia",
           expectations: [
             "Curso en linea de 8 horas con control del tiempo requerido",
-            "Puede requerirse verificacion de identidad durante hitos del curso y antes o durante el examen final",
-            "Los intentos del examen final pueden limitarse a un intento por dia habil",
+            "La verificacion de identidad es obligatoria durante el curso y antes del examen final",
+            "El examen final solo puede tomarse una vez por dia habil",
+            "Los estudiantes deben completar el curso dentro de 90 dias desde la compra",
           ],
           steps: [
             [
@@ -61,8 +62,9 @@ export default async function StateHomePage({
           expectationsLabel: "Virginia course expectations",
           expectations: [
             "8-hour online course with required seat-time tracking",
-            "Identity verification may be required during course milestones and before or during the final exam",
-            "Final exam attempts may be limited to one attempt per business day",
+            "Identity verification is required during the course and before the final exam",
+            "The final exam can be taken only once per business day",
+            "Students should complete the course within 90 days of purchase",
           ],
           steps: [
             [
