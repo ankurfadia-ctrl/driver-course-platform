@@ -144,16 +144,6 @@ export default function CheckoutSuccessPage({
     [stateCode]
   );
 
-  const pricingHref = useMemo(
-    () => (stateCode ? `/${stateCode}/checkout` : "#"),
-    [stateCode]
-  );
-
-  const supportHref = useMemo(
-    () => (stateCode ? `/${stateCode}/support` : "#"),
-    [stateCode]
-  );
-
   const courseHref = useMemo(
     () => (stateCode ? `/${stateCode}/course` : "#"),
     [stateCode]
@@ -193,19 +183,9 @@ export default function CheckoutSuccessPage({
             "La pagina de pago se cargo, pero la activacion automatica no termino.",
           failureTwo:
             "Puedes ir a tu panel e intentarlo de nuevo, o usar soporte si el acceso no aparece.",
-          stripeSession: "Sesion de Stripe",
-          missingSession:
-            "No recibimos un ID de sesion de pago en la URL, por lo que la verificacion automatica no pudo ejecutarse.",
-          purchaseRecorded: "Compra registrada",
-          planCode: "Codigo del plan",
-          supportTier: "Nivel de soporte",
-          state: "Estado",
-          status: "Estado de compra",
           startCourse: "Comenzar curso",
           backCertificate: "Volver al certificado",
           goDashboard: "Ir al panel",
-          viewPlans: "Ver planes",
-          getSupport: "Obtener soporte",
         }
       : {
           labelMail: "Mail order received",
@@ -236,19 +216,9 @@ export default function CheckoutSuccessPage({
             "Your payment page loaded, but automatic activation did not finish.",
           failureTwo:
             "You can go to your dashboard and try again, or contact support if access does not appear.",
-          stripeSession: "Stripe session",
-          missingSession:
-            "We did not receive a checkout session ID in the URL, so automatic purchase verification could not run.",
-          purchaseRecorded: "Purchase recorded",
-          planCode: "Plan code",
-          supportTier: "Support tier",
-          state: "State",
-          status: "Status",
           startCourse: "Start course",
           backCertificate: "Back to certificate",
           goDashboard: "Go to dashboard",
-          viewPlans: "View plans",
-          getSupport: "Get support",
         };
 
   return (
@@ -293,67 +263,6 @@ export default function CheckoutSuccessPage({
               )}
             </div>
 
-            {sessionId ? (
-              <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
-                <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  {copy.stripeSession}
-                </div>
-                <div className="mt-1 break-all font-mono text-xs text-slate-700 sm:text-sm">
-                  {sessionId}
-                </div>
-              </div>
-            ) : (
-              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-                {copy.missingSession}
-              </div>
-            )}
-
-            {!isLoading && confirmResult?.ok && confirmResult.purchase ? (
-              <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-                <div className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                  {copy.purchaseRecorded}
-                </div>
-
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {copy.planCode}
-                    </div>
-                    <div className="mt-1 text-sm font-medium text-slate-900">
-                      {confirmResult.purchase.plan_code}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {copy.supportTier}
-                    </div>
-                    <div className="mt-1 text-sm font-medium text-slate-900">
-                      {confirmResult.purchase.support_tier}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {copy.state}
-                    </div>
-                    <div className="mt-1 text-sm font-medium text-slate-900">
-                      {confirmResult.purchase.state_code}
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      {copy.status}
-                    </div>
-                    <div className="mt-1 text-sm font-medium text-emerald-700">
-                      {confirmResult.purchase.purchase_status}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
-
             {!isLoading && !confirmResult?.ok ? (
               <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
                 {confirmResult?.error ?? "We could not verify this purchase automatically."}
@@ -364,7 +273,7 @@ export default function CheckoutSuccessPage({
               {confirmResult?.ok ? (
                 <Link
                   href={isMailOrder ? `${stateCode ? `/${stateCode}/certificate` : "#"}` : courseHref}
-                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                  className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
                 >
                   {isMailOrder ? copy.backCertificate : copy.startCourse}
                 </Link>
@@ -376,20 +285,6 @@ export default function CheckoutSuccessPage({
                   {copy.goDashboard}
                 </Link>
               )}
-
-              <Link
-                href={pricingHref}
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-              >
-                {copy.viewPlans}
-              </Link>
-
-              <Link
-                href={supportHref}
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-              >
-                {copy.getSupport}
-              </Link>
             </div>
           </div>
         </div>

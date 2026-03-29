@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { getCoursePlanByCode } from '@/lib/payment/plans'
 
 export default async function DashboardPage({
   params,
@@ -17,6 +18,22 @@ export default async function DashboardPage({
   if (!user) {
     redirect(`/${state}/login`)
   }
+
+  const { data: purchases } = await supabase
+    .from('course_purchases')
+    .select('plan_code, purchase_status, purchased_at')
+    .eq('user_id', user.id)
+    .eq('state_code', state)
+    .eq('purchase_status', 'paid')
+    .order('purchased_at', { ascending: false })
+    .limit(25)
+
+  const hasPaidCourseAccess = Boolean(
+    (purchases ?? []).find((purchase) => {
+      const plan = getCoursePlanByCode(String(purchase.plan_code ?? ''))
+      return plan?.planKind === 'full-course'
+    })
+  )
 
   async function logout() {
     "use server"
@@ -35,18 +52,20 @@ export default async function DashboardPage({
 
       <div className="flex flex-col sm:flex-row gap-3">
         <Link
-          href={`/${state}/course`}
+          href={hasPaidCourseAccess ? `/${state}/course` : `/${state}/checkout`}
           className="bg-blue-600 text-white px-6 py-3 rounded-lg"
         >
-          Go to Course
+          {hasPaidCourseAccess ? 'Start Course' : 'View Plans'}
         </Link>
 
-        <Link
-          href={`/${state}/checkout`}
-          className="border border-slate-300 px-6 py-3 rounded-lg"
-        >
-          View Plans
-        </Link>
+        {hasPaidCourseAccess ? (
+          <Link
+            href={`/${state}/checkout`}
+            className="border border-slate-300 px-6 py-3 rounded-lg"
+          >
+            View Plans
+          </Link>
+        ) : null}
       </div>
 
       <form action={logout}>
