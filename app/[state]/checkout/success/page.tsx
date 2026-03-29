@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client";
 
 type SuccessPageProps = {
   params: Promise<{
@@ -56,6 +57,7 @@ export default function CheckoutSuccessPage({
   params,
   searchParams,
 }: SuccessPageProps) {
+  const language = usePreferredSiteLanguageClient();
   const [stateCode, setStateCode] = useState("");
   const [sessionId, setSessionId] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -160,6 +162,94 @@ export default function CheckoutSuccessPage({
   const stateDisplayName = stateCode ? formatStateName(stateCode) : "Driver Improvement";
   const isMailOrder =
     confirmResult?.purchase?.plan_code === "va-mailed-certificate";
+  const copy =
+    language === "es"
+      ? {
+          labelMail: "Pedido postal recibido",
+          labelPayment: "Pago correcto",
+          titleMail: `Tu pedido postal del certificado de ${stateDisplayName} esta completo`,
+          titlePayment: `Tu compra del curso de mejoramiento para conductores de ${stateDisplayName} esta completa`,
+          introMail:
+            "Gracias. Ahora estamos verificando el pago y enviando el pedido del certificado postal.",
+          introPayment:
+            "Gracias. Ahora estamos verificando tu pago y activando el acceso para esta cuenta.",
+          activation: "Estado de activacion",
+          loadingSteps: [
+            "Estamos confirmando los detalles de tu pago.",
+            "Estamos asociando esta compra a tu cuenta.",
+            "Tu acceso al curso estara listo en un momento.",
+          ],
+          successMail: [
+            "1. Pago verificado correctamente.",
+            "2. El pedido postal del certificado se guardo en tu cuenta.",
+            "3. El pedido fue enviado para impresion y correo.",
+          ],
+          successCourse: [
+            "1. Pago verificado correctamente.",
+            "2. La compra se guardo en tu cuenta.",
+            "3. El acceso al curso ya esta activo.",
+          ],
+          failureOne:
+            "La pagina de pago se cargo, pero la activacion automatica no termino.",
+          failureTwo:
+            "Puedes ir a tu panel e intentarlo de nuevo, o usar soporte si el acceso no aparece.",
+          stripeSession: "Sesion de Stripe",
+          missingSession:
+            "No recibimos un ID de sesion de pago en la URL, por lo que la verificacion automatica no pudo ejecutarse.",
+          purchaseRecorded: "Compra registrada",
+          planCode: "Codigo del plan",
+          supportTier: "Nivel de soporte",
+          state: "Estado",
+          status: "Estado de compra",
+          startCourse: "Comenzar curso",
+          backCertificate: "Volver al certificado",
+          goDashboard: "Ir al panel",
+          viewPlans: "Ver planes",
+          getSupport: "Obtener soporte",
+        }
+      : {
+          labelMail: "Mail order received",
+          labelPayment: "Payment successful",
+          titleMail: `Your ${stateDisplayName} mailed certificate order is complete`,
+          titlePayment: `Your ${stateDisplayName} driver improvement purchase is complete`,
+          introMail:
+            "Thank you. We are now verifying payment and submitting the mailed certificate order.",
+          introPayment:
+            "Thank you. We are now verifying your payment and activating access for this account.",
+          activation: "Activation status",
+          loadingSteps: [
+            "We are confirming your checkout details.",
+            "We are attaching this purchase to your account.",
+            "Your course access will be ready in a moment.",
+          ],
+          successMail: [
+            "1. Payment verified successfully.",
+            "2. Mailed certificate order saved to your account.",
+            "3. The order was submitted for mailing.",
+          ],
+          successCourse: [
+            "1. Payment verified successfully.",
+            "2. Purchase saved to your account.",
+            "3. Course access is now active.",
+          ],
+          failureOne:
+            "Your payment page loaded, but automatic activation did not finish.",
+          failureTwo:
+            "You can go to your dashboard and try again, or contact support if access does not appear.",
+          stripeSession: "Stripe session",
+          missingSession:
+            "We did not receive a checkout session ID in the URL, so automatic purchase verification could not run.",
+          purchaseRecorded: "Purchase recorded",
+          planCode: "Plan code",
+          supportTier: "Support tier",
+          state: "State",
+          status: "Status",
+          startCourse: "Start course",
+          backCertificate: "Back to certificate",
+          goDashboard: "Go to dashboard",
+          viewPlans: "View plans",
+          getSupport: "Get support",
+        };
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -167,55 +257,38 @@ export default function CheckoutSuccessPage({
         <div className="overflow-hidden rounded-2xl border border-emerald-200 bg-white shadow-sm">
           <div className="border-b border-emerald-100 bg-emerald-50 px-6 py-5">
             <div className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
-              {isMailOrder ? "Mail order received" : "Payment successful"}
+              {isMailOrder ? copy.labelMail : copy.labelPayment}
             </div>
             <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">
-              {isMailOrder
-                ? `Your ${stateDisplayName} mailed certificate order is complete`
-                : `Your ${stateDisplayName} driver improvement purchase is complete`}
+              {isMailOrder ? copy.titleMail : copy.titlePayment}
             </h1>
             <p className="mt-2 text-sm text-slate-600 sm:text-base">
-              {isMailOrder
-                ? "Thank you. We are now verifying payment and submitting the mailed certificate order."
-                : "Thank you. We are now verifying your payment and activating access for this account."}
+              {isMailOrder ? copy.introMail : copy.introPayment}
             </p>
           </div>
 
           <div className="px-6 py-6">
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-700">
-                Activation status
+                {copy.activation}
               </h2>
 
               {isLoading ? (
                 <div className="mt-3 space-y-3 text-sm text-slate-700 sm:text-base">
-                  <p>We are confirming your checkout details.</p>
-                  <p>We are attaching this purchase to your account.</p>
-                  <p>Your course access will be ready in a moment.</p>
+                  {copy.loadingSteps.map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
                 </div>
               ) : confirmResult?.ok ? (
                 <div className="mt-3 space-y-3 text-sm text-slate-700 sm:text-base">
-                  {isMailOrder ? (
-                    <>
-                      <p>1. Payment verified successfully.</p>
-                      <p>2. Mailed certificate order saved to your account.</p>
-                      <p>3. The order was submitted for mailing.</p>
-                    </>
-                  ) : (
-                    <>
-                      <p>1. Payment verified successfully.</p>
-                      <p>2. Purchase saved to your account.</p>
-                      <p>3. Course access is now active.</p>
-                    </>
-                  )}
+                  {(isMailOrder ? copy.successMail : copy.successCourse).map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
                 </div>
               ) : (
                 <div className="mt-3 space-y-3 text-sm text-slate-700 sm:text-base">
-                  <p>Your payment page loaded, but automatic activation did not finish.</p>
-                  <p>
-                    You can go to your dashboard and try again, or contact support if access
-                    does not appear.
-                  </p>
+                  <p>{copy.failureOne}</p>
+                  <p>{copy.failureTwo}</p>
                 </div>
               )}
             </div>
@@ -223,7 +296,7 @@ export default function CheckoutSuccessPage({
             {sessionId ? (
               <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
                 <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Stripe session
+                  {copy.stripeSession}
                 </div>
                 <div className="mt-1 break-all font-mono text-xs text-slate-700 sm:text-sm">
                   {sessionId}
@@ -231,21 +304,20 @@ export default function CheckoutSuccessPage({
               </div>
             ) : (
               <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-                We did not receive a checkout session ID in the URL, so automatic purchase
-                verification could not run.
+                {copy.missingSession}
               </div>
             )}
 
             {!isLoading && confirmResult?.ok && confirmResult.purchase ? (
               <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
                 <div className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-                  Purchase recorded
+                  {copy.purchaseRecorded}
                 </div>
 
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      Plan code
+                      {copy.planCode}
                     </div>
                     <div className="mt-1 text-sm font-medium text-slate-900">
                       {confirmResult.purchase.plan_code}
@@ -254,7 +326,7 @@ export default function CheckoutSuccessPage({
 
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      Support tier
+                      {copy.supportTier}
                     </div>
                     <div className="mt-1 text-sm font-medium text-slate-900">
                       {confirmResult.purchase.support_tier}
@@ -263,7 +335,7 @@ export default function CheckoutSuccessPage({
 
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      State
+                      {copy.state}
                     </div>
                     <div className="mt-1 text-sm font-medium text-slate-900">
                       {confirmResult.purchase.state_code}
@@ -272,7 +344,7 @@ export default function CheckoutSuccessPage({
 
                   <div>
                     <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                      Status
+                      {copy.status}
                     </div>
                     <div className="mt-1 text-sm font-medium text-emerald-700">
                       {confirmResult.purchase.purchase_status}
@@ -294,14 +366,14 @@ export default function CheckoutSuccessPage({
                   href={isMailOrder ? `${stateCode ? `/${stateCode}/certificate` : "#"}` : courseHref}
                   className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
-                  {isMailOrder ? "Back to certificate" : "Start course"}
+                  {isMailOrder ? copy.backCertificate : copy.startCourse}
                 </Link>
               ) : (
                 <Link
                   href={dashboardHref}
                   className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
-                  Go to dashboard
+                  {copy.goDashboard}
                 </Link>
               )}
 
@@ -309,14 +381,14 @@ export default function CheckoutSuccessPage({
                 href={pricingHref}
                 className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
               >
-                View plans
+                {copy.viewPlans}
               </Link>
 
               <Link
                 href={supportHref}
                 className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
               >
-                Get support
+                {copy.getSupport}
               </Link>
             </div>
           </div>

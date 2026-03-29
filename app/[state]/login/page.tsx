@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation"
 import { useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
 export default function LoginPage() {
   const params = useParams()
@@ -14,6 +15,85 @@ export default function LoginPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const language = usePreferredSiteLanguageClient()
+  const copy =
+    language === "es"
+      ? {
+          sectionLabel: `${config.stateName} acceso para estudiantes`,
+          heroTitleLogin: "Vuelve a tu curso.",
+          heroTitleSignup: "Crea tu cuenta de estudiante.",
+          heroBodyLogin:
+            "Accede a tu panel, progreso del curso, examen final y certificado desde una sola cuenta.",
+          heroBodySignup:
+            "Crea una cuenta de estudiante para comprar acceso y completar el curso.",
+          heroItems: [
+            "Ingreso de estudiantes y acceso al panel",
+            "Progreso del curso, examen y certificado vinculados a una sola cuenta",
+            "Acceso a soporte durante el curso",
+          ],
+          formTitleLogin: "Iniciar sesion",
+          formTitleSignup: "Crear cuenta",
+          formBodyLogin:
+            "Accede a tu panel de estudiante y continua donde lo dejaste.",
+          formBodySignup:
+            "Crea una cuenta nueva de estudiante para este curso estatal.",
+          approvalLabel: "Aprobacion pendiente",
+          approvalBody:
+            `La aceptacion y elegibilidad del curso pueden depender del requisito especifico del estudiante en ${config.stateName}. Revisa la informacion del curso antes de inscribirte o depender de la finalizacion.`,
+          infoCta: "Leer informacion del curso",
+          email: "Correo electronico",
+          password: "Contrasena",
+          loginLoading: "Iniciando sesion...",
+          signupLoading: "Creando cuenta...",
+          loginCta: "Iniciar sesion",
+          signupCta: "Crear cuenta",
+          newStudent: "Eres estudiante nuevo?",
+          createAccount: "Crear una cuenta",
+          existingStudent: "Ya tienes una cuenta?",
+          loginLink: "Iniciar sesion",
+          plansLink: "Ver planes del curso",
+          loginSuccess: "Inicio de sesion correcto. Redirigiendo...",
+          signupSuccess:
+            "Cuenta creada correctamente. Si la confirmacion por correo esta activada, revisa tu correo. Si no, ya puedes iniciar sesion.",
+        }
+      : {
+          sectionLabel: `${config.stateName} Student Access`,
+          heroTitleLogin: "Return to your course.",
+          heroTitleSignup: "Create your student account.",
+          heroBodyLogin:
+            "Access your dashboard, course progress, final exam, and certificate from one student account.",
+          heroBodySignup:
+            "Create a student account to purchase access and complete the course.",
+          heroItems: [
+            "Student login and dashboard access",
+            "Course progress, exam, and certificate tied to one account",
+            "Support access during the course",
+          ],
+          formTitleLogin: "Log in",
+          formTitleSignup: "Create account",
+          formBodyLogin:
+            "Access your student dashboard and continue where you left off.",
+          formBodySignup:
+            "Create a new student account for this state course.",
+          approvalLabel: config.approvalStatusLabel,
+          approvalBody:
+            `Course acceptance and eligibility may depend on the student's specific ${config.stateName} requirement. Review the course disclosures before enrolling or relying on completion.`,
+          infoCta: "Read course information",
+          email: "Email",
+          password: "Password",
+          loginLoading: "Logging in...",
+          signupLoading: "Creating account...",
+          loginCta: "Log in",
+          signupCta: "Create account",
+          newStudent: "New student?",
+          createAccount: "Create an account",
+          existingStudent: "Already have an account?",
+          loginLink: "Log in",
+          plansLink: "View course plans",
+          loginSuccess: "Login successful. Redirecting...",
+          signupSuccess:
+            "Account created successfully. If email confirmation is enabled, check your email. Otherwise, you can log in now.",
+        }
 
   const [mode, setMode] = useState<"login" | "signup">("login")
   const [email, setEmail] = useState("")
@@ -38,7 +118,7 @@ export default function LoginPage() {
           return
         }
 
-        setMessage("Login successful. Redirecting...")
+        setMessage(copy.loginSuccess)
         router.push(`/${state}/dashboard`)
         router.refresh()
         return
@@ -62,9 +142,7 @@ export default function LoginPage() {
         return
       }
 
-      setMessage(
-        "Account created successfully. If email confirmation is enabled, check your email. Otherwise, you can log in now."
-      )
+      setMessage(copy.signupSuccess)
       setMode("login")
     } finally {
       setLoading(false)
@@ -75,22 +153,16 @@ export default function LoginPage() {
     <main className="min-h-screen px-4 py-10 sm:py-14">
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_1fr]">
         <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-7 sm:p-8">
-          <div className="section-label">{config.stateName} Student Access</div>
+          <div className="section-label">{copy.sectionLabel}</div>
           <h1 className="mt-5 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-            {mode === "login" ? "Return to your course." : "Create your student account."}
+            {mode === "login" ? copy.heroTitleLogin : copy.heroTitleSignup}
           </h1>
           <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
-            {mode === "login"
-              ? "Access your dashboard, course progress, final exam, and certificate from one student account."
-              : "Create a student account to purchase access and complete the course."}
+            {mode === "login" ? copy.heroBodyLogin : copy.heroBodySignup}
           </p>
 
           <div className="mt-8 grid gap-4">
-            {[
-              "Student login and dashboard access",
-              "Course progress, exam, and certificate tied to one account",
-              "Support access during the course",
-            ].map((item) => (
+            {copy.heroItems.map((item) => (
               <div
                 key={item}
                 className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700"
@@ -104,34 +176,30 @@ export default function LoginPage() {
         <section className="glass-panel rounded-[2rem] bg-white p-6 sm:p-8">
           <div className="mb-6">
             <h2 className="text-3xl font-semibold text-slate-950">
-              {mode === "login" ? "Log in" : "Create account"}
+              {mode === "login" ? copy.formTitleLogin : copy.formTitleSignup}
             </h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              {mode === "login"
-                ? "Access your student dashboard and continue where you left off."
-                : "Create a new student account for this state course."}
+              {mode === "login" ? copy.formBodyLogin : copy.formBodySignup}
             </p>
           </div>
 
           <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-slate-700">
             <div className="font-semibold uppercase tracking-[0.16em] text-amber-700">
-              {config.approvalStatusLabel}
+              {copy.approvalLabel}
             </div>
-            <p className="mt-3 leading-7">
-              Course acceptance and eligibility may depend on the student&apos;s specific {config.stateName} requirement. Review the course disclosures before enrolling or relying on completion.
-            </p>
+            <p className="mt-3 leading-7">{copy.approvalBody}</p>
             <Link
               href={getDisclosuresRoute(state)}
               className="mt-4 inline-flex rounded-xl border border-amber-300 bg-white px-4 py-2 font-semibold text-amber-900 hover:bg-amber-100"
             >
-              Read course information
+              {copy.infoCta}
             </Link>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input
               type="email"
-              placeholder="Email"
+              placeholder={copy.email}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
@@ -141,7 +209,7 @@ export default function LoginPage() {
 
             <input
               type="password"
-              placeholder="Password"
+              placeholder={copy.password}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
@@ -156,18 +224,18 @@ export default function LoginPage() {
             >
               {loading
                 ? mode === "login"
-                  ? "Logging in..."
-                  : "Creating account..."
+                  ? copy.loginLoading
+                  : copy.signupLoading
                 : mode === "login"
-                ? "Log in"
-                : "Create account"}
+                ? copy.loginCta
+                : copy.signupCta}
             </button>
           </form>
 
           <div className="mt-5 text-sm text-slate-600">
             {mode === "login" ? (
               <p>
-                New student?{" "}
+                {copy.newStudent}{" "}
                 <button
                   type="button"
                   onClick={() => {
@@ -176,12 +244,12 @@ export default function LoginPage() {
                   }}
                   className="font-semibold text-blue-600 underline"
                 >
-                  Create an account
+                  {copy.createAccount}
                 </button>
               </p>
             ) : (
               <p>
-                Already have an account?{" "}
+                {copy.existingStudent}{" "}
                 <button
                   type="button"
                   onClick={() => {
@@ -190,7 +258,7 @@ export default function LoginPage() {
                   }}
                   className="font-semibold text-blue-600 underline"
                 >
-                  Log in
+                  {copy.loginLink}
                 </button>
               </p>
             )}
@@ -201,7 +269,7 @@ export default function LoginPage() {
               href={`/${state}/checkout`}
               className="text-sm font-medium text-slate-600 underline"
             >
-              View course plans
+              {copy.plansLink}
             </Link>
           </div>
 
