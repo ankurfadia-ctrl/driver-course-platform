@@ -68,6 +68,17 @@ export default function LoginPage() {
           infoCta: "Leer informacion del curso",
           email: "Correo electronico",
           password: "Contrasena",
+          forgotPassword: "Olvide mi contrasena",
+          recoverTitle: "Recuperar acceso",
+          recoverBody:
+            "Ingresa tu correo electronico y te enviaremos un enlace para restablecer tu contrasena.",
+          recoverCta: "Enviar enlace de restablecimiento",
+          recoverLoading: "Enviando enlace...",
+          recoverSuccess:
+            "Si existe una cuenta para ese correo, te enviamos un enlace para restablecer la contrasena.",
+          recoverCancel: "Volver al inicio de sesion",
+          recoverNeedEmail:
+            "Ingresa tu correo electronico primero para enviarte un enlace de restablecimiento.",
           loginLoading: "Iniciando sesion...",
           signupLoading: "Creando cuenta...",
           loginCta: "Iniciar sesion",
@@ -132,6 +143,17 @@ export default function LoginPage() {
           infoCta: "Read course information",
           email: "Email",
           password: "Password",
+          forgotPassword: "Forgot password?",
+          recoverTitle: "Recover account access",
+          recoverBody:
+            "Enter your email and we will send you a password reset link.",
+          recoverCta: "Send reset link",
+          recoverLoading: "Sending reset link...",
+          recoverSuccess:
+            "If an account exists for that email, a password reset link has been sent.",
+          recoverCancel: "Back to login",
+          recoverNeedEmail:
+            "Enter your email first so we can send you a password reset link.",
           loginLoading: "Logging in...",
           signupLoading: "Creating account...",
           loginCta: "Log in",
@@ -188,6 +210,8 @@ export default function LoginPage() {
   const [accuracyConfirmed, setAccuracyConfirmed] = useState(false)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+  const [sendingRecovery, setSendingRecovery] = useState(false)
+  const [showRecoveryForm, setShowRecoveryForm] = useState(false)
   const showUnderageWarning = mode === "signup" && isBelowVirginiaLearnersPermitAge(dateOfBirth)
 
   useEffect(() => {
@@ -303,6 +327,42 @@ export default function LoginPage() {
     }
   }
 
+  async function handlePasswordRecovery() {
+    if (!email.trim()) {
+      setMessage(copy.recoverNeedEmail)
+      return
+    }
+
+    setSendingRecovery(true)
+    setMessage("")
+
+    try {
+      const origin =
+        typeof window !== "undefined" ? window.location.origin : ""
+      const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim()
+      const redirectBaseUrl =
+        configuredBaseUrl && /^https?:\/\//.test(configuredBaseUrl)
+          ? configuredBaseUrl.replace(/\/$/, "")
+          : origin
+
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: redirectBaseUrl
+          ? `${redirectBaseUrl}/${state}/reset-password`
+          : undefined,
+      })
+
+      if (error) {
+        setMessage(error.message)
+        return
+      }
+
+      setMessage(copy.recoverSuccess)
+      setShowRecoveryForm(false)
+    } finally {
+      setSendingRecovery(false)
+    }
+  }
+
   return (
     <main className="min-h-screen px-4 py-10 sm:py-14">
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_1fr]">
@@ -370,6 +430,52 @@ export default function LoginPage() {
               required
               autoComplete={mode === "login" ? "current-password" : "new-password"}
             />
+
+            {mode === "login" ? (
+              <div className="-mt-2 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowRecoveryForm((current) => !current)
+                    setMessage("")
+                  }}
+                  className="text-sm font-semibold text-blue-600 underline"
+                >
+                  {copy.forgotPassword}
+                </button>
+              </div>
+            ) : null}
+
+            {mode === "login" && showRecoveryForm ? (
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="text-base font-semibold text-slate-900">
+                  {copy.recoverTitle}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {copy.recoverBody}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    onClick={() => void handlePasswordRecovery()}
+                    disabled={sendingRecovery}
+                    className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+                  >
+                    {sendingRecovery ? copy.recoverLoading : copy.recoverCta}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowRecoveryForm(false)
+                      setMessage("")
+                    }}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                  >
+                    {copy.recoverCancel}
+                  </button>
+                </div>
+              </div>
+            ) : null}
 
             {mode === "signup" ? (
               <>
