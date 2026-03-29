@@ -65,17 +65,17 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Course timing expectations",
         body:
-          "Virginia online driver improvement programs are expected to include at least eight hours of instruction. Students should expect seat-time controls, activity monitoring, and completion tracking as part of the course workflow.",
+          "Virginia online driver improvement courses include at least eight hours of instruction. Students should expect seat-time controls, activity monitoring, and completion tracking as part of the course workflow.",
       },
       {
         title: "Identity verification",
         body:
-          "Identity verification may be required before course milestones, during the course, and before or during the final exam. A student who cannot complete identity validation may be prevented from finishing the course.",
+          "Identity verification is required throughout the course and before the final exam. A student who cannot complete identity validation may be prevented from finishing the course.",
       },
       {
         title: "Final exam attempts",
         body:
-          "Virginia online final exam rules may limit the exam to one attempt per business day. Students should be prepared to complete the exam personally and remain on the exam page throughout the attempt.",
+          "The final exam can be taken only once per business day. Students should be prepared to complete the exam personally and remain on the exam page throughout the attempt.",
       },
       {
         title: "Support and record review",
