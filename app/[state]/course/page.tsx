@@ -212,7 +212,8 @@ export default function StateCoursePage() {
           <p className="mt-2 text-slate-700">
             Virginia requires identity verification throughout the course and
             before the final exam. Complete identity setup before starting
-            lesson progress.
+            lesson progress, and be ready to verify identity again before each
+            lesson begins.
           </p>
 
           <Link
