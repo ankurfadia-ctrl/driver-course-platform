@@ -60,7 +60,7 @@ const COURSE_PLANS: CoursePlan[] = [
     planCode: "va-priority-upgrade",
     planKind: "support-upgrade",
     displayName: "Priority Support Upgrade",
-    priceCents: 500,
+    priceCents: 999,
     currency: "usd",
     supportTier: "priority",
     includesCertificate: false,

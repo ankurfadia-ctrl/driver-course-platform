@@ -34,7 +34,7 @@ export default async function StateRefundsPage({
           sectionThreeBody1:
             "Los cargos duplicados accidentales pueden revisarse para reembolso.",
           sectionThreeBody2:
-            "Las mejoras a soporte prioritario pueden revisarse para reembolso si el beneficio mejorado no ha sido usado de forma significativa.",
+            "Las mejoras a soporte prioritario son compras opcionales adicionales y normalmente no son reembolsables despues de la compra, aunque el beneficio mejorado no llegue a usarse despues.",
           supportTitle: "Solicitar una revision",
           supportBody:
             "Para preguntas sobre reembolsos o para solicitar una revision, empieza con la ",
@@ -59,7 +59,7 @@ export default async function StateRefundsPage({
           sectionThreeBody1:
             "Accidental duplicate charges may be reviewed for refund.",
           sectionThreeBody2:
-            "Priority-support upgrades may be reviewed for refund if the upgraded benefit has not been used in a meaningful way.",
+            "Priority-support upgrades are optional add-on purchases and are generally not refundable after purchase, even if the upgraded benefit is not later used.",
           supportTitle: "Request a review",
           supportBody:
             "For refund questions or to request a review, start with the ",
