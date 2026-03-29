@@ -65,6 +65,11 @@ export default function MailedCertificateOrderPage() {
           stateField: "Estado",
           postalCode: "Codigo postal",
           unitedStates: "Estados Unidos",
+          reviewTitle: "Revisa la direccion antes del pago",
+          reviewBody:
+            "Confirma que la direccion postal es completa y correcta antes de continuar al pago.",
+          addressConfirmation:
+            "He revisado esta direccion y confirmo que esta completa y correcta para el envio del certificado.",
           preparingCheckout: "Preparando pago...",
           continueToPayment: "Continuar al pago",
           backToCertificate: "Volver al certificado",
@@ -98,6 +103,11 @@ export default function MailedCertificateOrderPage() {
           stateField: "State",
           postalCode: "ZIP code",
           unitedStates: "United States",
+          reviewTitle: "Review address before payment",
+          reviewBody:
+            "Confirm that this mailing address is complete and correct before continuing to payment.",
+          addressConfirmation:
+            "I have reviewed this mailing address and confirm that it is complete and correct for certificate delivery.",
           preparingCheckout: "Preparing checkout...",
           continueToPayment: "Continue to Payment",
           backToCertificate: "Back to Certificate",
@@ -113,6 +123,15 @@ export default function MailedCertificateOrderPage() {
   const [loadingIdentity, setLoadingIdentity] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [addressConfirmed, setAddressConfirmed] = useState(false)
+
+  const addressPreviewLines = [
+    `${address.firstName} ${address.lastName}`.trim(),
+    address.addressLine1.trim(),
+    address.addressLine2?.trim() ?? "",
+    `${address.city.trim()}, ${address.state.trim()} ${address.postalCode.trim()}`.trim(),
+    address.country === "US" ? copy.unitedStates : address.country,
+  ].filter(Boolean)
 
   useEffect(() => {
     let isMounted = true
@@ -155,6 +174,7 @@ export default function MailedCertificateOrderPage() {
         ...current,
         [field]: event.target.value,
       }))
+      setAddressConfirmed(false)
     }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -169,6 +189,11 @@ export default function MailedCertificateOrderPage() {
       setSubmitting(true)
       setError(null)
       validateMailingAddress(address)
+
+      if (!addressConfirmed) {
+        setError(copy.addressConfirmation)
+        return
+      }
 
       const response = await fetch("/api/checkout", {
         method: "POST",
@@ -305,6 +330,27 @@ export default function MailedCertificateOrderPage() {
               <option value="US">{copy.unitedStates}</option>
             </select>
 
+            <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
+              <div className="font-semibold">{copy.reviewTitle}</div>
+              <p className="mt-2 leading-6">{copy.reviewBody}</p>
+              <div className="mt-3 rounded-lg border border-blue-100 bg-white p-4 text-slate-700">
+                {addressPreviewLines.map((line) => (
+                  <div key={line}>{line}</div>
+                ))}
+              </div>
+            </div>
+
+            <label className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
+              <input
+                type="checkbox"
+                checked={addressConfirmed}
+                onChange={(event) => setAddressConfirmed(event.target.checked)}
+                className="mr-3 mt-1 align-top"
+                disabled={submitting}
+              />
+              <span>{copy.addressConfirmation}</span>
+            </label>
+
             {error ? (
               <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
                 {error}
@@ -314,7 +360,7 @@ export default function MailedCertificateOrderPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 type="submit"
-                disabled={submitting || !certificateId}
+                disabled={submitting || !certificateId || !addressConfirmed}
                 className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
               >
                 {submitting ? copy.preparingCheckout : copy.continueToPayment}
