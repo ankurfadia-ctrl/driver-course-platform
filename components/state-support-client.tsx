@@ -92,6 +92,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       replyPlaceholder: "Responder a esta solicitud",
       sendReply: "Enviar respuesta",
       loadingRequests: "Cargando tus solicitudes de soporte...",
+      threadReplyLockedTitle: "Respuestas directas disponibles con soporte prioritario",
+      threadReplyLockedBody:
+        "Puedes ver el estado de tu solicitud aqui. Las respuestas directas dentro del sitio estan disponibles con el plan de soporte prioritario.",
+      threadReplyLockedCta: "Mejorar a soporte prioritario",
       categories: [
         { value: "course-access", label: "Acceso al curso / inicio de sesion" },
         { value: "seat-time", label: "Tiempo del curso / temporizador" },
@@ -178,6 +182,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     replyPlaceholder: "Reply to this support request",
     sendReply: "Send Reply",
     loadingRequests: "Loading your support requests...",
+    threadReplyLockedTitle: "Direct replies are available with priority support",
+    threadReplyLockedBody:
+      "You can still view your request status here. Back-and-forth replies inside the site are available with the priority support plan.",
+    threadReplyLockedCta: "Upgrade to Priority Support",
     categories: [
       { value: "course-access", label: "Course access / login" },
       { value: "seat-time", label: "Seat time / timer issue" },
@@ -729,26 +737,48 @@ export default function StateSupportClient({
                 </div>
 
                 <div className="mt-4 space-y-3">
-                  <textarea
-                    value={replyDrafts[request.id] ?? ""}
-                    onChange={(event) =>
-                      setReplyDrafts((prev) => ({
-                        ...prev,
-                        [request.id]: event.target.value,
-                      }))
-                    }
-                    rows={3}
-                    placeholder={copy.replyPlaceholder}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => void handleReply(request.id)}
-                    disabled={replyingId === request.id}
-                    className="rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
-                  >
-                    {replyingId === request.id ? copy.saving : copy.sendReply}
-                  </button>
+                  {hasPrioritySupport ? (
+                    <>
+                      <textarea
+                        value={replyDrafts[request.id] ?? ""}
+                        onChange={(event) =>
+                          setReplyDrafts((prev) => ({
+                            ...prev,
+                            [request.id]: event.target.value,
+                          }))
+                        }
+                        rows={3}
+                        placeholder={copy.replyPlaceholder}
+                        className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => void handleReply(request.id)}
+                        disabled={replyingId === request.id}
+                        className="rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+                      >
+                        {replyingId === request.id ? copy.saving : copy.sendReply}
+                      </button>
+                    </>
+                  ) : (
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                      <div className="font-semibold text-slate-900">
+                        {copy.threadReplyLockedTitle}
+                      </div>
+                      <div className="mt-2 text-sm leading-6 text-slate-600">
+                        {copy.threadReplyLockedBody}
+                      </div>
+                      <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-400">
+                        {copy.replyPlaceholder}
+                      </div>
+                      <Link
+                        href={`/${state}/checkout`}
+                        className="mt-4 inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-100"
+                      >
+                        {copy.threadReplyLockedCta}
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

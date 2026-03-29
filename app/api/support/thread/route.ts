@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getCoursePlanByCode } from "@/lib/payment/plans"
 import {
   attachSupportMessages,
   type SupportMessageRow,
@@ -9,6 +10,43 @@ import {
 type StudentReplyBody = {
   requestId?: string
   message?: string
+}
+
+async function getStudentSupportTier(userId: string, state: string) {
+  const adminSupabase = createAdminClient()
+  const { data, error } = await adminSupabase
+    .from("course_purchases")
+    .select("plan_code, support_tier, purchase_status, purchased_at")
+    .eq("user_id", userId)
+    .eq("state_code", state)
+    .eq("purchase_status", "paid")
+    .order("purchased_at", { ascending: false })
+    .limit(25)
+
+  if (error) {
+    throw error
+  }
+
+  const purchases = data ?? []
+  const fullCoursePurchase =
+    purchases.find((purchase) => {
+      const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+      return plan?.planKind === "full-course"
+    }) ?? null
+
+  const priorityPurchase = purchases.find((purchase) => {
+    const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+
+    if (!plan) {
+      return purchase.support_tier === "priority"
+    }
+
+    return (
+      plan.planKind === "full-course" || plan.planKind === "support-upgrade"
+    ) && purchase.support_tier === "priority"
+  })
+
+  return priorityPurchase ? "priority" : fullCoursePurchase?.support_tier ?? null
 }
 
 export async function GET(request: NextRequest) {
@@ -109,7 +147,7 @@ export async function POST(request: NextRequest) {
     const adminSupabase = createAdminClient()
     const { data: existingRequest, error: requestError } = await adminSupabase
       .from("support_requests")
-      .select("id, user_id, status")
+      .select("id, user_id, state_code, status")
       .eq("id", requestId)
       .eq("user_id", user.id)
       .maybeSingle()
@@ -118,6 +156,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { ok: false, error: "Support request not found." },
         { status: 404 }
+      )
+    }
+
+    const supportTier = await getStudentSupportTier(user.id, String(existingRequest.state_code ?? ""))
+
+    if (supportTier !== "priority") {
+      return NextResponse.json(
+        { ok: false, error: "Student replies are available only with priority support." },
+        { status: 403 }
       )
     }
 
