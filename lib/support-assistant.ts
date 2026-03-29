@@ -28,6 +28,173 @@ function includesAny(text: string, keywords: string[]) {
   return keywords.some((keyword) => text.includes(keyword))
 }
 
+function buildDirectQuestionResponse(
+  state: string,
+  text: string
+): SupportAssistantResponse | null {
+  const stateName = titleCaseState(state)
+
+  if (
+    includesAny(text, [
+      "do i need to take the final",
+      "do i have to take the final",
+      "is the final required",
+      "do i need the final exam",
+      "do i have to take the final exam",
+    ])
+  ) {
+    return {
+      summary:
+        `Yes. ${stateName} students must complete the lessons and pass the final exam before a certificate can be issued.`,
+      suggestedSteps: [
+        "Finish all required lessons first.",
+        "Reach at least 7 hours of recorded course instruction so the final exam can unlock.",
+        "Pass the final exam.",
+        "Stay in the course until the full 8-hour minimum is complete before expecting your certificate.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "what score do i need",
+      "what score do i have to get",
+      "passing score",
+      "what do i need to pass",
+      "what score to pass the final",
+    ])
+  ) {
+    return {
+      summary:
+        "You need a passing score on the final exam before your certificate can be issued.",
+      suggestedSteps: [
+        "Review your lessons before starting the final exam.",
+        "If you do not pass, review the suggested lesson areas and return on the next business day.",
+        "After passing, stay in the course until the full 8-hour minimum is complete.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "what happens if i fail",
+      "if i fail the final",
+      "failed the final",
+      "fail the exam",
+      "did not pass",
+    ])
+  ) {
+    return {
+      summary:
+        "If you do not pass the final exam, you need to review the course and wait until the next business day before beginning another attempt.",
+      suggestedSteps: [
+        "Use the failed-exam review guidance to revisit the suggested lessons.",
+        "Wait until the retake time shown on the exam results page.",
+        "Return on the next business day to try again.",
+        "A certificate is not issued until the final exam is passed and the full 8-hour minimum is complete.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "do the quizzes count",
+      "do quiz scores count",
+      "does the quiz count",
+      "are quizzes graded",
+      "do quizzes affect my grade",
+    ])
+  ) {
+    return {
+      summary:
+        "Lesson quizzes are for review and progress. Your certificate depends on completing the course requirements and passing the final exam.",
+      suggestedSteps: [
+        "Use quizzes to check your understanding as you move through the lessons.",
+        "Complete all required lesson content.",
+        "Pass the final exam before expecting a certificate.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "do i have to read all the pages",
+      "do i need to read all the pages",
+      "can i skip pages",
+      "can i skip lessons",
+      "do i have to complete all lessons",
+    ])
+  ) {
+    return {
+      summary:
+        "Yes. You need to complete the course lessons and required seat time before the final exam and certificate can be completed.",
+      suggestedSteps: [
+        "Move through each lesson from the course page.",
+        "Make sure every required lesson shows completed.",
+        "Reach at least 7 hours before the final exam unlocks.",
+        "Remain in the course until the full 8-hour minimum is complete.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "will my certificate be sent automatically to dmv",
+      "sent to dmv automatically",
+      "does dmv get my certificate",
+      "do you send to dmv",
+      "is my completion sent to dmv",
+    ])
+  ) {
+    return {
+      summary:
+        "Course completion reporting is handled after successful completion, but students should still confirm any court, DMV, or insurance requirements that apply to their situation.",
+      suggestedSteps: [
+        "Make sure your enrollment reason and any required court information are accurate.",
+        "Complete the course, pass the final exam, and wait for your certificate to unlock.",
+        "Keep a copy of your certificate for your records.",
+      ],
+      escalationRecommended: true,
+      escalationReason:
+        "DMV or court reporting questions may need case-specific review.",
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "what do i do after i finish",
+      "after i finish the class",
+      "what happens after i finish",
+      "what next after i finish",
+    ])
+  ) {
+    return {
+      summary:
+        "After finishing the class, pass the final exam, complete the full 8-hour minimum, and then open your certificate page.",
+      suggestedSteps: [
+        "Check that your final exam shows passed.",
+        "If you passed before reaching 8 hours total, remain in the course until the remaining time is complete.",
+        "Open the certificate page to view, download, or email your certificate.",
+        "Keep your certificate for your records and confirm any outside submission requirements that apply to you.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  return null
+}
+
 export function inferSupportCategoryFromText(text: string): SupportCategory {
   const combinedText = normalizeText(text)
 
@@ -195,9 +362,16 @@ export function getSupportAssistantResponse(
   input: SupportAssistantInput
 ): SupportAssistantResponse {
   const state = input.state
+  const combinedText = normalizeText(`${input.subject} ${input.message}`)
+  const directQuestionResponse = buildDirectQuestionResponse(state, combinedText)
+
+  if (directQuestionResponse) {
+    return directQuestionResponse
+  }
+
   const category =
     input.category === "other"
-      ? inferSupportCategoryFromText(`${input.subject} ${input.message}`)
+      ? inferSupportCategoryFromText(combinedText)
       : input.category
 
   if (category === "seat-time") {
