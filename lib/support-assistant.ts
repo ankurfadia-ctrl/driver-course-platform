@@ -28,6 +28,66 @@ function includesAny(text: string, keywords: string[]) {
   return keywords.some((keyword) => text.includes(keyword))
 }
 
+export function inferSupportCategoryFromText(text: string): SupportCategory {
+  const combinedText = normalizeText(text)
+
+  const mentionsTimerIssue = includesAny(combinedText, [
+    "seat time",
+    "timer",
+    "time not moving",
+    "time not updating",
+    "clock",
+    "hours",
+  ])
+
+  const mentionsLockedExam = includesAny(combinedText, [
+    "exam locked",
+    "final exam locked",
+    "cannot start exam",
+    "can't start exam",
+    "locked out of exam",
+    "final exam",
+  ])
+
+  const mentionsCertificateIssue = includesAny(combinedText, [
+    "certificate",
+    "download pdf",
+    "download certificate",
+    "completion certificate",
+    "verify certificate",
+  ])
+
+  const mentionsLoginIssue = includesAny(combinedText, [
+    "login",
+    "log in",
+    "sign in",
+    "account",
+    "access",
+    "cannot enter",
+    "can't enter",
+    "password",
+  ])
+
+  const mentionsTechnicalIssue = includesAny(combinedText, [
+    "error",
+    "blank",
+    "white screen",
+    "not loading",
+    "won't load",
+    "broken",
+    "bug",
+    "issue",
+    "problem",
+  ])
+
+  if (mentionsTimerIssue) return "seat-time"
+  if (mentionsLockedExam) return "final-exam"
+  if (mentionsCertificateIssue) return "certificate"
+  if (mentionsLoginIssue) return "course-access"
+  if (mentionsTechnicalIssue) return "technical"
+  return "other"
+}
+
 function titleCaseState(state: string) {
   const value = String(state ?? "").trim()
   if (!value) return "Virginia"
@@ -39,10 +99,11 @@ function buildSeatTimeResponse(state: string): SupportAssistantResponse {
 
   return {
     summary:
-      `${stateName} seat time is tracked across your course activity. The final exam stays locked until required seat time is complete.`,
+      `${stateName} seat time is tracked across your course activity. The final exam unlocks after at least 7 hours of course instruction, and the certificate stays locked until the full 8-hour minimum is complete.`,
     suggestedSteps: [
       "Return to the course dashboard and confirm your seat time is still increasing.",
       "Continue moving through lesson pages while staying active on the course.",
+      "The final exam can open before the full 8 hours, but the certificate will stay locked until the full minimum is reached.",
       "If the timer seems stuck, refresh once and sign back into the same account before checking again.",
       "If your dashboard still does not update, include the exact lesson/page where it stopped."
     ],
@@ -54,10 +115,11 @@ function buildSeatTimeResponse(state: string): SupportAssistantResponse {
 function buildFinalExamResponse(): SupportAssistantResponse {
   return {
     summary:
-      "The final exam is available only after all lessons are completed and required seat time is satisfied.",
+      "The final exam is available only after all lessons are completed and at least 7 hours of course instruction have been recorded.",
     suggestedSteps: [
       "Check the course dashboard to confirm every lesson shows completed.",
-      "Check that seat time shows complete on the dashboard.",
+      "Check that at least 7 hours of course instruction have been recorded.",
+      "After passing the exam, remain in the course until the full 8-hour minimum is complete before expecting the certificate.",
       "Re-open the final exam from the dashboard after both requirements are satisfied.",
       "If the exam still appears locked, include a screenshot of the dashboard status."
     ],
@@ -69,9 +131,10 @@ function buildFinalExamResponse(): SupportAssistantResponse {
 function buildCertificateResponse(): SupportAssistantResponse {
   return {
     summary:
-      "Certificates unlock only after required seat time is complete and the final exam has been passed.",
+      "Certificates unlock only after the full 8-hour minimum is complete and the final exam has been passed.",
     suggestedSteps: [
       "Confirm your final exam shows passed on the dashboard.",
+      "If you passed early, remain in the course until the full 8-hour minimum is complete.",
       "Open the Certificate section on the dashboard and check whether it now shows available.",
       "Use View Certificate first, then Download PDF if needed.",
       "If the certificate is still locked after passing, include the score shown on your dashboard."
@@ -132,73 +195,28 @@ export function getSupportAssistantResponse(
   input: SupportAssistantInput
 ): SupportAssistantResponse {
   const state = input.state
-  const category = input.category
-  const combinedText = normalizeText(`${input.subject} ${input.message}`)
+  const category =
+    input.category === "other"
+      ? inferSupportCategoryFromText(`${input.subject} ${input.message}`)
+      : input.category
 
-  const mentionsTimerIssue = includesAny(combinedText, [
-    "seat time",
-    "timer",
-    "time not moving",
-    "time not updating",
-    "clock",
-    "hours",
-  ])
-
-  const mentionsLockedExam = includesAny(combinedText, [
-    "exam locked",
-    "final exam locked",
-    "cannot start exam",
-    "can't start exam",
-    "locked out of exam",
-  ])
-
-  const mentionsCertificateIssue = includesAny(combinedText, [
-    "certificate",
-    "download pdf",
-    "download certificate",
-    "completion certificate",
-    "verify certificate",
-  ])
-
-  const mentionsLoginIssue = includesAny(combinedText, [
-    "login",
-    "log in",
-    "sign in",
-    "account",
-    "access",
-    "cannot enter",
-    "can't enter",
-  ])
-
-  const mentionsTechnicalIssue = includesAny(combinedText, [
-    "error",
-    "blank",
-    "white screen",
-    "not loading",
-    "won't load",
-    "broken",
-    "bug",
-    "issue",
-    "problem",
-  ])
-
-  if (category === "seat-time" || mentionsTimerIssue) {
+  if (category === "seat-time") {
     return buildSeatTimeResponse(state)
   }
 
-  if (category === "final-exam" || mentionsLockedExam) {
+  if (category === "final-exam") {
     return buildFinalExamResponse()
   }
 
-  if (category === "certificate" || mentionsCertificateIssue) {
+  if (category === "certificate") {
     return buildCertificateResponse()
   }
 
-  if (category === "course-access" || mentionsLoginIssue) {
+  if (category === "course-access") {
     return buildCourseAccessResponse()
   }
 
-  if (category === "technical" || mentionsTechnicalIssue) {
+  if (category === "technical") {
     return buildTechnicalResponse()
   }
 

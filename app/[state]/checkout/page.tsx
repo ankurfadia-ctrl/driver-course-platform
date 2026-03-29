@@ -84,6 +84,10 @@ export default function StateCheckoutPage() {
             "Incluye el curso completo, elegibilidad para certificado y soporte prioritario.",
           standardDescription:
             "Incluye el curso completo y elegibilidad para certificado.",
+          priorityPricingDetail:
+            "Compra ahora por $24.99 una sola vez. Si compras soporte prioritario despues, la mejora cuesta $9.99 por separado. Ahorro al comprar ahora: $5.",
+          standardPricingDetail:
+            "El soporte prioritario puede agregarse mas tarde por $9.99 como mejora separada.",
           oneTime: "pago unico",
           fullCourseAccess: "Acceso completo al curso",
           alreadyIncluded: "Ya incluido",
@@ -91,6 +95,10 @@ export default function StateCheckoutPage() {
           certificateEligibility: "Elegibilidad para certificado",
           unchanged: "Sin cambios",
           supportTierLabel: "Nivel de soporte",
+          prioritySupportInfo:
+            "Las preguntas y solicitudes con soporte prioritario se atienden antes que las solicitudes estandar y normalmente reciben la primera respuesta en menos de 1 dia habil.",
+          standardSupportInfo:
+            "Las solicitudes con soporte estandar se revisan despues de las prioritarias y pueden tardar hasta 3 dias habiles en recibir una primera respuesta.",
           selectUpgrade: "Mejorar a soporte prioritario",
           selectPriority: "Elegir prioritario",
           selectStandard: "Elegir estandar",
@@ -163,6 +171,10 @@ export default function StateCheckoutPage() {
             "Includes the full course, certificate eligibility, and priority support.",
           standardDescription:
             "Includes the full course and certificate eligibility.",
+          priorityPricingDetail:
+            "Buy now for $24.99 as a one-time payment. If you buy priority support later, the upgrade costs $9.99 separately. Savings when purchased now: $5.",
+          standardPricingDetail:
+            "Priority support can be added later as a separate $9.99 upgrade.",
           oneTime: "one-time payment",
           fullCourseAccess: "Full course access",
           alreadyIncluded: "Already included",
@@ -170,6 +182,10 @@ export default function StateCheckoutPage() {
           certificateEligibility: "Certificate eligibility",
           unchanged: "Unchanged",
           supportTierLabel: "Support tier",
+          prioritySupportInfo:
+            "Priority support questions and requests are handled before any standard ones and usually receive a first response in less than 1 business day.",
+          standardSupportInfo:
+            "Standard support requests are reviewed after priority requests and may take up to 3 business days for a first response.",
           selectUpgrade: "Upgrade to Priority Support",
           selectPriority: "Select Priority",
           selectStandard: "Select Standard",
@@ -456,6 +472,18 @@ export default function StateCheckoutPage() {
                       ? copy.priorityDescription
                       : copy.standardDescription}
                   </p>
+
+                  {plan.planKind === "full-course" && plan.includesPrioritySupport ? (
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-blue-700">
+                      {copy.priorityPricingDetail}
+                    </p>
+                  ) : null}
+
+                  {plan.planKind === "full-course" && !plan.includesPrioritySupport ? (
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">
+                      {copy.standardPricingDetail}
+                    </p>
+                  ) : null}
                 </div>
 
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-right">
@@ -483,9 +511,25 @@ export default function StateCheckoutPage() {
 
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">{copy.supportTierLabel}</span>
-                  <span className="font-semibold text-slate-900">
-                    {isPriority ? copy.priority : copy.labelStandard}
-                  </span>
+                  {isPriority ? (
+                    <details className="text-right">
+                      <summary className="cursor-pointer list-none font-semibold text-slate-900 underline decoration-dotted underline-offset-4">
+                        {copy.priority}
+                      </summary>
+                      <div className="mt-2 max-w-xs rounded-xl border border-blue-200 bg-blue-50 p-3 text-left text-xs leading-5 text-blue-900">
+                        {copy.prioritySupportInfo}
+                      </div>
+                    </details>
+                  ) : (
+                    <details className="text-right">
+                      <summary className="cursor-pointer list-none font-semibold text-slate-900 underline decoration-dotted underline-offset-4">
+                        {copy.labelStandard}
+                      </summary>
+                      <div className="mt-2 max-w-xs rounded-xl border border-slate-200 bg-white p-3 text-left text-xs leading-5 text-slate-700">
+                        {copy.standardSupportInfo}
+                      </div>
+                    </details>
+                  )}
                 </div>
               </div>
 

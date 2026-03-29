@@ -154,7 +154,11 @@ export default async function HomePage() {
                     {config.stateName}
                   </div>
                   <div className="mt-1 text-sm leading-6 text-slate-600">
-                    {copy.stateSummary}
+                    {config.stateCode === "VA"
+                      ? language === "es"
+                        ? "Curso de 8 horas en linea; el examen final cuenta dentro del minimo total de 8 horas."
+                        : "8-hour online course; the final exam is included in the overall 8-hour minimum."
+                      : copy.stateSummary}
                   </div>
                 </Link>
               ))}

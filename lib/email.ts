@@ -39,6 +39,30 @@ type SupportReplyEmailInput = {
   replyMessage: string
 }
 
+type AdminSupportNotificationEmailInput = {
+  email: string
+  stateName: string
+  subject: string
+  studentEmail: string
+  supportUrl: string
+  message: string
+  priorityRequested: boolean
+  replyTo?: string
+}
+
+type StandardSupportDigestItem = {
+  stateName: string
+  subject: string
+  studentEmail: string
+  createdAt: string
+  supportUrl: string
+}
+
+type StandardSupportDigestEmailInput = {
+  email: string
+  requests: StandardSupportDigestItem[]
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -209,6 +233,98 @@ export async function sendSupportReplyNotificationEmail(
     input.replyMessage,
     "",
     `Open support: ${input.supportUrl}`,
+  ].join("\n")
+
+  await sendTransactionalEmail({
+    to: input.email,
+    subject,
+    html,
+    text,
+  })
+}
+
+export async function sendAdminPrioritySupportNotificationEmail(
+  input: AdminSupportNotificationEmailInput
+) {
+  const subject = `Priority support request: ${input.subject}`
+  const html = `
+    <div style="font-family:Segoe UI,Arial,sans-serif;line-height:1.6;color:#0f172a">
+      <h1 style="font-size:24px;margin-bottom:12px;">Priority support request</h1>
+      <p>A new priority support request was submitted for the <strong>${escapeHtml(
+        input.stateName
+      )}</strong> course.</p>
+      <p>
+        Student email: <strong>${escapeHtml(input.studentEmail)}</strong><br />
+        Priority requested: <strong>${input.priorityRequested ? "Yes" : "No"}</strong>
+      </p>
+      <div style="margin:16px 0;padding:16px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;">
+        ${escapeHtml(input.message).replace(/\n/g, "<br />")}
+      </div>
+      <p><a href="${input.supportUrl}">Open admin support inbox</a></p>
+    </div>
+  `.trim()
+  const text = [
+    "Priority support request",
+    "",
+    `A new priority support request was submitted for the ${input.stateName} course.`,
+    `Student email: ${input.studentEmail}`,
+    `Priority requested: ${input.priorityRequested ? "Yes" : "No"}`,
+    "",
+    input.message,
+    "",
+    `Open admin support inbox: ${input.supportUrl}`,
+  ].join("\n")
+
+  await sendTransactionalEmail({
+    to: input.email,
+    subject,
+    html,
+    text,
+  })
+}
+
+export async function sendAdminStandardSupportDigestEmail(
+  input: StandardSupportDigestEmailInput
+) {
+  if (input.requests.length === 0) {
+    return
+  }
+
+  const subject = `Daily standard support summary (${input.requests.length})`
+  const htmlItems = input.requests
+    .map(
+      (request) => `
+        <li style="margin-bottom:12px;">
+          <strong>${escapeHtml(request.stateName)}</strong><br />
+          ${escapeHtml(request.subject)}<br />
+          Student: ${escapeHtml(request.studentEmail)}<br />
+          Created: ${escapeHtml(request.createdAt)}<br />
+          <a href="${request.supportUrl}">Open admin support inbox</a>
+        </li>
+      `
+    )
+    .join("")
+
+  const html = `
+    <div style="font-family:Segoe UI,Arial,sans-serif;line-height:1.6;color:#0f172a">
+      <h1 style="font-size:24px;margin-bottom:12px;">Daily standard support summary</h1>
+      <p>You have ${input.requests.length} unresolved standard support request(s).</p>
+      <ul style="padding-left:20px;">
+        ${htmlItems}
+      </ul>
+    </div>
+  `.trim()
+
+  const text = [
+    `Daily standard support summary (${input.requests.length})`,
+    "",
+    ...input.requests.flatMap((request) => [
+      `${request.stateName}: ${request.subject}`,
+      `Student: ${request.studentEmail}`,
+      `Created: ${request.createdAt}`,
+      `Open: ${request.supportUrl}`,
+      "",
+    ]),
   ].join("\n")
 
   await sendTransactionalEmail({

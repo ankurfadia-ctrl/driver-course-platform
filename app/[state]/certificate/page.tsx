@@ -13,6 +13,12 @@ import {
   getStudentIdentityProfile,
 } from "@/lib/student-identity"
 import {
+  COURSE_TOTAL_REQUIRED_SECONDS,
+  formatCourseDuration,
+  getRemainingToCertificate,
+  isCertificateUnlockedBySeatTime,
+} from "@/lib/course-timing"
+import {
   formatCertificateCompletionDate,
   getOrCreateCertificateId,
 } from "@/lib/certificate-reference"
@@ -53,6 +59,7 @@ export default function CertificatePage() {
   const [student, setStudent] = useState<CertificateStudent | null>(null)
 
   const [seatTimeComplete, setSeatTimeComplete] = useState(false)
+  const [seatTimeTotalSeconds, setSeatTimeTotalSeconds] = useState(0)
 
   const [examPassed, setExamPassed] = useState(false)
   const [examScore, setExamScore] = useState<number | null>(null)
@@ -121,8 +128,10 @@ export default function CertificatePage() {
             latestAttempt.status === "completed" ||
             totalSeconds >= requiredSeconds
 
+          setSeatTimeTotalSeconds(totalSeconds)
           setSeatTimeComplete(complete)
         } else {
+          setSeatTimeTotalSeconds(0)
           setSeatTimeComplete(false)
         }
       } catch (e) {
@@ -136,6 +145,9 @@ export default function CertificatePage() {
   }, [state, supabase])
 
   const effectiveSeatTimeComplete = seatTimeComplete || seatTimeBypassed
+  const effectiveSeatTimeTotal = seatTimeBypassed
+    ? COURSE_TOTAL_REQUIRED_SECONDS
+    : seatTimeTotalSeconds
   const unlocked = effectiveSeatTimeComplete && examPassed
 
   const fullName = [student?.firstName, student?.lastName]
@@ -391,7 +403,50 @@ export default function CertificatePage() {
 
   if (loading) return <div className="p-6">Loading certificate...</div>
 
-  if (!unlocked) return <div className="p-6">Certificate Locked</div>
+  if (!unlocked) {
+    const remainingToCertificate = getRemainingToCertificate(effectiveSeatTimeTotal)
+
+    return (
+      <div className="mx-auto max-w-2xl space-y-6 p-6">
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h1 className="text-2xl font-bold text-slate-900">Certificate Locked</h1>
+
+          {!examPassed ? (
+            <p className="mt-3 text-slate-600">
+              Pass the final exam before your certificate becomes available.
+            </p>
+          ) : isCertificateUnlockedBySeatTime(effectiveSeatTimeTotal) ? (
+            <p className="mt-3 text-slate-600">
+              Your certificate is not ready yet. Please refresh this page in a moment.
+            </p>
+          ) : (
+            <p className="mt-3 text-slate-600">
+              You passed the final exam. Stay in the course for{" "}
+              <span className="font-semibold text-slate-900">
+                {formatCourseDuration(remainingToCertificate)}
+              </span>{" "}
+              more before your certificate can be released at the full 8-hour minimum.
+            </p>
+          )}
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href={`/${state}/course`}
+              className="rounded bg-blue-600 px-4 py-2 text-white"
+            >
+              Return to Course
+            </Link>
+            <Link
+              href={`/${state}/dashboard`}
+              className="rounded border border-slate-300 px-4 py-2 text-slate-700"
+            >
+              Return to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>

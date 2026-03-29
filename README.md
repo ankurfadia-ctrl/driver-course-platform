@@ -51,11 +51,24 @@ LOB_FROM_COUNTRY=US
 
 - Purchase confirmation emails are triggered during checkout confirmation
 - Completion emails are triggered manually from the unlocked certificate page
+- New priority support requests send an immediate admin notification email to every address in `ADMIN_EMAILS`
+- Standard support requests stay in the admin inbox and do not send an immediate admin email
 - If `EMAIL_PROVIDER=log`, emails are not actually sent; they are treated as log/no-op events
 - If you want live delivery, set:
   - `EMAIL_PROVIDER=resend`
   - `EMAIL_FROM`
   - `RESEND_API_KEY`
+
+## Notes on support notifications
+
+- `/admin/support` remains the main review queue for all support requests
+- Priority support requests can trigger immediate admin email notifications
+- Standard support requests are intended for inbox review, not immediate email
+- A daily digest endpoint is available at `/api/admin/support/digest`
+- To protect the digest endpoint, set:
+  - `SUPPORT_DIGEST_SECRET`
+- Call the digest endpoint with:
+  - `Authorization: Bearer <SUPPORT_DIGEST_SECRET>`
 
 ## Notes on mailed certificate copies
 

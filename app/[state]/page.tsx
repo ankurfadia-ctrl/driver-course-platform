@@ -22,7 +22,7 @@ export default async function StateHomePage({
           studentLogin: "Ingreso de estudiantes",
           expectationsLabel: "Expectativas del curso en Virginia",
           expectations: [
-            "Curso en linea de 8 horas con control del tiempo requerido",
+            "Curso en linea de 8 horas; el examen final cuenta dentro del minimo total de 8 horas",
             "La verificacion de identidad es obligatoria durante el curso y antes del examen final",
             "El examen final solo puede tomarse una vez por dia habil",
             "Los estudiantes deben completar el curso dentro de 90 dias desde la compra",
@@ -36,12 +36,12 @@ export default async function StateHomePage({
             [
               "Paso 2",
               "Completa el tiempo requerido del curso",
-              "Avanza por las lecciones en linea, mantente activo y cumple el tiempo total requerido.",
+              "Avanza por las lecciones en linea, mantente activo y llega al punto de desbloqueo del examen final despues de al menos 7 horas de instruccion.",
             ],
             [
               "Paso 3",
               "Aprueba el examen final y recibe tu certificado",
-              "Despues de cumplir los requisitos y aprobar el examen, tu certificado estara disponible en tu cuenta.",
+              "El examen final forma parte del minimo total de 8 horas. Despues de aprobarlo y completar el tiempo total requerido, tu certificado estara disponible en tu cuenta.",
             ],
           ] as const,
           approvalTitle: "Revisa la informacion del curso antes de inscribirte",
@@ -61,7 +61,7 @@ export default async function StateHomePage({
           studentLogin: "Student Login",
           expectationsLabel: "Virginia course expectations",
           expectations: [
-            "8-hour online course with required seat-time tracking",
+            "8-hour online course; the final exam is included in the overall 8-hour minimum",
             "Identity verification is required during the course and before the final exam",
             "The final exam can be taken only once per business day",
             "Students should complete the course within 90 days of purchase",
@@ -75,12 +75,12 @@ export default async function StateHomePage({
             [
               "Step 2",
               "Complete the required course time",
-              "Work through the online lessons, remain active in the course, and satisfy the full time requirement.",
+              "Work through the online lessons, remain active in the course, and reach the final-exam unlock point after at least 7 hours of instruction.",
             ],
             [
               "Step 3",
               "Pass the final exam and receive your certificate",
-              "After you meet the course requirements and pass the exam, your certificate will be available in your account.",
+              "The final exam is included in the overall 8-hour minimum. After you pass the exam and complete the full time requirement, your certificate will be available in your account.",
             ],
           ] as const,
           approvalTitle: "Review Virginia disclosures before enrolling",

@@ -45,12 +45,12 @@ export default async function StateFaqPage({
           {
             question: "Puedo tomar el examen final de inmediato?",
             answer:
-              "No. Debes completar las 8 horas requeridas del curso y la verificacion de identidad antes de comenzar el examen final.",
+              "No. Debes completar todas las lecciones requeridas, al menos 7 horas de instruccion del curso y la verificacion de identidad antes de comenzar el examen final.",
           },
           {
             question: "Las 8 horas incluyen el examen final?",
             answer:
-              "No. En este curso, las 8 horas requeridas deben completarse antes de que el examen final se habilite.",
+              "Si. El examen final forma parte del minimo total de 8 horas. En este curso, el examen final se habilita despues de al menos 7 horas de instruccion, pero el certificado permanece bloqueado hasta completar el minimo total de 8 horas.",
           },
           {
             question: "Que puntuacion necesito en el examen final?",
@@ -91,6 +91,11 @@ export default async function StateFaqPage({
             question: "Que pasa si tengo un problema con el pago, el acceso o mi certificado?",
             answer:
               "Usa la pagina de soporte despues de iniciar sesion para recibir ayuda con pagos, acceso, certificado o problemas del curso.",
+          },
+          {
+            question: "Cual es la diferencia entre el soporte estandar y el prioritario?",
+            answer:
+              "Ambos planes incluyen ayuda inicial por IA. El soporte prioritario hace que tus preguntas y solicitudes se atiendan antes que las solicitudes estandar y normalmente reciban una primera respuesta en menos de 1 dia habil. Las solicitudes estandar pueden tardar hasta 3 dias habiles en recibir una primera respuesta.",
           },
           {
             question: "Por que esta bloqueado mi examen final?",
@@ -137,12 +142,12 @@ export default async function StateFaqPage({
           {
             question: "Can I take the final exam right away?",
             answer:
-              "No. You must complete the required 8 hours of course time and identity verification before the final exam can be started.",
+              "No. You must complete all required lessons, at least 7 hours of course instruction, and identity verification before the final exam can be started.",
           },
           {
             question: "Does the 8 hours include the final exam?",
             answer:
-              "No. In this course, the required 8 hours must be completed before the final exam unlocks.",
+              "Yes. The final exam is included in the overall 8-hour minimum. In this course, the final exam unlocks after at least 7 hours of instruction, but the certificate stays locked until the full 8 hours is complete.",
           },
           {
             question: "What score do I need on the final exam?",
@@ -183,6 +188,11 @@ export default async function StateFaqPage({
             question: "What if I have an issue with payment, access, or my certificate?",
             answer:
               "Use the support page after signing in for help with payment, access, certificate, or course-related issues.",
+          },
+          {
+            question: "What is the difference between standard and priority support?",
+            answer:
+              "Both plans include AI help first. Priority support means your questions and support requests are handled ahead of standard requests and usually receive a first response in less than 1 business day. Standard requests may take up to 3 business days for a first response.",
           },
           {
             question: "Why is my final exam locked?",

@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
     const adminSupabase = createAdminClient()
     const { data: existingRequest, error: requestError } = await adminSupabase
       .from("support_requests")
-      .select("id, user_id, state_code, status")
+      .select("id, user_id, state_code, status, ai_summary")
       .eq("id", requestId)
       .eq("user_id", user.id)
       .maybeSingle()
@@ -164,6 +164,13 @@ export async function POST(request: NextRequest) {
     if (supportTier !== "priority") {
       return NextResponse.json(
         { ok: false, error: "Student replies are available only with priority support." },
+        { status: 403 }
+      )
+    }
+
+    if (!existingRequest.ai_summary) {
+      return NextResponse.json(
+        { ok: false, error: "AI assistance must be used before support replies are enabled." },
         { status: 403 }
       )
     }

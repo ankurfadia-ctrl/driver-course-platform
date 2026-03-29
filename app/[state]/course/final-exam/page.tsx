@@ -6,6 +6,7 @@ import { useParams } from "next/navigation"
 import { getCourseAccessStatus } from "@/lib/course-access"
 import { getCourseConfig, getLessonLinks } from "@/lib/course-config"
 import { getLatestCourseAttempt } from "@/lib/course-seat-time"
+import { getUserCourseProgress, isLessonCompleted } from "@/lib/course-progress"
 import { getFinalExamQuestions, type ExamQuestion } from "@/lib/final-exam"
 import { verifyIdentityAnswer } from "@/lib/identity-verification-utils"
 import {
@@ -15,6 +16,15 @@ import {
   type ExamResultRow,
 } from "@/lib/exam-results"
 import { isFinalExamSeatTimeBypassed } from "@/lib/dev-config"
+import {
+  COURSE_TOTAL_REQUIRED_SECONDS,
+  FINAL_EXAM_UNLOCK_SECONDS,
+  formatCourseDuration,
+  getRemainingToCertificate,
+  getRemainingToFinalExam,
+  isCertificateUnlockedBySeatTime,
+  isFinalExamUnlockedBySeatTime,
+} from "@/lib/course-timing"
 import {
   getStudentIdentityProfile,
   type StudentIdentityProfileRow,
@@ -94,6 +104,8 @@ const FINAL_EXAM_REVIEW_MAP: Record<number, number[]> = {
   50: [2, 8],
 }
 
+const REQUIRED_LESSON_SLUGS = Array.from({ length: 8 }, (_, index) => `lesson-${index + 1}`)
+
 function getTodayKey() {
   return new Date().toISOString().split("T")[0]
 }
@@ -164,11 +176,11 @@ export default function FinalExamPage() {
 
   const [hasAccess, setHasAccess] = useState<boolean | null>(null)
   const [accessError, setAccessError] = useState("")
+  const [allLessonsCompleted, setAllLessonsCompleted] = useState(false)
 
   const [seatTimeReady, setSeatTimeReady] = useState(false)
   const [seatTimeComplete, setSeatTimeComplete] = useState(false)
   const [seatTimeTotalSeconds, setSeatTimeTotalSeconds] = useState(0)
-  const [seatTimeRequiredSeconds, setSeatTimeRequiredSeconds] = useState(28800)
 
   const [identity, setIdentity] =
     useState<StudentIdentityProfileRow | null>(null)
@@ -210,7 +222,16 @@ export default function FinalExamPage() {
   const [timerPaused, setTimerPaused] = useState(false)
 
   const checkpoints = useMemo(() => [15, 35], [])
-  const effectiveSeatTimeComplete = seatTimeComplete || seatTimeBypassed
+  const effectiveSeatTimeForExam = seatTimeBypassed
+    ? COURSE_TOTAL_REQUIRED_SECONDS
+    : seatTimeTotalSeconds
+  const finalExamUnlockedBySeatTime =
+    seatTimeBypassed || isFinalExamUnlockedBySeatTime(effectiveSeatTimeForExam)
+  const certificateUnlockedBySeatTime =
+    seatTimeBypassed ||
+    isCertificateUnlockedBySeatTime(
+      seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
+    )
   const lessonLinks = useMemo(() => getLessonLinks(state), [state])
 
   useEffect(() => {
@@ -242,7 +263,6 @@ export default function FinalExamPage() {
 
         if (!latestAttempt) {
           setSeatTimeTotalSeconds(0)
-          setSeatTimeRequiredSeconds(28800)
           setSeatTimeComplete(false)
           return
         }
@@ -254,7 +274,6 @@ export default function FinalExamPage() {
           totalSeconds >= requiredSeconds
 
         setSeatTimeTotalSeconds(totalSeconds)
-        setSeatTimeRequiredSeconds(requiredSeconds)
         setSeatTimeComplete(complete)
       } catch (error) {
         console.error("Unexpected seat time load error:", error)
@@ -274,12 +293,13 @@ export default function FinalExamPage() {
 
     const loadPage = async () => {
       try {
-        const [dbIdentity, latestResult, hasAttemptToday] = await Promise.all([
+        const [dbIdentity, latestResult, hasAttemptToday, progressRows] = await Promise.all([
           getStudentIdentityProfile(state),
           getLatestExamResult(state),
           dailyAttemptLockBypassed
             ? Promise.resolve(false)
             : hasExamAttemptOnDate(state, todayKey),
+          getUserCourseProgress(state),
         ])
 
         setIdentity(dbIdentity)
@@ -290,6 +310,10 @@ export default function FinalExamPage() {
         } else {
           setLastAttempt(null)
         }
+
+        setAllLessonsCompleted(
+          REQUIRED_LESSON_SLUGS.every((slug) => isLessonCompleted(progressRows, slug))
+        )
 
         if (!dailyAttemptLockBypassed && hasAttemptToday) {
           setLocked(true)
@@ -729,18 +753,34 @@ export default function FinalExamPage() {
     )
   }
 
-  if (!effectiveSeatTimeComplete) {
-    const remainingSeconds = Math.max(
-      0,
-      seatTimeRequiredSeconds - seatTimeTotalSeconds
+  if (!allLessonsCompleted) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-6">
+        <h1 className="text-2xl font-bold">Final Exam Locked</h1>
+
+        <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
+          Complete every lesson before the final exam can begin.
+        </div>
+
+        <Link
+          href={`/${state}/course`}
+          className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
+        >
+          Return to Course
+        </Link>
+      </div>
     )
+  }
+
+  if (!finalExamUnlockedBySeatTime) {
+    const remainingSeconds = getRemainingToFinalExam(effectiveSeatTimeForExam)
 
     return (
       <div className="mx-auto max-w-2xl space-y-6">
         <h1 className="text-2xl font-bold">Final Exam Locked</h1>
 
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
-          You must complete the required course seat time before taking the final exam.
+          You must complete all lessons and at least 7 hours of course instruction before taking the final exam.
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -749,14 +789,14 @@ export default function FinalExamPage() {
             {formatSeatTime(seatTimeTotalSeconds)}
           </div>
 
-          <div className="mt-4 text-sm text-slate-500">Required seat time</div>
+          <div className="mt-4 text-sm text-slate-500">Final exam unlock point</div>
           <div className="mt-1 text-xl font-semibold text-slate-900">
-            {formatSeatTime(seatTimeRequiredSeconds)}
+            {formatCourseDuration(FINAL_EXAM_UNLOCK_SECONDS)}
           </div>
 
           <div className="mt-4 text-sm text-slate-500">Remaining</div>
           <div className="mt-1 text-xl font-semibold text-slate-900">
-            {formatSeatTime(remainingSeconds)}
+            {formatCourseDuration(remainingSeconds)}
           </div>
         </div>
 
@@ -817,7 +857,11 @@ export default function FinalExamPage() {
           </div>
           <p className="mt-3 text-sm text-slate-600">
             {lastAttempt.passed
-              ? "Congratulations. You passed the final exam."
+              ? certificateUnlockedBySeatTime
+                ? "Congratulations. You passed the final exam."
+                : `Congratulations. You passed the final exam. Stay in the course for ${formatCourseDuration(
+                    getRemainingToCertificate(effectiveSeatTimeForExam)
+                  )} more before your certificate can be released.`
               : `We are sorry, you did not pass this attempt. Please wait at least 24 hours before beginning the final exam again. Earliest return time: ${formatRetakeEligibleAt(
                   lastAttempt.completedAt
                 )}.`}
@@ -827,10 +871,16 @@ export default function FinalExamPage() {
             {lastAttempt.passed && (
               <>
                 <Link
-                  href={`/${state}/certificate`}
+                  href={
+                    certificateUnlockedBySeatTime
+                      ? `/${state}/certificate`
+                      : `/${state}/course`
+                  }
                   className="rounded bg-blue-600 px-4 py-2 text-white"
                 >
-                  View Certificate
+                  {certificateUnlockedBySeatTime
+                    ? "View Certificate"
+                    : "Return to Course"}
                 </Link>
                 <Link
                   href={`/${state}/dashboard`}
@@ -888,7 +938,7 @@ export default function FinalExamPage() {
         )}
 
         <div className="rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
-          Seat time requirement complete. Verify your identity to unlock the final exam.
+          Final exam instruction time complete. Verify your identity to unlock the final exam.
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
@@ -966,7 +1016,7 @@ export default function FinalExamPage() {
         )}
 
         <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-900">
-          Identity verified successfully. Review the exam rules below, then begin when ready.
+          Identity verified successfully. The final exam opens after at least 7 hours of instruction, but the full 8-hour minimum is still required before your certificate can be released.
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -993,9 +1043,9 @@ export default function FinalExamPage() {
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <div className="text-sm text-slate-500">Navigation warnings</div>
+              <div className="text-sm text-slate-500">Exam unlock point</div>
               <div className="mt-1 text-xl font-semibold text-slate-900">
-                4 maximum
+                7 hours
               </div>
             </div>
           </div>
@@ -1157,16 +1207,34 @@ export default function FinalExamPage() {
 
             {lastAttempt.passed ? (
               <div className="mt-4 space-y-4">
-                <div className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-800">
-                  Congratulations. You passed the final exam. Your next step is to view your certificate.
-                </div>
+                {certificateUnlockedBySeatTime ? (
+                  <div className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-800">
+                    Congratulations. You passed the final exam. Your next step is to view your certificate.
+                  </div>
+                ) : (
+                  <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                    Congratulations. You passed the final exam. Stay in the course for{" "}
+                    <span className="font-semibold">
+                      {formatCourseDuration(
+                        getRemainingToCertificate(effectiveSeatTimeForExam)
+                      )}
+                    </span>{" "}
+                    more before your certificate can be released at the full 8-hour minimum.
+                  </div>
+                )}
 
                 <div className="flex flex-wrap gap-3">
                   <Link
-                    href={`/${state}/certificate`}
+                    href={
+                      certificateUnlockedBySeatTime
+                        ? `/${state}/certificate`
+                        : `/${state}/course`
+                    }
                     className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
                   >
-                    View Certificate
+                    {certificateUnlockedBySeatTime
+                      ? "View Certificate"
+                      : "Return to Course"}
                   </Link>
                   <Link
                     href={`/${state}/dashboard`}

@@ -65,7 +65,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Course timing expectations",
         body:
-          "Virginia online driver improvement courses include at least eight hours of instruction. Students should expect seat-time controls, activity monitoring, and completion tracking as part of the course workflow.",
+          "Virginia online driver improvement courses include at least eight hours of instruction. In this course, the final exam unlocks after at least seven hours of course instruction, and the certificate stays locked until the full eight-hour minimum is complete.",
       },
       {
         title: "Course completion window",
@@ -81,6 +81,11 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
         title: "Final exam attempts",
         body:
           "The final exam can be taken only once per business day. Students should be prepared to complete the exam personally and remain on the exam page throughout the attempt.",
+      },
+      {
+        title: "Safe driving points",
+        body:
+          "Voluntary clinic completion may earn five safe driving points only once every 24 months. If attendance is court required, the court determines whether safe driving points are awarded, and the required court documentation must be provided before DMV can award those points.",
       },
       {
         title: "Support and record review",

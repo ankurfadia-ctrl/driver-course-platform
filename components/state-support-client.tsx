@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import {
   getSupportAssistantResponse,
+  inferSupportCategoryFromText,
   type SupportCategory,
 } from "@/lib/support-assistant"
 import { createSupportRequest } from "@/lib/support-requests"
@@ -32,11 +33,11 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       commonItems: [
         [
           "Por que esta bloqueado mi examen final?",
-          "El examen final permanece bloqueado hasta que todas las lecciones se completen y se cumpla el tiempo requerido del curso.",
+          "El examen final permanece bloqueado hasta que completes todas las lecciones requeridas y al menos 7 horas de instruccion del curso.",
         ],
         [
           "Por que esta bloqueado mi certificado?",
-          "Tu certificado solo se habilita cuando completas el tiempo requerido del curso y apruebas el examen final.",
+          "Tu certificado solo se habilita cuando completas el minimo total de 8 horas y apruebas el examen final.",
         ],
         [
           "Por que mi temporizador aun no termina?",
@@ -45,29 +46,26 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       ] as const,
       askQuestion: "Chat de ayuda con IA",
       askQuestionBody:
-        'Describe tu problema abajo. Incluso mensajes cortos como "examen bloqueado" funcionan y la ayuda con IA aparecera al instante.',
+        'Escribe tu pregunta abajo como si fuera un chat. Presiona Enter para enviar. Incluso mensajes cortos como "examen bloqueado" funcionan.',
       bilingualNote:
         "La ayuda instantanea y el contenido del curso pueden seguir apareciendo en ingles mientras ampliamos el soporte bilingue.",
-      category: "Categoria",
-      subject: "Asunto",
-      subjectPlaceholder: "Ejemplo: Examen bloqueado",
-      message: "Mensaje",
-      messagePlaceholder: "Describe tu problema",
+      message: "Escribe tu pregunta",
+      messagePlaceholder: "Escribe tu pregunta aqui y presiona Enter",
       needMoreText:
-        "Ingresa al menos 5 caracteres entre Asunto o Mensaje para recibir una respuesta instantanea.",
+        "Escribe al menos 5 caracteres para recibir una respuesta instantanea.",
       instantAnswer: "Respuesta sugerida al instante",
       suggestedSteps: "Pasos sugeridos",
       tryTheseSteps: "Prueba estos pasos:",
       checkingSupport: "Verificando opciones de soporte...",
       priorityTitle: "Solicitud de soporte prioritario",
       priorityBody:
-        "Tu plan incluye soporte prioritario. Primero prueba la ayuda con IA y luego marca esta solicitud si necesitas una revision humana mas rapida.",
+        "Tu plan incluye seguimiento humano asincrono despues de que la ayuda con IA haya intentado resolver tu problema. Las respuestas prioritarias suelen llegar dentro de 1 dia habil.",
       standardTitle: "Soporte estandar",
       standardBody:
-        "Empieza aqui con la ayuda por IA. La prioridad y las respuestas humanas dentro del sitio solo estan disponibles con un plan de soporte prioritario.",
+        "Empieza aqui con la ayuda por IA. Las respuestas humanas estandar pueden tardar hasta 3 dias habiles. Las respuestas humanas dentro del sitio solo estan disponibles con soporte prioritario.",
       upgradeTitle: "Necesitas una respuesta mas rapida?",
       upgradeBody:
-        "Si ya compraste el plan estandar, puedes mejorar a soporte prioritario desde la pagina de pago.",
+        "Si ya compraste el plan estandar, puedes mejorar a soporte prioritario para obtener seguimiento humano dentro del sitio y una respuesta objetivo dentro de 1 dia habil.",
       upgradeCta: "Mejorar a soporte prioritario",
       submit: "Enviar solicitud de soporte",
       saving: "Guardando...",
@@ -79,8 +77,6 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
         "Muchos problemas se resuelven con los pasos instantaneos mostrados arriba. Los casos no resueltos pueden revisarse despues.",
       priorityRequested: "Se solicito soporte prioritario para este envio.",
       aiSummary: "Resumen sugerido por IA",
-      categoryField: "Categoria",
-      subjectField: "Asunto",
       messageField: "Mensaje",
       priorityField: "Prioridad solicitada",
       yes: "Si",
@@ -94,7 +90,7 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       loadingRequests: "Cargando tus solicitudes de soporte...",
       threadReplyLockedTitle: "Respuestas directas disponibles con soporte prioritario",
       threadReplyLockedBody:
-        "Puedes ver el estado de tu solicitud aqui. La ayuda por IA esta disponible para todos, pero las respuestas humanas directas dentro del sitio estan disponibles con el plan de soporte prioritario.",
+        "Puedes ver el estado de tu solicitud aqui. La ayuda por IA esta disponible para todos. La revision humana estandar puede tardar hasta 3 dias habiles, mientras que las respuestas directas dentro del sitio y la meta de 1 dia habil estan disponibles con el plan prioritario.",
       threadReplyLockedCta: "Mejorar a soporte prioritario",
       priorityThreadTitle: "Seguimiento con soporte",
       priorityThreadBody:
@@ -128,11 +124,11 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     commonItems: [
       [
         "Why is my final exam locked?",
-        "The final exam stays locked until all lessons are completed and your required seat time is satisfied.",
+        "The final exam stays locked until all required lessons are completed and at least 7 hours of course instruction have been recorded.",
       ],
       [
         "Why is my certificate locked?",
-        "Your certificate is available only after required seat time is complete and you have passed the final exam.",
+        "Your certificate is available only after the full 8-hour minimum is complete and you have passed the final exam.",
       ],
       [
         "Why is my timer not done yet?",
@@ -140,30 +136,27 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       ],
     ] as const,
     askQuestion: "AI help chat",
-    askQuestionBody:
-      'Type your issue below. Even short messages like "exam locked" work and AI help will appear instantly.',
+      askQuestionBody:
+      'Type your question below like a chat message. Press Enter to send. Even short messages like "exam locked" work.',
     bilingualNote:
       "Instant help and course content may still appear in English while bilingual support expands.",
-    category: "Category",
-    subject: "Subject",
-    subjectPlaceholder: "Example: Exam locked",
-    message: "Message",
-    messagePlaceholder: "Describe your issue",
+    message: "Type your question",
+    messagePlaceholder: "Type your question here and press Enter",
     needMoreText:
-      "Enter at least 5 total characters in Subject or Message to get an instant answer.",
+      "Enter at least 5 characters to get an instant answer.",
     instantAnswer: "Instant suggested answer",
     suggestedSteps: "Suggested next steps",
     tryTheseSteps: "Try these steps:",
     checkingSupport: "Checking support options...",
     priorityTitle: "Priority support request",
     priorityBody:
-      "Your plan includes priority support. Try the AI help first, then mark the request if you need a faster human follow-up.",
+      "Your plan includes asynchronous human follow-up after AI help has tried first. Priority responses are typically handled within 1 business day.",
     standardTitle: "Standard support",
     standardBody:
-      "Start here with AI help. Priority handling and direct on-site human replies are only available with a priority support plan.",
+      "Start here with AI help. Standard human review may take up to 3 business days. Direct back-and-forth human replies inside the site are available only with a priority support plan.",
     upgradeTitle: "Need a faster response?",
     upgradeBody:
-      "If you already bought the standard plan, you can upgrade to priority support from the checkout page.",
+      "If you already bought the standard plan, you can upgrade to priority support for on-site human follow-up and a 1-business-day response target.",
     upgradeCta: "Upgrade to Priority Support",
     submit: "Send Support Request",
     saving: "Saving...",
@@ -175,8 +168,6 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       "Most issues are resolved with the instant steps above. Unresolved issues can be reviewed next.",
     priorityRequested: "Priority support was requested for this submission.",
     aiSummary: "AI suggested summary",
-    categoryField: "Category",
-    subjectField: "Subject",
     messageField: "Message",
     priorityField: "Priority requested",
     yes: "Yes",
@@ -190,7 +181,7 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     loadingRequests: "Loading your support requests...",
     threadReplyLockedTitle: "Direct replies are available with priority support",
     threadReplyLockedBody:
-      "You can still view your request status here. AI help is available to everyone, but back-and-forth human replies inside the site are available with the priority support plan.",
+      "You can still view your request status here. AI help is available to everyone. Standard human review may take up to 3 business days, while direct on-site replies and the 1-business-day response target are available with the priority support plan.",
     threadReplyLockedCta: "Upgrade to Priority Support",
     priorityThreadTitle: "Support follow-up",
     priorityThreadBody:
@@ -220,8 +211,6 @@ export default function StateSupportClient({
 }) {
   const copy = useMemo(() => getSupportCopy(language, stateName), [language, stateName])
 
-  const [category, setCategory] = useState<SupportCategory>("other")
-  const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
   const [priority, setPriority] = useState(false)
   const [checkingSupportTier, setCheckingSupportTier] = useState(true)
@@ -236,9 +225,10 @@ export default function StateSupportClient({
   const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({})
   const [replyingId, setReplyingId] = useState<string | null>(null)
 
-  const trimmedSubject = subject.trim()
   const trimmedMessage = message.trim()
-  const effectiveText = `${trimmedSubject} ${trimmedMessage}`.trim()
+  const effectiveText = trimmedMessage
+  const inferredCategory = inferSupportCategoryFromText(effectiveText)
+  const derivedSubject = effectiveText.slice(0, 80)
   const canPreview = effectiveText.length >= 5
   const canSubmit = effectiveText.length >= 5 && !saving
 
@@ -306,15 +296,13 @@ export default function StateSupportClient({
 
     return getSupportAssistantResponse({
       state,
-      category,
-      subject: trimmedSubject || effectiveText,
-      message: trimmedMessage || effectiveText,
+      category: inferredCategory,
+      subject: derivedSubject,
+      message: effectiveText,
     })
-  }, [state, category, trimmedSubject, trimmedMessage, effectiveText, canPreview])
+  }, [state, inferredCategory, derivedSubject, effectiveText, canPreview])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
+  const submitSupportRequest = async () => {
     if (!canSubmit) return
 
     try {
@@ -323,9 +311,9 @@ export default function StateSupportClient({
 
       await createSupportRequest({
         stateCode: state,
-        category,
-        subject: trimmedSubject || effectiveText,
-        message: trimmedMessage || effectiveText,
+        category: inferredCategory,
+        subject: derivedSubject,
+        message: effectiveText,
         aiResponse,
         priorityRequested: hasPrioritySupport && priority,
       })
@@ -340,10 +328,28 @@ export default function StateSupportClient({
     }
   }
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    await submitSupportRequest()
+  }
+
+  function handleChatKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault()
+
+      if (!canSubmit) {
+        return
+      }
+
+      void submitSupportRequest()
+    }
+  }
+
   function resetForm() {
     setSubmitted(false)
     setSaving(false)
     setError(null)
+    setMessage("")
     setPriority(false)
   }
 
@@ -478,46 +484,6 @@ export default function StateSupportClient({
             <form onSubmit={handleSubmit} className="mt-5 space-y-4">
               <div>
                 <label
-                  htmlFor="support-category"
-                  className="mb-2 block text-sm font-medium text-slate-700"
-                >
-                  {copy.category}
-                </label>
-                <select
-                  id="support-category"
-                  value={category}
-                  onChange={(event) =>
-                    setCategory(event.target.value as SupportCategory)
-                  }
-                  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
-                >
-                  {copy.categories.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="support-subject"
-                  className="mb-2 block text-sm font-medium text-slate-700"
-                >
-                  {copy.subject}
-                </label>
-                <input
-                  id="support-subject"
-                  type="text"
-                  value={subject}
-                  onChange={(event) => setSubject(event.target.value)}
-                  placeholder={copy.subjectPlaceholder}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
-                />
-              </div>
-
-              <div>
-                <label
                   htmlFor="support-message"
                   className="mb-2 block text-sm font-medium text-slate-700"
                 >
@@ -527,8 +493,9 @@ export default function StateSupportClient({
                   id="support-message"
                   value={message}
                   onChange={(event) => setMessage(event.target.value)}
+                  onKeyDown={handleChatKeyDown}
                   placeholder={copy.messagePlaceholder}
-                  rows={6}
+                  rows={4}
                   className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
                 />
               </div>
@@ -641,23 +608,9 @@ export default function StateSupportClient({
 
               <div className="mt-5 space-y-3 rounded-xl bg-white p-4">
                 <div>
-                  <div className="text-sm text-slate-500">{copy.categoryField}</div>
-                  <div className="font-medium text-slate-900">
-                    {copy.categories.find((option) => option.value === category)?.label}
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-sm text-slate-500">{copy.subjectField}</div>
-                  <div className="font-medium text-slate-900">
-                    {trimmedSubject || "-"}
-                  </div>
-                </div>
-
-                <div>
                   <div className="text-sm text-slate-500">{copy.messageField}</div>
                   <div className="whitespace-pre-wrap text-slate-900">
-                    {trimmedMessage || "-"}
+                    {effectiveText || "-"}
                   </div>
                 </div>
 
@@ -704,7 +657,7 @@ export default function StateSupportClient({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="font-semibold text-slate-900">
-                      {request.subject || copy.subjectPlaceholder}
+                      {request.subject || request.message.slice(0, 80)}
                     </div>
                     <div className="mt-1 text-sm text-slate-500">
                       {copy.categories.find((option) => option.value === request.category)?.label}{" "}

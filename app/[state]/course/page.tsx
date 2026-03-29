@@ -15,6 +15,15 @@ import {
   formatCourseAccessDeadline,
   VIRGINIA_COURSE_ACCESS_DAYS,
 } from "@/lib/course-deadline"
+import {
+  COURSE_TOTAL_REQUIRED_SECONDS,
+  FINAL_EXAM_UNLOCK_SECONDS,
+  formatCourseDuration,
+  getRemainingToCertificate,
+  getRemainingToFinalExam,
+  isCertificateUnlockedBySeatTime,
+  isFinalExamUnlockedBySeatTime,
+} from "@/lib/course-timing"
 import { getLatestExamResult } from "@/lib/exam-results"
 import { isFinalExamSeatTimeBypassed } from "@/lib/dev-config"
 import { getCourseConfig } from "@/lib/course-config"
@@ -46,12 +55,14 @@ export default function StateCoursePage() {
   const [accessDeadline, setAccessDeadline] = useState<string | null>(null)
   const [identityReady, setIdentityReady] = useState<boolean | null>(null)
 
-  const [seatTimeComplete, setSeatTimeComplete] = useState(false)
+  const [seatTimeTotalSeconds, setSeatTimeTotalSeconds] = useState(0)
 
   const [examPassed, setExamPassed] = useState(false)
 
   const seatTimeBypassed = isFinalExamSeatTimeBypassed(state)
-  const effectiveSeatTimeComplete = seatTimeComplete || seatTimeBypassed
+  const effectiveSeatTimeForExam = seatTimeBypassed
+    ? COURSE_TOTAL_REQUIRED_SECONDS
+    : seatTimeTotalSeconds
 
   useEffect(() => {
     let isMounted = true
@@ -119,18 +130,14 @@ export default function StateCoursePage() {
         const attempt = await getLatestCourseAttempt(state)
 
         if (!attempt) {
-          setSeatTimeComplete(false)
+          setSeatTimeTotalSeconds(0)
           return
         }
 
-        const complete =
-          attempt.status === "completed" ||
-          attempt.total_seconds >= attempt.required_seconds
-
-        setSeatTimeComplete(complete)
+        setSeatTimeTotalSeconds(attempt.total_seconds ?? 0)
       } catch (error) {
         console.error("Error loading seat time:", error)
-        setSeatTimeComplete(false)
+        setSeatTimeTotalSeconds(0)
       }
     }
 
@@ -158,8 +165,16 @@ export default function StateCoursePage() {
     [progress]
   )
 
-  const finalExamAvailable = allLessonsCompleted && effectiveSeatTimeComplete
-  const certificateAvailable = effectiveSeatTimeComplete && examPassed
+  const finalExamAvailable =
+    allLessonsCompleted && isFinalExamUnlockedBySeatTime(effectiveSeatTimeForExam)
+  const certificateAvailable =
+    isCertificateUnlockedBySeatTime(
+      seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
+    ) && examPassed
+  const remainingToFinalExam = getRemainingToFinalExam(effectiveSeatTimeForExam)
+  const remainingToCertificate = getRemainingToCertificate(
+    seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
+  )
 
   if (hasAccess === null || (hasAccess && identityReady === null)) {
     return (
@@ -275,12 +290,24 @@ export default function StateCoursePage() {
               : "Complete identity setup first"}
           </p>
 
+          {identityReady && !finalExamAvailable ? (
+            <p className="mt-2 text-sm text-slate-500">
+              {allLessonsCompleted
+                ? `The final exam unlocks after at least ${formatCourseDuration(
+                    FINAL_EXAM_UNLOCK_SECONDS
+                  )} of course instruction. Remaining: ${formatCourseDuration(
+                    remainingToFinalExam
+                  )}.`
+                : "Complete every lesson before the final exam unlocks."}
+            </p>
+          ) : null}
+
           {identityReady ? (
             <Link
-              href={`/${state}/course/final-exam`}
+              href={finalExamAvailable ? `/${state}/course/final-exam` : `/${state}/course`}
               className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
             >
-              Go to Final Exam
+              {finalExamAvailable ? "Go to Final Exam" : "Finish Course Requirements"}
             </Link>
           ) : (
             <Link
@@ -297,6 +324,14 @@ export default function StateCoursePage() {
           <p className="mt-2 text-sm text-slate-600">
             {certificateAvailable ? "Available" : "Locked"}
           </p>
+
+          {!certificateAvailable && examPassed ? (
+            <p className="mt-2 text-sm text-slate-500">
+              You passed the final exam. Stay in the course for{" "}
+              {formatCourseDuration(remainingToCertificate)} more before the
+              certificate unlocks at the full 8-hour minimum.
+            </p>
+          ) : null}
 
           <div className="mt-4 flex gap-3">
             <Link
