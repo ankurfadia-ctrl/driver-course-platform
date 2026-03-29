@@ -97,53 +97,6 @@ function DataTable({
   );
 }
 
-function ScenarioIllustration() {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <div className="mb-4 flex flex-wrap gap-2 text-xs font-medium text-slate-600">
-        <span className="rounded-full bg-slate-100 px-3 py-1">1. Scan ahead</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">2. Predict the risk</span>
-        <span className="rounded-full bg-slate-100 px-3 py-1">3. Slow and leave space</span>
-      </div>
-
-      <svg viewBox="0 0 640 220" className="w-full" role="img" aria-label="Defensive driving scenario with a turning car and a crosswalk">
-        <rect x="20" y="80" width="600" height="80" rx="24" fill="#dbeafe" />
-        <rect x="40" y="104" width="560" height="32" rx="16" fill="#334155" />
-        <rect x="70" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-        <rect x="140" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-        <rect x="210" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-        <rect x="280" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-        <rect x="350" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-        <rect x="420" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-        <rect x="490" y="118" width="32" height="4" rx="2" fill="#ffffff" />
-
-        <rect x="470" y="86" width="64" height="64" rx="16" fill="#2563eb" />
-        <rect x="488" y="146" width="12" height="12" rx="6" fill="#0f172a" />
-        <rect x="506" y="146" width="12" height="12" rx="6" fill="#0f172a" />
-
-        <rect x="186" y="86" width="64" height="64" rx="16" fill="#0ea5e9" />
-        <rect x="204" y="146" width="12" height="12" rx="6" fill="#0f172a" />
-        <rect x="222" y="146" width="12" height="12" rx="6" fill="#0f172a" />
-
-        <rect x="300" y="36" width="40" height="44" rx="8" fill="#fef3c7" />
-        <rect x="304" y="42" width="32" height="4" fill="#f59e0b" />
-        <rect x="304" y="50" width="32" height="4" fill="#f59e0b" />
-        <rect x="304" y="58" width="32" height="4" fill="#f59e0b" />
-        <path d="M 320 80 L 320 106" stroke="#f59e0b" strokeWidth="4" strokeDasharray="6 6" />
-
-        <rect x="70" y="88" width="16" height="56" fill="#ffffff" opacity="0.95" />
-        <rect x="94" y="88" width="16" height="56" fill="#ffffff" opacity="0.95" />
-        <rect x="118" y="88" width="16" height="56" fill="#ffffff" opacity="0.95" />
-
-        <text x="458" y="66" fill="#1d4ed8" fontSize="18" fontWeight="700">Your lane</text>
-        <text x="150" y="66" fill="#0369a1" fontSize="18" fontWeight="700">Vehicle may turn</text>
-        <text x="30" y="188" fill="#475569" fontSize="18">Crosswalk area</text>
-        <text x="278" y="24" fill="#b45309" fontSize="18" fontWeight="700">Pedestrian risk</text>
-      </svg>
-    </div>
-  );
-}
-
 function StoppingDistanceVisual() {
   return (
     <div className="space-y-6">
@@ -186,71 +139,160 @@ function StoppingDistanceVisual() {
   );
 }
 
-function RoadSignVisuals() {
+function BacVisual() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-red-600 text-xl font-bold text-white [clip-path:polygon(30%_0%,70%_0%,100%_30%,100%_70%,70%_100%,30%_100%,0%_70%,0%_30%)]">
-          STOP
+    <div className="space-y-6">
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5">
+          <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            Under 21
+          </div>
+          <div className="mt-3 text-3xl font-bold text-slate-950">0.02</div>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            Virginia can treat a BAC from 0.02 up to less than 0.08 as illegal alcohol consumption for drivers under 21.
+          </p>
         </div>
-        <p className="mt-3 text-sm font-medium text-slate-800">Full stop and look both ways.</p>
+
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
+          <div className="text-xs font-semibold uppercase tracking-wide text-red-700">
+            DUI threshold
+          </div>
+          <div className="mt-3 text-3xl font-bold text-slate-950">0.08</div>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            Drivers 21 and older are considered under the influence at 0.08 BAC or higher.
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+          <div className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+            Important reminder
+          </div>
+          <div className="mt-3 text-lg font-semibold text-slate-950">
+            Impairment can begin before 0.08
+          </div>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            Slower reaction time, poor judgment, and reduced coordination can start well before a driver feels “drunk.”
+          </p>
+        </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-        <div className="mx-auto flex h-24 w-24 items-center justify-center bg-white text-sm font-bold text-red-600 [clip-path:polygon(50%_100%,0_0,100%_0)] border-4 border-red-600">
-          YIELD
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <div className="grid gap-4 md:grid-cols-4">
+          <div className="rounded-xl bg-slate-50 p-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-700">
+              Vision
+            </h4>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Alcohol reduces the ability to track movement and judge distance accurately.
+            </p>
+          </div>
+          <div className="rounded-xl bg-slate-50 p-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-700">
+              Judgment
+            </h4>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Risky choices feel more reasonable when alcohol lowers caution.
+            </p>
+          </div>
+          <div className="rounded-xl bg-slate-50 p-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-700">
+              Reaction time
+            </h4>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Delayed braking and slower steering correction increase crash risk.
+            </p>
+          </div>
+          <div className="rounded-xl bg-slate-50 p-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-700">
+              Control
+            </h4>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Coordination and lane control become less reliable as impairment rises.
+            </p>
+          </div>
         </div>
-        <p className="mt-3 text-sm font-medium text-slate-800">Slow and give way before entering.</p>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-        <div className="mx-auto flex h-24 w-24 items-center justify-center rotate-45 rounded-lg bg-yellow-300">
-          <span className="-rotate-45 text-xs font-bold text-slate-900">PED XING</span>
-        </div>
-        <p className="mt-3 text-sm font-medium text-slate-800">Expect pedestrians near crossings and schools.</p>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-        <div className="mx-auto flex h-24 w-24 items-center justify-center bg-yellow-300 text-xs font-bold text-slate-900 [clip-path:polygon(50%_0%,100%_38%,80%_100%,20%_100%,0%_38%)]">
-          SCHOOL
-        </div>
-        <p className="mt-3 text-sm font-medium text-slate-800">Reduce speed and watch for sudden movement.</p>
       </div>
     </div>
   );
 }
 
-function RightOfWayVisual() {
+function RoadSharingSpaceVisual() {
+  return (
+    <div className="grid gap-4 md:grid-cols-2">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl">
+            🚶
+          </div>
+          <div>
+            <h4 className="font-semibold text-slate-900">Pedestrians</h4>
+            <p className="text-sm text-slate-600">Slow early near crosswalks, parked cars, buses, and school areas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-xl">
+            🚲
+          </div>
+          <div>
+            <h4 className="font-semibold text-slate-900">Cyclists</h4>
+            <p className="text-sm text-slate-600">Give extra space because riders may shift to avoid debris, doors, or rough pavement.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-xl">
+            🏍️
+          </div>
+          <div>
+            <h4 className="font-semibold text-slate-900">Motorcycles</h4>
+            <p className="text-sm text-slate-600">Check mirrors and blind spots carefully before turning or changing lanes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-slate-200 bg-white p-5">
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-xl">
+            🚚
+          </div>
+          <div>
+            <h4 className="font-semibold text-slate-900">Trucks and buses</h4>
+            <p className="text-sm text-slate-600">Do not linger beside them or cut in close after passing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TruckBlindSpotVisual() {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <svg viewBox="0 0 640 320" className="w-full" role="img" aria-label="Four-way stop right-of-way diagram">
-        <rect x="240" y="20" width="160" height="280" rx="24" fill="#cbd5e1" />
-        <rect x="20" y="100" width="600" height="120" rx="24" fill="#cbd5e1" />
-        <rect x="274" y="20" width="92" height="280" rx="12" fill="#334155" />
-        <rect x="20" y="134" width="600" height="52" rx="12" fill="#334155" />
+      <svg viewBox="0 0 640 280" className="w-full" role="img" aria-label="Top view of truck blind spots">
+        <rect x="248" y="36" width="144" height="208" rx="24" fill="#334155" />
+        <rect x="272" y="16" width="96" height="52" rx="16" fill="#475569" />
+        <rect x="170" y="60" width="70" height="160" rx="20" fill="#fee2e2" />
+        <rect x="400" y="60" width="70" height="160" rx="20" fill="#fee2e2" />
+        <rect x="262" y="0" width="116" height="20" rx="10" fill="#fee2e2" />
+        <rect x="228" y="244" width="184" height="28" rx="14" fill="#fee2e2" />
 
-        <rect x="80" y="118" width="60" height="84" rx="18" fill="#0ea5e9" />
-        <rect x="500" y="118" width="60" height="84" rx="18" fill="#2563eb" />
-        <rect x="290" y="32" width="60" height="84" rx="18" fill="#22c55e" />
-        <rect x="290" y="204" width="60" height="84" rx="18" fill="#f59e0b" />
-
-        <circle cx="320" cy="74" r="22" fill="#ffffff" />
-        <circle cx="530" cy="160" r="22" fill="#ffffff" />
-        <circle cx="110" cy="160" r="22" fill="#ffffff" />
-        <circle cx="320" cy="246" r="22" fill="#ffffff" />
-
-        <text x="313" y="81" fill="#0f172a" fontSize="24" fontWeight="700">1</text>
-        <text x="523" y="167" fill="#0f172a" fontSize="24" fontWeight="700">2</text>
-        <text x="103" y="167" fill="#0f172a" fontSize="24" fontWeight="700">3</text>
-        <text x="313" y="253" fill="#0f172a" fontSize="24" fontWeight="700">4</text>
+        <text x="270" y="140" fill="#ffffff" fontSize="22" fontWeight="700">TRUCK</text>
+        <text x="164" y="46" fill="#b91c1c" fontSize="18" fontWeight="700">Blind spot</text>
+        <text x="412" y="46" fill="#b91c1c" fontSize="18" fontWeight="700">Blind spot</text>
+        <text x="252" y="274" fill="#b91c1c" fontSize="18" fontWeight="700">Large rear blind zone</text>
       </svg>
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <div className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
-          <span className="font-semibold text-slate-900">Basic rule:</span> first vehicle to stop goes first. If vehicles arrive together, the driver on the right usually has the priority.
+          If you cannot see the truck driver’s mirrors, the driver may not be able to see you.
         </div>
         <div className="rounded-xl bg-blue-50 p-4 text-sm leading-6 text-blue-900">
-          Even when you think you have the right-of-way, pause, scan, and confirm the other driver is yielding before you move.
+          Pass steadily, avoid lingering beside the trailer, and leave extra room after passing.
         </div>
       </div>
     </div>
@@ -287,20 +329,6 @@ function ConsequencesVisual() {
 }
 
 export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
-  if (lessonSlug === "lesson-2") {
-    return (
-      <div className="mt-8 space-y-6">
-        <VisualShell
-          label="Scenario Illustration"
-          title="See the hazard before it becomes a hard stop"
-          description="Defensive driving works best when you spot the clue, predict what may happen next, and create space before the risk reaches your lane."
-        >
-          <ScenarioIllustration />
-        </VisualShell>
-      </div>
-    );
-  }
-
   if (lessonSlug === "lesson-3") {
     return (
       <div className="mt-8 space-y-6">
@@ -315,23 +343,37 @@ export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
     );
   }
 
+  if (lessonSlug === "lesson-4") {
+    return (
+      <div className="mt-8 space-y-6">
+        <VisualShell
+          label="BAC and impairment"
+          title="Alcohol affects judgment before a driver feels fully impaired"
+          description="Virginia treats certain BAC levels as legal thresholds, but safe driving decisions should happen before alcohol or drugs begin reducing attention, judgment, and control."
+        >
+          <BacVisual />
+        </VisualShell>
+      </div>
+    );
+  }
+
   if (lessonSlug === "lesson-5") {
     return (
       <div className="mt-8 space-y-6">
         <VisualShell
-          label="Road-Sign Graphic"
-          title="Signs that often signal a need to slow down and scan"
-          description="The safest response is not only to obey the sign, but to anticipate the vulnerable road users and conflicts that usually appear near it."
+          label="Road-sharing guide"
+          title="Different road users need different kinds of space"
+          description="Sharing the road safely means adjusting early for who is around you, how visible they are, and how vulnerable they would be in a collision."
         >
-          <RoadSignVisuals />
+          <RoadSharingSpaceVisual />
         </VisualShell>
 
         <VisualShell
-          label="Right-of-Way Diagram"
-          title="Four-way stop order still requires a final safety check"
-          description="Right-of-way reduces confusion, but it does not replace a careful scan for pedestrians, cyclists, and drivers who fail to yield."
+          label="Truck blind spots"
+          title="Large vehicles create no-see zones around the trailer and rear"
+          description="Give trucks and buses extra room, pass steadily, and avoid sitting beside or directly behind them longer than necessary."
         >
-          <RightOfWayVisual />
+          <TruckBlindSpotVisual />
         </VisualShell>
       </div>
     );
