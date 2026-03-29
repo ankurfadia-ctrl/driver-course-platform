@@ -16,15 +16,15 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 2,
-    question: "What should you do if a traffic light turns yellow as you approach an intersection?",
-    options: ["Speed up to get through", "Prepare to stop if it is safe", "Ignore it", "Change lanes quickly"],
+    question: "What should a defensive driver do when approaching an area with hidden hazards?",
+    options: ["Speed up to clear it quickly", "Slow early and watch for clues of possible danger", "Focus only on the vehicle directly ahead", "Assume no one will enter the roadway"],
     correctIndex: 1,
   },
   {
     id: 3,
-    question: "A steady red traffic signal means:",
-    options: ["Proceed with caution", "Stop", "Yield only to pedestrians", "Traffic is moving slowly"],
-    correctIndex: 1,
+    question: "Stopping distance includes:",
+    options: ["Only braking distance", "Only reaction time", "Perception, reaction, and braking distance", "Only road surface condition"],
+    correctIndex: 2,
   },
   {
     id: 4,
@@ -70,15 +70,15 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 11,
-    question: "If your vehicle begins to skid, you should first:",
-    options: ["Brake hard", "Steer in the direction you want the front wheels to go", "Accelerate sharply", "Turn the wheel quickly back and forth"],
+    question: "Why is the posted speed limit not always the safest speed?",
+    options: ["Because it applies only at night", "Because conditions may require you to drive slower", "Because drivers should usually exceed it slightly", "Because it matters only in traffic jams"],
     correctIndex: 1,
   },
   {
     id: 12,
-    question: "Seat belts should be worn:",
-    options: ["Only on highways", "Only by front-seat passengers", "By everyone in the vehicle", "Only during bad weather"],
-    correctIndex: 2,
+    question: "Many serious crashes begin with:",
+    options: ["A few seconds of inattention", "Mechanical failure only", "Drivers using too much caution", "Perfect weather conditions"],
+    correctIndex: 0,
   },
   {
     id: 13,
@@ -112,14 +112,14 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 18,
-    question: "What should you do before backing up?",
-    options: ["Rely only on mirrors", "Look behind the vehicle and back slowly", "Honk and back quickly", "Accelerate before shifting"],
-    correctIndex: 1,
+    question: "What is the safest way to handle navigation, music, or climate setup?",
+    options: ["Set them before the vehicle starts moving", "Adjust them while driving if traffic is light", "Change them only at stoplights", "Wait until another passenger complains"],
+    correctIndex: 0,
   },
   {
     id: 19,
-    question: "If you miss your exit, the safest action is to:",
-    options: ["Stop and back up", "Make a U-turn immediately", "Go to the next safe exit", "Drive on the shoulder"],
+    question: "What can impatience lead to?",
+    options: ["Safer following distance", "Better anticipation", "Speeding and risky maneuvers", "Improved calmness"],
     correctIndex: 2,
   },
   {
@@ -142,15 +142,15 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 23,
-    question: "At a stop sign, you must:",
-    options: ["Slow down only", "Stop completely", "Yield only to traffic from the left", "Proceed if no police are present"],
+    question: "Traffic laws improve safety because they:",
+    options: ["Make roads less crowded", "Create predictable behavior", "Replace the need for judgment", "Apply only in city traffic"],
     correctIndex: 1,
   },
   {
     id: 24,
-    question: "A green light means:",
-    options: ["Go without looking", "Proceed only if the intersection is clear", "Pedestrians must stop", "You have absolute right-of-way"],
-    correctIndex: 1,
+    question: "Unsafe driving can lead to:",
+    options: ["Automatic better insurance rates", "Reduced stopping distance", "Higher insurance costs and possible injury", "Guaranteed license protection"],
+    correctIndex: 2,
   },
   {
     id: 25,
@@ -172,8 +172,8 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 28,
-    question: "When approaching a school bus with flashing red lights, you should:",
-    options: ["Pass carefully", "Stop as required by law", "Honk and proceed", "Only stop if children are visible"],
+    question: "Why is aggressive driving dangerous?",
+    options: ["It saves time without affecting risk", "It combines risky behaviors and reduces judgment", "It only matters on highways", "It affects only the aggressive driver"],
     correctIndex: 1,
   },
   {
@@ -208,8 +208,8 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 34,
-    question: "If a tire blows out, you should:",
-    options: ["Slam on the brakes", "Grip the wheel firmly and slow gradually", "Turn sharply off the road", "Accelerate hard"],
+    question: "If your vehicle breaks down, your first goal should be to:",
+    options: ["Stop in the travel lane immediately", "Move to a safer location if possible", "Exit into traffic quickly", "Ignore it and keep driving"],
     correctIndex: 1,
   },
   {
@@ -244,9 +244,9 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 40,
-    question: "If you are being passed, you should:",
-    options: ["Speed up", "Stay in your lane and maintain a safe speed", "Move toward the passing car", "Honk continuously"],
-    correctIndex: 1,
+    question: "What is a safer response to frustration on the road?",
+    options: ["Retaliate against other drivers", "Drive faster to escape the situation", "Create space and refocus on control", "Use close following to pressure traffic"],
+    correctIndex: 2,
   },
   {
     id: 41,
@@ -256,9 +256,9 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 42,
-    question: "If you approach an intersection and the signal is out, you should:",
-    options: ["Treat it like a stop sign situation", "Assume you have priority", "Speed through before others", "Only yield to traffic on the right"],
-    correctIndex: 0,
+    question: "Night driving is more dangerous mainly because:",
+    options: ["Roads are always more crowded", "Vehicles lose braking power", "Hazards are harder to detect", "Speed limits no longer apply"],
+    correctIndex: 2,
   },
   {
     id: 43,
@@ -268,8 +268,8 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 44,
-    question: "A safe driver should position hands on the steering wheel:",
-    options: ["In a stable, controlled position", "With one hand only whenever possible", "At the bottom of the wheel", "Anywhere that feels casual"],
+    question: "Mature driving means:",
+    options: ["Using frustration as motivation", "Accepting that your decisions affect other people", "Competing for space whenever possible", "Taking small risks when traffic is light"],
     correctIndex: 0,
   },
   {
@@ -292,9 +292,9 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 48,
-    question: "Vehicle maintenance is important for safety because it helps:",
-    options: ["Prevent mechanical failures", "Eliminate traffic", "Replace careful driving", "Guarantee no crashes"],
-    correctIndex: 0,
+    question: "When approaching a crash scene, stopped traffic, or roadway emergency, drivers should:",
+    options: ["Speed up before lanes narrow", "Use immediate caution and slow in a controlled way", "Focus only on vehicles ahead", "Assume responders can see them clearly"],
+    correctIndex: 1,
   },
   {
     id: 49,
