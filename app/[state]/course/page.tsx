@@ -14,6 +14,7 @@ import {
 import { getLatestExamResult } from "@/lib/exam-results"
 import { isFinalExamSeatTimeBypassed } from "@/lib/dev-config"
 import { getCourseConfig } from "@/lib/course-config"
+import { hasStudentIdentityProfile } from "@/lib/student-identity"
 
 const LESSONS = [
   { id: 1, slug: "lesson-1", title: "Lesson 1 - Course Introduction" },
@@ -37,6 +38,7 @@ export default function StateCoursePage() {
 
   const [hasAccess, setHasAccess] = useState<boolean | null>(null)
   const [accessError, setAccessError] = useState<string | null>(null)
+  const [identityReady, setIdentityReady] = useState<boolean | null>(null)
 
   const [seatTimeComplete, setSeatTimeComplete] = useState(false)
 
@@ -62,6 +64,31 @@ export default function StateCoursePage() {
       isMounted = false
     }
   }, [state])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadIdentityStatus() {
+      try {
+        const ready = await hasStudentIdentityProfile(state)
+
+        if (!isMounted) return
+        setIdentityReady(ready)
+      } catch (error) {
+        console.error("Error loading identity status:", error)
+        if (!isMounted) return
+        setIdentityReady(false)
+      }
+    }
+
+    if (hasAccess) {
+      void loadIdentityStatus()
+    }
+
+    return () => {
+      isMounted = false
+    }
+  }, [state, hasAccess])
 
   useEffect(() => {
     async function loadProgress() {
@@ -126,7 +153,7 @@ export default function StateCoursePage() {
   const finalExamAvailable = allLessonsCompleted && effectiveSeatTimeComplete
   const certificateAvailable = effectiveSeatTimeComplete && examPassed
 
-  if (hasAccess === null) {
+  if (hasAccess === null || (hasAccess && identityReady === null)) {
     return (
       <div className="max-w-xl mx-auto mt-10 p-6 border rounded-xl text-center space-y-4">
         <h1 className="text-2xl font-bold">Checking access...</h1>
@@ -177,6 +204,26 @@ export default function StateCoursePage() {
         <h1 className="text-3xl font-bold text-slate-900">{config.courseName}</h1>
       </div>
 
+      {!identityReady ? (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 p-6">
+          <h2 className="text-xl font-semibold text-slate-900">
+            Identity verification required
+          </h2>
+          <p className="mt-2 text-slate-700">
+            Virginia requires identity verification throughout the course and
+            before the final exam. Complete identity setup before starting
+            lesson progress.
+          </p>
+
+          <Link
+            href={`/${state}/identity`}
+            className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white"
+          >
+            Complete Identity Setup
+          </Link>
+        </div>
+      ) : null}
+
       <div className="rounded-xl bg-blue-50 p-6 border border-blue-200">
         <h2 className="text-xl font-semibold">Need help?</h2>
         <p className="mt-2 text-slate-600">
@@ -202,15 +249,28 @@ export default function StateCoursePage() {
         <div className="p-6 border rounded-xl">
           <h2 className="text-xl font-semibold">Final Exam</h2>
           <p className="mt-2 text-sm text-slate-600">
-            {finalExamAvailable ? "Available" : "Locked"}
+            {identityReady
+              ? finalExamAvailable
+                ? "Available"
+                : "Locked"
+              : "Complete identity setup first"}
           </p>
 
-          <Link
-            href={`/${state}/course/final-exam`}
-            className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
-          >
-            Go to Final Exam
-          </Link>
+          {identityReady ? (
+            <Link
+              href={`/${state}/course/final-exam`}
+              className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+              Go to Final Exam
+            </Link>
+          ) : (
+            <Link
+              href={`/${state}/identity`}
+              className="mt-4 inline-block border border-blue-600 px-4 py-2 rounded-lg text-blue-600"
+            >
+              Complete Identity Setup
+            </Link>
+          )}
         </div>
 
         <div className="p-6 border rounded-xl">
@@ -253,16 +313,29 @@ export default function StateCoursePage() {
                 <div>
                   <div className="font-medium">{lesson.title}</div>
                   <div className="text-sm text-slate-600">
-                    {completed ? "Completed" : "Not started"}
+                    {!identityReady
+                      ? "Complete identity setup first"
+                      : completed
+                      ? "Completed"
+                      : "Not started"}
                   </div>
                 </div>
 
-                <Link
-                  href={`/${state}/course/${lesson.slug}`}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-                >
-                  Open
-                </Link>
+                {identityReady ? (
+                  <Link
+                    href={`/${state}/course/${lesson.slug}`}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  >
+                    Open
+                  </Link>
+                ) : (
+                  <Link
+                    href={`/${state}/identity`}
+                    className="border border-blue-600 px-4 py-2 rounded-lg text-blue-600"
+                  >
+                    Verify Identity
+                  </Link>
+                )}
               </div>
             )
           })}

@@ -79,3 +79,8 @@ export async function getStudentIdentityProfile(state: string) {
 
   return data as StudentIdentityProfileRow | null
 }
+
+export async function hasStudentIdentityProfile(state: string) {
+  const profile = await getStudentIdentityProfile(state)
+  return Boolean(profile)
+}

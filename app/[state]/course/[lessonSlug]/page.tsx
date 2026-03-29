@@ -17,6 +17,7 @@ import {
   VIRGINIA_LESSON_CHECKS,
   VIRGINIA_LESSON_CONTENT,
 } from "@/lib/virginia-course-curriculum";
+import { hasStudentIdentityProfile } from "@/lib/student-identity";
 
 
 function LessonCheckSection({
@@ -315,6 +316,7 @@ export default function LessonPage() {
   const [progress, setProgress] = useState<CourseProgressRow[]>([]);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [accessError, setAccessError] = useState<string | null>(null);
+  const [identityReady, setIdentityReady] = useState<boolean | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -335,6 +337,32 @@ export default function LessonPage() {
   }, [state]);
 
   useEffect(() => {
+    let isMounted = true;
+
+    async function loadIdentityStatus() {
+      try {
+        const ready = await hasStudentIdentityProfile(state);
+
+        if (!isMounted) return;
+        setIdentityReady(ready);
+      } catch (error) {
+        console.error("Error loading identity status:", error);
+
+        if (!isMounted) return;
+        setIdentityReady(false);
+      }
+    }
+
+    if (hasAccess) {
+      void loadIdentityStatus();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [state, hasAccess]);
+
+  useEffect(() => {
     async function loadProgress() {
       try {
         const rows = await getUserCourseProgress(state);
@@ -353,7 +381,7 @@ export default function LessonPage() {
     }
   }, [state, hasAccess]);
 
-  if (hasAccess === null || loading) {
+  if (hasAccess === null || (hasAccess && identityReady === null) || loading) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-10">
         <div className="mx-auto max-w-4xl">
@@ -389,6 +417,38 @@ export default function LessonPage() {
               className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
               Go to Dashboard
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!identityReady) {
+    return (
+      <main className="min-h-screen bg-slate-50 px-6 py-10">
+        <div className="mx-auto max-w-xl rounded-2xl border border-amber-200 bg-white p-8 text-center shadow-sm">
+          <h1 className="text-2xl font-bold text-slate-900">
+            Identity Verification Required
+          </h1>
+          <p className="mt-3 text-slate-600">
+            Complete identity setup before starting lesson progress for this
+            Virginia course.
+          </p>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Link
+              href={`/${state}/identity`}
+              className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Complete Identity Setup
+            </Link>
+
+            <Link
+              href={`/${state}/course`}
+              className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Back to Course
             </Link>
           </div>
         </div>

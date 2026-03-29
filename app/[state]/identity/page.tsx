@@ -120,7 +120,7 @@ export default function IdentitySetupPage() {
       })
 
       localStorage.setItem(storageKey, JSON.stringify(form))
-      router.push(`/${state}/course/final-exam`)
+      router.push(`/${state}/course`)
     } catch (error) {
       console.error(error)
       setSaveError("Could not save identity profile. Please try again.")
