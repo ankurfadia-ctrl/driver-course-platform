@@ -261,7 +261,7 @@ export default function MailedCertificateOrderPage() {
           </form>
         </section>
 
-        <aside className="space-y-6">
+        <aside>
           <section className="glass-panel rounded-[2rem] bg-white p-8">
             <h2 className="text-2xl font-semibold text-slate-950">
               Order summary
@@ -284,13 +284,6 @@ export default function MailedCertificateOrderPage() {
                 <span className="font-semibold text-slate-950">Yes</span>
               </div>
             </div>
-          </section>
-
-          <section className="rounded-[2rem] border border-blue-200 bg-blue-50 p-6 text-sm leading-7 text-slate-700">
-            <div className="font-semibold text-blue-900">Later purchase supported</div>
-            <p className="mt-2">
-              Students can buy this mailed certificate option later, even after the original course purchase, as long as the certificate has been issued.
-            </p>
           </section>
         </aside>
       </div>
