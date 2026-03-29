@@ -196,6 +196,10 @@ export function getContactRoute(state: string) {
   return getStateRoute(state, "contact")
 }
 
+export function getRefundsRoute(state: string) {
+  return getStateRoute(state, "refunds")
+}
+
 export function getFaqRoute(state: string) {
   return getStateRoute(state, "faq")
 }

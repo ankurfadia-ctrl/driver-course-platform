@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { getCourseConfig, getSupportRoute } from "@/lib/course-config"
+import { getCourseConfig, getRefundsRoute, getSupportRoute } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 
 export default async function StateTermsPage({
@@ -27,6 +27,10 @@ export default async function StateTermsPage({
             "El curso puede usar seguimiento del tiempo, verificacion de identidad, monitoreo de actividad y controles del examen antes de conceder la finalizacion o el acceso al certificado.",
           controlsBody2:
             "No completar los pasos requeridos del curso, las verificaciones de identidad o los requisitos del examen puede impedir la finalizacion.",
+          refunds: "Reembolsos",
+          refundsBody:
+            "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Revisa la ",
+          refundsLink: "politica de reembolso",
           support: "Soporte",
           supportBody:
             "Para problemas de cuenta, curso o certificado, empieza con la ",
@@ -47,6 +51,10 @@ export default async function StateTermsPage({
             "The course may use seat-time tracking, identity verification, activity monitoring, and exam controls before completion or certificate access is granted.",
           controlsBody2:
             "Failure to complete required course steps, identity checks, or exam requirements may prevent completion.",
+          refunds: "Refunds",
+          refundsBody:
+            "Refund requests may be reviewed before substantial use of the course. Review the ",
+          refundsLink: "refund policy",
           support: "Support",
           supportBody:
             "For account, course, or certificate issues, start with the ",
@@ -81,6 +89,20 @@ export default async function StateTermsPage({
           <p>{copy.controlsBody1}</p>
           <p>{copy.controlsBody2}</p>
         </div>
+      </section>
+
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <h2 className="text-xl font-semibold text-slate-900">{copy.refunds}</h2>
+        <p className="mt-4 text-sm leading-7 text-slate-700">
+          {copy.refundsBody}
+          <Link
+            href={getRefundsRoute(state)}
+            className="font-medium text-slate-900 underline"
+          >
+            {copy.refundsLink}
+          </Link>
+          .
+        </p>
       </section>
 
       <section className="glass-panel rounded-[2rem] bg-white p-8">

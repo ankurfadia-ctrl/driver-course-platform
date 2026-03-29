@@ -6,6 +6,7 @@ import {
   getDisclosuresRoute,
   getFaqRoute,
   getPrivacyRoute,
+  getRefundsRoute,
   getSupportRoute,
   getTermsRoute,
 } from "@/lib/course-config"
@@ -25,6 +26,7 @@ export default async function StateFooter({ state }: { state: string }) {
           faq: "Preguntas",
           privacy: "Privacidad",
           terms: "Terminos",
+          refunds: "Reembolsos",
           contact: "Contacto",
           support: "Soporte",
           supportTitle: "Empieza con soporte en linea",
@@ -41,6 +43,7 @@ export default async function StateFooter({ state }: { state: string }) {
           faq: "FAQ",
           privacy: "Privacy",
           terms: "Terms",
+          refunds: "Refunds",
           contact: "Contact",
           support: "Support",
           supportTitle: "Start with online support",
@@ -82,6 +85,9 @@ export default async function StateFooter({ state }: { state: string }) {
               </Link>
               <Link href={getTermsRoute(state)} className="hover:text-slate-950">
                 {copy.terms}
+              </Link>
+              <Link href={getRefundsRoute(state)} className="hover:text-slate-950">
+                {copy.refunds}
               </Link>
               <Link href={getContactRoute(state)} className="hover:text-slate-950">
                 {copy.contact}

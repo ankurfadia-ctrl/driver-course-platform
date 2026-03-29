@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     `/${state}/faq`,
     `/${state}/privacy`,
     `/${state}/terms`,
+    `/${state}/refunds`,
     `/${state}/contact`,
   ])
 

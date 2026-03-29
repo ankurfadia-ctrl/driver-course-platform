@@ -8,7 +8,7 @@ import {
   getAvailableCoursePlans,
   type SupportTier,
 } from "@/lib/payment/plans"
-import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
+import { getCourseConfig, getDisclosuresRoute, getRefundsRoute } from "@/lib/course-config"
 import { getCourseAccessStatus } from "@/lib/course-access"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
@@ -110,6 +110,10 @@ export default function StateCheckoutPage() {
           reviewBody:
             "Los estudiantes deben confirmar la aceptacion del curso para su necesidad especifica ante tribunal, DMV, empleador o seguro antes de inscribirse. Pueden aplicarse verificaciones de identidad, reglas de tiempo del curso y limites del examen.",
           reviewCta: `Leer informacion del curso de ${stateDisplayName}`,
+          refundTitle: "Resumen de reembolso",
+          refundBody:
+            "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Despues de progreso importante, acceso al examen final, emision del certificado o cumplimiento de correo fisico, la compra normalmente deja de ser reembolsable.",
+          refundCta: "Leer politica de reembolso",
           backCourse: "Volver al curso",
           questions: "Preguntas antes de comprar?",
         }
@@ -180,6 +184,10 @@ export default function StateCheckoutPage() {
           reviewBody:
             "Students should confirm course acceptance for their specific court, DMV, employer, or insurance need before enrolling. Identity checks, seat-time rules, and exam limits may apply.",
           reviewCta: `Read ${stateDisplayName} course information`,
+          refundTitle: "Refund summary",
+          refundBody:
+            "Refund requests may be reviewed before substantial use of the course. After significant progress, final exam access, certificate issuance, or physical-mail fulfillment, the purchase is generally no longer refundable.",
+          refundCta: "Read refund policy",
           backCourse: "Back to Course",
           questions: "Questions Before Buying?",
         }
@@ -342,6 +350,21 @@ export default function StateCheckoutPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {copy.refundTitle}
+        </div>
+        <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700">
+          {copy.refundBody}
+        </p>
+        <Link
+          href={getRefundsRoute(state)}
+          className="mt-4 inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-900 hover:bg-slate-100"
+        >
+          {copy.refundCta}
+        </Link>
       </section>
 
       {purchaseError ? (
