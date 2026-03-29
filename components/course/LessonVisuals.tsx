@@ -284,7 +284,7 @@ function RoadSharingSpaceVisual() {
         [
           "B",
           "bg-emerald-100",
-          "Cyclists",
+          "Bicyclists",
           "Give extra space because riders may shift to avoid debris, doors, or rough pavement.",
         ],
         [
