@@ -3,6 +3,10 @@ import { createClient as createSupabaseServerClient } from "@/lib/supabase/serve
 import { getCourseConfig } from "@/lib/course-config"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { sendCompletionCertificateEmail } from "@/lib/email"
+import {
+  buildCertificatePdfFilename,
+  generateCertificatePdfArrayBuffer,
+} from "@/lib/certificate-pdf"
 
 type NotifyCertificateBody = {
   state?: string
@@ -40,7 +44,7 @@ export async function POST(request: NextRequest) {
       await Promise.all([
         adminSupabase
           .from("exam_results")
-          .select("certificate_id, passed")
+          .select("certificate_id, passed, score, completed_at")
           .eq("user_id", user.id)
           .eq("state", state)
           .eq("certificate_id", certificateId)
@@ -49,7 +53,7 @@ export async function POST(request: NextRequest) {
           .maybeSingle(),
         adminSupabase
           .from("student_identity_profiles")
-          .select("user_id")
+          .select("user_id, first_name, last_name")
           .eq("user_id", user.id)
           .eq("state", state)
           .maybeSingle(),
@@ -79,6 +83,25 @@ export async function POST(request: NextRequest) {
     }
 
     const config = getCourseConfig(state)
+    const verifyUrl = `${baseUrl}/verify/${certificateId}`
+    const certificatePdf = generateCertificatePdfArrayBuffer({
+      state,
+      courseName: config.courseName,
+      certificateIssuerLine: config.certificateIssuerLine,
+      firstName: String(identityRow.first_name ?? "").trim(),
+      lastName: String(identityRow.last_name ?? "").trim(),
+      examScore: typeof examRow.score === "number" ? examRow.score : null,
+      examCompletedAt: examRow.completed_at ?? null,
+      certificateId,
+      verifyUrl,
+    })
+
+    const certificatePdfBase64 = Buffer.from(certificatePdf).toString("base64")
+    const certificateFilename = buildCertificatePdfFilename(
+      state,
+      String(identityRow.first_name ?? "").trim(),
+      String(identityRow.last_name ?? "").trim()
+    )
 
     await sendCompletionCertificateEmail({
       email: user.email,
@@ -86,7 +109,9 @@ export async function POST(request: NextRequest) {
       courseName: config.courseName,
       certificateId,
       certificateUrl: `${baseUrl}/${state}/certificate`,
-      verifyUrl: `${baseUrl}/verify/${certificateId}`,
+      verifyUrl,
+      certificateFilename,
+      certificatePdfBase64,
     })
 
     return NextResponse.json({ ok: true })

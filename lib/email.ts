@@ -3,6 +3,10 @@ type TransactionalEmailPayload = {
   subject: string
   html: string
   text: string
+  attachments?: Array<{
+    filename: string
+    content: string
+  }>
 }
 
 type PurchaseEmailInput = {
@@ -23,6 +27,8 @@ type CompletionEmailInput = {
   certificateId: string
   certificateUrl: string
   verifyUrl: string
+  certificateFilename?: string
+  certificatePdfBase64?: string
 }
 
 function escapeHtml(value: string) {
@@ -61,6 +67,7 @@ async function sendWithResend(payload: TransactionalEmailPayload) {
       subject: payload.subject,
       html: payload.html,
       text: payload.text,
+      attachments: payload.attachments,
     }),
   })
 
@@ -138,6 +145,7 @@ export async function sendCompletionCertificateEmail(input: CompletionEmailInput
       <h1 style="font-size:24px;margin-bottom:12px;">Course completion recorded</h1>
       <p>You have completed <strong>${escapeHtml(input.courseName)}</strong>.</p>
       <p>Certificate ID: <strong>${escapeHtml(input.certificateId)}</strong></p>
+      <p>Your certificate PDF is attached to this email.</p>
       <p>
         <a href="${input.certificateUrl}">Open certificate</a><br />
         <a href="${input.verifyUrl}">Verification page</a>
@@ -149,6 +157,7 @@ export async function sendCompletionCertificateEmail(input: CompletionEmailInput
     "",
     `You have completed ${input.courseName}.`,
     `Certificate ID: ${input.certificateId}`,
+    "Your certificate PDF is attached to this email.",
     `Certificate: ${input.certificateUrl}`,
     `Verification: ${input.verifyUrl}`,
   ].join("\n")
@@ -158,5 +167,14 @@ export async function sendCompletionCertificateEmail(input: CompletionEmailInput
     subject,
     html,
     text,
+    attachments:
+      input.certificateFilename && input.certificatePdfBase64
+        ? [
+            {
+              filename: input.certificateFilename,
+              content: input.certificatePdfBase64,
+            },
+          ]
+        : undefined,
   })
 }
