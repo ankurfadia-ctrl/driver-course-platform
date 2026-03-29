@@ -22,6 +22,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       title: "Ayuda y soporte",
       intro:
         "La mayoria de los problemas se resuelven al instante. Solo los casos mas complejos necesitan revision adicional.",
+      actionsTitle: "Opciones rapidas",
+      faqCta: "Ver preguntas frecuentes",
+      aiChatCta: "Abrir chat con IA",
+      upgradeAlwaysCta: "Mejorar a soporte prioritario",
       commonQuestions: "Preguntas comunes",
       commonQuestionsBody:
         "Muchos problemas se resuelven con la guia instantanea que aparece mientras escribes.",
@@ -114,6 +118,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     title: "Help & Support",
     intro:
       "Most issues are resolved instantly. Only more complex issues need review by support.",
+    actionsTitle: "Quick actions",
+    faqCta: "View FAQ",
+    aiChatCta: "Open AI Chat",
+    upgradeAlwaysCta: "Upgrade to Priority Support",
     commonQuestions: "Common questions",
     commonQuestionsBody:
       "Many issues are resolved with the instant guidance shown as students type.",
@@ -384,6 +392,34 @@ export default function StateSupportClient({
         </p>
       </div>
 
+      <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+        <div className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
+          {copy.actionsTitle}
+        </div>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link
+            href={`/${state}/faq`}
+            className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-100"
+          >
+            {copy.faqCta}
+          </Link>
+          <a
+            href="#ai-help-chat"
+            className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+          >
+            {copy.aiChatCta}
+          </a>
+          {!hasPrioritySupport ? (
+            <Link
+              href={`/${state}/checkout`}
+              className="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-100"
+            >
+              {copy.upgradeAlwaysCta}
+            </Link>
+          ) : null}
+        </div>
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <div className="glass-panel rounded-[2rem] bg-white p-6">
@@ -427,7 +463,7 @@ export default function StateSupportClient({
           ) : null}
         </div>
 
-        <div className="glass-panel rounded-[2rem] bg-white p-6">
+        <div id="ai-help-chat" className="glass-panel rounded-[2rem] bg-white p-6">
           <h2 className="text-xl font-semibold text-slate-900">
             {copy.askQuestion}
           </h2>

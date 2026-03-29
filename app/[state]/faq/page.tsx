@@ -2,7 +2,6 @@ import Link from "next/link"
 import {
   getCourseConfig,
   getDisclosuresRoute,
-  getSupportRoute,
 } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 
@@ -46,7 +45,12 @@ export default async function StateFaqPage({
           {
             question: "Puedo tomar el examen final de inmediato?",
             answer:
-              "Normalmente no. El flujo del curso puede requerir completar el tiempo del curso y la verificacion de identidad antes de comenzar el examen final.",
+              "No. Debes completar las 8 horas requeridas del curso y la verificacion de identidad antes de comenzar el examen final.",
+          },
+          {
+            question: "Las 8 horas incluyen el examen final?",
+            answer:
+              "No. En este curso, las 8 horas requeridas deben completarse antes de que el examen final se habilite.",
           },
           {
             question: "Que puntuacion necesito en el examen final?",
@@ -88,6 +92,21 @@ export default async function StateFaqPage({
             answer:
               "Usa la pagina de soporte despues de iniciar sesion para recibir ayuda con pagos, acceso, certificado o problemas del curso.",
           },
+          {
+            question: "Por que esta bloqueado mi examen final?",
+            answer:
+              "El examen final permanece bloqueado hasta que completes las lecciones requeridas, cumplas el tiempo del curso y termines la verificacion de identidad necesaria.",
+          },
+          {
+            question: "Por que esta bloqueado mi certificado?",
+            answer:
+              "El certificado solo se habilita cuando completas el tiempo requerido del curso y apruebas el examen final.",
+          },
+          {
+            question: "Por que mi temporizador del curso aun no termina?",
+            answer:
+              "El tiempo del curso se registra segun tu actividad. Sigue avanzando por las lecciones y permanece activo en las paginas del curso hasta completar el tiempo requerido.",
+          },
         ]
       : [
           {
@@ -118,7 +137,12 @@ export default async function StateFaqPage({
           {
             question: "Can I take the final exam right away?",
             answer:
-              "Not usually. The course flow may require seat-time completion and identity verification before the final exam can be started.",
+              "No. You must complete the required 8 hours of course time and identity verification before the final exam can be started.",
+          },
+          {
+            question: "Does the 8 hours include the final exam?",
+            answer:
+              "No. In this course, the required 8 hours must be completed before the final exam unlocks.",
           },
           {
             question: "What score do I need on the final exam?",
@@ -160,6 +184,21 @@ export default async function StateFaqPage({
             answer:
               "Use the support page after signing in for help with payment, access, certificate, or course-related issues.",
           },
+          {
+            question: "Why is my final exam locked?",
+            answer:
+              "The final exam stays locked until you complete the required lessons, satisfy the course seat time, and finish the required identity verification steps.",
+          },
+          {
+            question: "Why is my certificate locked?",
+            answer:
+              "Your certificate becomes available only after required seat time is complete and you have passed the final exam.",
+          },
+          {
+            question: "Why is my course timer not done yet?",
+            answer:
+              "Course time is tracked based on your activity. Keep progressing through lessons and remain active on the course pages until the required time is completed.",
+          },
         ]
 
   const copy =
@@ -171,9 +210,8 @@ export default async function StateFaqPage({
             "Esta pagina ofrece respuestas generales a preguntas comunes antes de la inscripcion, durante el curso y despues de completarlo.",
           moreInfo: "Necesitas mas informacion?",
           moreInfoBody:
-            "Revisa la pagina de informacion del curso o empieza con la pagina de soporte si necesitas ayuda para decidir si este curso es apropiado para tu situacion.",
+            "Revisa la pagina de informacion del curso si necesitas mas detalles antes de inscribirte o depender de la finalizacion.",
           infoCta: "Leer informacion del curso",
-          supportCta: "Abrir soporte",
         }
       : {
           label: "FAQ",
@@ -182,9 +220,8 @@ export default async function StateFaqPage({
             "This page provides general answers to common student questions before enrollment, during the course, and after completion.",
           moreInfo: "Need more information?",
           moreInfoBody:
-            "Review the course information page or start with the support page if you need help deciding whether this course is appropriate for your situation.",
+            "Review the course information page if you need more detail before enrolling or relying on completion.",
           infoCta: "Read Course Information",
-          supportCta: "Open Support",
         }
 
   return (
@@ -224,12 +261,6 @@ export default async function StateFaqPage({
             className="rounded-xl border border-amber-300 bg-white px-5 py-3 font-semibold text-amber-900 transition hover:bg-amber-100"
           >
             {copy.infoCta}
-          </Link>
-          <Link
-            href={getSupportRoute(state)}
-            className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
-          >
-            {copy.supportCta}
           </Link>
         </div>
       </section>
