@@ -1,9 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
 export default function SignupPage() {
+  const params = useParams()
+  const state =
+    typeof params?.state === 'string' ? params.state : 'virginia'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
@@ -13,10 +17,22 @@ export default function SignupPage() {
     setMessage('Creating account...')
 
     const supabase = createClient()
+    const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim()
+    const redirectBaseUrl =
+      configuredBaseUrl && /^https?:\/\//.test(configuredBaseUrl)
+        ? configuredBaseUrl.replace(/\/$/, '')
+        : typeof window !== 'undefined'
+        ? window.location.origin
+        : ''
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: redirectBaseUrl
+          ? `${redirectBaseUrl}/${state}/dashboard`
+          : undefined,
+      },
     })
 
     if (error) {
@@ -24,7 +40,12 @@ export default function SignupPage() {
       return
     }
 
-    setMessage('Account created. Check your email for confirmation if required.')
+    setPassword('')
+    setMessage(
+      data.session
+        ? 'Account created. You can log in now.'
+        : 'Account created. Check your email and confirm your address before logging in.'
+    )
   }
 
   return (

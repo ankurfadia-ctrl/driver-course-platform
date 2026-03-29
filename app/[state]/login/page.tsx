@@ -55,7 +55,9 @@ export default function LoginPage() {
           plansLink: "Ver planes del curso",
           loginSuccess: "Inicio de sesion correcto. Redirigiendo...",
           signupSuccess:
-            "Cuenta creada correctamente. Si la confirmacion por correo esta activada, revisa tu correo. Si no, ya puedes iniciar sesion.",
+            "Cuenta creada. Revisa tu correo y confirma tu direccion antes de iniciar sesion.",
+          signupSuccessNoConfirm:
+            "Cuenta creada correctamente. Ya puedes iniciar sesion.",
         }
       : {
           sectionLabel: `${config.stateName} Student Access`,
@@ -93,7 +95,9 @@ export default function LoginPage() {
           plansLink: "View course plans",
           loginSuccess: "Login successful. Redirecting...",
           signupSuccess:
-            "Account created successfully. If email confirmation is enabled, check your email. Otherwise, you can log in now.",
+            "Account created. Check your email and confirm your address before logging in.",
+          signupSuccessNoConfirm:
+            "Account created successfully. You can log in now.",
         }
 
   const requestedMode = searchParams.get("mode") === "signup" ? "signup" : "login"
@@ -133,13 +137,18 @@ export default function LoginPage() {
 
       const origin =
         typeof window !== "undefined" ? window.location.origin : ""
+      const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim()
+      const redirectBaseUrl =
+        configuredBaseUrl && /^https?:\/\//.test(configuredBaseUrl)
+          ? configuredBaseUrl.replace(/\/$/, "")
+          : origin
 
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: origin
-            ? `${origin}/${state}/dashboard`
+          emailRedirectTo: redirectBaseUrl
+            ? `${redirectBaseUrl}/${state}/dashboard`
             : undefined,
         },
       })
@@ -149,8 +158,10 @@ export default function LoginPage() {
         return
       }
 
-      setMessage(copy.signupSuccess)
-      setMode("login")
+      setPassword("")
+      setMessage(
+        data.session ? copy.signupSuccessNoConfirm : copy.signupSuccess
+      )
     } finally {
       setLoading(false)
     }
