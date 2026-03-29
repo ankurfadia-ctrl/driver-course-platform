@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useParams, useSearchParams } from "next/navigation"
 import { getStudentIdentityProfile } from "@/lib/student-identity"
@@ -75,11 +75,6 @@ export default function MailedCertificateOrderPage() {
       isMounted = false
     }
   }, [state])
-
-  const grossMarginLabel = useMemo(
-    () => `${quote.estimatedMarginPercent}%`,
-    [quote.estimatedMarginPercent]
-  )
 
   const handleFieldChange =
     (field: keyof MailingAddress) =>
@@ -279,20 +274,14 @@ export default function MailedCertificateOrderPage() {
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
-                <span>Estimated provider cost</span>
+                <span>Delivery method</span>
                 <span className="font-semibold text-slate-950">
-                  {formatPriceFromCents(quote.estimatedProviderCostCents)}
+                  Standard mailed letter
                 </span>
               </div>
               <div className="flex items-center justify-between gap-4">
-                <span>Estimated gross profit</span>
-                <span className="font-semibold text-slate-950">
-                  {formatPriceFromCents(quote.estimatedGrossProfitCents)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <span>Estimated gross margin</span>
-                <span className="font-semibold text-slate-950">{grossMarginLabel}</span>
+                <span>Address required</span>
+                <span className="font-semibold text-slate-950">Yes</span>
               </div>
             </div>
           </section>
