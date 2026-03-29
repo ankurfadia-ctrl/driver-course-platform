@@ -53,10 +53,13 @@ export default function StateCheckoutPage() {
   const normalizedSupportTier = normalizeSupportTier(purchaseSupportTier)
   const plans = useMemo(
     () =>
-      getAvailableCoursePlans(state, {
-        hasPaidAccess: hasPaidPurchase,
-        supportTier: normalizedSupportTier,
-      }),
+      getAvailableCoursePlans(
+        state,
+        {
+          hasPaidAccess: hasPaidPurchase,
+          supportTier: normalizedSupportTier,
+        }
+      ).filter((plan) => plan.planKind !== "certificate-mail"),
     [state, hasPaidPurchase, normalizedSupportTier]
   )
 

@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/client"
+import { getCoursePlanByCode } from "@/lib/payment/plans"
 
 export type CourseAccessStatus = {
   isAuthenticated: boolean
@@ -54,7 +55,7 @@ export async function getCourseAccessStatus(
       .eq("state_code", normalizedState)
       .eq("purchase_status", "paid")
       .order("purchased_at", { ascending: false })
-      .limit(1)
+      .limit(25)
 
     if (error) {
       return {
@@ -67,14 +68,34 @@ export async function getCourseAccessStatus(
       }
     }
 
-    const purchase = data?.[0]
+    const purchases = data ?? []
+    const fullCoursePurchase =
+      purchases.find((purchase) => {
+        const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+        return plan?.planKind === "full-course"
+      }) ?? null
+
+    const priorityPurchase = purchases.find((purchase) => {
+      const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+
+      if (!plan) {
+        return purchase.support_tier === "priority"
+      }
+
+      return (
+        plan.planKind === "full-course" ||
+        plan.planKind === "support-upgrade"
+      ) && purchase.support_tier === "priority"
+    })
 
     return {
       isAuthenticated: true,
-      hasPaidAccess: Boolean(purchase),
+      hasPaidAccess: Boolean(fullCoursePurchase),
       userId: user.id,
-      planCode: purchase?.plan_code ?? null,
-      supportTier: purchase?.support_tier ?? null,
+      planCode: fullCoursePurchase?.plan_code ?? null,
+      supportTier: priorityPurchase
+        ? "priority"
+        : fullCoursePurchase?.support_tier ?? null,
       error: null,
     }
   } catch (error) {

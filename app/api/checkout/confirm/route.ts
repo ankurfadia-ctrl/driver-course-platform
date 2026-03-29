@@ -3,7 +3,9 @@ import Stripe from "stripe"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getCourseConfig } from "@/lib/course-config"
+import { fulfillCertificateMailOrder } from "@/lib/certificate-mail"
 import { sendPurchaseConfirmationEmail } from "@/lib/email"
+import { getCoursePlanByCode } from "@/lib/payment/plans"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 
@@ -59,11 +61,22 @@ async function confirmCheckoutSession(sessionId: string) {
   const metadata = checkoutSession.metadata ?? {}
   const stateCode = String(metadata.stateCode ?? "").trim().toLowerCase()
   const planCode = String(metadata.planCode ?? "").trim()
+  const planKind = String(metadata.planKind ?? "").trim()
   const supportTier = String(metadata.supportTier ?? "").trim()
+  const certificateId = String(metadata.certificateId ?? "").trim()
 
-  if (!stateCode || !planCode || !supportTier) {
+  if (!stateCode || !planCode || !supportTier || !planKind) {
     return NextResponse.json(
       { ok: false, error: "Stripe session metadata is incomplete." },
+      { status: 400 }
+    )
+  }
+
+  const plan = getCoursePlanByCode(planCode)
+
+  if (!plan) {
+    return NextResponse.json(
+      { ok: false, error: "Checkout plan could not be resolved." },
       { status: 400 }
     )
   }
@@ -112,7 +125,64 @@ async function confirmCheckoutSession(sessionId: string) {
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
-  if (user.email && baseUrl && !wasAlreadyRecorded) {
+  if (plan.planKind === "certificate-mail" && baseUrl && !wasAlreadyRecorded) {
+    const [{ data: examRow, error: examError }, { data: identityRow, error: identityError }] =
+      await Promise.all([
+        adminSupabase
+          .from("exam_results")
+          .select("certificate_id, completed_at, passed")
+          .eq("user_id", user.id)
+          .eq("state", stateCode)
+          .eq("certificate_id", certificateId)
+          .order("completed_at", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+        adminSupabase
+          .from("student_identity_profiles")
+          .select("first_name, last_name")
+          .eq("user_id", user.id)
+          .eq("state", stateCode)
+          .maybeSingle(),
+      ])
+
+    if (examError || identityError || !examRow || !examRow.passed || !identityRow) {
+      return NextResponse.json(
+        { ok: false, error: "Could not validate mailed certificate order." },
+        { status: 400 }
+      )
+    }
+
+    try {
+      await fulfillCertificateMailOrder({
+        stateCode,
+        stateName: getCourseConfig(stateCode).stateName,
+        courseName: getCourseConfig(stateCode).courseName,
+        certificateId,
+        completionDate: examRow.completed_at ?? null,
+        studentName: `${identityRow.first_name} ${identityRow.last_name}`.trim(),
+        verifyUrl: `${baseUrl}/verify/${certificateId}`,
+        mailingAddress: {
+          firstName: String(metadata.mailFirstName ?? "").trim(),
+          lastName: String(metadata.mailLastName ?? "").trim(),
+          addressLine1: String(metadata.mailAddressLine1 ?? "").trim(),
+          addressLine2: String(metadata.mailAddressLine2 ?? "").trim(),
+          city: String(metadata.mailCity ?? "").trim(),
+          state: String(metadata.mailState ?? "").trim(),
+          postalCode: String(metadata.mailPostalCode ?? "").trim(),
+          country: String(metadata.mailCountry ?? "US").trim(),
+        },
+      })
+    } catch (mailError) {
+      console.error("Certificate mail fulfillment failed:", mailError)
+
+      return NextResponse.json(
+        { ok: false, error: "Payment succeeded, but the mailed certificate order could not be submitted automatically." },
+        { status: 500 }
+      )
+    }
+  }
+
+  if (user.email && baseUrl && !wasAlreadyRecorded && plan.planKind !== "certificate-mail") {
     const config = getCourseConfig(stateCode)
 
     try {

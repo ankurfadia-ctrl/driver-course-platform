@@ -158,6 +158,8 @@ export default function CheckoutSuccessPage({
   );
 
   const stateDisplayName = stateCode ? formatStateName(stateCode) : "Driver Improvement";
+  const isMailOrder =
+    confirmResult?.purchase?.plan_code === "va-mailed-certificate";
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -165,14 +167,17 @@ export default function CheckoutSuccessPage({
         <div className="overflow-hidden rounded-2xl border border-emerald-200 bg-white shadow-sm">
           <div className="border-b border-emerald-100 bg-emerald-50 px-6 py-5">
             <div className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
-              Payment successful
+              {isMailOrder ? "Mail order received" : "Payment successful"}
             </div>
             <h1 className="mt-1 text-2xl font-bold text-slate-900 sm:text-3xl">
-              Your {stateDisplayName} driver improvement purchase is complete
+              {isMailOrder
+                ? `Your ${stateDisplayName} mailed certificate order is complete`
+                : `Your ${stateDisplayName} driver improvement purchase is complete`}
             </h1>
             <p className="mt-2 text-sm text-slate-600 sm:text-base">
-              Thank you. We are now verifying your payment and activating access for this
-              account.
+              {isMailOrder
+                ? "Thank you. We are now verifying payment and submitting the mailed certificate order."
+                : "Thank you. We are now verifying your payment and activating access for this account."}
             </p>
           </div>
 
@@ -190,9 +195,19 @@ export default function CheckoutSuccessPage({
                 </div>
               ) : confirmResult?.ok ? (
                 <div className="mt-3 space-y-3 text-sm text-slate-700 sm:text-base">
-                  <p>1. Payment verified successfully.</p>
-                  <p>2. Purchase saved to your account.</p>
-                  <p>3. Course access is now active.</p>
+                  {isMailOrder ? (
+                    <>
+                      <p>1. Payment verified successfully.</p>
+                      <p>2. Mailed certificate order saved to your account.</p>
+                      <p>3. The order was submitted for mailing.</p>
+                    </>
+                  ) : (
+                    <>
+                      <p>1. Payment verified successfully.</p>
+                      <p>2. Purchase saved to your account.</p>
+                      <p>3. Course access is now active.</p>
+                    </>
+                  )}
                 </div>
               ) : (
                 <div className="mt-3 space-y-3 text-sm text-slate-700 sm:text-base">
@@ -276,10 +291,10 @@ export default function CheckoutSuccessPage({
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               {confirmResult?.ok ? (
                 <Link
-                  href={courseHref}
+                  href={isMailOrder ? `${stateCode ? `/${stateCode}/certificate` : "#"}` : courseHref}
                   className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
-                  Start course
+                  {isMailOrder ? "Back to certificate" : "Start course"}
                 </Link>
               ) : (
                 <Link

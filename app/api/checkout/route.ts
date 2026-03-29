@@ -6,6 +6,10 @@ import {
   getStripeCheckoutPlan,
 } from "@/lib/payment/stripe"
 import { getPlanEligibility } from "@/lib/payment/plans"
+import {
+  type MailingAddress,
+  validateMailingAddress,
+} from "@/lib/certificate-mail"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 
@@ -14,6 +18,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 type CheckoutRequestBody = {
   planCode?: string
   stateCode?: string
+  certificateId?: string
+  mailingAddress?: Partial<MailingAddress>
 }
 
 export async function POST(request: NextRequest) {
@@ -22,6 +28,7 @@ export async function POST(request: NextRequest) {
 
     const planCode = String(body?.planCode ?? "").trim()
     const stateCode = String(body?.stateCode ?? "").trim().toLowerCase()
+    const certificateId = String(body?.certificateId ?? "").trim()
 
     if (!planCode || !stateCode) {
       return NextResponse.json(
@@ -115,6 +122,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let mailingAddress: MailingAddress | null = null
+
+    if (plan.planKind === "certificate-mail") {
+      if (!certificateId) {
+        return NextResponse.json(
+          { ok: false, error: "Missing certificateId for mailed certificate order." },
+          { status: 400 }
+        )
+      }
+
+      mailingAddress = {
+        firstName: String(body?.mailingAddress?.firstName ?? "").trim(),
+        lastName: String(body?.mailingAddress?.lastName ?? "").trim(),
+        addressLine1: String(body?.mailingAddress?.addressLine1 ?? "").trim(),
+        addressLine2: String(body?.mailingAddress?.addressLine2 ?? "").trim(),
+        city: String(body?.mailingAddress?.city ?? "").trim(),
+        state: String(body?.mailingAddress?.state ?? "").trim().toUpperCase(),
+        postalCode: String(body?.mailingAddress?.postalCode ?? "").trim(),
+        country: String(body?.mailingAddress?.country ?? "US").trim().toUpperCase(),
+      }
+
+      try {
+        validateMailingAddress(mailingAddress)
+      } catch (error) {
+        return NextResponse.json(
+          { ok: false, error: error instanceof Error ? error.message : "Invalid mailing address." },
+          { status: 400 }
+        )
+      }
+    }
+
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
     if (!baseUrl) {
@@ -157,6 +195,15 @@ export async function POST(request: NextRequest) {
         planKind: plan.planKind,
         stateCode: plan.stateCode,
         supportTier: plan.supportTier,
+        certificateId,
+        mailFirstName: mailingAddress?.firstName ?? "",
+        mailLastName: mailingAddress?.lastName ?? "",
+        mailAddressLine1: mailingAddress?.addressLine1 ?? "",
+        mailAddressLine2: mailingAddress?.addressLine2 ?? "",
+        mailCity: mailingAddress?.city ?? "",
+        mailState: mailingAddress?.state ?? "",
+        mailPostalCode: mailingAddress?.postalCode ?? "",
+        mailCountry: mailingAddress?.country ?? "",
       },
     })
 

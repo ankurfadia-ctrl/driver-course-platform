@@ -1,5 +1,5 @@
 export type SupportTier = "standard" | "priority"
-export type PlanKind = "full-course" | "support-upgrade"
+export type PlanKind = "full-course" | "support-upgrade" | "certificate-mail"
 
 export type CoursePlan = {
   stateCode: string
@@ -67,6 +67,19 @@ const COURSE_PLANS: CoursePlan[] = [
     includesPrioritySupport: true,
     active: true,
   },
+  {
+    stateCode: "virginia",
+    courseSlug: "driver-improvement",
+    planCode: "va-mailed-certificate",
+    planKind: "certificate-mail",
+    displayName: "Mailed Certificate Copy",
+    priceCents: 499,
+    currency: "usd",
+    supportTier: "standard",
+    includesCertificate: false,
+    includesPrioritySupport: false,
+    active: true,
+  },
 ]
 
 export function getCoursePlans(
@@ -108,6 +121,20 @@ export function getPlanEligibility(
       return {
         allowed: false,
         reason: "A standard course purchase is required before buying this upgrade.",
+      }
+    }
+
+    return {
+      allowed: true,
+      reason: null,
+    }
+  }
+
+  if (plan.planKind === "certificate-mail") {
+    if (!purchase.hasPaidAccess) {
+      return {
+        allowed: false,
+        reason: "You must complete a paid course purchase before ordering a mailed certificate copy.",
       }
     }
 

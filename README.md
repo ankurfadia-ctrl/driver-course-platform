@@ -10,6 +10,7 @@ Virginia-first online driver improvement course platform built with Next.js, Sup
 - Lesson flow with seat-time tracking
 - Final exam with identity verification and same-day retake lock
 - Certificate generation and public certificate verification
+- Mailed certificate copy ordering with later purchase support
 - Student support request flow and admin support inbox
 - Internal compliance dashboard for operations and approval prep
 - Internal curriculum packet view for Virginia lesson and exam review
@@ -29,6 +30,15 @@ ADMIN_EMAILS=
 EMAIL_PROVIDER=log
 EMAIL_FROM=
 RESEND_API_KEY=
+PHYSICAL_MAIL_PROVIDER=log
+LOB_API_KEY=
+LOB_FROM_NAME=
+LOB_FROM_ADDRESS_LINE1=
+LOB_FROM_ADDRESS_LINE2=
+LOB_FROM_ADDRESS_CITY=
+LOB_FROM_ADDRESS_STATE=
+LOB_FROM_ADDRESS_ZIP=
+LOB_FROM_COUNTRY=US
 ```
 
 ## Notes on admin access
@@ -46,6 +56,26 @@ RESEND_API_KEY=
   - `EMAIL_PROVIDER=resend`
   - `EMAIL_FROM`
   - `RESEND_API_KEY`
+
+## Notes on mailed certificate copies
+
+- Students can order a mailed certificate copy from the unlocked certificate page
+- The mailed copy is a separate paid add-on and can be purchased later
+- The current mailed certificate order page shows:
+  - price charged
+  - estimated provider cost
+  - estimated gross profit and margin
+- If `PHYSICAL_MAIL_PROVIDER=log`, mailed certificate orders are recorded but not submitted to a real mail provider
+- If you want automatic third-party mailing, set:
+  - `PHYSICAL_MAIL_PROVIDER=lob`
+  - `LOB_API_KEY`
+  - `LOB_FROM_NAME`
+  - `LOB_FROM_ADDRESS_LINE1`
+  - `LOB_FROM_ADDRESS_CITY`
+  - `LOB_FROM_ADDRESS_STATE`
+  - `LOB_FROM_ADDRESS_ZIP`
+  - optional `LOB_FROM_ADDRESS_LINE2`
+  - optional `LOB_FROM_COUNTRY`
 
 ## Production launch
 

@@ -435,6 +435,17 @@ export default function CertificatePage() {
           >
             {emailingCertificate ? "Sending Email..." : "Email Certificate"}
           </button>
+
+          {certificateId ? (
+            <Link
+              href={`/${state}/certificate/mailed-copy?certificateId=${encodeURIComponent(
+                certificateId
+              )}`}
+              className="rounded border border-slate-300 px-4 py-2 text-slate-700"
+            >
+              Order Mailed Copy
+            </Link>
+          ) : null}
         </div>
 
         {emailMessage ? (
