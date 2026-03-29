@@ -1041,13 +1041,44 @@ export default function FinalExamPage() {
               {lastAttempt.passed ? "PASSED" : "FAILED"}
             </div>
 
-            {lastAttempt.passed && (
-              <Link
-                href={`/${state}/certificate`}
-                className="mt-3 inline-block rounded bg-blue-600 px-4 py-2 text-white"
-              >
-                View Certificate
-              </Link>
+            {lastAttempt.passed ? (
+              <div className="mt-4">
+                <Link
+                  href={`/${state}/certificate`}
+                  className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
+                >
+                  View Certificate
+                </Link>
+              </div>
+            ) : (
+              <div className="mt-4 space-y-4">
+                <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                  Review the course material and return another business day if a retake is allowed.
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href={`/${state}/course`}
+                    className="rounded bg-blue-600 px-4 py-2 text-white"
+                  >
+                    Review Course
+                  </Link>
+
+                  <Link
+                    href={`/${state}/dashboard`}
+                    className="rounded bg-slate-200 px-4 py-2 text-slate-900"
+                  >
+                    Return to Dashboard
+                  </Link>
+
+                  <Link
+                    href={`/${state}/support`}
+                    className="rounded bg-slate-200 px-4 py-2 text-slate-900"
+                  >
+                    Get Support
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
         )}
