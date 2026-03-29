@@ -14,6 +14,23 @@ import {
   type ReasonForAttendingCode,
 } from "@/lib/student-attendance"
 
+function isBelowVirginiaLearnersPermitAge(dateOfBirth: string) {
+  if (!dateOfBirth) return false
+
+  const dob = new Date(dateOfBirth)
+
+  if (Number.isNaN(dob.getTime())) {
+    return false
+  }
+
+  const today = new Date()
+  const minimumDate = new Date(today)
+  minimumDate.setFullYear(minimumDate.getFullYear() - 15)
+  minimumDate.setMonth(minimumDate.getMonth() - 6)
+
+  return dob > minimumDate
+}
+
 export default function LoginPage() {
   const params = useParams()
   const router = useRouter()
@@ -72,6 +89,10 @@ export default function LoginPage() {
           firstName: "Nombre legal",
           lastName: "Apellido legal",
           dateOfBirth: "Fecha de nacimiento",
+          dateOfBirthHelp:
+            "Los cursos de mejoramiento pueden tomarse en linea a cualquier edad, pero los estudiantes deben confirmar que son elegibles para su requisito especifico en Virginia.",
+          underageNotice:
+            "Esta fecha de nacimiento parece estar por debajo de la edad minima de permiso de aprendizaje de Virginia (15 anos y 6 meses). Verifica la elegibilidad antes de inscribirte.",
           driversLicenseNumber: "Numero de licencia",
           courtName: "Nombre del tribunal",
           caseOrTicketNumber: "Numero de caso o multa",
@@ -132,6 +153,10 @@ export default function LoginPage() {
           firstName: "Legal first name",
           lastName: "Legal last name",
           dateOfBirth: "Date of birth",
+          dateOfBirthHelp:
+            "Driver improvement courses may be completed online regardless of age, but students must confirm eligibility for their specific Virginia requirement before enrolling.",
+          underageNotice:
+            "This birth date appears to be below Virginia's learner's permit minimum age of 15 years and 6 months. Confirm eligibility before enrolling.",
           driversLicenseNumber: "Driver's license number",
           courtName: "Court name",
           caseOrTicketNumber: "Case or ticket number",
@@ -163,6 +188,7 @@ export default function LoginPage() {
   const [accuracyConfirmed, setAccuracyConfirmed] = useState(false)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+  const showUnderageWarning = mode === "signup" && isBelowVirginiaLearnersPermitAge(dateOfBirth)
 
   useEffect(() => {
     setMode(requestedMode)
@@ -416,6 +442,14 @@ export default function LoginPage() {
                       className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
                       required
                     />
+                    <span className="mt-2 block text-xs leading-6 text-slate-500">
+                      {copy.dateOfBirthHelp}
+                    </span>
+                    {showUnderageWarning ? (
+                      <span className="mt-2 block rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs leading-6 text-amber-800">
+                        {copy.underageNotice}
+                      </span>
+                    ) : null}
                   </label>
 
                   <label className="block text-sm font-medium text-slate-700">
