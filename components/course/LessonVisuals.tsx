@@ -85,7 +85,10 @@ function DataTable({
           {rows.map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.map((cell, cellIndex) => (
-                <td key={`${rowIndex}-${cellIndex}`} className="px-4 py-3 align-top text-slate-700">
+                <td
+                  key={`${rowIndex}-${cellIndex}`}
+                  className="px-4 py-3 align-top text-slate-700"
+                >
                   {cell}
                 </td>
               ))}
@@ -102,10 +105,34 @@ function StoppingDistanceVisual() {
     <div className="space-y-6">
       <div className="rounded-2xl border border-slate-200 bg-white p-5">
         <div className="space-y-4">
-          <ChartRow label="25 mph" value={88} max={268} caption="about 88 ft" colorClass="bg-sky-500" />
-          <ChartRow label="35 mph" value={133} max={268} caption="about 133 ft" colorClass="bg-blue-500" />
-          <ChartRow label="45 mph" value={190} max={268} caption="about 190 ft" colorClass="bg-blue-600" />
-          <ChartRow label="55 mph" value={268} max={268} caption="about 268 ft" colorClass="bg-slate-800" />
+          <ChartRow
+            label="25 mph"
+            value={88}
+            max={268}
+            caption="about 88 ft"
+            colorClass="bg-sky-500"
+          />
+          <ChartRow
+            label="35 mph"
+            value={133}
+            max={268}
+            caption="about 133 ft"
+            colorClass="bg-blue-500"
+          />
+          <ChartRow
+            label="45 mph"
+            value={190}
+            max={268}
+            caption="about 190 ft"
+            colorClass="bg-blue-600"
+          />
+          <ChartRow
+            label="55 mph"
+            value={268}
+            max={268}
+            caption="about 268 ft"
+            colorClass="bg-slate-800"
+          />
         </div>
       </div>
 
@@ -171,7 +198,7 @@ function BacVisual() {
             Impairment can begin before 0.08
           </div>
           <p className="mt-2 text-sm leading-6 text-slate-700">
-            Slower reaction time, poor judgment, and reduced coordination can start well before a driver feels “drunk.”
+            Slower reaction time, poor judgment, and reduced coordination can start well before a driver feels &quot;drunk.&quot;
           </p>
         </div>
       </div>
@@ -219,80 +246,101 @@ function BacVisual() {
 function RoadSharingSpaceVisual() {
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl">
-            🚶
-          </div>
-          <div>
-            <h4 className="font-semibold text-slate-900">Pedestrians</h4>
-            <p className="text-sm text-slate-600">Slow early near crosswalks, parked cars, buses, and school areas.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-xl">
-            🚲
-          </div>
-          <div>
-            <h4 className="font-semibold text-slate-900">Cyclists</h4>
-            <p className="text-sm text-slate-600">Give extra space because riders may shift to avoid debris, doors, or rough pavement.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-xl">
-            🏍️
-          </div>
-          <div>
-            <h4 className="font-semibold text-slate-900">Motorcycles</h4>
-            <p className="text-sm text-slate-600">Check mirrors and blind spots carefully before turning or changing lanes.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-5">
-        <div className="flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-xl">
-            🚚
-          </div>
-          <div>
-            <h4 className="font-semibold text-slate-900">Trucks and buses</h4>
-            <p className="text-sm text-slate-600">Do not linger beside them or cut in close after passing.</p>
+      {[
+        [
+          "P",
+          "bg-blue-100",
+          "Pedestrians",
+          "Slow early near crosswalks, parked cars, buses, and school areas.",
+        ],
+        [
+          "B",
+          "bg-emerald-100",
+          "Cyclists",
+          "Give extra space because riders may shift to avoid debris, doors, or rough pavement.",
+        ],
+        [
+          "M",
+          "bg-amber-100",
+          "Motorcycles",
+          "Check mirrors and blind spots carefully before turning or changing lanes.",
+        ],
+        [
+          "T",
+          "bg-slate-200",
+          "Trucks and buses",
+          "Do not linger beside them or cut in close after passing.",
+        ],
+      ].map(([badge, badgeClass, title, body]) => (
+        <div key={title} className="rounded-2xl border border-slate-200 bg-white p-5">
+          <div className="flex items-center gap-3">
+            <div
+              className={`flex h-12 w-12 items-center justify-center rounded-full text-base font-semibold text-slate-900 ${badgeClass}`}
+            >
+              {badge}
+            </div>
+            <div>
+              <h4 className="font-semibold text-slate-900">{title}</h4>
+              <p className="text-sm text-slate-600">{body}</p>
+            </div>
           </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
 
-function TruckBlindSpotVisual() {
+function TruckTurningSpaceVisual() {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <svg viewBox="0 0 640 280" className="w-full" role="img" aria-label="Top view of truck blind spots">
-        <rect x="248" y="36" width="144" height="208" rx="24" fill="#334155" />
-        <rect x="272" y="16" width="96" height="52" rx="16" fill="#475569" />
-        <rect x="170" y="60" width="70" height="160" rx="20" fill="#fee2e2" />
-        <rect x="400" y="60" width="70" height="160" rx="20" fill="#fee2e2" />
-        <rect x="262" y="0" width="116" height="20" rx="10" fill="#fee2e2" />
-        <rect x="228" y="244" width="184" height="28" rx="14" fill="#fee2e2" />
+      <svg
+        viewBox="0 0 640 280"
+        className="w-full"
+        role="img"
+        aria-label="Truck making a wide right turn"
+      >
+        <rect x="52" y="112" width="536" height="96" rx="24" fill="#cbd5e1" />
+        <rect x="286" y="24" width="86" height="190" rx="18" fill="#334155" />
+        <rect x="306" y="36" width="46" height="48" rx="12" fill="#475569" />
 
-        <text x="270" y="140" fill="#ffffff" fontSize="22" fontWeight="700">TRUCK</text>
-        <text x="164" y="46" fill="#b91c1c" fontSize="18" fontWeight="700">Blind spot</text>
-        <text x="412" y="46" fill="#b91c1c" fontSize="18" fontWeight="700">Blind spot</text>
-        <text x="252" y="274" fill="#b91c1c" fontSize="18" fontWeight="700">Large rear blind zone</text>
+        <path
+          d="M 330 198 C 332 222, 360 236, 410 236 L 548 236"
+          fill="none"
+          stroke="#f59e0b"
+          strokeWidth="14"
+          strokeLinecap="round"
+          strokeDasharray="18 14"
+        />
+        <path
+          d="M 346 194 C 350 216, 374 222, 418 222 L 548 222"
+          fill="none"
+          stroke="#fed7aa"
+          strokeWidth="30"
+          strokeLinecap="round"
+          opacity="0.95"
+        />
+
+        <rect x="470" y="198" width="82" height="34" rx="10" fill="#2563eb" />
+        <rect x="482" y="230" width="12" height="12" rx="6" fill="#0f172a" />
+        <rect x="526" y="230" width="12" height="12" rx="6" fill="#0f172a" />
+
+        <text x="278" y="132" fill="#ffffff" fontSize="22" fontWeight="700">
+          TRUCK
+        </text>
+        <text x="204" y="258" fill="#b45309" fontSize="18" fontWeight="700">
+          Wide turn path
+        </text>
+        <text x="428" y="186" fill="#1d4ed8" fontSize="18" fontWeight="700">
+          Stay out of this space
+        </text>
       </svg>
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         <div className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
-          If you cannot see the truck driver’s mirrors, the driver may not be able to see you.
+          Large vehicles may swing wide before turning and need more space than a passenger car.
         </div>
         <div className="rounded-xl bg-blue-50 p-4 text-sm leading-6 text-blue-900">
-          Pass steadily, avoid lingering beside the trailer, and leave extra room after passing.
+          Do not move into the side space a truck or bus needs while turning. Stay back and let the turn finish first.
         </div>
       </div>
     </div>
@@ -369,11 +417,11 @@ export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
         </VisualShell>
 
         <VisualShell
-          label="Truck blind spots"
-          title="Large vehicles create no-see zones around the trailer and rear"
-          description="Give trucks and buses extra room, pass steadily, and avoid sitting beside or directly behind them longer than necessary."
+          label="Truck turning space"
+          title="Large vehicles often need extra room to complete a turn safely"
+          description="A truck or bus may swing wide before turning. Passenger vehicles should stay back and avoid moving into the side space needed for that turn."
         >
-          <TruckBlindSpotVisual />
+          <TruckTurningSpaceVisual />
         </VisualShell>
       </div>
     );
