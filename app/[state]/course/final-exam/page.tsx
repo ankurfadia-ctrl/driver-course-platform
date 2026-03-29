@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { getCourseAccessStatus } from "@/lib/course-access"
-import { getCourseConfig } from "@/lib/course-config"
+import { getCourseConfig, getLessonLinks } from "@/lib/course-config"
 import { getLatestCourseAttempt } from "@/lib/course-seat-time"
 import { getFinalExamQuestions, type ExamQuestion } from "@/lib/final-exam"
 import { verifyIdentityAnswer } from "@/lib/identity-verification-utils"
@@ -39,6 +39,59 @@ type ExamAcknowledgements = {
   noOutsideHelp: boolean
   remainOnPage: boolean
   readyToBegin: boolean
+}
+
+const FINAL_EXAM_REVIEW_MAP: Record<number, number[]> = {
+  1: [3],
+  2: [2],
+  3: [3],
+  4: [7],
+  5: [2],
+  6: [3],
+  7: [2, 5],
+  8: [2],
+  9: [8],
+  10: [7],
+  11: [3, 7],
+  12: [4],
+  13: [3, 7],
+  14: [5],
+  15: [7],
+  16: [3, 7],
+  17: [4],
+  18: [4],
+  19: [3, 8],
+  20: [2, 3],
+  21: [3, 8],
+  22: [2, 8],
+  23: [6],
+  24: [6, 8],
+  25: [7],
+  26: [4],
+  27: [8],
+  28: [8],
+  29: [3],
+  30: [2, 5],
+  31: [5, 6],
+  32: [4],
+  33: [3, 7],
+  34: [7],
+  35: [2, 5],
+  36: [5],
+  37: [5, 6],
+  38: [4],
+  39: [8],
+  40: [8],
+  41: [5, 6],
+  42: [7],
+  43: [5, 8],
+  44: [8],
+  45: [2, 5],
+  46: [6, 7],
+  47: [2, 8],
+  48: [7],
+  49: [2, 5],
+  50: [2, 8],
 }
 
 function getTodayKey() {
@@ -158,6 +211,7 @@ export default function FinalExamPage() {
 
   const checkpoints = useMemo(() => [15, 35], [])
   const effectiveSeatTimeComplete = seatTimeComplete || seatTimeBypassed
+  const lessonLinks = useMemo(() => getLessonLinks(state), [state])
 
   useEffect(() => {
     let isMounted = true
@@ -370,6 +424,30 @@ export default function FinalExamPage() {
   }
 
   const answeredCount = answers.filter((value) => value !== -1).length
+
+  const failedReviewLessons = useMemo(() => {
+    if (!submitted || !lastAttempt || lastAttempt.passed) {
+      return []
+    }
+
+    const lessonScores = new Map<number, number>()
+
+    questions.forEach((question, index) => {
+      if (answers[index] === question.correctIndex) {
+        return
+      }
+
+      for (const lessonId of FINAL_EXAM_REVIEW_MAP[question.id] ?? []) {
+        lessonScores.set(lessonId, (lessonScores.get(lessonId) ?? 0) + 1)
+      }
+    })
+
+    return [...lessonScores.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([lessonId]) => lessonLinks.find((lesson) => lesson.id === lessonId))
+      .filter((lesson): lesson is NonNullable<typeof lesson> => Boolean(lesson))
+  }, [answers, lastAttempt, lessonLinks, questions, submitted])
 
   useEffect(() => {
     if (
@@ -777,12 +855,6 @@ export default function FinalExamPage() {
                 >
                   Return to Dashboard
                 </Link>
-                <Link
-                  href={`/${state}/support`}
-                  className="rounded bg-slate-200 px-4 py-2 text-slate-900"
-                >
-                  Get Support
-                </Link>
               </>
             )}
           </div>
@@ -1118,6 +1190,23 @@ export default function FinalExamPage() {
                   Next steps: review the course material, return to your dashboard, and come back after the retake time if another attempt is allowed.
                 </div>
 
+                {failedReviewLessons.length > 0 && (
+                  <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-900">
+                    <div className="font-semibold">Suggested lessons to review</div>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {failedReviewLessons.map((lesson) => (
+                        <Link
+                          key={lesson.id}
+                          href={lesson.href}
+                          className="rounded-full border border-blue-300 bg-white px-3 py-1.5 text-blue-900"
+                        >
+                          {lesson.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-wrap gap-3">
                   <Link
                     href={`/${state}/course`}
@@ -1131,13 +1220,6 @@ export default function FinalExamPage() {
                     className="rounded bg-slate-200 px-4 py-2 text-slate-900"
                   >
                     Return to Dashboard
-                  </Link>
-
-                  <Link
-                    href={`/${state}/support`}
-                    className="rounded bg-slate-200 px-4 py-2 text-slate-900"
-                  >
-                    Get Support
                   </Link>
                 </div>
               </div>
