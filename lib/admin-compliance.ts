@@ -1,4 +1,9 @@
 import { createAdminClient } from "@/lib/supabase/admin"
+import {
+  getReasonForAttendingLabel,
+  normalizeDriverCourseProfileMetadata,
+  type DriverCourseProfileMetadata,
+} from "@/lib/student-attendance"
 
 export type PurchaseRow = {
   id: string
@@ -71,8 +76,20 @@ export type ComplianceRecord = {
   seatTimeHours: string
   lessonProgress: string
   examStatus: string
+  completedAt: string
   certificateId: string
   supportStatus: string
+  reasonForAttending: string
+  courtName: string
+  caseOrTicketNumber: string
+  accuracyStatus: string
+  dmvReportStatus: string
+}
+
+type AuthUserProfileRow = {
+  userId: string
+  email: string
+  profile: DriverCourseProfileMetadata
 }
 
 function formatDateTime(value: string | null | undefined) {
@@ -132,6 +149,7 @@ export function buildComplianceRecords(args: {
     completed: boolean | null
   }>
   supportRows: SupportRow[]
+  authUsers: AuthUserProfileRow[]
 }) {
   const identityMap = new Map(
     args.identities.map((row) => [`${row.user_id}:${row.state}`, row])
@@ -169,6 +187,10 @@ export function buildComplianceRecords(args: {
     supportByStudentMap.set(key, current)
   }
 
+  const authUserMap = new Map(
+    args.authUsers.map((row) => [row.userId, row])
+  )
+
   return args.purchases.map((purchase) => {
     const key = `${purchase.user_id}:${purchase.state_code}`
     const identity = identityMap.get(key)
@@ -176,6 +198,10 @@ export function buildComplianceRecords(args: {
     const attempt = latestAttemptMap.get(key)
     const supportRows = supportByStudentMap.get(key) ?? []
     const completedLessons = completedLessonCountMap.get(key) ?? 0
+    const authUser = authUserMap.get(purchase.user_id)
+    const driverCourseProfile = normalizeDriverCourseProfileMetadata(
+      authUser?.profile
+    )
 
     const studentName = [identity?.first_name, identity?.last_name]
       .filter(Boolean)
@@ -209,6 +235,27 @@ export function buildComplianceRecords(args: {
       }
     }
 
+    const completionReady = Boolean(exam?.passed && exam?.certificate_id)
+    const completionTimestamp = exam?.completed_at ?? exam?.created_at ?? null
+    let dmvReportStatus = "Not ready"
+
+    if (completionReady) {
+      if (driverCourseProfile.dmvReportedAt) {
+        dmvReportStatus = `Reported ${formatDateTime(
+          driverCourseProfile.dmvReportedAt
+        )}`
+      } else if (completionTimestamp) {
+        const completedAtDate = new Date(completionTimestamp)
+        const isOverdue =
+          !Number.isNaN(completedAtDate.getTime()) &&
+          Date.now() - completedAtDate.getTime() > 24 * 60 * 60 * 1000
+
+        dmvReportStatus = isOverdue ? "Overdue" : "Pending"
+      } else {
+        dmvReportStatus = "Pending"
+      }
+    }
+
     return {
       key,
       userId: purchase.user_id,
@@ -233,10 +280,58 @@ export function buildComplianceRecords(args: {
             exam.score != null ? ` (${exam.score}%)` : ""
           }`
         : "No attempt",
+      completedAt: formatDateTime(completionTimestamp),
       certificateId: exam?.certificate_id ?? "-",
       supportStatus,
+      reasonForAttending: getReasonForAttendingLabel(
+        driverCourseProfile.reasonForAttending
+      ),
+      courtName: driverCourseProfile.courtName?.trim() || "-",
+      caseOrTicketNumber: driverCourseProfile.caseOrTicketNumber?.trim() || "-",
+      accuracyStatus: driverCourseProfile.accuracyAcknowledged
+        ? "Acknowledged"
+        : "Missing",
+      dmvReportStatus,
     } satisfies ComplianceRecord
   })
+}
+
+async function loadAuthUserProfiles() {
+  const supabase = createAdminClient()
+  const users: AuthUserProfileRow[] = []
+  let page = 1
+  const perPage = 200
+
+  while (page <= 5) {
+    const { data, error } = await supabase.auth.admin.listUsers({
+      page,
+      perPage,
+    })
+
+    if (error) {
+      throw error
+    }
+
+    const batch = data?.users ?? []
+    users.push(
+      ...batch.map((user) => ({
+        userId: user.id,
+        email: user.email ?? "-",
+        profile: normalizeDriverCourseProfileMetadata(
+          (user.user_metadata as Record<string, unknown> | undefined)
+            ?.driverCourseProfile
+        ),
+      }))
+    )
+
+    if (batch.length < perPage) {
+      break
+    }
+
+    page += 1
+  }
+
+  return users
 }
 
 export async function loadComplianceData() {
@@ -249,6 +344,7 @@ export async function loadComplianceData() {
     attemptsResult,
     progressResult,
     supportResult,
+    authUsersResult,
   ] = await Promise.all([
     supabase
       .from("course_purchases")
@@ -281,6 +377,7 @@ export async function loadComplianceData() {
       .select("id, user_id, state_code, category, priority_requested, escalation_recommended, status, created_at")
       .order("created_at", { ascending: false })
       .limit(500),
+    loadAuthUserProfiles(),
   ])
 
   const errors = [
@@ -304,6 +401,7 @@ export async function loadComplianceData() {
       completed: boolean | null
     }>
   const supportRows = (supportResult.data ?? []) as SupportRow[]
+  const authUsers = authUsersResult ?? []
 
   return {
     errors,
@@ -315,6 +413,7 @@ export async function loadComplianceData() {
       attempts,
       progressRows,
       supportRows,
+      authUsers,
     }),
   }
 }
@@ -327,7 +426,31 @@ export function getComplianceSummary(records: ComplianceRecord[], purchases: Pur
     examPassed: records.filter((record) => record.examStatus.startsWith("Passed")).length,
     certificatesIssued: records.filter((record) => record.certificateId !== "-").length,
     supportOpen: records.filter((record) => record.supportStatus !== "No requests" && record.supportStatus !== "Resolved").length,
+    reportingPending: records.filter(
+      (record) =>
+        record.dmvReportStatus === "Pending" ||
+        record.dmvReportStatus === "Overdue"
+    ).length,
   }
+}
+
+export function getDmvReportingQueue(records: ComplianceRecord[]) {
+  return records
+    .filter(
+      (record) =>
+        record.certificateId !== "-" &&
+        (record.dmvReportStatus === "Pending" ||
+          record.dmvReportStatus === "Overdue" ||
+          record.dmvReportStatus.startsWith("Reported"))
+    )
+    .sort((a, b) => {
+      if (a.dmvReportStatus === b.dmvReportStatus) return 0
+      if (a.dmvReportStatus === "Overdue") return -1
+      if (b.dmvReportStatus === "Overdue") return 1
+      if (a.dmvReportStatus === "Pending") return -1
+      if (b.dmvReportStatus === "Pending") return 1
+      return 0
+    })
 }
 
 export function toCsv(records: ComplianceRecord[]) {
@@ -345,8 +468,14 @@ export function toCsv(records: ComplianceRecord[]) {
     "seat_time_hours",
     "lesson_progress",
     "exam_status",
+    "completed_at",
     "certificate_id",
     "support_status",
+    "reason_for_attending",
+    "court_name",
+    "case_or_ticket_number",
+    "accuracy_status",
+    "dmv_report_status",
   ]
 
   const rows = records.map((record) =>
@@ -364,8 +493,14 @@ export function toCsv(records: ComplianceRecord[]) {
       record.seatTimeHours,
       record.lessonProgress,
       record.examStatus,
+      record.completedAt,
       record.certificateId,
       record.supportStatus,
+      record.reasonForAttending,
+      record.courtName,
+      record.caseOrTicketNumber,
+      record.accuracyStatus,
+      record.dmvReportStatus,
     ]
       .map((value) => `"${String(value).replace(/"/g, '""')}"`)
       .join(",")

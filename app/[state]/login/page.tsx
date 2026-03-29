@@ -6,6 +6,12 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
+import {
+  getReasonForAttendingLabel,
+  isCourtRelatedReason,
+  REASON_FOR_ATTENDING_OPTIONS,
+  type ReasonForAttendingCode,
+} from "@/lib/student-attendance"
 
 export default function LoginPage() {
   const params = useParams()
@@ -58,6 +64,18 @@ export default function LoginPage() {
             "Cuenta creada. Revisa tu correo y confirma tu direccion antes de iniciar sesion.",
           signupSuccessNoConfirm:
             "Cuenta creada correctamente. Ya puedes iniciar sesion.",
+          reasonLabel: "Motivo de asistencia",
+          reasonPlaceholder: "Selecciona un motivo",
+          courtName: "Nombre del tribunal",
+          caseOrTicketNumber: "Numero de caso o multa",
+          courtDocumentNotes: "Notas del documento judicial",
+          courtDocumentHelp:
+            "Si el tribunal te entrego una orden o documento, agrega aqui los detalles que te ayudaran a encontrarlo.",
+          accuracyLabel:
+            "Confirmo que la informacion de identidad e inscripcion es correcta y entiendo que los errores pueden impedir la finalizacion, el certificado o el credito informado.",
+          reasonRequired: "Selecciona un motivo de asistencia antes de crear la cuenta.",
+          courtFieldsRequired:
+            "Completa la informacion del tribunal antes de crear la cuenta.",
         }
       : {
           sectionLabel: `${config.stateName} Student Access`,
@@ -98,12 +116,30 @@ export default function LoginPage() {
             "Account created. Check your email and confirm your address before logging in.",
           signupSuccessNoConfirm:
             "Account created successfully. You can log in now.",
+          reasonLabel: "Reason for attending",
+          reasonPlaceholder: "Select a reason",
+          courtName: "Court name",
+          caseOrTicketNumber: "Case or ticket number",
+          courtDocumentNotes: "Court document notes",
+          courtDocumentHelp:
+            "If the court gave you an order or document, add the details here so the provider can match your record later.",
+          accuracyLabel:
+            "I confirm that my identity and enrollment information is accurate and understand that incorrect, incomplete, or misleading information may prevent course completion, certificate use, or reporting credit.",
+          reasonRequired: "Select a reason for attending before creating the account.",
+          courtFieldsRequired:
+            "Complete the court information before creating the account.",
         }
 
   const requestedMode = searchParams.get("mode") === "signup" ? "signup" : "login"
   const [mode, setMode] = useState<"login" | "signup">(requestedMode)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [reasonForAttending, setReasonForAttending] =
+    useState<ReasonForAttendingCode | "">("")
+  const [courtName, setCourtName] = useState("")
+  const [caseOrTicketNumber, setCaseOrTicketNumber] = useState("")
+  const [courtDocumentNotes, setCourtDocumentNotes] = useState("")
+  const [accuracyConfirmed, setAccuracyConfirmed] = useState(false)
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -135,6 +171,24 @@ export default function LoginPage() {
         return
       }
 
+      if (!reasonForAttending) {
+        setMessage(copy.reasonRequired)
+        return
+      }
+
+      if (
+        isCourtRelatedReason(reasonForAttending) &&
+        (!courtName.trim() || !caseOrTicketNumber.trim())
+      ) {
+        setMessage(copy.courtFieldsRequired)
+        return
+      }
+
+      if (!accuracyConfirmed) {
+        setMessage(copy.accuracyLabel)
+        return
+      }
+
       const origin =
         typeof window !== "undefined" ? window.location.origin : ""
       const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim()
@@ -147,6 +201,21 @@ export default function LoginPage() {
         email,
         password,
         options: {
+          data: {
+            driverCourseProfile: {
+              reasonForAttending,
+              reasonForAttendingLabel: getReasonForAttendingLabel(reasonForAttending),
+              courtName: isCourtRelatedReason(reasonForAttending) ? courtName.trim() : "",
+              caseOrTicketNumber: isCourtRelatedReason(reasonForAttending)
+                ? caseOrTicketNumber.trim()
+                : "",
+              courtDocumentNotes: isCourtRelatedReason(reasonForAttending)
+                ? courtDocumentNotes.trim()
+                : "",
+              accuracyAcknowledged: accuracyConfirmed,
+              accuracyAcknowledgedAt: new Date().toISOString(),
+            },
+          },
           emailRedirectTo: redirectBaseUrl
             ? `${redirectBaseUrl}/${state}/dashboard`
             : undefined,
@@ -234,6 +303,80 @@ export default function LoginPage() {
               required
               autoComplete={mode === "login" ? "current-password" : "new-password"}
             />
+
+            {mode === "signup" ? (
+              <>
+                <select
+                  value={reasonForAttending}
+                  onChange={(e) =>
+                    setReasonForAttending(e.target.value as ReasonForAttendingCode | "")
+                  }
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                  required
+                >
+                  <option value="">{copy.reasonPlaceholder}</option>
+                  {REASON_FOR_ATTENDING_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {language === "es"
+                        ? option.value === "court-required"
+                          ? "Requerido por tribunal"
+                          : option.value === "court-voluntary"
+                          ? "Relacionado con tribunal / voluntario"
+                          : option.value === "dmv"
+                          ? "Relacionado con DMV"
+                          : option.value === "insurance"
+                          ? "Relacionado con seguro"
+                          : option.value === "employer"
+                          ? "Relacionado con empleador"
+                          : "Mejora personal"
+                        : option.label}
+                    </option>
+                  ))}
+                </select>
+
+                {isCourtRelatedReason(reasonForAttending) ? (
+                  <>
+                    <input
+                      type="text"
+                      placeholder={copy.courtName}
+                      value={courtName}
+                      onChange={(e) => setCourtName(e.target.value)}
+                      className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                      required
+                    />
+
+                    <input
+                      type="text"
+                      placeholder={copy.caseOrTicketNumber}
+                      value={caseOrTicketNumber}
+                      onChange={(e) => setCaseOrTicketNumber(e.target.value)}
+                      className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                      required
+                    />
+
+                    <textarea
+                      placeholder={copy.courtDocumentNotes}
+                      value={courtDocumentNotes}
+                      onChange={(e) => setCourtDocumentNotes(e.target.value)}
+                      className="min-h-28 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                    />
+                    <p className="-mt-2 text-xs leading-6 text-slate-500">
+                      {copy.courtDocumentHelp}
+                    </p>
+                  </>
+                ) : null}
+
+                <label className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={accuracyConfirmed}
+                    onChange={(e) => setAccuracyConfirmed(e.target.checked)}
+                    className="mr-3 mt-1 align-top"
+                  />
+                  <span>{copy.accuracyLabel}</span>
+                </label>
+              </>
+            ) : null}
 
             <button
               type="submit"

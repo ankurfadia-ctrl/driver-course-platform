@@ -76,6 +76,12 @@ export default async function AdminCompliancePage() {
             Operations Guide
           </Link>
           <Link
+            href="/admin/reporting"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            DMV Reporting
+          </Link>
+          <Link
             href="/admin/launch-readiness"
             className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
@@ -126,6 +132,10 @@ export default async function AdminCompliancePage() {
         <div className="rounded-2xl border border-rose-200 bg-rose-50 p-5 shadow-sm">
           <div className="text-sm text-rose-700">Support open</div>
           <div className="mt-2 text-3xl font-bold text-rose-900">{summary.supportOpen}</div>
+        </div>
+        <div className="rounded-2xl border border-cyan-200 bg-cyan-50 p-5 shadow-sm">
+          <div className="text-sm text-cyan-700">DMV reporting pending</div>
+          <div className="mt-2 text-3xl font-bold text-cyan-900">{summary.reportingPending}</div>
         </div>
       </div>
 
