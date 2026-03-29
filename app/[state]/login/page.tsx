@@ -407,23 +407,28 @@ export default function LoginPage() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <input
-                    type="date"
-                    placeholder={copy.dateOfBirth}
-                    value={dateOfBirth}
-                    onChange={(e) => setDateOfBirth(e.target.value)}
-                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
-                    required
-                  />
+                  <label className="block text-sm font-medium text-slate-700">
+                    <span className="mb-2 block">{copy.dateOfBirth}</span>
+                    <input
+                      type="date"
+                      value={dateOfBirth}
+                      onChange={(e) => setDateOfBirth(e.target.value)}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                      required
+                    />
+                  </label>
 
-                  <input
-                    type="text"
-                    placeholder={copy.driversLicenseNumber}
-                    value={driversLicenseNumber}
-                    onChange={(e) => setDriversLicenseNumber(e.target.value)}
-                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
-                    required
-                  />
+                  <label className="block text-sm font-medium text-slate-700">
+                    <span className="mb-2 block">{copy.driversLicenseNumber}</span>
+                    <input
+                      type="text"
+                      placeholder={copy.driversLicenseNumber}
+                      value={driversLicenseNumber}
+                      onChange={(e) => setDriversLicenseNumber(e.target.value)}
+                      className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                      required
+                    />
+                  </label>
                 </div>
 
                 {isCourtRelatedReason(reasonForAttending) ? (
