@@ -1,13 +1,14 @@
 "use client"
 
 import Link from "next/link"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useParams } from "next/navigation"
 import {
   getSupportAssistantResponse,
   type SupportCategory,
 } from "@/lib/support-assistant"
 import { createSupportRequest } from "@/lib/support-requests"
+import { getCourseAccessStatus } from "@/lib/course-access"
 
 const CATEGORY_OPTIONS: { value: SupportCategory; label: string }[] = [
   { value: "course-access", label: "Course access / login" },
@@ -34,6 +35,8 @@ export default function StateSupportPage() {
   const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
   const [priority, setPriority] = useState(false)
+  const [checkingSupportTier, setCheckingSupportTier] = useState(true)
+  const [hasPrioritySupport, setHasPrioritySupport] = useState(false)
 
   const [submitted, setSubmitted] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -48,6 +51,37 @@ export default function StateSupportPage() {
 
   const canPreview = effectiveText.length >= 5
   const canSubmit = effectiveText.length >= 5 && !saving
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadSupportTier() {
+      try {
+        setCheckingSupportTier(true)
+
+        const access = await getCourseAccessStatus(state)
+
+        if (!isMounted) return
+
+        setHasPrioritySupport(access.supportTier === "priority")
+      } catch (error) {
+        console.error("Could not load support tier:", error)
+
+        if (!isMounted) return
+        setHasPrioritySupport(false)
+      } finally {
+        if (isMounted) {
+          setCheckingSupportTier(false)
+        }
+      }
+    }
+
+    void loadSupportTier()
+
+    return () => {
+      isMounted = false
+    }
+  }, [state])
 
   const aiResponse = useMemo(() => {
     if (!canPreview) return null
@@ -75,7 +109,7 @@ export default function StateSupportPage() {
         subject: trimmedSubject || effectiveText,
         message: trimmedMessage || effectiveText,
         aiResponse,
-        priorityRequested: priority,
+        priorityRequested: hasPrioritySupport && priority,
       })
 
       setSubmitted(true)
@@ -88,10 +122,10 @@ export default function StateSupportPage() {
   }
 
   const resetForm = () => {
-    setSubmitted(false)
-    setSaving(false)
-    setError(null)
-    setPriority(false)
+      setSubmitted(false)
+      setSaving(false)
+      setError(null)
+      setPriority(false)
   }
 
   return (
@@ -258,25 +292,39 @@ export default function StateSupportPage() {
                 </div>
               ) : null}
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <label className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    checked={priority}
-                    onChange={(event) => setPriority(event.target.checked)}
-                    className="mt-1"
-                  />
-                  <div>
-                    <div className="font-semibold text-slate-900">
-                      Priority support request
+              {checkingSupportTier ? (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+                  Checking support options...
+                </div>
+              ) : hasPrioritySupport ? (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <label className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      checked={priority}
+                      onChange={(event) => setPriority(event.target.checked)}
+                      className="mt-1"
+                    />
+                    <div>
+                      <div className="font-semibold text-slate-900">
+                        Priority support request
+                      </div>
+                      <div className="mt-1 text-sm text-slate-600">
+                        Your plan includes priority support. Mark this request for faster review when needed.
+                      </div>
                     </div>
-                    <div className="mt-1 text-sm text-slate-600">
-                      Mark this request as priority if it needs faster review or
-                      additional attention from support.
-                    </div>
+                  </label>
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="font-semibold text-slate-900">
+                    Standard support
                   </div>
-                </label>
-              </div>
+                  <div className="mt-1 text-sm text-slate-600">
+                    Start here for instant help and standard support review. Priority handling is only available with a priority support plan.
+                  </div>
+                </div>
+              )}
 
               {error ? (
                 <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
@@ -308,7 +356,7 @@ export default function StateSupportPage() {
                 Most issues are resolved with the instant steps above. Unresolved issues can be reviewed next.
               </p>
 
-              {priority ? (
+              {hasPrioritySupport && priority ? (
                 <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
                   Priority support was requested for this submission.
                 </div>
@@ -346,7 +394,7 @@ export default function StateSupportPage() {
                 <div>
                   <div className="text-sm text-slate-500">Priority requested</div>
                   <div className="font-medium text-slate-900">
-                    {priority ? "Yes" : "No"}
+                    {hasPrioritySupport && priority ? "Yes" : "No"}
                   </div>
                 </div>
               </div>
