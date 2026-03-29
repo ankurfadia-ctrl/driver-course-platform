@@ -389,7 +389,7 @@ export default function StateCheckoutPage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href={`/${state}/login`}
+              href={`/${state}/login?mode=signup`}
               className="inline-flex rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white hover:bg-blue-700"
             >
               {copy.createAccount}

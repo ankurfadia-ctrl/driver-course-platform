@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
-import { useState } from "react"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
@@ -10,6 +10,7 @@ import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 export default function LoginPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
 
   const state =
@@ -95,11 +96,17 @@ export default function LoginPage() {
             "Account created successfully. If email confirmation is enabled, check your email. Otherwise, you can log in now.",
         }
 
-  const [mode, setMode] = useState<"login" | "signup">("login")
+  const requestedMode = searchParams.get("mode") === "signup" ? "signup" : "login"
+  const [mode, setMode] = useState<"login" | "signup">(requestedMode)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setMode(requestedMode)
+    setMessage("")
+  }, [requestedMode])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -241,6 +248,7 @@ export default function LoginPage() {
                   onClick={() => {
                     setMode("signup")
                     setMessage("")
+                    router.replace(`/${state}/login?mode=signup`)
                   }}
                   className="font-semibold text-blue-600 underline"
                 >
@@ -255,6 +263,7 @@ export default function LoginPage() {
                   onClick={() => {
                     setMode("login")
                     setMessage("")
+                    router.replace(`/${state}/login`)
                   }}
                   className="font-semibold text-blue-600 underline"
                 >
