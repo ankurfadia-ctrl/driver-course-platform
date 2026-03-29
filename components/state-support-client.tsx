@@ -43,9 +43,9 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       courseDashboard: "Panel del curso",
       finalExam: "Examen final",
       certificate: "Certificado",
-      askQuestion: "Haz una pregunta",
+      askQuestion: "Chat de ayuda con IA",
       askQuestionBody:
-        'Describe tu problema abajo. Incluso mensajes cortos como "examen bloqueado" funcionan.',
+        'Describe tu problema abajo. Incluso mensajes cortos como "examen bloqueado" funcionan y la ayuda con IA aparecera al instante.',
       bilingualNote:
         "La ayuda instantanea y el contenido del curso pueden seguir apareciendo en ingles mientras ampliamos el soporte bilingue.",
       category: "Categoria",
@@ -61,10 +61,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       checkingSupport: "Verificando opciones de soporte...",
       priorityTitle: "Solicitud de soporte prioritario",
       priorityBody:
-        "Tu plan incluye soporte prioritario. Marca esta solicitud si necesitas una revision mas rapida.",
+        "Tu plan incluye soporte prioritario. Primero prueba la ayuda con IA y luego marca esta solicitud si necesitas una revision humana mas rapida.",
       standardTitle: "Soporte estandar",
       standardBody:
-        "Empieza aqui para recibir ayuda instantanea y revision estandar. La prioridad solo esta disponible con un plan de soporte prioritario.",
+        "Empieza aqui con la ayuda por IA. La prioridad y las respuestas humanas dentro del sitio solo estan disponibles con un plan de soporte prioritario.",
       upgradeTitle: "Necesitas una respuesta mas rapida?",
       upgradeBody:
         "Si ya compraste el plan estandar, puedes mejorar a soporte prioritario desde la pagina de pago.",
@@ -94,8 +94,14 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       loadingRequests: "Cargando tus solicitudes de soporte...",
       threadReplyLockedTitle: "Respuestas directas disponibles con soporte prioritario",
       threadReplyLockedBody:
-        "Puedes ver el estado de tu solicitud aqui. Las respuestas directas dentro del sitio estan disponibles con el plan de soporte prioritario.",
+        "Puedes ver el estado de tu solicitud aqui. La ayuda por IA esta disponible para todos, pero las respuestas humanas directas dentro del sitio estan disponibles con el plan de soporte prioritario.",
       threadReplyLockedCta: "Mejorar a soporte prioritario",
+      priorityThreadTitle: "Seguimiento con soporte",
+      priorityThreadBody:
+        "La ayuda por IA ya fue iniciada para esta solicitud. Como tu plan incluye soporte prioritario, puedes continuar con un seguimiento asincrono aqui.",
+      aiFirstRequiredTitle: "La ayuda por IA viene primero",
+      aiFirstRequiredBody:
+        "Para desbloquear el seguimiento humano dentro del sitio, primero envia una solicitud usando la ayuda por IA de arriba.",
       categories: [
         { value: "course-access", label: "Acceso al curso / inicio de sesion" },
         { value: "seat-time", label: "Tiempo del curso / temporizador" },
@@ -133,9 +139,9 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     courseDashboard: "Course Dashboard",
     finalExam: "Final Exam",
     certificate: "Certificate",
-    askQuestion: "Ask a question",
+    askQuestion: "AI help chat",
     askQuestionBody:
-      'Type your issue below. Even short messages like "exam locked" work.',
+      'Type your issue below. Even short messages like "exam locked" work and AI help will appear instantly.',
     bilingualNote:
       "Instant help and course content may still appear in English while bilingual support expands.",
     category: "Category",
@@ -151,10 +157,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     checkingSupport: "Checking support options...",
     priorityTitle: "Priority support request",
     priorityBody:
-      "Your plan includes priority support. Mark this request for faster review when needed.",
+      "Your plan includes priority support. Try the AI help first, then mark the request if you need a faster human follow-up.",
     standardTitle: "Standard support",
     standardBody:
-      "Start here for instant help and standard support review. Priority handling is only available with a priority support plan.",
+      "Start here with AI help. Priority handling and direct on-site human replies are only available with a priority support plan.",
     upgradeTitle: "Need a faster response?",
     upgradeBody:
       "If you already bought the standard plan, you can upgrade to priority support from the checkout page.",
@@ -184,8 +190,14 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     loadingRequests: "Loading your support requests...",
     threadReplyLockedTitle: "Direct replies are available with priority support",
     threadReplyLockedBody:
-      "You can still view your request status here. Back-and-forth replies inside the site are available with the priority support plan.",
+      "You can still view your request status here. AI help is available to everyone, but back-and-forth human replies inside the site are available with the priority support plan.",
     threadReplyLockedCta: "Upgrade to Priority Support",
+    priorityThreadTitle: "Support follow-up",
+    priorityThreadBody:
+      "AI help has already been used for this request. Because your plan includes priority support, you can continue with an asynchronous human follow-up here.",
+    aiFirstRequiredTitle: "AI help comes first",
+    aiFirstRequiredBody:
+      "To unlock the human follow-up thread inside the site, first send a request using the AI help above.",
     categories: [
       { value: "course-access", label: "Course access / login" },
       { value: "seat-time", label: "Seat time / timer issue" },
@@ -737,8 +749,16 @@ export default function StateSupportClient({
                 </div>
 
                 <div className="mt-4 space-y-3">
-                  {hasPrioritySupport ? (
+                  {hasPrioritySupport && request.ai_summary ? (
                     <>
+                      <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+                        <div className="font-semibold text-slate-900">
+                          {copy.priorityThreadTitle}
+                        </div>
+                        <div className="mt-2 text-sm leading-6 text-slate-600">
+                          {copy.priorityThreadBody}
+                        </div>
+                      </div>
                       <textarea
                         value={replyDrafts[request.id] ?? ""}
                         onChange={(event) =>
@@ -760,6 +780,15 @@ export default function StateSupportClient({
                         {replyingId === request.id ? copy.saving : copy.sendReply}
                       </button>
                     </>
+                  ) : hasPrioritySupport ? (
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4">
+                      <div className="font-semibold text-slate-900">
+                        {copy.aiFirstRequiredTitle}
+                      </div>
+                      <div className="mt-2 text-sm leading-6 text-slate-600">
+                        {copy.aiFirstRequiredBody}
+                      </div>
+                    </div>
                   ) : (
                     <div className="rounded-2xl border border-slate-200 bg-white p-4">
                       <div className="font-semibold text-slate-900">
