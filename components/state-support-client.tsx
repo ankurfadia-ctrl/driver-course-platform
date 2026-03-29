@@ -39,10 +39,6 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
           "El tiempo del curso se registra segun tu actividad. Sigue avanzando por las lecciones y permanece activo en las paginas del curso hasta completar el tiempo requerido.",
         ],
       ] as const,
-      quickLinks: "Enlaces rapidos",
-      courseDashboard: "Panel del curso",
-      finalExam: "Examen final",
-      certificate: "Certificado",
       askQuestion: "Chat de ayuda con IA",
       askQuestionBody:
         'Describe tu problema abajo. Incluso mensajes cortos como "examen bloqueado" funcionan y la ayuda con IA aparecera al instante.',
@@ -135,10 +131,6 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
         "Seat time is tracked across your course activity. Keep progressing through lessons and remain active on the course pages until the required time is completed.",
       ],
     ] as const,
-    quickLinks: "Quick links",
-    courseDashboard: "Course Dashboard",
-    finalExam: "Final Exam",
-    certificate: "Certificate",
     askQuestion: "AI help chat",
     askQuestionBody:
       'Type your issue below. Even short messages like "exam locked" work and AI help will appear instantly.',
@@ -414,35 +406,6 @@ export default function StateSupportClient({
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="glass-panel rounded-[2rem] bg-white p-6">
-            <h2 className="text-xl font-semibold text-slate-900">
-              {copy.quickLinks}
-            </h2>
-
-            <div className="mt-4 flex flex-wrap gap-3">
-              <Link
-                href={`/${state}/course`}
-                className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                {copy.courseDashboard}
-              </Link>
-
-              <Link
-                href={`/${state}/course/final-exam`}
-                className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                {copy.finalExam}
-              </Link>
-
-              <Link
-                href={`/${state}/certificate`}
-                className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                {copy.certificate}
-              </Link>
             </div>
           </div>
 
