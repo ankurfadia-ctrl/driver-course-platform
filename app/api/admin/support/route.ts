@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { isAdminEmail } from "@/lib/admin-access"
-import { getCourseConfig, getSupportRoute } from "@/lib/course-config"
-import { sendSupportReplyNotificationEmail } from "@/lib/email"
+import { createAdminSupportReply } from "@/lib/support-admin-replies"
 
 type UpdateSupportStatusBody = {
   action?: "status" | "reply"
@@ -43,65 +42,21 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      const { data: supportRequest, error: requestError } = await adminSupabase
-        .from("support_requests")
-        .select("id, user_id, state_code, subject")
-        .eq("id", id)
-        .maybeSingle()
-
-      if (requestError || !supportRequest) {
-        return NextResponse.json(
-          { ok: false, error: "Support request not found." },
-          { status: 404 }
-        )
-      }
-
-      const { data: insertedMessage, error: insertError } = await adminSupabase
-        .from("support_messages")
-        .insert({
-          request_id: id,
-          sender_role: "admin",
-          sender_user_id: user.id,
+      try {
+        const result = await createAdminSupportReply({
+          requestId: id,
           message,
+          senderUserId: user.id,
         })
-        .select("id, request_id, sender_role, message, created_at")
-        .single()
 
-      if (insertError) {
-        console.error("Admin support reply insert failed:", insertError)
+        return NextResponse.json({ ok: true, message: result.message })
+      } catch (error) {
+        console.error("Admin support reply insert failed:", error)
         return NextResponse.json(
           { ok: false, error: "Could not send support reply." },
           { status: 500 }
         )
       }
-
-      await adminSupabase
-        .from("support_requests")
-        .update({ status: "open" })
-        .eq("id", id)
-
-      if (supportRequest.user_id) {
-        const {
-          data: { user: targetUser },
-        } = await adminSupabase.auth.admin.getUserById(supportRequest.user_id)
-
-        if (targetUser?.email) {
-          const config = getCourseConfig(supportRequest.state_code)
-          const baseUrl = String(process.env.NEXT_PUBLIC_BASE_URL ?? "").trim()
-
-          if (baseUrl) {
-            await sendSupportReplyNotificationEmail({
-              email: targetUser.email,
-              stateName: config.stateName,
-              subject: supportRequest.subject || "Support request",
-              supportUrl: `${baseUrl}${getSupportRoute(supportRequest.state_code)}`,
-              replyMessage: message,
-            })
-          }
-        }
-      }
-
-      return NextResponse.json({ ok: true, message: insertedMessage })
     }
 
     if (!id || !["open", "resolved"].includes(status)) {

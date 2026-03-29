@@ -32,6 +32,8 @@ EMAIL_FROM=
 RESEND_API_KEY=
 SUPPORT_DIGEST_SECRET=
 CRON_SECRET=
+RESEND_WEBHOOK_SECRET=
+SUPPORT_REPLY_DOMAIN=
 PHYSICAL_MAIL_PROVIDER=log
 LOB_API_KEY=
 LOB_FROM_NAME=
@@ -55,6 +57,7 @@ LOB_FROM_COUNTRY=US
 - Completion emails are triggered manually from the unlocked certificate page
 - New priority support requests send an immediate admin notification email to every address in `ADMIN_EMAILS`
 - Standard support requests stay in the admin inbox and do not send an immediate admin email
+- If `SUPPORT_REPLY_DOMAIN` is set, priority notification emails include a reply-to address that can sync Gmail replies back into the support thread
 - If `EMAIL_PROVIDER=log`, emails are not actually sent; they are treated as log/no-op events
 - If you want live delivery, set:
   - `EMAIL_PROVIDER=resend`
@@ -67,6 +70,7 @@ LOB_FROM_COUNTRY=US
 - Priority support requests can trigger immediate admin email notifications
 - Standard support requests are intended for inbox review, not immediate email
 - A daily digest endpoint is available at `/api/admin/support/digest`
+- Incoming support email replies can be received at `/api/support/email-reply`
 - To protect the digest endpoint, set:
   - `SUPPORT_DIGEST_SECRET`
 - For manual testing, call the digest endpoint with:
@@ -74,6 +78,11 @@ LOB_FROM_COUNTRY=US
 - For the scheduled Vercel daily digest, also set:
   - `CRON_SECRET`
 - The project includes a Vercel cron in `vercel.json` that hits `/api/admin/support/digest` once daily at `13:00 UTC` (about `9:00 AM` Eastern during daylight saving time)
+- To enable reply-by-email threading for priority notifications, also set:
+  - `SUPPORT_REPLY_DOMAIN`
+  - `RESEND_WEBHOOK_SECRET`
+- Then configure a Resend webhook that posts `email.received` events to:
+  - `/api/support/email-reply`
 
 ## Notes on mailed certificate copies
 

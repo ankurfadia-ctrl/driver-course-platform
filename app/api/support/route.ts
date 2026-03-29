@@ -3,6 +3,7 @@ import { createClient as createSupabaseServerClient } from "@/lib/supabase/serve
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getAdminEmails } from "@/lib/admin-access"
 import { getCourseConfig } from "@/lib/course-config"
+import { getSupportReplyAddress } from "@/lib/support-email-routing"
 import {
   sendAdminPrioritySupportNotificationEmail,
 } from "@/lib/email"
@@ -95,6 +96,7 @@ export async function POST(request: NextRequest) {
               supportUrl: `${baseUrl}/admin/support`,
               message,
               priorityRequested,
+              replyTo: getSupportReplyAddress(data.id) ?? undefined,
             })
           )
         )

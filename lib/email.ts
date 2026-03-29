@@ -3,6 +3,8 @@ type TransactionalEmailPayload = {
   subject: string
   html: string
   text: string
+  replyTo?: string
+  headers?: Record<string, string>
   attachments?: Array<{
     filename: string
     content: string
@@ -99,6 +101,8 @@ async function sendWithResend(payload: TransactionalEmailPayload) {
       subject: payload.subject,
       html: payload.html,
       text: payload.text,
+      reply_to: payload.replyTo ? [payload.replyTo] : undefined,
+      headers: payload.headers,
       attachments: payload.attachments,
     }),
   })
@@ -260,6 +264,11 @@ export async function sendAdminPrioritySupportNotificationEmail(
       <div style="margin:16px 0;padding:16px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;">
         ${escapeHtml(input.message).replace(/\n/g, "<br />")}
       </div>
+      ${
+        input.replyTo
+          ? `<p>Reply directly to this email to send a response back into the student support thread.</p>`
+          : ""
+      }
       <p><a href="${input.supportUrl}">Open admin support inbox</a></p>
     </div>
   `.trim()
@@ -272,6 +281,9 @@ export async function sendAdminPrioritySupportNotificationEmail(
     "",
     input.message,
     "",
+    ...(input.replyTo
+      ? ["Reply directly to this email to send a response back into the student support thread.", ""]
+      : []),
     `Open admin support inbox: ${input.supportUrl}`,
   ].join("\n")
 
@@ -280,6 +292,7 @@ export async function sendAdminPrioritySupportNotificationEmail(
     subject,
     html,
     text,
+    replyTo: input.replyTo,
   })
 }
 
