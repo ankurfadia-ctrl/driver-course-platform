@@ -14,27 +14,25 @@ export default async function StateContactPage({
     language === "es"
       ? {
           label: "Contacto",
-          title: `Contacto ${config.brandName}`,
+          title: `Ayuda para ${config.brandName}`,
           intro:
-            "Empieza con el proceso de soporte para preguntas del curso, problemas de cuenta, problemas del certificado y la mayoria de las solicitudes generales.",
-          supportOptions: "Opciones de soporte",
-          supportBody:
-            "La pagina de soporte ofrece guia instantanea primero y registra los casos no resueltos para revision posterior.",
-          supportLink: "pagina de soporte",
-          supportLead:
-            "Los estudiantes que hayan iniciado sesion pueden enviar un problema mediante la ",
+            "Para la mayoria de las preguntas sobre cuenta, curso, examen final o certificado, empieza con soporte en linea.",
+          cardTitle: "Empieza con soporte en linea",
+          stepOne: "Inicia sesion en tu cuenta de estudiante.",
+          stepTwo:
+            "Usa la pagina de soporte para recibir ayuda instantanea y registrar cualquier problema no resuelto.",
+          cta: "Abrir soporte",
         }
       : {
           label: "Contact",
-          title: `Contact ${config.brandName}`,
+          title: `Help for ${config.brandName}`,
           intro:
-            "Start with the student support process for course-specific questions, account issues, certificate issues, and most general requests.",
-          supportOptions: "Support options",
-          supportBody:
-            "The support page provides instant guidance first and captures unresolved issues for follow-up review.",
-          supportLink: "support page",
-          supportLead:
-            "Logged-in students can submit an issue through the ",
+            "For most questions about your account, course, final exam, or certificate, start with online support.",
+          cardTitle: "Start with online support",
+          stepOne: "Log in to your student account.",
+          stepTwo:
+            "Use the support page to get instant help and save any unresolved issue for follow-up review.",
+          cta: "Open Support",
         }
 
   return (
@@ -46,24 +44,21 @@ export default async function StateContactPage({
         <h1 className="mt-3 text-3xl font-semibold text-slate-900">
           {copy.title}
         </h1>
-        <p className="mt-4 leading-7 text-slate-700">{copy.intro}</p>
+        <p className="mt-4 max-w-3xl leading-7 text-slate-700">{copy.intro}</p>
       </section>
 
       <section className="glass-panel rounded-[2rem] bg-white p-8">
-        <h2 className="text-xl font-semibold text-slate-900">{copy.supportOptions}</h2>
-        <div className="mt-4 space-y-4 text-sm leading-7 text-slate-700">
-          <p>{copy.supportBody}</p>
-          <p>
-            {copy.supportLead}
-            <Link
-              href={getSupportRoute(state)}
-              className="font-medium text-slate-900 underline"
-            >
-              {copy.supportLink}
-            </Link>
-            .
-          </p>
+        <h2 className="text-xl font-semibold text-slate-900">{copy.cardTitle}</h2>
+        <div className="mt-5 space-y-3 text-sm leading-7 text-slate-700">
+          <p>{copy.stepOne}</p>
+          <p>{copy.stepTwo}</p>
         </div>
+        <Link
+          href={getSupportRoute(state)}
+          className="mt-6 inline-flex rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+        >
+          {copy.cta}
+        </Link>
       </section>
     </div>
   )
