@@ -73,6 +73,22 @@ function formatSeatTime(totalSeconds: number) {
   return `${seconds}s`
 }
 
+function getRetakeEligibleAt(completedAt: string) {
+  const next = new Date(completedAt)
+  next.setHours(next.getHours() + 24)
+  return next
+}
+
+function formatRetakeEligibleAt(completedAt: string) {
+  return getRetakeEligibleAt(completedAt).toLocaleString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  })
+}
+
 function mapExamResultToAttemptRecord(row: ExamResultRow): ExamAttemptRecord {
   return {
     date: getDateKeyFromIso(row.completed_at),
@@ -722,24 +738,52 @@ export default function FinalExamPage() {
             {lastAttempt.passed ? "PASSED" : "FAILED"}
           </div>
           <p className="mt-3 text-sm text-slate-600">
-            You already took the final exam today. Please return another day if a retake is allowed.
+            {lastAttempt.passed
+              ? "Congratulations. You passed the final exam."
+              : `We are sorry, you did not pass this attempt. Please wait at least 24 hours before beginning the final exam again. Earliest return time: ${formatRetakeEligibleAt(
+                  lastAttempt.completedAt
+                )}.`}
           </p>
 
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link
-              href={`/${state}/course`}
-              className="rounded bg-slate-200 px-4 py-2 text-slate-900"
-            >
-              Return to Course
-            </Link>
-
             {lastAttempt.passed && (
-              <Link
-                href={`/${state}/certificate`}
-                className="rounded bg-blue-600 px-4 py-2 text-white"
-              >
-                View Certificate
-              </Link>
+              <>
+                <Link
+                  href={`/${state}/certificate`}
+                  className="rounded bg-blue-600 px-4 py-2 text-white"
+                >
+                  View Certificate
+                </Link>
+                <Link
+                  href={`/${state}/dashboard`}
+                  className="rounded bg-slate-200 px-4 py-2 text-slate-900"
+                >
+                  Return to Dashboard
+                </Link>
+              </>
+            )}
+
+            {!lastAttempt.passed && (
+              <>
+                <Link
+                  href={`/${state}/course`}
+                  className="rounded bg-blue-600 px-4 py-2 text-white"
+                >
+                  Review Course
+                </Link>
+                <Link
+                  href={`/${state}/dashboard`}
+                  className="rounded bg-slate-200 px-4 py-2 text-slate-900"
+                >
+                  Return to Dashboard
+                </Link>
+                <Link
+                  href={`/${state}/support`}
+                  className="rounded bg-slate-200 px-4 py-2 text-slate-900"
+                >
+                  Get Support
+                </Link>
+              </>
             )}
           </div>
         </div>
@@ -1029,9 +1073,7 @@ export default function FinalExamPage() {
 
         {submitted && lastAttempt && (
           <div className="rounded-xl border bg-white p-4 shadow">
-            <div className="text-lg font-semibold">
-              Score: {lastAttempt.score}%
-            </div>
+            <div className="text-lg font-semibold">Score: {lastAttempt.score}%</div>
 
             <div
               className={`font-bold ${
@@ -1042,18 +1084,38 @@ export default function FinalExamPage() {
             </div>
 
             {lastAttempt.passed ? (
-              <div className="mt-4">
-                <Link
-                  href={`/${state}/certificate`}
-                  className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
-                >
-                  View Certificate
-                </Link>
+              <div className="mt-4 space-y-4">
+                <div className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-800">
+                  Congratulations. You passed the final exam. Your next step is to view your certificate.
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <Link
+                    href={`/${state}/certificate`}
+                    className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
+                  >
+                    View Certificate
+                  </Link>
+                  <Link
+                    href={`/${state}/dashboard`}
+                    className="rounded bg-slate-200 px-4 py-2 text-slate-900"
+                  >
+                    Return to Dashboard
+                  </Link>
+                </div>
               </div>
             ) : (
               <div className="mt-4 space-y-4">
                 <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-                  Review the course material and return another business day if a retake is allowed.
+                  We are sorry, you did not pass this attempt. Please wait at least 24 hours before beginning the final exam again. Earliest return time:{" "}
+                  <span className="font-semibold">
+                    {formatRetakeEligibleAt(lastAttempt.completedAt)}
+                  </span>
+                  .
+                </div>
+
+                <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+                  Next steps: review the course material, return to your dashboard, and come back after the retake time if another attempt is allowed.
                 </div>
 
                 <div className="flex flex-wrap gap-3">
