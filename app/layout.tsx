@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { getPublicBaseUrl } from "@/lib/runtime-config";
-import "./globals.css";
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import { getPublicBaseUrl } from "@/lib/runtime-config"
+import "./globals.css"
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans-ui",
-});
+})
 
-const baseUrl = getPublicBaseUrl();
+const baseUrl = getPublicBaseUrl()
 
 export const metadata: Metadata = {
   title: "Driver Course Platform",
@@ -42,18 +43,20 @@ export const metadata: Metadata = {
       "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
     images: [`${baseUrl}/logo.svg`],
   },
-};
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
+  const language = await getPreferredSiteLanguage()
+
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang={language} className={`${inter.variable} h-full antialiased`}>
       <body className={`${inter.className} min-h-full flex flex-col`}>
         {children}
       </body>
     </html>
-  );
+  )
 }

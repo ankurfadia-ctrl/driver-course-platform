@@ -1,4 +1,5 @@
 import Link from "next/link"
+import LanguageToggle from "@/components/language-toggle"
 import {
   getContactRoute,
   getCourseConfig,
@@ -8,9 +9,47 @@ import {
   getSupportRoute,
   getTermsRoute,
 } from "@/lib/course-config"
+import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 
-export default function StateFooter({ state }: { state: string }) {
+export default async function StateFooter({ state }: { state: string }) {
   const config = getCourseConfig(state)
+  const language = await getPreferredSiteLanguage()
+  const copy =
+    language === "es"
+      ? {
+          courseLabel: `${config.stateName} Course`,
+          title: `Curso de mejoramiento para conductores de ${config.stateName}.`,
+          description:
+            "Inscripcion en linea, acceso al curso, examen final y entrega del certificado.",
+          resources: "Recursos para estudiantes",
+          disclosures: "Informacion",
+          faq: "Preguntas",
+          privacy: "Privacidad",
+          terms: "Terminos",
+          contact: "Contacto",
+          support: "Soporte",
+          supportTitle: "Empieza con soporte en linea",
+          supportBody:
+            "Usa la pagina de soporte primero para preguntas del curso, ayuda con la cuenta y problemas del certificado.",
+          supportCta: "Abrir soporte",
+        }
+      : {
+          courseLabel: `${config.stateName} Course`,
+          title: `${config.stateName} driver improvement course.`,
+          description:
+            "Online enrollment, course access, final exam, and certificate delivery.",
+          resources: "Student Resources",
+          disclosures: "Disclosures",
+          faq: "FAQ",
+          privacy: "Privacy",
+          terms: "Terms",
+          contact: "Contact",
+          support: "Support",
+          supportTitle: "Start with online support",
+          supportBody:
+            "Use the support page first for course questions, account help, and certificate issues.",
+          supportCta: "Open Support",
+        }
 
   return (
     <footer className="border-t border-slate-200 bg-white">
@@ -18,54 +57,53 @@ export default function StateFooter({ state }: { state: string }) {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_0.8fr]">
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              {config.stateName} Course
+              {copy.courseLabel}
             </div>
             <div className="mt-3 text-2xl font-semibold text-slate-950">
-              {config.stateName} driver improvement course.
+              {copy.title}
             </div>
-            <p className="mt-3 max-w-xl leading-7">
-              Online enrollment, course access, final exam, and certificate delivery.
-            </p>
+            <p className="mt-3 max-w-xl leading-7">{copy.description}</p>
+            <div className="mt-4">
+              <LanguageToggle language={language} />
+            </div>
           </div>
 
           <div>
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Student Resources
+              {copy.resources}
             </div>
             <div className="mt-4 flex flex-wrap gap-4">
               <Link href={getDisclosuresRoute(state)} className="hover:text-slate-950">
-                Disclosures
+                {copy.disclosures}
               </Link>
               <Link href={getFaqRoute(state)} className="hover:text-slate-950">
-                FAQ
+                {copy.faq}
               </Link>
               <Link href={getPrivacyRoute(state)} className="hover:text-slate-950">
-                Privacy
+                {copy.privacy}
               </Link>
               <Link href={getTermsRoute(state)} className="hover:text-slate-950">
-                Terms
+                {copy.terms}
               </Link>
               <Link href={getContactRoute(state)} className="hover:text-slate-950">
-                Contact
+                {copy.contact}
               </Link>
             </div>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Support
+              {copy.support}
             </div>
             <div className="mt-3 font-semibold text-slate-950">
-              Start with online support
+              {copy.supportTitle}
             </div>
-            <p className="mt-2 leading-6">
-              Use the support page first for course questions, account help, and certificate issues.
-            </p>
+            <p className="mt-2 leading-6">{copy.supportBody}</p>
             <Link
               href={getSupportRoute(state)}
               className="mt-4 inline-flex rounded-lg border border-slate-300 bg-white px-4 py-2 font-semibold text-slate-950 hover:bg-slate-100"
             >
-              Open Support
+              {copy.supportCta}
             </Link>
           </div>
         </div>

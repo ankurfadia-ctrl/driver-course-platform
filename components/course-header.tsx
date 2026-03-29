@@ -1,11 +1,28 @@
-// components/course-header.tsx
-
 import Link from "next/link"
 import Image from "next/image"
+import LanguageToggle from "@/components/language-toggle"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
+import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 
-export default function CourseHeader({ state }: { state: string }) {
+export default async function CourseHeader({ state }: { state: string }) {
   const config = getCourseConfig(state)
+  const language = await getPreferredSiteLanguage()
+  const labels =
+    language === "es"
+      ? {
+          dashboard: "Panel",
+          course: "Curso",
+          identity: "Identidad",
+          finalExam: "Examen final",
+          disclosures: "Informacion",
+        }
+      : {
+          dashboard: config.dashboardLabel,
+          course: config.courseLabel,
+          identity: "Identity",
+          finalExam: config.finalExamLabel,
+          disclosures: "Disclosures",
+        }
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur">
@@ -36,32 +53,33 @@ export default function CourseHeader({ state }: { state: string }) {
             href={`/${state}/dashboard`}
             className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
           >
-            {config.dashboardLabel}
+            {labels.dashboard}
           </Link>
           <Link
             href={`/${state}/course`}
             className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
           >
-            {config.courseLabel}
+            {labels.course}
           </Link>
           <Link
             href={`/${state}/identity`}
             className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
           >
-            Identity
+            {labels.identity}
           </Link>
           <Link
             href={`/${state}/course/final-exam`}
             className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
           >
-            {config.finalExamLabel}
+            {labels.finalExam}
           </Link>
           <Link
             href={getDisclosuresRoute(state)}
             className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
           >
-            Disclosures
+            {labels.disclosures}
           </Link>
+          <LanguageToggle language={language} compact />
           <Link
             href={`/${state}/certificate`}
             className="rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
