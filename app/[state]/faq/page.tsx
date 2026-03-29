@@ -29,6 +29,11 @@ export default async function StateFaqPage({
               "Por lo general, los estudiantes necesitan acceso al curso, el tiempo requerido, verificacion de identidad y un resultado aprobatorio en el examen final antes de que el certificado este disponible.",
           },
           {
+            question: "Por que tengo que verificar mi identidad?",
+            answer:
+              "La verificacion de identidad ayuda a confirmar que la persona que esta completando el curso y tomando el examen final es el estudiante inscrito. Tambien forma parte de los controles del curso para proteger la integridad del certificado y de los registros de finalizacion.",
+          },
+          {
             question: "Tengo que hacer las evaluaciones de cada leccion?",
             answer:
               "Las evaluaciones de conocimiento de cada leccion son para reforzar el aprendizaje. Ayudan a repasar el material, pero no reemplazan el examen final del curso.",
@@ -94,6 +99,11 @@ export default async function StateFaqPage({
             question: "What do I need before I can finish the course?",
             answer:
               "Students generally need course access, required seat time, identity verification, and a passing final exam result before a certificate becomes available.",
+          },
+          {
+            question: "Why do I have to verify my identity?",
+            answer:
+              "Identity verification helps confirm that the person completing the course and taking the final exam is the enrolled student. It is also part of the course controls used to protect certificate integrity and completion records.",
           },
           {
             question: "Do I have to take the lesson quizzes?",
