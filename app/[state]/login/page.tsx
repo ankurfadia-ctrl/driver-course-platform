@@ -93,6 +93,13 @@ export default function LoginPage() {
             "Cuenta creada. Revisa tu correo y confirma tu direccion antes de iniciar sesion.",
           signupSuccessNoConfirm:
             "Cuenta creada correctamente. Ya puedes iniciar sesion.",
+          signupNextStepsTitle: "Siguiente paso",
+          signupNextStepsConfirm:
+            "Revisa tu correo electronico y haz clic en el enlace de confirmacion para activar tu cuenta.",
+          signupNextStepsLogin:
+            "Despues de confirmar tu correo, vuelve aqui e inicia sesion para comenzar el curso.",
+          signupNextStepsNoConfirm:
+            "Tu cuenta ya esta lista. Inicia sesion para continuar al panel del curso.",
           reasonLabel: "Motivo de asistencia",
           reasonPlaceholder: "Selecciona un motivo",
           reasonHelp:
@@ -168,6 +175,13 @@ export default function LoginPage() {
             "Account created. Check your email and confirm your address before logging in.",
           signupSuccessNoConfirm:
             "Account created successfully. You can log in now.",
+          signupNextStepsTitle: "Next step",
+          signupNextStepsConfirm:
+            "Check your email and click the confirmation link to activate your account.",
+          signupNextStepsLogin:
+            "After confirming your email, return here and log in to begin your course.",
+          signupNextStepsNoConfirm:
+            "Your account is already ready. Log in to continue to your course dashboard.",
           reasonLabel: "Reason for attending",
           reasonPlaceholder: "Select a reason",
           reasonHelp:
@@ -209,6 +223,8 @@ export default function LoginPage() {
   const [courtDocumentNotes, setCourtDocumentNotes] = useState("")
   const [accuracyConfirmed, setAccuracyConfirmed] = useState(false)
   const [message, setMessage] = useState("")
+  const [signupCreated, setSignupCreated] = useState(false)
+  const [signupNeedsEmailConfirm, setSignupNeedsEmailConfirm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [sendingRecovery, setSendingRecovery] = useState(false)
   const [showRecoveryForm, setShowRecoveryForm] = useState(false)
@@ -217,12 +233,16 @@ export default function LoginPage() {
   useEffect(() => {
     setMode(requestedMode)
     setMessage("")
+    setSignupCreated(false)
+    setSignupNeedsEmailConfirm(false)
   }, [requestedMode])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
     setMessage("")
+    setSignupCreated(false)
+    setSignupNeedsEmailConfirm(false)
 
     try {
       if (mode === "login") {
@@ -319,9 +339,9 @@ export default function LoginPage() {
       }
 
       setPassword("")
-      setMessage(
-        data.session ? copy.signupSuccessNoConfirm : copy.signupSuccess
-      )
+      setSignupCreated(true)
+      setSignupNeedsEmailConfirm(!data.session)
+      setMessage(data.session ? copy.signupSuccessNoConfirm : copy.signupSuccess)
     } finally {
       setLoading(false)
     }
@@ -630,6 +650,25 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {mode === "signup" && signupCreated ? (
+            <div className="mt-5 rounded-2xl border border-green-200 bg-green-50 p-5 text-sm leading-7 text-green-900">
+              <div className="font-semibold uppercase tracking-[0.16em] text-green-700">
+                {copy.signupNextStepsTitle}
+              </div>
+              <p className="mt-3">{message}</p>
+              <ul className="mt-3 list-disc space-y-1 pl-5">
+                <li>
+                  {signupNeedsEmailConfirm
+                    ? copy.signupNextStepsConfirm
+                    : copy.signupNextStepsNoConfirm}
+                </li>
+                {signupNeedsEmailConfirm ? (
+                  <li>{copy.signupNextStepsLogin}</li>
+                ) : null}
+              </ul>
+            </div>
+          ) : null}
+
           <div className="mt-5 text-sm text-slate-600">
             {mode === "login" ? (
               <p>
@@ -673,7 +712,7 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          {message ? (
+          {message && !(mode === "signup" && signupCreated) ? (
             <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">
               {message}
             </div>
