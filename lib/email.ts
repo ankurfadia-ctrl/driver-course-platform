@@ -31,6 +31,14 @@ type CompletionEmailInput = {
   certificatePdfBase64?: string
 }
 
+type SupportReplyEmailInput = {
+  email: string
+  stateName: string
+  subject: string
+  supportUrl: string
+  replyMessage: string
+}
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -176,5 +184,37 @@ export async function sendCompletionCertificateEmail(input: CompletionEmailInput
             },
           ]
         : undefined,
+  })
+}
+
+export async function sendSupportReplyNotificationEmail(
+  input: SupportReplyEmailInput
+) {
+  const subject = `New support reply: ${input.subject}`
+  const html = `
+    <div style="font-family:Segoe UI,Arial,sans-serif;line-height:1.6;color:#0f172a">
+      <h1 style="font-size:24px;margin-bottom:12px;">New support reply</h1>
+      <p>You have a new support reply for your ${escapeHtml(input.stateName)} course account.</p>
+      <div style="margin:16px 0;padding:16px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc;">
+        ${escapeHtml(input.replyMessage).replace(/\n/g, "<br />")}
+      </div>
+      <p><a href="${input.supportUrl}">Open support</a></p>
+    </div>
+  `.trim()
+  const text = [
+    "New support reply",
+    "",
+    `You have a new support reply for your ${input.stateName} course account.`,
+    "",
+    input.replyMessage,
+    "",
+    `Open support: ${input.supportUrl}`,
+  ].join("\n")
+
+  await sendTransactionalEmail({
+    to: input.email,
+    subject,
+    html,
+    text,
   })
 }

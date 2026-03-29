@@ -2,9 +2,11 @@
 
 import { useMemo, useState } from "react"
 import Link from "next/link"
+import type { SupportMessageRow } from "@/lib/support-thread"
 
 export type SupportRequestRow = {
   id: string
+  user_id: string | null
   state_code: string
   category: string
   subject: string
@@ -16,6 +18,7 @@ export type SupportRequestRow = {
   priority_requested: boolean
   status: string
   created_at: string
+  messages: SupportMessageRow[]
 }
 
 type SupportFilter = "all" | "needs-review" | "auto-resolved" | "priority"
@@ -51,6 +54,7 @@ export default function AdminSupportInboxClient({
   const [requests, setRequests] = useState<SupportRequestRow[]>(initialRequests)
   const [filter, setFilter] = useState<SupportFilter>("needs-review")
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({})
 
   async function updateStatus(id: string, newStatus: string) {
     try {
@@ -79,6 +83,56 @@ export default function AdminSupportInboxClient({
     } catch (err) {
       console.error(err)
       setError("Could not update support request status.")
+    } finally {
+      setUpdatingId(null)
+    }
+  }
+
+  async function sendReply(id: string) {
+    const message = String(replyDrafts[id] ?? "").trim()
+
+    if (message.length < 2) {
+      setError("Reply message is too short.")
+      return
+    }
+
+    try {
+      setUpdatingId(id)
+      setError(null)
+
+      const response = await fetch("/api/admin/support", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ action: "reply", id, message }),
+      })
+
+      const data = (await response.json()) as {
+        ok?: boolean
+        error?: string
+        message?: SupportMessageRow
+      }
+
+      if (!response.ok || !data.ok || !data.message) {
+        throw new Error(data.error ?? "Could not send support reply.")
+      }
+
+      setRequests((prev) =>
+        prev.map((request) =>
+          request.id === id
+            ? {
+                ...request,
+                status: "open",
+                messages: [...request.messages, data.message as SupportMessageRow],
+              }
+            : request
+        )
+      )
+      setReplyDrafts((prev) => ({ ...prev, [id]: "" }))
+    } catch (err) {
+      console.error(err)
+      setError("Could not send support reply.")
     } finally {
       setUpdatingId(null)
     }
@@ -383,6 +437,69 @@ export default function AdminSupportInboxClient({
                         {request.escalation_reason}
                       </div>
                     ) : null}
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="text-sm font-semibold text-slate-700">
+                    Conversation
+                  </div>
+
+                  <div className="mt-3 space-y-3">
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Student
+                      </div>
+                      <div className="mt-2 whitespace-pre-wrap text-sm text-slate-900">
+                        {request.message}
+                      </div>
+                    </div>
+
+                    {request.messages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`rounded-xl border p-4 ${
+                          message.sender_role === "admin"
+                            ? "border-blue-200 bg-blue-50"
+                            : "border-slate-200 bg-white"
+                        }`}
+                      >
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                            {message.sender_role === "admin" ? "Admin" : "Student"}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            {formatDateTime(message.created_at)}
+                          </div>
+                        </div>
+                        <div className="mt-2 whitespace-pre-wrap text-sm text-slate-900">
+                          {message.message}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 space-y-3">
+                    <textarea
+                      value={replyDrafts[request.id] ?? ""}
+                      onChange={(event) =>
+                        setReplyDrafts((prev) => ({
+                          ...prev,
+                          [request.id]: event.target.value,
+                        }))
+                      }
+                      rows={4}
+                      placeholder="Type a reply to the student"
+                      className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
+                    />
+                    <button
+                      type="button"
+                      disabled={updatingId === request.id}
+                      onClick={() => void sendReply(request.id)}
+                      className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+                    >
+                      {updatingId === request.id ? "Sending..." : "Send Reply"}
+                    </button>
                   </div>
                 </div>
               </div>

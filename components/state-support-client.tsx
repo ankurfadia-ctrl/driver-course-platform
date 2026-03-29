@@ -9,6 +9,11 @@ import {
 import { createSupportRequest } from "@/lib/support-requests"
 import { getCourseAccessStatus } from "@/lib/course-access"
 import type { SiteLanguage } from "@/lib/site-language"
+import type { SupportRequestWithThread } from "@/lib/support-thread"
+import {
+  loadStudentSupportThreads,
+  sendStudentSupportReply,
+} from "@/lib/support-thread-client"
 
 function getSupportCopy(language: SiteLanguage, stateName: string) {
   if (language === "es") {
@@ -81,6 +86,12 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       yes: "Si",
       no: "No",
       newRequest: "Nueva solicitud",
+      myRequests: "Mis solicitudes de soporte",
+      noRequests: "Aun no hay solicitudes de soporte.",
+      conversation: "Conversacion",
+      replyPlaceholder: "Responder a esta solicitud",
+      sendReply: "Enviar respuesta",
+      loadingRequests: "Cargando tus solicitudes de soporte...",
       categories: [
         { value: "course-access", label: "Acceso al curso / inicio de sesion" },
         { value: "seat-time", label: "Tiempo del curso / temporizador" },
@@ -161,6 +172,12 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     yes: "Yes",
     no: "No",
     newRequest: "New Request",
+    myRequests: "My support requests",
+    noRequests: "No support requests yet.",
+    conversation: "Conversation",
+    replyPlaceholder: "Reply to this support request",
+    sendReply: "Send Reply",
+    loadingRequests: "Loading your support requests...",
     categories: [
       { value: "course-access", label: "Course access / login" },
       { value: "seat-time", label: "Seat time / timer issue" },
@@ -194,6 +211,10 @@ export default function StateSupportClient({
   const [submitted, setSubmitted] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [requestThreads, setRequestThreads] = useState<SupportRequestWithThread[]>([])
+  const [loadingThreads, setLoadingThreads] = useState(true)
+  const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({})
+  const [replyingId, setReplyingId] = useState<string | null>(null)
 
   const trimmedSubject = subject.trim()
   const trimmedMessage = message.trim()
@@ -234,6 +255,32 @@ export default function StateSupportClient({
     }
   }, [state])
 
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadThreads() {
+      try {
+        setLoadingThreads(true)
+        const requests = await loadStudentSupportThreads(state)
+
+        if (!isMounted) return
+        setRequestThreads(requests)
+      } catch (loadError) {
+        console.error("Could not load student support threads:", loadError)
+      } finally {
+        if (isMounted) {
+          setLoadingThreads(false)
+        }
+      }
+    }
+
+    void loadThreads()
+
+    return () => {
+      isMounted = false
+    }
+  }, [state, submitted])
+
   const aiResponse = useMemo(() => {
     if (!canPreview) return null
 
@@ -264,6 +311,7 @@ export default function StateSupportClient({
       })
 
       setSubmitted(true)
+      setRequestThreads(await loadStudentSupportThreads(state))
     } catch (submitError) {
       console.error(submitError)
       setError(copy.saveError)
@@ -277,6 +325,39 @@ export default function StateSupportClient({
     setSaving(false)
     setError(null)
     setPriority(false)
+  }
+
+  async function handleReply(requestId: string) {
+    const replyMessage = String(replyDrafts[requestId] ?? "").trim()
+
+    if (replyMessage.length < 2) {
+      setError(copy.saveError)
+      return
+    }
+
+    try {
+      setReplyingId(requestId)
+      setError(null)
+      const newMessage = await sendStudentSupportReply(requestId, replyMessage)
+
+      setRequestThreads((prev) =>
+        prev.map((request) =>
+          request.id === requestId
+            ? {
+                ...request,
+                status: "open",
+                messages: [...request.messages, newMessage],
+              }
+            : request
+        )
+      )
+      setReplyDrafts((prev) => ({ ...prev, [requestId]: "" }))
+    } catch (replyError) {
+      console.error(replyError)
+      setError(copy.saveError)
+    } finally {
+      setReplyingId(null)
+    }
   }
 
   return (
@@ -579,6 +660,100 @@ export default function StateSupportClient({
             </div>
           )}
         </div>
+      </div>
+
+      <div className="glass-panel rounded-[2rem] bg-white p-6">
+        <h2 className="text-xl font-semibold text-slate-900">
+          {copy.myRequests}
+        </h2>
+
+        {loadingThreads ? (
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+            {copy.loadingRequests}
+          </div>
+        ) : requestThreads.length === 0 ? (
+          <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+            {copy.noRequests}
+          </div>
+        ) : (
+          <div className="mt-4 space-y-4">
+            {requestThreads.map((request) => (
+              <div
+                key={request.id}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <div className="font-semibold text-slate-900">
+                      {request.subject || copy.subjectPlaceholder}
+                    </div>
+                    <div className="mt-1 text-sm text-slate-500">
+                      {copy.categories.find((option) => option.value === request.category)?.label}{" "}
+                      • {request.status}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <div className="text-sm font-semibold text-slate-700">
+                    {copy.conversation}
+                  </div>
+                  <div className="mt-3 space-y-3">
+                    <div className="rounded-xl border border-slate-200 bg-white p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                        Student
+                      </div>
+                      <div className="mt-2 whitespace-pre-wrap text-sm text-slate-900">
+                        {request.message}
+                      </div>
+                    </div>
+
+                    {request.messages.map((threadMessage) => (
+                      <div
+                        key={threadMessage.id}
+                        className={`rounded-xl border p-4 ${
+                          threadMessage.sender_role === "admin"
+                            ? "border-blue-200 bg-blue-50"
+                            : "border-slate-200 bg-white"
+                        }`}
+                      >
+                        <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                          {threadMessage.sender_role === "admin" ? "Support" : "Student"}
+                        </div>
+                        <div className="mt-2 whitespace-pre-wrap text-sm text-slate-900">
+                          {threadMessage.message}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  <textarea
+                    value={replyDrafts[request.id] ?? ""}
+                    onChange={(event) =>
+                      setReplyDrafts((prev) => ({
+                        ...prev,
+                        [request.id]: event.target.value,
+                      }))
+                    }
+                    rows={3}
+                    placeholder={copy.replyPlaceholder}
+                    className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-900 outline-none focus:border-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => void handleReply(request.id)}
+                    disabled={replyingId === request.id}
+                    className="rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
+                  >
+                    {replyingId === request.id ? copy.saving : copy.sendReply}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

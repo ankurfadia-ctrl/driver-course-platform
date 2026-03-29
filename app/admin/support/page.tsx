@@ -5,6 +5,7 @@ import AdminSupportInboxClient, {
 import { createAdminClient } from "@/lib/supabase/admin"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { isAdminEmail } from "@/lib/admin-access"
+import { attachSupportMessages, type SupportMessageRow } from "@/lib/support-thread"
 
 export const dynamic = "force-dynamic"
 
@@ -22,7 +23,7 @@ export default async function AdminSupportInboxPage() {
   const { data, error } = await adminSupabase
     .from("support_requests")
     .select(
-      "id, state_code, category, subject, message, ai_summary, ai_suggested_steps, escalation_recommended, escalation_reason, priority_requested, status, created_at"
+      "id, user_id, state_code, category, subject, message, ai_summary, ai_suggested_steps, escalation_recommended, escalation_reason, priority_requested, status, created_at"
     )
     .order("created_at", { ascending: false })
     .limit(200)
@@ -31,7 +32,29 @@ export default async function AdminSupportInboxPage() {
     console.error("Could not load admin support requests:", error)
   }
 
+  const requestIds = (data ?? []).map((request) => request.id)
+  let messages: SupportMessageRow[] = []
+
+  if (requestIds.length > 0) {
+    const { data: messageRows, error: messagesError } = await adminSupabase
+      .from("support_messages")
+      .select("id, request_id, sender_role, message, created_at")
+      .in("request_id", requestIds)
+      .order("created_at", { ascending: true })
+
+    if (messagesError) {
+      console.error("Could not load admin support messages:", messagesError)
+    } else {
+      messages = (messageRows ?? []) as SupportMessageRow[]
+    }
+  }
+
   return (
-    <AdminSupportInboxClient initialRequests={(data ?? []) as SupportRequestRow[]} />
+    <AdminSupportInboxClient
+      initialRequests={attachSupportMessages(
+        (data ?? []) as SupportRequestRow[],
+        messages
+      )}
+    />
   )
 }
