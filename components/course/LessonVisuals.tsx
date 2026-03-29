@@ -100,6 +100,34 @@ function DataTable({
   );
 }
 
+function LessonOneVisual() {
+  return (
+    <DataTable
+      headers={["Course stage", "What to expect", "Why it matters"]}
+      rows={[
+        ["Lessons", "Read each lesson and complete the knowledge checks", "Builds the safety habits needed for the final exam and certificate"],
+        ["Seat time", "Remain active in the course until required time is complete", "Virginia expects approved instructional time before completion"],
+        ["Final exam", "Pass the final exam after lessons and seat time are complete", "Confirms understanding of the course material"],
+        ["Certificate", "Unlock the certificate after all requirements are satisfied", "Provides proof of course completion"],
+      ]}
+    />
+  );
+}
+
+function LessonTwoVisual() {
+  return (
+    <DataTable
+      headers={["Defensive habit", "What to do", "Safety result"]}
+      rows={[
+        ["Scan ahead", "Look well beyond the vehicle directly in front of you", "You spot brake lights, hazards, and congestion sooner"],
+        ["Keep space", "Leave following distance and avoid getting boxed in", "You create time to slow or change position safely"],
+        ["Check mirrors", "Know what is beside and behind you before moving", "You avoid creating a new hazard while reacting to another one"],
+        ["Predict mistakes", "Assume another driver or pedestrian may do something unexpected", "You react earlier and with more control"],
+      ]}
+    />
+  );
+}
+
 function StoppingDistanceVisual() {
   return (
     <div className="space-y-6">
@@ -290,60 +318,17 @@ function RoadSharingSpaceVisual() {
   );
 }
 
-function TruckTurningSpaceVisual() {
+function LessonFiveTable() {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4">
-      <svg
-        viewBox="0 0 640 280"
-        className="w-full"
-        role="img"
-        aria-label="Truck making a wide right turn"
-      >
-        <rect x="52" y="112" width="536" height="96" rx="24" fill="#cbd5e1" />
-        <rect x="286" y="24" width="86" height="190" rx="18" fill="#334155" />
-        <rect x="306" y="36" width="46" height="48" rx="12" fill="#475569" />
-
-        <path
-          d="M 330 198 C 332 222, 360 236, 410 236 L 548 236"
-          fill="none"
-          stroke="#f59e0b"
-          strokeWidth="14"
-          strokeLinecap="round"
-          strokeDasharray="18 14"
-        />
-        <path
-          d="M 346 194 C 350 216, 374 222, 418 222 L 548 222"
-          fill="none"
-          stroke="#fed7aa"
-          strokeWidth="30"
-          strokeLinecap="round"
-          opacity="0.95"
-        />
-
-        <rect x="470" y="198" width="82" height="34" rx="10" fill="#2563eb" />
-        <rect x="482" y="230" width="12" height="12" rx="6" fill="#0f172a" />
-        <rect x="526" y="230" width="12" height="12" rx="6" fill="#0f172a" />
-
-        <text x="278" y="132" fill="#ffffff" fontSize="22" fontWeight="700">
-          TRUCK
-        </text>
-        <text x="204" y="258" fill="#b45309" fontSize="18" fontWeight="700">
-          Wide turn path
-        </text>
-        <text x="428" y="186" fill="#1d4ed8" fontSize="18" fontWeight="700">
-          Stay out of this space
-        </text>
-      </svg>
-
-      <div className="mt-4 grid gap-3 md:grid-cols-2">
-        <div className="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
-          Large vehicles may swing wide before turning and need more space than a passenger car.
-        </div>
-        <div className="rounded-xl bg-blue-50 p-4 text-sm leading-6 text-blue-900">
-          Do not move into the side space a truck or bus needs while turning. Stay back and let the turn finish first.
-        </div>
-      </div>
-    </div>
+    <DataTable
+      headers={["Road user", "Common risk", "Safer response"]}
+      rows={[
+        ["Pedestrians", "May appear late from behind parked vehicles or at crossings", "Slow early and be ready to stop smoothly"],
+        ["Cyclists", "May move left to avoid doors, debris, or rough pavement", "Give room and do not squeeze past"],
+        ["Motorcycles", "Harder to judge for distance and speed", "Double-check before turning or changing lanes"],
+        ["Trucks and buses", "Need more space to stop, turn, and see around the vehicle", "Stay back, pass steadily, and leave extra room"],
+      ]}
+    />
   );
 }
 
@@ -376,7 +361,63 @@ function ConsequencesVisual() {
   );
 }
 
+function LessonSevenVisual() {
+  return (
+    <DataTable
+      headers={["Condition", "Immediate adjustment", "Reason"]}
+      rows={[
+        ["Rain / wet roads", "Reduce speed and increase following distance", "Traction drops and stopping distance grows"],
+        ["Snow / ice", "Slow well before turns and avoid sudden inputs", "Steering and braking become less predictable"],
+        ["Fog / low visibility", "Drive only as fast as you can clearly see ahead", "Hazards may appear with very little warning"],
+        ["Night driving", "Use headlights correctly and lower speed when needed", "You see less information and hazards later"],
+      ]}
+    />
+  );
+}
+
+function LessonEightVisual() {
+  return (
+    <DataTable
+      headers={["Unsafe mindset", "Typical driving behavior", "Safer reset"]}
+      rows={[
+        ["Rushed", "Speeding or forcing gaps", "Accept the delay and drive the speed that preserves control"],
+        ["Angry", "Tailgating, weaving, or retaliating", "Create space and refocus on your own lane and speed"],
+        ["Overconfident", "Late braking or casual phone use", "Treat every trip like conditions can still change quickly"],
+        ["Stressed", "Missed signs, poor attention, or impatience", "Pause before driving and reset your focus first"],
+      ]}
+    />
+  );
+}
+
 export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
+  if (lessonSlug === "lesson-1") {
+    return (
+      <div className="mt-8 space-y-6">
+        <VisualShell
+          label="Course overview"
+          title="How the course moves from enrollment to certificate"
+          description="This quick table shows the main course stages so you can see how lessons, seat time, the final exam, and the certificate connect."
+        >
+          <LessonOneVisual />
+        </VisualShell>
+      </div>
+    );
+  }
+
+  if (lessonSlug === "lesson-2") {
+    return (
+      <div className="mt-8 space-y-6">
+        <VisualShell
+          label="Defensive driving table"
+          title="A simple defensive-driving routine for every trip"
+          description="Use this as a mental checklist while driving so awareness, spacing, and prediction become consistent habits."
+        >
+          <LessonTwoVisual />
+        </VisualShell>
+      </div>
+    );
+  }
+
   if (lessonSlug === "lesson-3") {
     return (
       <div className="mt-8 space-y-6">
@@ -417,11 +458,11 @@ export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
         </VisualShell>
 
         <VisualShell
-          label="Truck turning space"
-          title="Large vehicles often need extra room to complete a turn safely"
-          description="A truck or bus may swing wide before turning. Passenger vehicles should stay back and avoid moving into the side space needed for that turn."
+          label="Road-sharing table"
+          title="Different road users call for different adjustments"
+          description="This quick-reference table keeps the main sharing-the-road risks and safer responses in one place."
         >
-          <TruckTurningSpaceVisual />
+          <LessonFiveTable />
         </VisualShell>
       </div>
     );
@@ -436,6 +477,34 @@ export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
           description="This quick reference summarizes common point buckets and adult-driver thresholds from current Virginia DMV guidance."
         >
           <ConsequencesVisual />
+        </VisualShell>
+      </div>
+    );
+  }
+
+  if (lessonSlug === "lesson-7") {
+    return (
+      <div className="mt-8 space-y-6">
+        <VisualShell
+          label="Conditions table"
+          title="Bad conditions call for an immediate adjustment"
+          description="When weather or visibility changes, the safest response is usually to slow down, leave more space, and reduce sudden movements."
+        >
+          <LessonSevenVisual />
+        </VisualShell>
+      </div>
+    );
+  }
+
+  if (lessonSlug === "lesson-8") {
+    return (
+      <div className="mt-8 space-y-6">
+        <VisualShell
+          label="Attitude table"
+          title="Unsafe mindset often shows up as a driving behavior"
+          description="This quick table connects common emotional states to the choices they create and the safer reset that helps lower risk."
+        >
+          <LessonEightVisual />
         </VisualShell>
       </div>
     );
