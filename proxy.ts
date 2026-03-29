@@ -33,6 +33,7 @@ export async function proxy(request: NextRequest) {
   const segments = pathname.split("/").filter(Boolean)
   const state = segments[0]
   const isAdminRoute = segments[0] === "admin"
+  const isAdminLoginRoute = pathname === "/admin/login"
 
   const isAuthPage = segments.length >= 2 && segments[1] === "login"
 
@@ -45,15 +46,22 @@ export async function proxy(request: NextRequest) {
   }
 
   if (isAdminRoute) {
+    if (isAdminLoginRoute) {
+      return response
+    }
+
     if (!user) {
       const url = request.nextUrl.clone()
-      url.pathname = "/virginia/login"
+      url.pathname = "/admin/login"
+      url.searchParams.set("next", pathname)
       return NextResponse.redirect(url)
     }
 
     if (!isAdminEmail(user.email)) {
       const url = request.nextUrl.clone()
-      url.pathname = "/"
+      url.pathname = "/admin/login"
+      url.searchParams.set("next", pathname)
+      url.searchParams.set("reason", "admin")
       return NextResponse.redirect(url)
     }
 
@@ -82,6 +90,7 @@ export const config = {
     "/:state/dashboard/:path*",
     "/:state/course/:path*",
     "/:state/login",
+    "/admin/login",
     "/admin/:path*",
   ],
 }
