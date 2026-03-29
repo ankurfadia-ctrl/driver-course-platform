@@ -19,8 +19,7 @@ export default async function StateFooter({ state }: { state: string }) {
       ? {
           courseLabel: `${config.stateName} Course`,
           title: `Curso de mejoramiento para conductores de ${config.stateName}.`,
-          description:
-            "Inscripcion en linea, acceso al curso, examen final y entrega del certificado.",
+          description: "Curso en linea claro y sencillo para estudiantes de Virginia.",
           resources: "Recursos para estudiantes",
           disclosures: "Informacion",
           faq: "Preguntas",
@@ -36,8 +35,7 @@ export default async function StateFooter({ state }: { state: string }) {
       : {
           courseLabel: `${config.stateName} Course`,
           title: `${config.stateName} driver improvement course.`,
-          description:
-            "Online enrollment, course access, final exam, and certificate delivery.",
+          description: "Clear online course experience for Virginia students.",
           resources: "Student Resources",
           disclosures: "Disclosures",
           faq: "FAQ",
