@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import LessonNavigation from "@/components/course/LessonNavigation";
+import LessonVisuals from "@/components/course/LessonVisuals";
 import SeatTimeStatusCard from "@/components/course/SeatTimeStatusCard";
 import { getCourseAccessStatus } from "@/lib/course-access";
 import {
@@ -276,6 +277,8 @@ function LessonContentPage({
               </section>
             ))}
           </div>
+
+          <LessonVisuals lessonSlug={lessonSlug} />
 
           <div className="mt-8 rounded-2xl bg-slate-50 p-5">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">
