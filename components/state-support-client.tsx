@@ -60,6 +60,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
       standardTitle: "Soporte estandar",
       standardBody:
         "Empieza aqui para recibir ayuda instantanea y revision estandar. La prioridad solo esta disponible con un plan de soporte prioritario.",
+      upgradeTitle: "Necesitas una respuesta mas rapida?",
+      upgradeBody:
+        "Si ya compraste el plan estandar, puedes mejorar a soporte prioritario desde la pagina de pago.",
+      upgradeCta: "Mejorar a soporte prioritario",
       submit: "Enviar solicitud de soporte",
       saving: "Guardando...",
       saveError:
@@ -136,6 +140,10 @@ function getSupportCopy(language: SiteLanguage, stateName: string) {
     standardTitle: "Standard support",
     standardBody:
       "Start here for instant help and standard support review. Priority handling is only available with a priority support plan.",
+    upgradeTitle: "Need a faster response?",
+    upgradeBody:
+      "If you already bought the standard plan, you can upgrade to priority support from the checkout page.",
+    upgradeCta: "Upgrade to Priority Support",
     submit: "Send Support Request",
     saving: "Saving...",
     saveError:
@@ -181,6 +189,7 @@ export default function StateSupportClient({
   const [priority, setPriority] = useState(false)
   const [checkingSupportTier, setCheckingSupportTier] = useState(true)
   const [hasPrioritySupport, setHasPrioritySupport] = useState(false)
+  const [hasPaidCourseAccess, setHasPaidCourseAccess] = useState(false)
 
   const [submitted, setSubmitted] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -203,11 +212,13 @@ export default function StateSupportClient({
 
         if (!isMounted) return
 
+        setHasPaidCourseAccess(access.hasPaidAccess)
         setHasPrioritySupport(access.supportTier === "priority")
       } catch (loadError) {
         console.error("Could not load support tier:", loadError)
 
         if (!isMounted) return
+        setHasPaidCourseAccess(false)
         setHasPrioritySupport(false)
       } finally {
         if (isMounted) {
@@ -333,6 +344,23 @@ export default function StateSupportClient({
               </Link>
             </div>
           </div>
+
+          {!checkingSupportTier && hasPaidCourseAccess && !hasPrioritySupport ? (
+            <div className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-5">
+              <div className="text-sm font-semibold text-slate-900">
+                {copy.upgradeTitle}
+              </div>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                {copy.upgradeBody}
+              </p>
+              <Link
+                href={`/${state}/checkout`}
+                className="mt-4 inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-100"
+              >
+                {copy.upgradeCta}
+              </Link>
+            </div>
+          ) : null}
         </div>
 
         <div className="glass-panel rounded-[2rem] bg-white p-6">
