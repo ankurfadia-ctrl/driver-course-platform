@@ -1,12 +1,18 @@
 import Link from "next/link"
 import Image from "next/image"
+import { redirect } from "next/navigation"
 import LanguageToggle from "@/components/language-toggle"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import { createClient } from "@/lib/supabase/server"
 
 export default async function CourseHeader({ state }: { state: string }) {
   const config = getCourseConfig(state)
   const language = await getPreferredSiteLanguage()
+  const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   const labels =
     language === "es"
       ? {
@@ -15,6 +21,7 @@ export default async function CourseHeader({ state }: { state: string }) {
           identity: "Identidad",
           finalExam: "Examen final",
           disclosures: "Informacion",
+          logout: "Cerrar sesion",
         }
       : {
           dashboard: config.dashboardLabel,
@@ -22,7 +29,15 @@ export default async function CourseHeader({ state }: { state: string }) {
           identity: "Identity",
           finalExam: config.finalExamLabel,
           disclosures: "Disclosures",
+          logout: "Log out",
         }
+
+  async function logout() {
+    "use server"
+    const supabase = await createClient()
+    await supabase.auth.signOut()
+    redirect(`/${state}/login`)
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur">
@@ -79,7 +94,6 @@ export default async function CourseHeader({ state }: { state: string }) {
           >
             {labels.disclosures}
           </Link>
-          <LanguageToggle language={language} compact />
           <Link
             href={`/${state}/certificate`}
             className="rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
@@ -87,6 +101,28 @@ export default async function CourseHeader({ state }: { state: string }) {
             {config.certificateLabel}
           </Link>
         </nav>
+
+        <div className="flex items-center gap-2">
+          <LanguageToggle language={language} compact />
+
+          {user ? (
+            <form action={logout}>
+              <button
+                type="submit"
+                className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+              >
+                {labels.logout}
+              </button>
+            </form>
+          ) : (
+            <Link
+              href={`/${state}/login`}
+              className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+            >
+              {language === "es" ? "Iniciar sesion" : "Log in"}
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   )
