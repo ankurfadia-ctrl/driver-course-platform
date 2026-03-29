@@ -5,6 +5,7 @@ import {
   buildCheckoutSuccessUrl,
   getStripeCheckoutPlan,
 } from "@/lib/payment/stripe"
+import { getPlanEligibility } from "@/lib/payment/plans"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 
@@ -83,14 +84,32 @@ export async function POST(request: NextRequest) {
     }
 
     const existingPurchase = existingPurchases?.[0]
+    const purchaseContext = {
+      hasPaidAccess: Boolean(existingPurchase),
+      supportTier:
+        existingPurchase?.support_tier === "priority"
+          ? "priority"
+          : existingPurchase?.support_tier === "standard"
+          ? "standard"
+          : null,
+    } as const
 
-    if (existingPurchase) {
+    const eligibility = getPlanEligibility(plan, purchaseContext)
+
+    if (!eligibility.allowed) {
+      const redirectTo =
+        purchaseContext.supportTier === "standard"
+          ? `/${stateCode}/checkout`
+          : `/${stateCode}/course`
+
       return NextResponse.json(
         {
           ok: false,
-          error: "This account already has a paid purchase for this state.",
-          alreadyPurchased: true,
-          redirectTo: `/${stateCode}/course`,
+          error:
+            eligibility.reason ??
+            "This account is not eligible for that purchase.",
+          alreadyPurchased: purchaseContext.hasPaidAccess,
+          redirectTo,
         },
         { status: 409 }
       )
@@ -135,6 +154,7 @@ export async function POST(request: NextRequest) {
         userId: user.id,
         userEmail: user.email ?? "",
         planCode: plan.planCode,
+        planKind: plan.planKind,
         stateCode: plan.stateCode,
         supportTier: plan.supportTier,
       },

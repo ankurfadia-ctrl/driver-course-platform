@@ -5,8 +5,9 @@ import { useEffect, useMemo, useState } from "react"
 import { useParams } from "next/navigation"
 import {
   formatPriceFromCents,
-  getCoursePlans,
+  getAvailableCoursePlans,
   type CoursePlan,
+  type SupportTier,
 } from "@/lib/payment/plans"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { getCourseAccessStatus } from "@/lib/course-access"
@@ -17,7 +18,17 @@ function getStateDisplayName(state: string) {
   return normalized.charAt(0).toUpperCase() + normalized.slice(1).toLowerCase()
 }
 
+function normalizeSupportTier(value: string | null): SupportTier | null {
+  if (value === "priority") return "priority"
+  if (value === "standard") return "standard"
+  return null
+}
+
 function getPlanDescription(plan: CoursePlan) {
+  if (plan.planKind === "support-upgrade") {
+    return "Upgrades an existing standard purchase to priority support."
+  }
+
   if (plan.includesPrioritySupport) {
     return "Includes the full course, certificate eligibility, and priority support."
   }
@@ -39,7 +50,15 @@ export default function StateCheckoutPage() {
   const [purchaseError, setPurchaseError] = useState("")
 
   const stateDisplayName = useMemo(() => getStateDisplayName(state), [state])
-  const plans = useMemo(() => getCoursePlans(state), [state])
+  const normalizedSupportTier = normalizeSupportTier(purchaseSupportTier)
+  const plans = useMemo(
+    () =>
+      getAvailableCoursePlans(state, {
+        hasPaidAccess: hasPaidPurchase,
+        supportTier: normalizedSupportTier,
+      }),
+    [state, hasPaidPurchase, normalizedSupportTier]
+  )
 
   useEffect(() => {
     let isMounted = true
@@ -99,7 +118,7 @@ export default function StateCheckoutPage() {
     )
   }
 
-  if (hasPaidPurchase) {
+  if (hasPaidPurchase && normalizedSupportTier === "priority") {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">
@@ -112,7 +131,7 @@ export default function StateCheckoutPage() {
           </h1>
 
           <p className="mt-3 max-w-2xl leading-7 text-slate-600">
-            This account already has a paid purchase for this state, so there is no need to check out again.
+            This account already has a paid purchase with priority support for this state, so there is no need to check out again.
           </p>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -126,7 +145,7 @@ export default function StateCheckoutPage() {
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <div className="text-sm text-slate-500">Support tier</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
-                {purchaseSupportTier ?? "Standard"}
+                Priority
               </div>
             </div>
           </div>
@@ -156,7 +175,7 @@ export default function StateCheckoutPage() {
               href={`/${state}/support`}
               className="inline-flex rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Contact Support
+              Open Support
             </Link>
           </div>
         </div>
@@ -171,10 +190,12 @@ export default function StateCheckoutPage() {
           <div className="space-y-4">
             <p className="section-label">{stateDisplayName} Checkout</p>
             <h1 className="text-4xl font-semibold text-slate-950">
-              Course enrollment and payment
+              {hasPaidPurchase ? "Upgrade support" : "Course enrollment and payment"}
             </h1>
             <p className="max-w-3xl leading-8 text-slate-600">
-              Review the available course options below. Payment is completed securely through Stripe after you choose a plan.
+              {hasPaidPurchase
+                ? "This account already has the course. You can upgrade to priority support below."
+                : "Review the available course options below. Payment is completed securely through Stripe after you choose a plan."}
             </p>
           </div>
 
@@ -185,7 +206,11 @@ export default function StateCheckoutPage() {
             <div className="mt-4 space-y-3 text-sm leading-7 text-slate-600">
               <p>Course access is a one-time purchase for this state.</p>
               <p>Seat-time, identity checks, and final exam rules still apply.</p>
-              <p>Students should confirm course acceptance for their specific requirement before enrolling.</p>
+              <p>
+                {hasPaidPurchase
+                  ? "Priority support upgrades are available only for existing standard purchases."
+                  : "Students should confirm course acceptance for their specific requirement before enrolling."}
+              </p>
             </div>
           </div>
         </div>
@@ -197,9 +222,19 @@ export default function StateCheckoutPage() {
         </div>
       ) : null}
 
+      {hasPaidPurchase && normalizedSupportTier === "standard" ? (
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5 text-sm text-slate-700">
+          <div className="font-semibold text-blue-900">Current plan: standard support</div>
+          <div className="mt-2">
+            You already have course access. If you want faster support handling, you can purchase the priority support upgrade below.
+          </div>
+        </div>
+      ) : null}
+
       <div className="grid gap-6 lg:grid-cols-2">
         {plans.map((plan) => {
           const isPriority = plan.includesPrioritySupport
+          const isUpgrade = plan.planKind === "support-upgrade"
 
           return (
             <div
@@ -210,12 +245,18 @@ export default function StateCheckoutPage() {
                 <div>
                   <div
                     className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
-                      isPriority
+                      isUpgrade
+                        ? "bg-emerald-50 text-emerald-700"
+                        : isPriority
                         ? "bg-blue-50 text-blue-700"
                         : "bg-slate-100 text-slate-700"
                     }`}
                   >
-                    {isPriority ? "Priority Support" : "Standard"}
+                    {isUpgrade
+                      ? "Upgrade"
+                      : isPriority
+                      ? "Priority Support"
+                      : "Standard"}
                   </div>
 
                   <h2 className="mt-4 text-3xl font-semibold text-slate-950">
@@ -238,13 +279,15 @@ export default function StateCheckoutPage() {
               <div className="mt-6 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">Full course access</span>
-                  <span className="font-semibold text-slate-900">Included</span>
+                  <span className="font-semibold text-slate-900">
+                    {isUpgrade ? "Already included" : "Included"}
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">Certificate eligibility</span>
                   <span className="font-semibold text-slate-900">
-                    {plan.includesCertificate ? "Included" : "No"}
+                    {plan.includesCertificate ? "Included" : "Unchanged"}
                   </span>
                 </div>
 
@@ -260,12 +303,16 @@ export default function StateCheckoutPage() {
                 <Link
                   href={`/${state}/checkout/${plan.planCode}`}
                   className={`inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-center font-semibold text-white ${
-                    isPriority
+                    isUpgrade
+                      ? "bg-emerald-600 hover:bg-emerald-700"
+                      : isPriority
                       ? "bg-slate-900 hover:bg-slate-800"
                       : "bg-blue-600 hover:bg-blue-700"
                   }`}
                 >
-                  Select {isPriority ? "Priority" : "Standard"}
+                  {isUpgrade
+                    ? "Upgrade to Priority Support"
+                    : `Select ${isPriority ? "Priority" : "Standard"}`}
                 </Link>
 
                 <div className="text-center text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
@@ -280,14 +327,20 @@ export default function StateCheckoutPage() {
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">
           <h2 className="text-2xl font-semibold text-slate-950">
-            Enrollment process
+            {hasPaidPurchase ? "Upgrade process" : "Enrollment process"}
           </h2>
           <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {[
-              ["1. Select a plan", "Choose the course option you want to purchase."],
-              ["2. Complete payment", "Secure checkout is completed through Stripe."],
-              ["3. Begin the course", "After payment, the student account can enter the course flow."],
-            ].map(([title, body]) => (
+            {(hasPaidPurchase
+              ? [
+                  ["1. Select upgrade", "Choose the priority support upgrade option."],
+                  ["2. Complete payment", "Secure checkout is completed through Stripe."],
+                  ["3. Priority enabled", "After payment, priority support becomes active for this account."],
+                ]
+              : [
+                  ["1. Select a plan", "Choose the course option you want to purchase."],
+                  ["2. Complete payment", "Secure checkout is completed through Stripe."],
+                  ["3. Begin the course", "After payment, the student account can enter the course flow."],
+                ]).map(([title, body]) => (
               <div key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <div className="font-semibold text-slate-900">{title}</div>
                 <div className="mt-2 text-sm leading-6 text-slate-600">{body}</div>
