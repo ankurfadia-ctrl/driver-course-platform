@@ -323,7 +323,7 @@ function LessonFiveTable() {
     <DataTable
       headers={["Situation", "What creates the risk", "Safer choice"]}
       rows={[
-        ["Passing a cyclist", "A rider may move left to avoid doors, debris, or rough pavement", "Pass only when you can give clear lateral space"],
+        ["Passing a bicyclist", "A rider may move left to avoid doors, debris, or rough pavement", "Pass only when you can give clear lateral space"],
         ["Following a motorcycle", "Its speed or distance may be harder to judge than a car", "Increase following distance and avoid crowding"],
         ["Driving near a truck", "Large vehicles need more room to stop and may hide traffic ahead", "Stay out of blind areas and do not cut in close"],
         ["Approaching responders", "Stopped emergency or service vehicles create a high-risk roadside zone", "Slow down, move over when possible, and stay alert"],

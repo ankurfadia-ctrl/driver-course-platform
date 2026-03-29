@@ -70,7 +70,7 @@ export const VIRGINIA_LESSON_CONTENT: Record<
         body: [
           "Safe driving is not just about following rules. It is about making good decisions consistently.",
           "Every driver has a responsibility to protect themselves and others.",
-          "This includes passengers, pedestrians, cyclists, and other drivers.",
+          "This includes passengers, pedestrians, bicyclists, and other drivers.",
           "Being a responsible driver means staying alert, remaining patient, and avoiding unnecessary risks.",
           "Your attitude behind the wheel has a direct impact on safety outcomes.",
         ],
@@ -382,7 +382,7 @@ export const VIRGINIA_LESSON_CONTENT: Record<
       {
         heading: "Sharing the road is a safety responsibility",
         body: [
-          "Roads are used by drivers, pedestrians, cyclists, motorcyclists, buses, trucks, emergency vehicles, and sometimes construction or service workers.",
+          "Roads are used by drivers, pedestrians, bicyclists, motorcyclists, buses, trucks, emergency vehicles, and sometimes construction or service workers.",
           "Each road user has different size, speed, visibility, and vulnerability.",
           "A safe driver adjusts behavior based on who else is present.",
           "Sharing the road safely means more than avoiding direct contact. It means giving space, slowing down when needed, and anticipating how others may move.",
@@ -402,11 +402,11 @@ export const VIRGINIA_LESSON_CONTENT: Record<
       {
         heading: "Bicyclists",
         body: [
-          "Cyclists share the road but are harder to see than larger vehicles and are more vulnerable in any collision.",
+          "Bicyclists share the road but are harder to see than larger vehicles and are more vulnerable in any collision.",
           "Bicyclists may move to avoid potholes, debris, parked cars, or opening doors.",
-          "Drivers should allow plenty of room when passing and avoid squeezing cyclists toward the curb.",
+          "Drivers should allow plenty of room when passing and avoid squeezing bicyclists toward the curb.",
           "Before turning or opening a parked car door, check carefully for approaching bicycles.",
-          "Respecting cyclist space is part of safe driving, not an optional courtesy.",
+          "Respecting bicyclist space is part of safe driving, not an optional courtesy.",
         ],
       },
       {
@@ -452,7 +452,7 @@ export const VIRGINIA_LESSON_CONTENT: Record<
       {
         heading: "Patience reduces conflict",
         body: [
-          "Many sharing-the-road conflicts begin with impatience: squeezing past a cyclist, following a slow vehicle too closely, or competing for space.",
+          "Many sharing-the-road conflicts begin with impatience: squeezing past a bicyclist, following a slow vehicle too closely, or competing for space.",
           "Patience helps drivers make safer choices and avoid escalating tension.",
           "Giving others time and room is not weakness. It is sound risk management.",
           "A calm driver sees more clearly and reacts more safely.",
@@ -605,7 +605,7 @@ export const VIRGINIA_LESSON_CONTENT: Record<
         heading: "Night driving",
         body: [
           "Darkness reduces visual information and makes hazards harder to detect.",
-          "Pedestrians, cyclists, animals, debris, and disabled vehicles may be visible only at short distance.",
+          "Pedestrians, bicyclists, animals, debris, and disabled vehicles may be visible only at short distance.",
           "Fatigue is also more common at night, which adds another layer of risk.",
           "Headlights should be used appropriately, and windshield cleanliness becomes even more important.",
           "At night, slower and more attentive driving is often the safest choice.",
@@ -1041,7 +1041,7 @@ export const VIRGINIA_LESSON_CHECKS: Record<string, LessonCheckQuestion[]> = {
       ],
       correctAnswer: 2,
       explanation:
-        "Cyclists may move to avoid debris or hazards, so drivers should allow plenty of space.",
+        "Bicyclists may move to avoid debris or hazards, so drivers should allow plenty of space.",
     },
     {
       id: 3,
@@ -1080,7 +1080,7 @@ export const VIRGINIA_LESSON_CHECKS: Record<string, LessonCheckQuestion[]> = {
       ],
       correctAnswer: 2,
       explanation:
-        "Patience and awareness help drivers protect pedestrians, cyclists, motorcyclists, and other vulnerable users.",
+        "Patience and awareness help drivers protect pedestrians, bicyclists, motorcyclists, and other vulnerable users.",
     },
   ],
   "lesson-6": [
