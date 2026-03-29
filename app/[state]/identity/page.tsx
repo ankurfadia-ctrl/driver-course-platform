@@ -19,7 +19,7 @@ import {
 export default function IdentitySetupPage() {
   const params = useParams()
   const router = useRouter()
-  const supabase = createClient()
+  const [supabase] = useState(() => createClient())
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
 
@@ -115,7 +115,7 @@ export default function IdentitySetupPage() {
     }
 
     loadIdentity()
-  }, [state, storageKey])
+  }, [state, storageKey, supabase])
 
   const updateField = (
     key: keyof IdentityVerificationAnswerSet,
