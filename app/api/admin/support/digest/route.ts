@@ -5,14 +5,17 @@ import { getCourseConfig } from "@/lib/course-config"
 import { sendAdminStandardSupportDigestEmail } from "@/lib/email"
 
 function isAuthorized(request: NextRequest) {
-  const expected = String(process.env.SUPPORT_DIGEST_SECRET ?? "").trim()
+  const bearer = request.headers.get("authorization") ?? ""
+  const expectedSecrets = [
+    String(process.env.SUPPORT_DIGEST_SECRET ?? "").trim(),
+    String(process.env.CRON_SECRET ?? "").trim(),
+  ].filter(Boolean)
 
-  if (!expected) {
+  if (expectedSecrets.length === 0) {
     return false
   }
 
-  const bearer = request.headers.get("authorization") ?? ""
-  return bearer === `Bearer ${expected}`
+  return expectedSecrets.some((secret) => bearer === `Bearer ${secret}`)
 }
 
 export async function GET(request: NextRequest) {
