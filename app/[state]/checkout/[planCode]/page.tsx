@@ -52,6 +52,7 @@ export default function StatePlanCheckoutPage() {
   const [loadingCheckout, setLoadingCheckout] = useState(false)
   const [checkoutError, setCheckoutError] = useState<string | null>(null)
   const [checkingPurchase, setCheckingPurchase] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [hasPaidPurchase, setHasPaidPurchase] = useState(false)
   const [purchaseSupportTier, setPurchaseSupportTier] = useState<string | null>(null)
   const [purchaseError, setPurchaseError] = useState("")
@@ -76,6 +77,11 @@ export default function StatePlanCheckoutPage() {
             "Antes de pagar, confirma que este curso en linea es aceptable para tu requisito especifico en Virginia. Revisa la informacion sobre identidad, tiempo del curso y reglas del examen.",
           disclosuresCta: "Leer informacion del curso",
           continuePayment: "Continuar al pago",
+          createAccount: "Crear cuenta",
+          logIn: "Iniciar sesion",
+          signInRequiredTitle: "Crea tu cuenta antes de pagar",
+          signInRequiredBody:
+            "Necesitas una cuenta de estudiante para continuar al pago, guardar tu compra y desbloquear el curso despues del cobro.",
           preparing: "Preparando pago...",
           prepareError: "No se pudo preparar el pago. Intentalo de nuevo.",
         }
@@ -94,6 +100,11 @@ export default function StatePlanCheckoutPage() {
             "Before paying, confirm that this online course is acceptable for your specific Virginia requirement. Review disclosures for identity, seat-time, and exam rules.",
           disclosuresCta: "Read course information",
           continuePayment: "Continue to Payment",
+          createAccount: "Create account",
+          logIn: "Log in",
+          signInRequiredTitle: "Create your account before payment",
+          signInRequiredBody:
+            "You need a student account before checkout so the purchase can be saved and the course can unlock correctly after payment.",
           preparing: "Preparing checkout...",
           prepareError: "Could not prepare checkout. Please try again.",
         }
@@ -127,6 +138,7 @@ export default function StatePlanCheckoutPage() {
 
         if (!isMounted) return
 
+        setIsAuthenticated(access.isAuthenticated)
         if (access.hasPaidAccess) {
           setHasPaidPurchase(true)
           setPurchaseSupportTier(access.supportTier)
@@ -248,12 +260,35 @@ export default function StatePlanCheckoutPage() {
         </Link>
       </div>
 
-      <button
-        onClick={handleContinueToPayment}
-        className="rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700"
-      >
-        {loadingCheckout ? copy.preparing : copy.continuePayment}
-      </button>
+      {!isAuthenticated ? (
+        <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5">
+          <div className="font-semibold text-blue-900">{copy.signInRequiredTitle}</div>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            {copy.signInRequiredBody}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href={`/${state}/login`}
+              className="inline-flex rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700"
+            >
+              {copy.createAccount}
+            </Link>
+            <Link
+              href={`/${state}/login`}
+              className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {copy.logIn}
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <button
+          onClick={handleContinueToPayment}
+          className="rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700"
+        >
+          {loadingCheckout ? copy.preparing : copy.continuePayment}
+        </button>
+      )}
 
       {checkoutError && <div className="text-red-600">{checkoutError}</div>}
     </div>

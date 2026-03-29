@@ -33,6 +33,7 @@ export default function StateCheckoutPage() {
   const language = usePreferredSiteLanguageClient()
 
   const [checkingPurchase, setCheckingPurchase] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [hasPaidPurchase, setHasPaidPurchase] = useState(false)
   const [purchasePlanCode, setPurchasePlanCode] = useState<string | null>(null)
   const [purchaseSupportTier, setPurchaseSupportTier] = useState<string | null>(null)
@@ -114,6 +115,11 @@ export default function StateCheckoutPage() {
           refundBody:
             "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Despues de progreso importante, acceso al examen final, emision del certificado o cumplimiento de correo fisico, la compra normalmente deja de ser reembolsable.",
           refundCta: "Leer politica de reembolso",
+          accountTitle: "Crea tu cuenta antes de pagar",
+          accountBody:
+            "Los estudiantes nuevos deben crear una cuenta o iniciar sesion antes del pago para que la compra quede guardada y el curso se desbloquee correctamente.",
+          createAccount: "Crear cuenta",
+          logIn: "Iniciar sesion",
           backCourse: "Volver al curso",
           questions: "Preguntas antes de comprar?",
         }
@@ -188,6 +194,11 @@ export default function StateCheckoutPage() {
           refundBody:
             "Refund requests may be reviewed before substantial use of the course. After significant progress, final exam access, certificate issuance, or physical-mail fulfillment, the purchase is generally no longer refundable.",
           refundCta: "Read refund policy",
+          accountTitle: "Create your account before payment",
+          accountBody:
+            "New students should create an account or log in before checkout so the purchase can be saved and the course unlocks correctly after payment.",
+          createAccount: "Create account",
+          logIn: "Log in",
           backCourse: "Back to Course",
           questions: "Questions Before Buying?",
         }
@@ -216,6 +227,7 @@ export default function StateCheckoutPage() {
 
         if (!isMounted) return
 
+        setIsAuthenticated(access.isAuthenticated)
         if (access.hasPaidAccess) {
           setHasPaidPurchase(true)
           setPurchasePlanCode(access.planCode)
@@ -366,6 +378,31 @@ export default function StateCheckoutPage() {
           {copy.refundCta}
         </Link>
       </section>
+
+      {!isAuthenticated && !hasPaidPurchase ? (
+        <section className="rounded-[1.75rem] border border-blue-200 bg-blue-50 p-6">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+            {copy.accountTitle}
+          </div>
+          <p className="mt-3 max-w-4xl text-sm leading-7 text-slate-700">
+            {copy.accountBody}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href={`/${state}/login`}
+              className="inline-flex rounded-xl bg-blue-600 px-4 py-2.5 font-semibold text-white hover:bg-blue-700"
+            >
+              {copy.createAccount}
+            </Link>
+            <Link
+              href={`/${state}/login`}
+              className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-900 hover:bg-slate-100"
+            >
+              {copy.logIn}
+            </Link>
+          </div>
+        </section>
+      ) : null}
 
       {purchaseError ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
