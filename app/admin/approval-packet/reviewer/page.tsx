@@ -14,19 +14,19 @@ import {
 export const dynamic = "force-dynamic"
 
 const identityWorkflow = [
-  "The student creates an identity profile before course progress is completed, including legal first name, legal last name, date of birth, driver's license number, and two custom security questions with answers.",
-  "Identity setup is stored per user and per state.",
-  "Students must complete identity setup before beginning lesson progress.",
-  "Students must answer their stored identity questions before entering each lesson.",
-  "Students must verify identity again before the final exam begins.",
-  "If identity answers are incorrect, the student must return to identity setup and update the stored answers before continuing.",
+  "The student creates an identity profile that includes legal first name, legal last name, date of birth, driver's license number, and two custom security questions with answers.",
+  "The identity profile is stored for that student and that state.",
+  "The student must complete identity setup before beginning lesson progress.",
+  "Before each lesson begins, the student must answer the stored identity questions correctly.",
+  "Before the final exam begins, the student must complete identity verification again.",
+  "If the student enters incorrect identity answers, the lesson or final exam stays blocked until the stored identity answers are updated and verified.",
 ]
 
 const reportingWorkflow = [
-  "Course completion records appear in the DMV reporting queue after successful completion.",
-  "The reporting queue distinguishes ready-to-report records, reported records, and records missing required court documentation.",
-  "Court-related attendance requires supporting court information before safe-driving points can be awarded.",
-  "Completion reporting should be handled within the Virginia-required reporting window.",
+  "After successful completion, the course record appears in the DMV reporting queue.",
+  "The reporting queue marks each record as ready to report, missing court document, or reported to DMV.",
+  "Court-related attendance records require the related court information before safe-driving points can be awarded.",
+  "Virginia completion reporting is handled within the required 24-hour reporting window.",
 ]
 
 export default async function ApprovalPacketReviewerPage() {
