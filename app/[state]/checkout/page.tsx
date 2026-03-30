@@ -263,6 +263,7 @@ export default function StateCheckoutPage() {
           addOnCourtBody:
             "Revision administrativa adicional para estudiantes dirigidos por la corte.",
           boughtLater: "Si se compra despues",
+          selectBundle: "Elegir premium",
           selectUpgrade: "Mejorar a soporte prioritario",
           selectPriority: "Elegir prioritario",
           selectStandard: "Elegir estandar",
@@ -374,6 +375,7 @@ export default function StateCheckoutPage() {
           addOnCourtBody:
             "Extra administrative review for court-directed students.",
           boughtLater: "If purchased later",
+          selectBundle: "Select Premium",
           selectUpgrade: "Upgrade to Priority Support",
           selectPriority: "Select Priority",
           selectStandard: "Select Standard",
@@ -779,6 +781,8 @@ export default function StateCheckoutPage() {
                 >
                   {isUpgrade
                     ? copy.selectUpgrade
+                    : isBundle
+                    ? copy.selectBundle
                     : isPriority
                     ? copy.selectPriority
                     : copy.selectStandard}
