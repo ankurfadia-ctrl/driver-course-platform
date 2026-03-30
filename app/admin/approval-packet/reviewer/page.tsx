@@ -50,17 +50,17 @@ export default async function ApprovalPacketReviewerPage() {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">
-              Virginia Reviewer Packet
+              Virginia Submission Packet
             </p>
             <h1 className="mt-2 text-3xl font-bold text-slate-900">
               Virginia Driver Improvement Course Submission Packet
             </h1>
             <p className="mt-4 max-w-3xl leading-7 text-slate-700">
-              This print-ready packet consolidates the current curriculum outline,
-              lesson knowledge checks, final exam summary, identity-validation
-              method, and completion/reporting workflow into one reviewer-facing
-              document. Use your browser&apos;s print function to save this page
-              as a PDF for packaging.
+              This packet presents the current Virginia course structure,
+              lesson outlines, lesson knowledge checks, final exam controls,
+              identity-validation method, and completion-reporting workflow in a
+              reviewer-friendly format. Use your browser&apos;s print function to
+              save this page as a PDF for submission packaging.
             </p>
           </div>
 
@@ -103,7 +103,7 @@ export default async function ApprovalPacketReviewerPage() {
 
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm print:shadow-none">
         <h2 className="text-2xl font-semibold text-slate-900">
-          1. Course structure summary
+          1. Course structure overview
         </h2>
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-full border-collapse text-left text-sm">
@@ -181,18 +181,20 @@ export default async function ApprovalPacketReviewerPage() {
 
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm print:shadow-none">
         <h2 className="text-2xl font-semibold text-slate-900">
-          3. Lesson knowledge checks and final exam controls
+          3. Knowledge checks and final exam controls
         </h2>
         <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
           <p>
             Lesson knowledge checks are included throughout the curriculum. The
-            final exam uses a 50-question bank with an 80% passing score.
+            final exam uses a 50-question bank and requires a passing score of
+            80 percent.
           </p>
           <p>
             The final exam unlocks after lesson completion and at least 7 hours
-            of course instruction. The full course minimum is 8 hours total,
-            including final exam time. A certificate is not available until both
-            the final exam is passed and the full 8-hour total is complete.
+            of course instruction. The total course minimum is 8 hours,
+            including final exam time. A certificate is issued only after the
+            student passes the final exam and completes the full 8-hour course
+            minimum.
           </p>
         </div>
         <div className="mt-5 space-y-4">
@@ -245,6 +247,10 @@ export default async function ApprovalPacketReviewerPage() {
             <h3 className="font-semibold text-slate-900">
               Verification workflow
             </h3>
+            <p className="mt-3 text-sm leading-7 text-slate-700">
+              Identity validation is built into lesson entry and final-exam
+              access. The workflow below describes the current control path.
+            </p>
             <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-7 text-slate-700">
               {identityWorkflow.map((step) => (
                 <li key={step}>{step}</li>
@@ -258,6 +264,10 @@ export default async function ApprovalPacketReviewerPage() {
         <h2 className="text-2xl font-semibold text-slate-900">
           5. Completion reporting and record handling
         </h2>
+        <p className="mt-4 text-sm leading-7 text-slate-700">
+          The course completion and reporting workflow is tracked through the
+          internal reporting queue and certificate workflow described below.
+        </p>
         <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm leading-7 text-slate-700">
           {reportingWorkflow.map((step) => (
             <li key={step}>{step}</li>
