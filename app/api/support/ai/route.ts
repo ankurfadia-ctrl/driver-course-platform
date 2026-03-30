@@ -70,7 +70,14 @@ function parseAiResponse(text: string): SupportAssistantResponse | null {
   }
 
   try {
-    const parsed = JSON.parse(text) as Partial<SupportAssistantResponse>
+    const sanitized = text
+      .trim()
+      .replace(/^```json\s*/i, "")
+      .replace(/^```\s*/i, "")
+      .replace(/\s*```$/, "")
+      .trim()
+
+    const parsed = JSON.parse(sanitized) as Partial<SupportAssistantResponse>
 
     if (typeof parsed.summary !== "string" || !parsed.summary.trim()) {
       return null
@@ -120,6 +127,54 @@ async function callOpenAi(args: {
   })
 
   return response
+}
+
+async function callOpenAiChatCompletions(args: {
+  apiKey: string
+  model: string
+  prompt: string
+}) {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${args.apiKey}`,
+    },
+    body: JSON.stringify({
+      model: args.model,
+      messages: [
+        {
+          role: "user",
+          content: args.prompt,
+        },
+      ],
+      temperature: 0.2,
+      response_format: {
+        type: "json_object",
+      },
+    }),
+  })
+
+  return response
+}
+
+function extractChatCompletionText(data: unknown) {
+  if (!data || typeof data !== "object") {
+    return ""
+  }
+
+  const record = data as Record<string, unknown>
+  const choices = Array.isArray(record.choices) ? record.choices : []
+  const firstChoice =
+    choices[0] && typeof choices[0] === "object"
+      ? (choices[0] as Record<string, unknown>)
+      : null
+  const message =
+    firstChoice?.message && typeof firstChoice.message === "object"
+      ? (firstChoice.message as Record<string, unknown>)
+      : null
+
+  return typeof message?.content === "string" ? message.content.trim() : ""
 }
 
 export async function POST(request: NextRequest) {
@@ -202,30 +257,56 @@ Return JSON only with this shape:
       new Set([configuredModel, "gpt-4.1-mini", "gpt-4o-mini"].filter(Boolean))
     )
 
-    let data: unknown = null
+    let text = ""
     let lastStatus = 502
     let lastError = "AI support is temporarily unavailable. Please try again in a moment."
 
     for (const model of modelCandidates) {
-      const response = await callOpenAi({
+      const responsesApi = await callOpenAi({
         apiKey,
         model,
         prompt,
       })
 
-      if (!response.ok) {
-        lastStatus = response.status
-        const errorText = await response.text()
-        console.error(`Support AI model failed (${model}):`, errorText)
+      if (responsesApi.ok) {
+        const data = (await responsesApi.json()) as unknown
+        text = extractOutputText(data)
+        if (parseAiResponse(text)) {
+          lastError = ""
+          break
+        }
+        console.error(`Support AI responses output was not parseable (${model}).`)
+      } else {
+        lastStatus = responsesApi.status
+        const errorText = await responsesApi.text()
+        console.error(`Support AI responses API failed (${model}):`, errorText)
+      }
+
+      const chatCompletionsApi = await callOpenAiChatCompletions({
+        apiKey,
+        model,
+        prompt,
+      })
+
+      if (!chatCompletionsApi.ok) {
+        lastStatus = chatCompletionsApi.status
+        const errorText = await chatCompletionsApi.text()
+        console.error(`Support AI chat completions failed (${model}):`, errorText)
         continue
       }
 
-      data = (await response.json()) as unknown
-      lastError = ""
-      break
+      const completionData = (await chatCompletionsApi.json()) as unknown
+      text = extractChatCompletionText(completionData)
+
+      if (parseAiResponse(text)) {
+        lastError = ""
+        break
+      }
+
+      console.error(`Support AI chat completion output was not parseable (${model}).`)
     }
 
-    if (!data) {
+    if (!text) {
       return NextResponse.json(
         {
           ok: false,
@@ -238,7 +319,6 @@ Return JSON only with this shape:
       )
     }
 
-    const text = extractOutputText(data)
     const parsed = parseAiResponse(text)
 
     if (!parsed) {
