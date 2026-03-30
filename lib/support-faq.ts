@@ -123,6 +123,25 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     keywords: ["8 hours", "does the 8 hours include the final", "eight hours include final"],
   },
   {
+    id: "time-per-page",
+    question: {
+      en: "Do I have to spend a certain amount of time on each page?",
+      es: "Tengo que pasar cierta cantidad de tiempo en cada pagina?",
+    },
+    answer: {
+      en: "No. There is not a fixed minimum required time for each individual page. Your course time is tracked across active participation in the course, and you still need to complete the required lessons, reach at least 7 hours before the final exam unlocks, and complete the full 8 hours before your certificate can unlock.",
+      es: "No. No hay un tiempo minimo fijo requerido para cada pagina individual. El tiempo del curso se registra segun tu participacion activa en el curso, y aun debes completar las lecciones requeridas, alcanzar al menos 7 horas antes de que se habilite el examen final y completar las 8 horas totales antes de que se habilite tu certificado.",
+    },
+    keywords: [
+      "certain amount of time on each page",
+      "time on each page",
+      "time per page",
+      "every page",
+      "do i have to spend time on each page",
+      "fixed time on each page",
+    ],
+  },
+  {
     id: "passing-score",
     question: {
       en: "What score do I need on the final exam?",

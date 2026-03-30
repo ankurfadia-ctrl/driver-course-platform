@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getCourseConfig } from "@/lib/course-config"
-import {
-  getSupportAssistantResponse,
-  type SupportAssistantResponse,
-} from "@/lib/support-assistant"
+import type { SupportAssistantResponse } from "@/lib/support-assistant"
 import { getSupportFaqEntries } from "@/lib/support-faq"
 import { normalizeSiteLanguage, type SiteLanguage } from "@/lib/site-language"
 
@@ -18,20 +15,6 @@ type SupportAiBody = {
   state?: string
   language?: SiteLanguage | string
   messages?: SupportChatMessage[]
-}
-
-function fallbackResponse(
-  state: string,
-  language: SiteLanguage,
-  message: string
-): SupportAssistantResponse {
-  return getSupportAssistantResponse({
-    state,
-    category: "other",
-    subject: message.slice(0, 80),
-    message,
-    language,
-  })
 }
 
 function buildFaqContext(language: SiteLanguage) {
@@ -132,11 +115,13 @@ export async function POST(request: NextRequest) {
     const model = String(process.env.SUPPORT_AI_MODEL ?? "gpt-5-mini").trim()
 
     if (!apiKey) {
-      return NextResponse.json({
-        ok: true,
-        response: fallbackResponse(state, language, latestStudentMessage),
-        provider: "fallback",
-      })
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "AI support is not configured right now. Please try again in a moment.",
+        },
+        { status: 503 }
+      )
     }
 
     const config = getCourseConfig(state)
@@ -155,10 +140,12 @@ Treat short plain-language questions as valid. For example:
 - "exam locked" means "why is my exam locked?"
 - "money back" means "what is the refund policy?"
 - "real person" means "can I talk to a real person and how does that work?"
+- "do i have to spend certain amount of time on each page" means there is no fixed minimum on each page, but the student still must complete the required total course time.
 
 Important facts for this course:
 - Final exam unlocks after at least 7 hours of course instruction.
 - Full course minimum is 8 hours total, including the final exam.
+- There is not a fixed required time on each individual page. Time is tracked across active participation in the course while course pages are open and the student is actively working through them.
 - Certificate stays locked until the student has both passed the final exam and completed the full 8 hours.
 - Final exam passing score is ${config.passingScorePercent}%.
 - Final exam can be taken only once per business day.
@@ -199,12 +186,13 @@ Return JSON only with this shape:
     })
 
     if (!response.ok) {
-      const fallback = fallbackResponse(state, language, latestStudentMessage)
-      return NextResponse.json({
-        ok: true,
-        response: fallback,
-        provider: "fallback",
-      })
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "AI support is temporarily unavailable. Please try again in a moment.",
+        },
+        { status: 502 }
+      )
     }
 
     const data = (await response.json()) as unknown
@@ -212,11 +200,13 @@ Return JSON only with this shape:
     const parsed = parseAiResponse(text)
 
     if (!parsed) {
-      return NextResponse.json({
-        ok: true,
-        response: fallbackResponse(state, language, latestStudentMessage),
-        provider: "fallback",
-      })
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "AI support could not finish that answer. Please try asking again.",
+        },
+        { status: 502 }
+      )
     }
 
     return NextResponse.json({
