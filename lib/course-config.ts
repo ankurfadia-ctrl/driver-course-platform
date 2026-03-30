@@ -103,8 +103,8 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
     supportEmail: "support@vadriverimprovementcourse.com",
-    supportPhone: "7035740146",
-    supportPhoneDisplay: "(703) 574-0146",
+    supportPhone: "8777980235",
+    supportPhoneDisplay: "(877) 798-0235",
   },
 }
 

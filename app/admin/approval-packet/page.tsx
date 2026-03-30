@@ -131,7 +131,7 @@ export default async function AdminApprovalPacketPage() {
         <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
           <div className="text-sm text-slate-500">Primary business phone</div>
           <div className="mt-1 text-lg font-semibold text-slate-900">
-            (703) 574-0146
+            (877) 798-0235
           </div>
           <div className="mt-2 text-sm leading-6 text-slate-600">
             Keep voicemail-first handling active and keep online support as the
