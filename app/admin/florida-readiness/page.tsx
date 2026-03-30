@@ -82,6 +82,12 @@ export default async function FloridaReadinessPage() {
 
         <div className="flex flex-wrap gap-3">
           <Link
+            href="/admin/florida-approval-packet"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Florida Packet
+          </Link>
+          <Link
             href="/admin/outreach"
             className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
@@ -185,6 +191,14 @@ export default async function FloridaReadinessPage() {
             <li key={item}>{item}</li>
           ))}
         </ul>
+        <div className="mt-5">
+          <Link
+            href="/admin/florida-approval-packet"
+            className="inline-flex rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700"
+          >
+            Open Florida Packet Workspace
+          </Link>
+        </div>
       </section>
     </div>
   )
