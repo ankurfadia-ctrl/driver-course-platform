@@ -2,10 +2,11 @@
 
 import Link from "next/link"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
+import { formatPriceFromCents, getCoursePlans } from "@/lib/payment/plans"
 import {
   getReasonForAttendingDescription,
   getReasonForAttendingLabel,
@@ -105,13 +106,17 @@ export default function LoginPage() {
           reasonHelp:
             "Elige la opcion que mejor coincida con el motivo oficial por el que tomas el curso.",
           firstName: "Nombre legal",
+          middleName: "Segundo nombre legal",
           lastName: "Apellido legal",
           dateOfBirth: "Fecha de nacimiento",
           dateOfBirthHelp:
             "Los cursos de mejoramiento pueden tomarse en linea a cualquier edad, pero los estudiantes deben confirmar que son elegibles para su requisito especifico en Virginia.",
           underageNotice:
             "Esta fecha de nacimiento parece estar por debajo de la edad minima de permiso de aprendizaje de Virginia (15 anos y 6 meses). Verifica la elegibilidad antes de inscribirte.",
-          driversLicenseNumber: "Numero de licencia",
+          driversLicenseNumber:
+            "Numero de cliente del DMV de Virginia o numero de licencia de otro estado",
+          driversLicenseHelp:
+            "Los estudiantes de Virginia deben ingresar su numero de cliente emitido por el DMV. Los estudiantes de otros estados deben ingresar su numero de licencia.",
           courtName: "Nombre del tribunal",
           caseOrTicketNumber: "Numero de caso o multa",
           courtDocumentNotes: "Notas del documento judicial",
@@ -123,7 +128,17 @@ export default function LoginPage() {
           courtFieldsRequired:
             "Completa la informacion del tribunal antes de crear la cuenta.",
           identityFieldsRequired:
-            "Completa tu nombre legal, fecha de nacimiento y numero de licencia antes de crear la cuenta.",
+            "Completa tu nombre legal, fecha de nacimiento y numero de cliente del DMV o numero de licencia antes de crear la cuenta.",
+          registrationTitle: "Requisitos del portal de registro",
+          registrationBody:
+            "Este portal de registro muestra el nombre del proveedor, el telefono gratuito, la tarifa del curso y los campos requeridos del estudiante antes de la inscripcion.",
+          providerNameLabel: "Proveedor",
+          providerPhoneLabel: "Telefono gratuito",
+          feeLabel: "Tarifa del curso",
+          vendorLinkLabel: "Informacion del proveedor del plan de estudios",
+          vendorLinkCta: "Leer informacion del curso",
+          onlineOnlyNotice:
+            "El curso y el examen final deben completarse en linea a traves de este portal. No se permite examen en papel.",
         }
       : {
           sectionLabel: `${config.stateName} Student Access`,
@@ -187,13 +202,17 @@ export default function LoginPage() {
           reasonHelp:
             "Choose the option that best matches your official reason for taking the course.",
           firstName: "Legal first name",
+          middleName: "Legal middle name",
           lastName: "Legal last name",
           dateOfBirth: "Date of birth",
           dateOfBirthHelp:
             "Driver improvement courses may be completed online regardless of age, but students must confirm eligibility for their specific Virginia requirement before enrolling.",
           underageNotice:
             "This birth date appears to be below Virginia's learner's permit minimum age of 15 years and 6 months. Confirm eligibility before enrolling.",
-          driversLicenseNumber: "Driver's license number",
+          driversLicenseNumber:
+            "Virginia DMV customer number or out-of-state license number",
+          driversLicenseHelp:
+            "Virginia students should enter their DMV-issued customer number. Out-of-state students should enter their driver's license number.",
           courtName: "Court name",
           caseOrTicketNumber: "Case or ticket number",
           courtDocumentNotes: "Court document notes",
@@ -205,7 +224,17 @@ export default function LoginPage() {
           courtFieldsRequired:
             "Complete the court information before creating the account.",
           identityFieldsRequired:
-            "Complete your legal name, date of birth, and driver's license number before creating the account.",
+            "Complete your legal name, date of birth, and DMV customer number or out-of-state license number before creating the account.",
+          registrationTitle: "Registration portal requirements",
+          registrationBody:
+            "This registration portal displays the provider name, toll-free phone number, course fee, and required student fields before enrollment.",
+          providerNameLabel: "Provider",
+          providerPhoneLabel: "Toll-free phone",
+          feeLabel: "Course fee",
+          vendorLinkLabel: "Curriculum vendor information",
+          vendorLinkCta: "Read course information",
+          onlineOnlyNotice:
+            "The course and final test must be completed online through this portal. No paper test is permitted.",
         }
 
   const requestedMode = searchParams.get("mode") === "signup" ? "signup" : "login"
@@ -215,6 +244,7 @@ export default function LoginPage() {
   const [reasonForAttending, setReasonForAttending] =
     useState<ReasonForAttendingCode | "">("")
   const [firstName, setFirstName] = useState("")
+  const [middleName, setMiddleName] = useState("")
   const [lastName, setLastName] = useState("")
   const [dateOfBirth, setDateOfBirth] = useState("")
   const [driversLicenseNumber, setDriversLicenseNumber] = useState("")
@@ -229,6 +259,19 @@ export default function LoginPage() {
   const [sendingRecovery, setSendingRecovery] = useState(false)
   const [showRecoveryForm, setShowRecoveryForm] = useState(false)
   const showUnderageWarning = mode === "signup" && isBelowVirginiaLearnersPermitAge(dateOfBirth)
+  const courseFeeSummary = useMemo(() => {
+    const fullCoursePlans = getCoursePlans(state).filter(
+      (plan) => plan.planKind === "full-course"
+    )
+
+    if (fullCoursePlans.length === 0) {
+      return ""
+    }
+
+    return fullCoursePlans
+      .map((plan) => `${plan.displayName}: ${formatPriceFromCents(plan.priceCents)}`)
+      .join(" | ")
+  }, [state])
 
   useEffect(() => {
     setMode(requestedMode)
@@ -325,6 +368,9 @@ export default function LoginPage() {
               lastName: lastName.trim(),
               dateOfBirth: dateOfBirth.trim(),
               driversLicenseNumber: driversLicenseNumber.trim(),
+            },
+            registrationProfile: {
+              middleName: middleName.trim(),
             },
           },
           emailRedirectTo: redirectBaseUrl
@@ -499,6 +545,35 @@ export default function LoginPage() {
 
             {mode === "signup" ? (
               <>
+                <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm leading-7 text-blue-900">
+                  <div className="font-semibold text-slate-900">
+                    {copy.registrationTitle}
+                  </div>
+                  <p className="mt-2">{copy.registrationBody}</p>
+                  <p className="mt-2">
+                    <span className="font-semibold">{copy.providerNameLabel}:</span>{" "}
+                    {config.brandName}
+                  </p>
+                  <p>
+                    <span className="font-semibold">{copy.providerPhoneLabel}:</span>{" "}
+                    {config.supportPhoneDisplay}
+                  </p>
+                  <p>
+                    <span className="font-semibold">{copy.feeLabel}:</span>{" "}
+                    {courseFeeSummary}
+                  </p>
+                  <p className="mt-2">{copy.onlineOnlyNotice}</p>
+                  <p className="mt-2">
+                    <span className="font-semibold">{copy.vendorLinkLabel}:</span>{" "}
+                    <Link
+                      href={getDisclosuresRoute(state)}
+                      className="font-semibold underline decoration-blue-300 underline-offset-4"
+                    >
+                      {copy.vendorLinkCta}
+                    </Link>
+                  </p>
+                </div>
+
                 <select
                   value={reasonForAttending}
                   onChange={(e) =>
@@ -550,6 +625,14 @@ export default function LoginPage() {
 
                   <input
                     type="text"
+                    placeholder={copy.middleName}
+                    value={middleName}
+                    onChange={(e) => setMiddleName(e.target.value)}
+                    className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                  />
+
+                  <input
+                    type="text"
                     placeholder={copy.lastName}
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
@@ -558,7 +641,7 @@ export default function LoginPage() {
                   />
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-2">
                   <label className="block text-sm font-medium text-slate-700">
                     <span className="mb-2 block">{copy.dateOfBirth}</span>
                     <input
@@ -588,6 +671,9 @@ export default function LoginPage() {
                       className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
                       required
                     />
+                    <span className="mt-2 block text-xs leading-6 text-slate-500">
+                      {copy.driversLicenseHelp}
+                    </span>
                   </label>
                 </div>
 

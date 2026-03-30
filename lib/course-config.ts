@@ -60,14 +60,29 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
           "Virginia DMV approval has not yet been granted. Students should review course information carefully and confirm acceptance for their specific requirement before enrolling or relying on completion.",
       },
       {
+        title: "Provider contact information",
+        body:
+          "Online registration displays the provider name Virginia Driver Improvement Course and the provider toll-free telephone number (877) 798-0235.",
+      },
+      {
         title: "Court and eligibility responsibility",
         body:
           "Students are responsible for confirming that an online Virginia driver improvement course is acceptable for their specific court, employer, insurance, or DMV requirement before enrolling.",
       },
       {
+        title: "Technology and independent use",
+        body:
+          "To benefit from the course, students must be able to work independently and be comfortable using a computer.",
+      },
+      {
+        title: "Online-only administration",
+        body:
+          "The online driver improvement course and final test must be completed online through the provider portal. No paper test is permitted.",
+      },
+      {
         title: "Course timing expectations",
         body:
-          "Virginia online driver improvement courses include at least eight hours of instruction. In this course, the final exam unlocks after at least seven hours of course instruction, and the certificate stays locked until the full eight-hour minimum is complete.",
+          "The online driver improvement clinic course is an eight-hour course, including the final test, and it must be completed in its entirety before a certificate of completion is issued. In this course, the final exam unlocks after at least seven hours of instruction and the certificate stays locked until the full eight-hour minimum is complete.",
       },
       {
         title: "Course completion window",
@@ -88,6 +103,31 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
         title: "Safe driving points",
         body:
           "Voluntary clinic completion may earn five safe driving points only once every 24 months. If attendance is court required, the court determines whether safe driving points are awarded, and the required court documentation must be provided before DMV can award those points.",
+      },
+      {
+        title: "Certificate delivery timing",
+        body:
+          "The certificate of completion is electronically transmitted to successful students within 24 hours of course completion.",
+      },
+      {
+        title: "Accepted proof of completion",
+        body:
+          "The DMV standardized Online Driver Improvement Clinic Certificate of Completion (DIC 552B) is the only document accepted by Virginia DMV and the courts as proof of completion of an online driver improvement clinic.",
+      },
+      {
+        title: "Printed certificate requirements",
+        body:
+          "If the certificate is presented to DMV, it must be printed on 8 1/2 by 11 plain white bonded paper. DMV does not accept certificates printed on color or special designed paper, paper with advertising, or certificates altered in any way.",
+      },
+      {
+        title: "DMV comments or concerns",
+        body:
+          "DMV is committed to promoting transportation safety through the certification of quality driver training programs. If students have comments or concerns about this course, they may call DMV at (1-877-885-5790).",
+      },
+      {
+        title: "DMV operating certificate display",
+        body:
+          "Once DMV issues an online clinic operating certificate, a facsimile of that DMV certificate will be displayed as part of the validation and sign-in sequence as required.",
       },
       {
         title: "Support and record review",
