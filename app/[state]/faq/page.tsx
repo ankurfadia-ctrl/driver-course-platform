@@ -44,6 +44,7 @@ export default async function StateFaqPage({
 }) {
   const { state } = await params
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const language = await getPreferredSiteLanguage()
 
   const faqs = getSupportFaqEntries(language)
@@ -86,21 +87,29 @@ export default async function StateFaqPage({
           label: "Preguntas",
           title: `Preguntas y respuestas sobre el curso de ${config.stateName}`,
           intro:
-            "Esta pagina ofrece respuestas generales a preguntas comunes antes de la inscripcion, durante el curso y despues de completarlo.",
+            enrollmentOpen
+              ? "Esta pagina ofrece respuestas generales a preguntas comunes antes de la inscripcion, durante el curso y despues de completarlo."
+              : "Esta pagina ofrece respuestas generales sobre la plataforma mientras los requisitos oficiales de este estado siguen en preparacion.",
           moreInfo: "Necesitas mas informacion?",
           moreInfoBody:
-            "Revisa la pagina de informacion del curso si necesitas mas detalles antes de inscribirte o depender de la finalizacion.",
+            enrollmentOpen
+              ? "Revisa la pagina de informacion del curso si necesitas mas detalles antes de inscribirte o depender de la finalizacion."
+              : "Revisa la pagina del estado para seguir el estado de preparacion y la informacion oficial disponible hasta ahora.",
           infoCta: "Leer informacion del curso",
         }
       : {
           label: "FAQ",
           title: `${config.stateName} course questions and answers`,
           intro:
-            "This page provides general answers to common student questions before enrollment, during the course, and after completion.",
+            enrollmentOpen
+              ? "This page provides general answers to common student questions before enrollment, during the course, and after completion."
+              : "This page provides general platform answers while the official requirements for this state are still being prepared.",
           moreInfo: "Need more information?",
           moreInfoBody:
-            "Review the course information page if you need more detail before enrolling or relying on completion.",
-          infoCta: "Read Course Information",
+            enrollmentOpen
+              ? "Review the course information page if you need more detail before enrolling or relying on completion."
+              : "Review the state page to follow the preparation status and the official information currently available.",
+          infoCta: enrollmentOpen ? "Read Course Information" : "View State Page",
         }
 
   return (
@@ -142,7 +151,7 @@ export default async function StateFaqPage({
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
-            href={getDisclosuresRoute(state)}
+            href={enrollmentOpen ? getDisclosuresRoute(state) : `/${state}`}
             className="rounded-xl border border-amber-300 bg-white px-5 py-3 font-semibold text-amber-900 transition hover:bg-amber-100"
           >
             {copy.infoCta}

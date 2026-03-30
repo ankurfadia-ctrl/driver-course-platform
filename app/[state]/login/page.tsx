@@ -41,6 +41,7 @@ export default function LoginPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const language = usePreferredSiteLanguageClient()
   const copy =
     language === "es"
@@ -427,6 +428,42 @@ export default function LoginPage() {
     } finally {
       setSendingRecovery(false)
     }
+  }
+
+  if (!enrollmentOpen) {
+    return (
+      <main className="min-h-screen px-4 py-10 sm:py-14">
+        <div className="mx-auto max-w-4xl space-y-6">
+          <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-7 sm:p-8">
+            <div className="section-label">{copy.sectionLabel}</div>
+            <h1 className="mt-5 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+              {language === "es"
+                ? `La inscripcion para ${config.stateName} aun no esta abierta.`
+                : `${config.stateName} enrollment is not open yet.`}
+            </h1>
+            <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
+              {language === "es"
+                ? `La plataforma para ${config.stateName} sigue en preparacion. La creacion de cuentas de estudiantes se habilitara cuando el contenido, las divulgaciones y los requisitos regulatorios esten listos.`
+                : `${config.stateName} is still in preparation. Student account creation will open after the course content, disclosures, and regulator-facing requirements are ready.`}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href={getDisclosuresRoute(state)}
+                className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
+              >
+                {copy.infoCta}
+              </Link>
+              <Link
+                href={`/${state}`}
+                className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+              >
+                {language === "es" ? `Volver a ${config.stateName}` : `Back to ${config.stateName}`}
+              </Link>
+            </div>
+          </section>
+        </div>
+      </main>
+    )
   }
 
   return (

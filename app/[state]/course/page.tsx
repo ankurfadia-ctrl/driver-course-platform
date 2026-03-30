@@ -69,6 +69,7 @@ export default function StateCoursePage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const language = usePreferredSiteLanguageClient()
   const isVirginia = config.stateSlug === "virginia"
   const lessons =
@@ -293,6 +294,40 @@ export default function StateCoursePage() {
   const remainingToCertificate = getRemainingToCertificate(
     seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
   )
+
+  if (!enrollmentOpen) {
+    return (
+      <div className="mx-auto mt-10 max-w-3xl space-y-4 rounded-xl border p-6">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+          {config.stateName} Course Preparation
+        </p>
+        <h1 className="text-3xl font-bold text-slate-900">
+          {language === "es"
+            ? `Las lecciones de ${config.stateName} aun no estan publicadas`
+            : `${config.stateName} lessons are not published yet`}
+        </h1>
+        <p className="leading-7 text-slate-600">
+          {language === "es"
+            ? `Este estado sigue en preparacion. Las lecciones, el examen final y el certificado se habilitaran solo despues de que el contenido y los requisitos regulatorios esten listos.`
+            : `This state is still in preparation. Lessons, the final exam, and certificate flow will open only after the course content and regulator-facing requirements are ready.`}
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href={`/${state}/disclosures`}
+            className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white"
+          >
+            {language === "es" ? "Leer informacion del curso" : "Read course information"}
+          </Link>
+          <Link
+            href={`/${state}`}
+            className="inline-block rounded-lg border border-slate-300 px-6 py-3"
+          >
+            {language === "es" ? `Volver a ${config.stateName}` : `Back to ${config.stateName}`}
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   if (hasAccess === null || (hasAccess && identityReady === null)) {
     return (

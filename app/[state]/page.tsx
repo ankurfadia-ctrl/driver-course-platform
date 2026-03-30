@@ -11,20 +11,28 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { state } = await params
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const baseUrl = getPublicBaseUrl()
   const canonicalUrl = `${baseUrl}/${config.stateSlug}`
 
   return {
-    title: `${config.stateName} Online Driver Improvement Course | ${config.brandName}`,
+    title: enrollmentOpen
+      ? `${config.stateName} Online Driver Improvement Course | ${config.brandName}`
+      : `${config.stateName} Driver Improvement Course Preparation | ${config.brandName}`,
     description:
-      `${config.stateName} online driver improvement course with secure enrollment, required seat-time tracking, final exam completion, certificate access, and student support.`,
+      enrollmentOpen
+        ? `${config.stateName} online driver improvement course with secure enrollment, required seat-time tracking, final exam completion, certificate access, and student support.`
+        : `${config.stateName} driver improvement course preparation with state-specific rollout planning, disclosures, and approval-readiness updates.`,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${config.stateName} Online Driver Improvement Course`,
-      description:
-        `${config.stateName} online driver improvement course with enrollment, course progress, final exam, and certificate delivery.`,
+      title: enrollmentOpen
+        ? `${config.stateName} Online Driver Improvement Course`
+        : `${config.stateName} Driver Improvement Course Preparation`,
+      description: enrollmentOpen
+        ? `${config.stateName} online driver improvement course with enrollment, course progress, final exam, and certificate delivery.`
+        : `${config.stateName} driver improvement course preparation with state-specific rollout planning and approval-readiness updates.`,
       url: canonicalUrl,
       siteName: config.brandName,
       images: [
@@ -40,9 +48,12 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary",
-      title: `${config.stateName} Online Driver Improvement Course`,
-      description:
-        `${config.stateName} online driver improvement course with course access, final exam, and certificate delivery.`,
+      title: enrollmentOpen
+        ? `${config.stateName} Online Driver Improvement Course`
+        : `${config.stateName} Driver Improvement Course Preparation`,
+      description: enrollmentOpen
+        ? `${config.stateName} online driver improvement course with course access, final exam, and certificate delivery.`
+        : `${config.stateName} driver improvement course preparation with state-specific rollout planning and approval-readiness updates.`,
       images: [`${baseUrl}${config.logoSrc}`],
     },
   }

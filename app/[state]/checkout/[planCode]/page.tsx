@@ -44,6 +44,7 @@ export default function StatePlanCheckoutPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const language = usePreferredSiteLanguageClient()
 
   const planCode =
@@ -167,6 +168,42 @@ export default function StatePlanCheckoutPage() {
       isMounted = false
     }
   }, [state])
+
+  if (!enrollmentOpen) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div>
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+            {copy.sectionLabel}
+          </div>
+          <h1 className="mt-2 text-3xl font-bold text-slate-900">
+            {language === "es"
+              ? `La compra para ${stateDisplayName} aun no esta disponible`
+              : `${stateDisplayName} checkout is not available yet`}
+          </h1>
+        </div>
+        <p className="leading-7 text-slate-600">
+          {language === "es"
+            ? `Este estado sigue en preparacion. Los enlaces directos de compra permaneceran cerrados hasta que los requisitos estatales y el lanzamiento del curso esten listos.`
+            : `This state is still in preparation. Direct checkout links will remain closed until the state-specific requirements and course launch are ready.`}
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href={getDisclosuresRoute(state)}
+            className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
+          >
+            {copy.disclosuresCta}
+          </Link>
+          <Link
+            href={`/${state}`}
+            className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            {language === "es" ? `Volver a ${stateDisplayName}` : `Back to ${stateDisplayName}`}
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   async function handleContinueToPayment() {
     if (!plan || !planMatchesState || loadingCheckout || !eligibility?.allowed) {

@@ -178,6 +178,7 @@ export default function FinalExamPage() {
     typeof params?.state === "string" ? params.state : "virginia"
 
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const copy = useMemo(
     () =>
       language === "es"
@@ -949,6 +950,42 @@ export default function FinalExamPage() {
     timerExpired,
     verified,
   ])
+
+  if (!enrollmentOpen) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div>
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+            {config.stateName} Final Exam
+          </div>
+          <h1 className="mt-2 text-3xl font-bold text-slate-900">
+            {language === "es"
+              ? `El examen final de ${config.stateName} aun no esta disponible`
+              : `${config.stateName} final exam is not available yet`}
+          </h1>
+        </div>
+        <p className="leading-7 text-slate-600">
+          {language === "es"
+            ? `Este estado sigue en preparacion. El examen final se publicara solo despues de que el contenido, el flujo del certificado y los requisitos regulatorios esten listos.`
+            : `This state is still in preparation. The final exam will open only after the course content, certificate flow, and regulator-facing requirements are ready.`}
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href={`/${state}/disclosures`}
+            className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
+          >
+            {language === "es" ? "Leer informacion del curso" : "Read course information"}
+          </Link>
+          <Link
+            href={`/${state}`}
+            className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            {language === "es" ? `Volver a ${config.stateName}` : `Back to ${config.stateName}`}
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   if (hasAccess === null || !translationReady) {
     return (

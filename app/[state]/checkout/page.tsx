@@ -232,6 +232,7 @@ export default function StateCheckoutPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const language = usePreferredSiteLanguageClient()
 
   const [checkingPurchase, setCheckingPurchase] = useState(true)
@@ -537,6 +538,40 @@ export default function StateCheckoutPage() {
       isMounted = false
     }
   }, [state])
+
+  if (!enrollmentOpen) {
+    return (
+      <div className="mx-auto max-w-4xl space-y-6">
+        <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-7 sm:p-8">
+          <div className="section-label">{stateDisplayName} Checkout</div>
+          <h1 className="text-4xl font-semibold text-slate-950">
+            {language === "es"
+              ? `La inscripcion para ${stateDisplayName} aun no esta abierta`
+              : `${stateDisplayName} enrollment is not open yet`}
+          </h1>
+          <p className="mt-4 max-w-3xl leading-8 text-slate-600">
+            {language === "es"
+              ? `Los planes, precios y complementos finales para ${stateDisplayName} se publicaran cuando la aprobacion estatal y los requisitos del curso esten listos.`
+              : `Final plans, pricing, and add-ons for ${stateDisplayName} will be published after the state-specific approval and course requirements are ready.`}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={getDisclosuresRoute(state)}
+              className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
+            >
+              {copy.reviewCta}
+            </Link>
+            <Link
+              href={`/${state}`}
+              className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {language === "es" ? `Volver a ${stateDisplayName}` : `Back to ${stateDisplayName}`}
+            </Link>
+          </div>
+        </section>
+      </div>
+    )
+  }
 
   if (checkingPurchase) {
     return (

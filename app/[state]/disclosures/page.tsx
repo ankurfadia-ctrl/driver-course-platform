@@ -40,6 +40,7 @@ export default async function StateDisclosuresPage({
 }) {
   const { state } = await params
   const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const language = await getPreferredSiteLanguage()
   const copy =
     language === "es"
@@ -50,13 +51,15 @@ export default async function StateDisclosuresPage({
           disclosures: config.disclosures,
           nextSteps: "Proximos pasos para estudiantes",
           nextStepsBody:
-            "Revisa esta informacion antes de inscribirte. Si el curso se ajusta a tu situacion, puedes continuar al pago o volver a tu cuenta de estudiante.",
+            enrollmentOpen
+              ? "Revisa esta informacion antes de inscribirte. Si el curso se ajusta a tu situacion, puedes continuar al pago o volver a tu cuenta de estudiante."
+              : "Revisa esta informacion para seguir el estado de preparacion de este curso. La inscripcion se abrira solo despues de que los requisitos y la aprobacion estatal esten listos.",
           viewPlans:
-            config.stateSlug === "virginia"
+            enrollmentOpen
               ? "Ver planes del curso"
-              : "Leer informacion del curso",
+              : "Ver pagina del estado",
           studentLogin:
-            config.stateSlug === "virginia"
+            enrollmentOpen
               ? "Ingreso de estudiantes"
               : "Volver al estado",
           backToState: `Volver a ${config.stateName}`,
@@ -77,9 +80,11 @@ export default async function StateDisclosuresPage({
           disclosures: config.disclosures,
           nextSteps: "Next steps for students",
           nextStepsBody:
-            "Review this information before enrolling. If the course fits your situation, you can continue to checkout or return to your student account.",
-          viewPlans: "View Course Plans",
-          studentLogin: "Student Login",
+            enrollmentOpen
+              ? "Review this information before enrolling. If the course fits your situation, you can continue to checkout or return to your student account."
+              : "Review this information to follow the preparation status for this state. Enrollment will open only after the state-specific requirements and approval steps are ready.",
+          viewPlans: enrollmentOpen ? "View Course Plans" : "View State Page",
+          studentLogin: enrollmentOpen ? "Student Login" : "Back to State",
           backToState: `Back to ${config.stateName}`,
           directPage: "Direct page",
           englishNote:
@@ -144,16 +149,16 @@ export default async function StateDisclosuresPage({
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
             href={
-              config.stateSlug === "virginia"
+              enrollmentOpen
                 ? `/${state}/checkout`
-                : getDisclosuresRoute(state)
+                : `/${state}`
             }
             className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
           >
             {copy.viewPlans}
           </Link>
           <Link
-            href={config.stateSlug === "virginia" ? `/${state}/login` : `/${state}`}
+            href={enrollmentOpen ? `/${state}/login` : `/${state}`}
             className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             {copy.studentLogin}

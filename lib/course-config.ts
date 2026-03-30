@@ -23,6 +23,7 @@ export type StateCourseConfig = {
   stateCode: string
   stateSlug: string
   stateName: string
+  enrollmentOpen: boolean
   courseSlug: string
   siteTitle: string
   brandName: string
@@ -51,6 +52,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     stateCode: "VA",
     stateSlug: "virginia",
     stateName: "Virginia",
+    enrollmentOpen: true,
     courseSlug: "driver-improvement",
     siteTitle: "Virginia Driver Improvement Course",
     brandName: "Virginia Driver Improvement Course",
@@ -168,6 +170,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     stateCode: "FL",
     stateSlug: "florida",
     stateName: "Florida",
+    enrollmentOpen: false,
     courseSlug: "driver-improvement",
     siteTitle: "Florida Driver Improvement Courses",
     brandName: "Florida Driver Improvement Courses",
@@ -248,6 +251,7 @@ export function getCourseConfig(state: string): StateCourseConfig {
       stateSlug: normalizedState,
       stateName:
         normalizedState.charAt(0).toUpperCase() + normalizedState.slice(1),
+      enrollmentOpen: false,
       courseSlug: "driver-improvement",
       siteTitle: `${
         normalizedState.charAt(0).toUpperCase() + normalizedState.slice(1)

@@ -3,16 +3,52 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useParams } from "next/navigation"
+import { getCourseConfig } from "@/lib/course-config"
 
 export default function StatePriceMatchPage() {
   const params = useParams()
   const state = typeof params?.state === "string" ? params.state : "virginia"
+  const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const [subject, setSubject] = useState("Price match request")
   const [competitorUrl, setCompetitorUrl] = useState("")
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+
+  if (!enrollmentOpen) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-6">
+        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+            Price Match
+          </div>
+          <h1 className="mt-2 text-3xl font-bold text-slate-900">
+            Price match is not open for this state yet
+          </h1>
+          <p className="mt-3 text-slate-600">
+            {config.stateName} is still in preparation, so public pricing and price-match
+            requests will open only after the course launch details are finalized.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href={`/${state}`}
+              className="inline-flex rounded-xl bg-slate-900 px-4 py-2.5 font-semibold text-white hover:bg-slate-800"
+            >
+              Back to state page
+            </Link>
+            <Link
+              href={`/${state}/disclosures`}
+              className="inline-flex rounded-xl border border-slate-300 bg-white px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              Read course information
+            </Link>
+          </div>
+        </section>
+      </div>
+    )
+  }
 
   async function handleSubmit() {
     if (!message.trim() || !competitorUrl.trim()) {

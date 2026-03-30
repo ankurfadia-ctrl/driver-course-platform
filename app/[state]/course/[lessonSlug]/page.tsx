@@ -23,6 +23,7 @@ import {
   getStudentIdentityProfile,
   type StudentIdentityProfileRow,
 } from "@/lib/student-identity"
+import { getCourseConfig } from "@/lib/course-config"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
 type TranslatedLessonPayload = {
@@ -390,6 +391,8 @@ export default function LessonPage() {
   const language = usePreferredSiteLanguageClient()
   const state =
     typeof params.state === "string" ? params.state : "virginia"
+  const config = getCourseConfig(state)
+  const enrollmentOpen = config.enrollmentOpen
   const lessonSlug =
     typeof params.lessonSlug === "string" ? params.lessonSlug : ""
   const copy =
@@ -598,6 +601,42 @@ export default function LessonPage() {
       setLoading(false)
     }
   }, [state, hasAccess])
+
+  if (!enrollmentOpen) {
+    return (
+      <main className="min-h-screen bg-slate-50 px-6 py-10">
+        <div className="mx-auto max-w-3xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+            {config.stateName} Course Preparation
+          </p>
+          <h1 className="mt-3 text-3xl font-bold text-slate-900">
+            {language === "es"
+              ? `Las lecciones de ${config.stateName} aun no estan publicadas`
+              : `${config.stateName} lessons are not published yet`}
+          </h1>
+          <p className="mt-4 leading-7 text-slate-600">
+            {language === "es"
+              ? `Este estado sigue en preparacion. Las rutas directas de lecciones permaneceran cerradas hasta que el contenido y los requisitos regulatorios esten listos.`
+              : `This state is still in preparation. Direct lesson routes will remain closed until the course content and regulator-facing requirements are ready.`}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href={`/${state}/disclosures`}
+              className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              {language === "es" ? "Leer informacion del curso" : "Read course information"}
+            </Link>
+            <Link
+              href={`/${state}`}
+              className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              {language === "es" ? `Volver a ${config.stateName}` : `Back to ${config.stateName}`}
+            </Link>
+          </div>
+        </div>
+      </main>
+    )
+  }
 
   if (
     hasAccess === null ||
