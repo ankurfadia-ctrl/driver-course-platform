@@ -7,7 +7,11 @@ import { getCourseAccessStatus } from "@/lib/course-access"
 import { getCourseConfig, getLessonLinks } from "@/lib/course-config"
 import { getLatestCourseAttempt } from "@/lib/course-seat-time"
 import { getUserCourseProgress, isLessonCompleted } from "@/lib/course-progress"
-import { getFinalExamQuestions, type ExamQuestion } from "@/lib/final-exam"
+import {
+  getFinalExamQuestions,
+  getRandomExamQuestionsFromBank,
+  type ExamQuestion,
+} from "@/lib/final-exam"
 import { verifyIdentityAnswer } from "@/lib/identity-verification-utils"
 import {
   getLatestExamResult,
@@ -30,6 +34,7 @@ import {
   getStudentIdentityProfile,
   type StudentIdentityProfileRow,
 } from "@/lib/student-identity"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
 type ExamAttemptRecord = {
   date: string
@@ -166,6 +171,7 @@ function mapExamResultToAttemptRecord(row: ExamResultRow): ExamAttemptRecord {
 
 export default function FinalExamPage() {
   const params = useParams()
+  const language = usePreferredSiteLanguageClient()
 
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
@@ -203,6 +209,8 @@ export default function FinalExamPage() {
     })
 
   const [questions, setQuestions] = useState<ExamQuestion[]>([])
+  const [translatedQuestionBank, setTranslatedQuestionBank] = useState<ExamQuestion[] | null>(null)
+  const [translationReady, setTranslationReady] = useState(language !== "es")
   const [answers, setAnswers] = useState<number[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [locked, setLocked] = useState(false)
@@ -242,6 +250,56 @@ export default function FinalExamPage() {
       seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
     )
   const lessonLinks = useMemo(() => getLessonLinks(state), [state])
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadSpanishExam() {
+      if (language !== "es") {
+        setTranslatedQuestionBank(null)
+        setTranslationReady(true)
+        return
+      }
+
+      setTranslationReady(false)
+
+      try {
+        const response = await fetch("/api/course-translation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            kind: "exam",
+          }),
+        })
+
+        const data = (await response.json()) as {
+          ok?: boolean
+          translation?: ExamQuestion[]
+        }
+
+        if (!cancelled && data.ok && data.translation) {
+          setTranslatedQuestionBank(data.translation)
+        }
+      } catch (error) {
+        console.error("Could not load Spanish exam translation:", error)
+        if (!cancelled) {
+          setTranslatedQuestionBank(null)
+        }
+      } finally {
+        if (!cancelled) {
+          setTranslationReady(true)
+        }
+      }
+    }
+
+    void loadSpanishExam()
+
+    return () => {
+      cancelled = true
+    }
+  }, [language])
 
   useEffect(() => {
     if (seatTimeTracker.totalSeconds > 0) {
@@ -352,7 +410,13 @@ export default function FinalExamPage() {
   }, [dailyAttemptLockBypassed, hasAccess, state, todayKey])
 
   const initializeExamQuestions = () => {
-    const examQuestions = getFinalExamQuestions(config.finalExamQuestionCount)
+    const examQuestions =
+      language === "es" && translatedQuestionBank
+        ? getRandomExamQuestionsFromBank(
+            translatedQuestionBank,
+            config.finalExamQuestionCount
+          )
+        : getFinalExamQuestions(config.finalExamQuestionCount)
     setQuestions(examQuestions)
     setAnswers(Array(examQuestions.length).fill(-1))
     setMidExamCheck(null)
@@ -717,11 +781,13 @@ export default function FinalExamPage() {
     void autoSubmit()
   }, [examStarted, finalizeExam, locked, saving, submitted, timerExpired, verified])
 
-  if (hasAccess === null) {
+  if (hasAccess === null || !translationReady) {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          Checking final exam access...
+          {language === "es"
+            ? "Cargando acceso al examen final..."
+            : "Checking final exam access..."}
         </div>
       </div>
     )

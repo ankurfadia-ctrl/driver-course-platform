@@ -28,8 +28,9 @@ import { getLatestExamResult } from "@/lib/exam-results"
 import { isFinalExamSeatTimeBypassed } from "@/lib/dev-config"
 import { getCourseConfig } from "@/lib/course-config"
 import { hasStudentIdentityProfile } from "@/lib/student-identity"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
-const LESSONS = [
+const LESSONS_EN = [
   { id: 1, slug: "lesson-1", title: "Lesson 1 - Course Introduction" },
   { id: 2, slug: "lesson-2", title: "Lesson 2 - Defensive Driving Habits" },
   { id: 3, slug: "lesson-3", title: "Lesson 3 - Speed Management and Following Distance" },
@@ -40,23 +41,117 @@ const LESSONS = [
   { id: 8, slug: "lesson-8", title: "Lesson 8 - Attitude, Risk, and Long-Term Responsibility" },
 ]
 
+const LESSONS_ES = [
+  { id: 1, slug: "lesson-1", title: "Leccion 1 - Introduccion al curso" },
+  { id: 2, slug: "lesson-2", title: "Leccion 2 - Habitos de conduccion defensiva" },
+  { id: 3, slug: "lesson-3", title: "Leccion 3 - Control de velocidad y distancia de seguimiento" },
+  { id: 4, slug: "lesson-4", title: "Leccion 4 - Distraccion, fatiga e impedimento" },
+  { id: 5, slug: "lesson-5", title: "Leccion 5 - Compartir la via de forma segura" },
+  { id: 6, slug: "lesson-6", title: "Leccion 6 - Leyes de transito de Virginia y consecuencias" },
+  { id: 7, slug: "lesson-7", title: "Leccion 7 - Clima, conduccion nocturna y emergencias" },
+  { id: 8, slug: "lesson-8", title: "Leccion 8 - Actitud, riesgo y responsabilidad a largo plazo" },
+]
+
 export default function StateCoursePage() {
   const params = useParams()
 
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const language = usePreferredSiteLanguageClient()
+  const lessons = language === "es" ? LESSONS_ES : LESSONS_EN
+  const copy =
+    language === "es"
+      ? {
+          checkingTitle: "Verificando acceso...",
+          checkingBody: "Confirmando tu compra del curso para este estado.",
+          expiredTitle: "Acceso al curso vencido",
+          lockedTitle: "Curso bloqueado",
+          expiredBody: `Este curso esta disponible por ${VIRGINIA_COURSE_ACCESS_DAYS} dias desde la compra.`,
+          lockedBody:
+            "Debes comprar este curso antes de acceder a las lecciones.",
+          purchaseCourse: "Comprar curso",
+          goDashboard: "Ir al panel",
+          headerLabel: `${config.stateName} curso del estudiante`,
+          identityTitle: "Se requiere verificacion de identidad",
+          identityBody:
+            "Virginia requiere verificacion de identidad durante el curso y antes del examen final. Completa la configuracion de identidad antes de comenzar el progreso de las lecciones y preparate para verificar tu identidad otra vez antes de cada leccion.",
+          completeIdentity: "Completar configuracion de identidad",
+          needHelp: "Necesitas ayuda?",
+          helpBody: "Obten respuestas instantaneas o contacta soporte.",
+          getHelp: "Obtener ayuda",
+          finalExam: "Examen final",
+          available: "Disponible",
+          locked: "Bloqueado",
+          identityFirst: "Completa identidad primero",
+          finalExamLockedLessons:
+            "Completa todas las lecciones antes de que se desbloquee el examen final.",
+          finalExamUnlockTemplate: (remaining: string) =>
+            `El examen final se desbloquea despues de al menos ${formatCourseDuration(
+              FINAL_EXAM_UNLOCK_SECONDS
+            )} de instruccion del curso. Falta: ${remaining}.`,
+          goToFinalExam: "Ir al examen final",
+          certificate: "Certificado",
+          certificateHoldTemplate: (remaining: string) =>
+            `Aprobaste el examen final. Permanece en el curso durante ${remaining} mas antes de que el certificado se desbloquee al llegar al minimo total de 8 horas.`,
+          view: "Ver",
+          download: "Descargar",
+          lessonsTitle: "Lecciones",
+          completeIdentityFirst: "Completa identidad primero",
+          completed: "Completada",
+          notStarted: "No iniciada",
+          open: "Abrir",
+          verifyIdentity: "Verificar identidad",
+        }
+      : {
+          checkingTitle: "Checking access...",
+          checkingBody: "Verifying your course purchase for this state.",
+          expiredTitle: "Course Access Expired",
+          lockedTitle: "Course Locked",
+          expiredBody: `This course is available for ${VIRGINIA_COURSE_ACCESS_DAYS} days from purchase.`,
+          lockedBody:
+            "You need to purchase this course before accessing lessons.",
+          purchaseCourse: "Purchase Course",
+          goDashboard: "Go to Dashboard",
+          headerLabel: `${config.stateName} Student Course`,
+          identityTitle: "Identity verification required",
+          identityBody:
+            "Virginia requires identity verification throughout the course and before the final exam. Complete identity setup before starting lesson progress, and be ready to verify identity again before each lesson begins.",
+          completeIdentity: "Complete Identity Setup",
+          needHelp: "Need help?",
+          helpBody: "Get instant answers or contact support.",
+          getHelp: "Get Help",
+          finalExam: "Final Exam",
+          available: "Available",
+          locked: "Locked",
+          identityFirst: "Complete identity setup first",
+          finalExamLockedLessons:
+            "Complete every lesson before the final exam unlocks.",
+          finalExamUnlockTemplate: (remaining: string) =>
+            `The final exam unlocks after at least ${formatCourseDuration(
+              FINAL_EXAM_UNLOCK_SECONDS
+            )} of course instruction. Remaining: ${remaining}.`,
+          goToFinalExam: "Go to Final Exam",
+          certificate: "Certificate",
+          certificateHoldTemplate: (remaining: string) =>
+            `You passed the final exam. Stay in the course for ${remaining} more before the certificate unlocks at the full 8-hour minimum.`,
+          view: "View",
+          download: "Download",
+          lessonsTitle: "Lessons",
+          completeIdentityFirst: "Complete identity setup first",
+          completed: "Completed",
+          notStarted: "Not started",
+          open: "Open",
+          verifyIdentity: "Verify Identity",
+        }
 
   const [progress, setProgress] = useState<CourseProgressRow[]>([])
-
   const [hasAccess, setHasAccess] = useState<boolean | null>(null)
   const [accessError, setAccessError] = useState<string | null>(null)
   const [accessExpired, setAccessExpired] = useState(false)
   const [accessDeadline, setAccessDeadline] = useState<string | null>(null)
   const [identityReady, setIdentityReady] = useState<boolean | null>(null)
-
   const [seatTimeTotalSeconds, setSeatTimeTotalSeconds] = useState(0)
-
   const [examPassed, setExamPassed] = useState(false)
 
   const seatTimeBypassed = isFinalExamSeatTimeBypassed(state)
@@ -161,8 +256,8 @@ export default function StateCoursePage() {
   }, [state, hasAccess])
 
   const allLessonsCompleted = useMemo(
-    () => LESSONS.every((l) => isLessonCompleted(progress, l.slug)),
-    [progress]
+    () => lessons.every((lesson) => isLessonCompleted(progress, lesson.slug)),
+    [lessons, progress]
   )
 
   const finalExamAvailable =
@@ -178,30 +273,28 @@ export default function StateCoursePage() {
 
   if (hasAccess === null || (hasAccess && identityReady === null)) {
     return (
-      <div className="max-w-xl mx-auto mt-10 p-6 border rounded-xl text-center space-y-4">
-        <h1 className="text-2xl font-bold">Checking access...</h1>
-        <p className="text-slate-600">
-          Verifying your course purchase for this state.
-        </p>
+      <div className="mx-auto mt-10 max-w-xl space-y-4 rounded-xl border p-6 text-center">
+        <h1 className="text-2xl font-bold">{copy.checkingTitle}</h1>
+        <p className="text-slate-600">{copy.checkingBody}</p>
       </div>
     )
   }
 
   if (!hasAccess) {
     return (
-      <div className="max-w-xl mx-auto mt-10 p-6 border rounded-xl text-center space-y-4">
+      <div className="mx-auto mt-10 max-w-xl space-y-4 rounded-xl border p-6 text-center">
         <h1 className="text-2xl font-bold">
-          {accessExpired ? "Course Access Expired" : "Course Locked"}
+          {accessExpired ? copy.expiredTitle : copy.lockedTitle}
         </h1>
         <p className="text-slate-600">
-          {accessExpired
-            ? `This course is available for ${VIRGINIA_COURSE_ACCESS_DAYS} days from purchase.`
-            : "You need to purchase this course before accessing lessons."}
+          {accessExpired ? copy.expiredBody : copy.lockedBody}
         </p>
 
         {accessExpired && accessDeadline ? (
           <p className="text-sm text-amber-700">
-            Your access expired after {accessDeadline}.
+            {language === "es"
+              ? `Tu acceso vencio despues de ${accessDeadline}.`
+              : `Your access expired after ${accessDeadline}.`}
           </p>
         ) : null}
 
@@ -209,19 +302,19 @@ export default function StateCoursePage() {
           <p className="text-sm text-amber-700">{accessError}</p>
         ) : null}
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Link
             href={`/${state}/checkout`}
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg"
+            className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white"
           >
-            Purchase Course
+            {copy.purchaseCourse}
           </Link>
 
           <Link
             href={`/${state}/dashboard`}
-            className="inline-block border border-slate-300 px-6 py-3 rounded-lg"
+            className="inline-block rounded-lg border border-slate-300 px-6 py-3"
           >
-            Go to Dashboard
+            {copy.goDashboard}
           </Link>
         </div>
       </div>
@@ -232,7 +325,7 @@ export default function StateCoursePage() {
     <div className="space-y-6">
       <div className="space-y-2">
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
-          {config.stateName} Student Course
+          {copy.headerLabel}
         </p>
         <h1 className="text-3xl font-bold text-slate-900">{config.courseName}</h1>
       </div>
@@ -240,35 +333,28 @@ export default function StateCoursePage() {
       {!identityReady ? (
         <div className="rounded-xl border border-amber-200 bg-amber-50 p-6">
           <h2 className="text-xl font-semibold text-slate-900">
-            Identity verification required
+            {copy.identityTitle}
           </h2>
-          <p className="mt-2 text-slate-700">
-            Virginia requires identity verification throughout the course and
-            before the final exam. Complete identity setup before starting
-            lesson progress, and be ready to verify identity again before each
-            lesson begins.
-          </p>
+          <p className="mt-2 text-slate-700">{copy.identityBody}</p>
 
           <Link
             href={`/${state}/identity`}
             className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white"
           >
-            Complete Identity Setup
+            {copy.completeIdentity}
           </Link>
         </div>
       ) : null}
 
-      <div className="rounded-xl bg-blue-50 p-6 border border-blue-200">
-        <h2 className="text-xl font-semibold">Need help?</h2>
-        <p className="mt-2 text-slate-600">
-          Get instant answers or contact support.
-        </p>
+      <div className="rounded-xl border border-blue-200 bg-blue-50 p-6">
+        <h2 className="text-xl font-semibold">{copy.needHelp}</h2>
+        <p className="mt-2 text-slate-600">{copy.helpBody}</p>
 
         <Link
           href={`/${state}/support`}
-          className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
+          className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white"
         >
-          Get Help
+          {copy.getHelp}
         </Link>
       </div>
 
@@ -280,25 +366,23 @@ export default function StateCoursePage() {
       />
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="p-6 border rounded-xl">
-          <h2 className="text-xl font-semibold">Final Exam</h2>
+        <div className="rounded-xl border p-6">
+          <h2 className="text-xl font-semibold">{copy.finalExam}</h2>
           <p className="mt-2 text-sm text-slate-600">
             {identityReady
               ? finalExamAvailable
-                ? "Available"
-                : "Locked"
-              : "Complete identity setup first"}
+                ? copy.available
+                : copy.locked
+              : copy.identityFirst}
           </p>
 
           {identityReady && !finalExamAvailable ? (
             <p className="mt-2 text-sm text-slate-500">
               {allLessonsCompleted
-                ? `The final exam unlocks after at least ${formatCourseDuration(
-                    FINAL_EXAM_UNLOCK_SECONDS
-                  )} of course instruction. Remaining: ${formatCourseDuration(
-                    remainingToFinalExam
-                  )}.`
-                : "Complete every lesson before the final exam unlocks."}
+                ? copy.finalExamUnlockTemplate(
+                    formatCourseDuration(remainingToFinalExam)
+                  )
+                : copy.finalExamLockedLessons}
             </p>
           ) : null}
 
@@ -306,49 +390,49 @@ export default function StateCoursePage() {
             finalExamAvailable ? (
               <Link
                 href={`/${state}/course/final-exam`}
-                className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
+                className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white"
               >
-                Go to Final Exam
+                {copy.goToFinalExam}
               </Link>
             ) : null
           ) : (
             <Link
               href={`/${state}/identity`}
-              className="mt-4 inline-block border border-blue-600 px-4 py-2 rounded-lg text-blue-600"
+              className="mt-4 inline-block rounded-lg border border-blue-600 px-4 py-2 text-blue-600"
             >
-              Complete Identity Setup
+              {copy.completeIdentity}
             </Link>
           )}
         </div>
 
-        <div className="p-6 border rounded-xl">
-          <h2 className="text-xl font-semibold">Certificate</h2>
+        <div className="rounded-xl border p-6">
+          <h2 className="text-xl font-semibold">{copy.certificate}</h2>
           <p className="mt-2 text-sm text-slate-600">
-            {certificateAvailable ? "Available" : "Locked"}
+            {certificateAvailable ? copy.available : copy.locked}
           </p>
 
           {!certificateAvailable && examPassed ? (
             <p className="mt-2 text-sm text-slate-500">
-              You passed the final exam. Stay in the course for{" "}
-              {formatCourseDuration(remainingToCertificate)} more before the
-              certificate unlocks at the full 8-hour minimum.
+              {copy.certificateHoldTemplate(
+                formatCourseDuration(remainingToCertificate)
+              )}
             </p>
           ) : null}
 
           <div className="mt-4 flex gap-3">
             <Link
               href={`/${state}/certificate`}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-white"
             >
-              View
+              {copy.view}
             </Link>
 
             {certificateAvailable && (
               <Link
                 href={`/${state}/certificate?download=1`}
-                className="border border-blue-600 px-4 py-2 rounded-lg text-blue-600"
+                className="rounded-lg border border-blue-600 px-4 py-2 text-blue-600"
               >
-                Download
+                {copy.download}
               </Link>
             )}
           </div>
@@ -356,9 +440,9 @@ export default function StateCoursePage() {
       </div>
 
       <div className="rounded-xl border p-6">
-        <h2 className="text-xl font-semibold">Lessons</h2>
+        <h2 className="text-xl font-semibold">{copy.lessonsTitle}</h2>
         <div className="mt-4 space-y-3">
-          {LESSONS.map((lesson) => {
+          {lessons.map((lesson) => {
             const completed = isLessonCompleted(progress, lesson.slug)
 
             return (
@@ -370,26 +454,26 @@ export default function StateCoursePage() {
                   <div className="font-medium">{lesson.title}</div>
                   <div className="text-sm text-slate-600">
                     {!identityReady
-                      ? "Complete identity setup first"
+                      ? copy.completeIdentityFirst
                       : completed
-                      ? "Completed"
-                      : "Not started"}
+                        ? copy.completed
+                        : copy.notStarted}
                   </div>
                 </div>
 
                 {identityReady ? (
                   <Link
                     href={`/${state}/course/${lesson.slug}`}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                    className="rounded-lg bg-blue-600 px-4 py-2 text-white"
                   >
-                    Open
+                    {copy.open}
                   </Link>
                 ) : (
                   <Link
                     href={`/${state}/identity`}
-                    className="border border-blue-600 px-4 py-2 rounded-lg text-blue-600"
+                    className="rounded-lg border border-blue-600 px-4 py-2 text-blue-600"
                   >
-                    Verify Identity
+                    {copy.verifyIdentity}
                   </Link>
                 )}
               </div>

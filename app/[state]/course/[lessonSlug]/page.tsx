@@ -1,79 +1,118 @@
-﻿"use client";
+"use client"
 
-import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import LessonNavigation from "@/components/course/LessonNavigation";
-import LessonVisuals from "@/components/course/LessonVisuals";
-import SeatTimeStatusCard from "@/components/course/SeatTimeStatusCard";
-import { getCourseAccessStatus } from "@/lib/course-access";
+import Link from "next/link"
+import { useEffect, useMemo, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import LessonNavigation from "@/components/course/LessonNavigation"
+import LessonVisuals from "@/components/course/LessonVisuals"
+import SeatTimeStatusCard from "@/components/course/SeatTimeStatusCard"
+import { getCourseAccessStatus } from "@/lib/course-access"
 import {
   getUserCourseProgress,
   isLessonCompleted,
   type CourseProgressRow,
-} from "@/lib/course-progress";
+} from "@/lib/course-progress"
 import {
   getVirginiaLessonBySlug,
   VIRGINIA_LESSON_CHECKS,
   VIRGINIA_LESSON_CONTENT,
-} from "@/lib/virginia-course-curriculum";
-import { verifyIdentityAnswer } from "@/lib/identity-verification-utils";
+  type LessonCheckQuestion,
+} from "@/lib/virginia-course-curriculum"
+import { verifyIdentityAnswer } from "@/lib/identity-verification-utils"
 import {
   getStudentIdentityProfile,
   type StudentIdentityProfileRow,
-} from "@/lib/student-identity";
+} from "@/lib/student-identity"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
+type TranslatedLessonPayload = {
+  title: string
+  intro: string
+  sections: {
+    heading: string
+    body: string[]
+  }[]
+  takeaway: string
+  checks: LessonCheckQuestion[]
+}
 
 function LessonCheckSection({
-  lessonSlug,
+  questions,
+  language,
 }: {
-  lessonSlug: string;
+  questions: LessonCheckQuestion[]
+  language: "en" | "es"
 }) {
-  const questions = useMemo(() => VIRGINIA_LESSON_CHECKS[lessonSlug] ?? [], [lessonSlug]);
-  const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const copy =
+    language === "es"
+      ? {
+          label: "Revision de conocimiento",
+          questionCount: "Preguntas",
+          title: "Comprueba tu comprension",
+          body:
+            "Esta revision sirve para reforzar el aprendizaje. No reemplaza el examen final.",
+          submit: "Enviar revision",
+          scoreTitle: "Puntuacion de la revision",
+          scoreBody: "Tu puntuacion fue",
+          retake: "Repetir revision",
+          correct: "Correcta",
+          incorrect: "Incorrecta",
+        }
+      : {
+          label: "Knowledge Check",
+          questionCount: "Questions",
+          title: "Check your understanding",
+          body:
+            "This review is for learning reinforcement. It does not replace the final exam.",
+          submit: "Submit Knowledge Check",
+          scoreTitle: "Knowledge Check Score",
+          scoreBody: "You scored",
+          retake: "Retake Knowledge Check",
+          correct: "Correct",
+          incorrect: "Incorrect",
+        }
+  const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [submitted, setSubmitted] = useState(false)
 
   const score = useMemo(() => {
-    if (!submitted || questions.length === 0) return 0;
+    if (!submitted || questions.length === 0) return 0
 
-    let correctCount = 0;
+    let correctCount = 0
 
     for (const question of questions) {
       if (answers[question.id] === question.correctAnswer) {
-        correctCount += 1;
+        correctCount += 1
       }
     }
 
-    return Math.round((correctCount / questions.length) * 100);
-  }, [answers, questions, submitted]);
+    return Math.round((correctCount / questions.length) * 100)
+  }, [answers, questions, submitted])
 
   if (questions.length === 0) {
-    return null;
+    return null
   }
 
   return (
     <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
       <div className="flex flex-wrap items-center gap-3">
         <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-blue-700">
-          Knowledge Check
+          {copy.label}
         </span>
         <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
-          {questions.length} Questions
+          {questions.length} {copy.questionCount}
         </span>
       </div>
 
       <h2 className="mt-4 text-2xl font-bold text-slate-900">
-        Check your understanding
+        {copy.title}
       </h2>
 
-      <p className="mt-2 text-slate-600">
-        This review is for learning reinforcement. It does not replace the final exam.
-      </p>
+      <p className="mt-2 text-slate-600">{copy.body}</p>
 
       <div className="mt-8 space-y-8">
         {questions.map((question, index) => {
-          const selectedAnswer = answers[question.id];
-          const isCorrect = selectedAnswer === question.correctAnswer;
+          const selectedAnswer = answers[question.id]
+          const isCorrect = selectedAnswer === question.correctAnswer
 
           return (
             <section
@@ -86,32 +125,32 @@ function LessonCheckSection({
 
               <div className="mt-4 space-y-3">
                 {question.options.map((option, optionIndex) => {
-                  const checked = selectedAnswer === optionIndex;
+                  const checked = selectedAnswer === optionIndex
 
                   let optionClasses =
-                    "flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-4 transition";
+                    "flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 p-4 transition"
 
                   if (!submitted) {
                     optionClasses += checked
                       ? " border-blue-600 bg-blue-50"
-                      : " hover:bg-slate-50";
+                      : " hover:bg-slate-50"
                   }
 
                   if (submitted && optionIndex === question.correctAnswer) {
-                    optionClasses += " border-green-600 bg-green-50";
+                    optionClasses += " border-green-600 bg-green-50"
                   } else if (
                     submitted &&
                     checked &&
                     optionIndex !== question.correctAnswer
                   ) {
-                    optionClasses += " border-red-600 bg-red-50";
+                    optionClasses += " border-red-600 bg-red-50"
                   }
 
                   return (
                     <label key={optionIndex} className={optionClasses}>
                       <input
                         type="radio"
-                        name={`lesson-check-${lessonSlug}-${question.id}`}
+                        name={`lesson-check-${question.id}`}
                         checked={checked}
                         onChange={() =>
                           setAnswers((prev) => ({
@@ -124,7 +163,7 @@ function LessonCheckSection({
                       />
                       <span className="text-slate-700">{option}</span>
                     </label>
-                  );
+                  )
                 })}
               </div>
 
@@ -135,7 +174,7 @@ function LessonCheckSection({
                       isCorrect ? "text-green-700" : "text-red-700"
                     }`}
                   >
-                    {isCorrect ? "Correct" : "Incorrect"}
+                    {isCorrect ? copy.correct : copy.incorrect}
                   </p>
                   <p className="mt-2 text-sm leading-6 text-slate-700">
                     {question.explanation}
@@ -143,7 +182,7 @@ function LessonCheckSection({
                 </div>
               ) : null}
             </section>
-          );
+          )
         })}
       </div>
 
@@ -154,67 +193,102 @@ function LessonCheckSection({
             onClick={() => setSubmitted(true)}
             className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            Submit Knowledge Check
+            {copy.submit}
           </button>
         </div>
       ) : (
         <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-6">
           <h3 className="text-xl font-semibold text-slate-900">
-            Knowledge Check Score
+            {copy.scoreTitle}
           </h3>
           <p className="mt-2 text-slate-700">
-            You scored <span className="font-semibold">{score}%</span>.
+            {copy.scoreBody} <span className="font-semibold">{score}%</span>.
           </p>
 
           <button
             type="button"
             onClick={() => {
-              setAnswers({});
-              setSubmitted(false);
+              setAnswers({})
+              setSubmitted(false)
             }}
             className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
-            Retake Knowledge Check
+            {copy.retake}
           </button>
         </div>
       )}
     </div>
-  );
+  )
 }
 
 function LessonContentPage({
   state,
   lessonSlug,
   progress,
+  language,
+  translatedLesson,
 }: {
-  state: string;
-  lessonSlug: string;
-  progress: CourseProgressRow[];
+  state: string
+  lessonSlug: string
+  progress: CourseProgressRow[]
+  language: "en" | "es"
+  translatedLesson: TranslatedLessonPayload | null
 }) {
-  const router = useRouter();
-  const lesson = getVirginiaLessonBySlug(lessonSlug);
-  const lessonContent = VIRGINIA_LESSON_CONTENT[lessonSlug];
+  const router = useRouter()
+  const lesson = getVirginiaLessonBySlug(lessonSlug)
+  const lessonContent = VIRGINIA_LESSON_CONTENT[lessonSlug]
   const lessonNumber =
-    Number.parseInt(lessonSlug.replace("lesson-", ""), 10) || 1;
+    Number.parseInt(lessonSlug.replace("lesson-", ""), 10) || 1
+  const copy =
+    language === "es"
+      ? {
+          loadingLesson: "Cargando leccion...",
+          backToCourse: "Volver al esquema del curso",
+          courseLabel: "Curso de Virginia",
+          minutesLabel: "min",
+          completed: "Completada",
+          takeaway: "Idea clave",
+        }
+      : {
+          loadingLesson: "Loading lesson...",
+          backToCourse: "Back to Course Outline",
+          courseLabel: "Virginia Course",
+          minutesLabel: "min",
+          completed: "Completed",
+          takeaway: "Key takeaway",
+        }
 
   useEffect(() => {
     if (!lesson || !lessonContent) {
-      router.replace(`/${state}/course`);
-      return;
+      router.replace(`/${state}/course`)
+      return
     }
-  }, [lesson, lessonContent, router, state]);
+  }, [lesson, lessonContent, router, state])
 
   if (!lesson || !lessonContent) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-10">
         <div className="mx-auto max-w-4xl">
-          <p className="text-sm text-slate-600">Loading lesson...</p>
+          <p className="text-sm text-slate-600">{copy.loadingLesson}</p>
         </div>
       </main>
-    );
+    )
   }
 
-  const completed = isLessonCompleted(progress, lesson.slug);
+  const completed = isLessonCompleted(progress, lesson.slug)
+  const renderedLesson = translatedLesson
+    ? {
+        title: translatedLesson.title,
+        intro: translatedLesson.intro,
+        sections: translatedLesson.sections,
+        takeaway: translatedLesson.takeaway,
+      }
+    : {
+        title: lesson.title,
+        intro: lessonContent.intro,
+        sections: lessonContent.sections,
+        takeaway: lessonContent.takeaway,
+      }
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-10">
@@ -224,7 +298,7 @@ function LessonContentPage({
             href={`/${state}/course`}
             className="text-sm font-medium text-blue-700 hover:text-blue-800"
           >
-            Back to Course Outline
+            {copy.backToCourse}
           </Link>
         </div>
 
@@ -240,30 +314,30 @@ function LessonContentPage({
         <article className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-blue-700">
-              Virginia Course
+              {copy.courseLabel}
             </span>
 
             <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
-              {lesson.estimatedMinutes} min
+              {lesson.estimatedMinutes} {copy.minutesLabel}
             </span>
 
             {completed ? (
               <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                Completed
+                {copy.completed}
               </span>
             ) : null}
           </div>
 
           <h1 className="mt-4 text-3xl font-bold text-slate-900">
-            {lesson.title}
+            {renderedLesson.title}
           </h1>
 
           <p className="mt-4 text-lg leading-8 text-slate-700">
-            {lessonContent.intro}
+            {renderedLesson.intro}
           </p>
 
           <div className="mt-8 space-y-8">
-            {lessonContent.sections.map((section) => (
+            {renderedLesson.sections.map((section) => (
               <section key={section.heading}>
                 <h2 className="text-xl font-semibold text-slate-900">
                   {section.heading}
@@ -287,15 +361,18 @@ function LessonContentPage({
 
           <div className="mt-8 rounded-2xl bg-slate-50 p-5">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">
-              Key takeaway
+              {copy.takeaway}
             </h3>
             <p className="mt-2 leading-7 text-slate-700">
-              {lessonContent.takeaway}
+              {renderedLesson.takeaway}
             </p>
           </div>
         </article>
 
-        <LessonCheckSection lessonSlug={lessonSlug} />
+        <LessonCheckSection
+          questions={translatedLesson?.checks ?? VIRGINIA_LESSON_CHECKS[lessonSlug] ?? []}
+          language={language}
+        />
 
         <div className="mt-6">
           <LessonNavigation
@@ -305,143 +382,244 @@ function LessonContentPage({
         </div>
       </div>
     </main>
-  );
+  )
 }
 
 export default function LessonPage() {
-  const params = useParams();
-
+  const params = useParams()
+  const language = usePreferredSiteLanguageClient()
   const state =
-    typeof params.state === "string" ? params.state : "virginia";
+    typeof params.state === "string" ? params.state : "virginia"
   const lessonSlug =
-    typeof params.lessonSlug === "string" ? params.lessonSlug : "";
+    typeof params.lessonSlug === "string" ? params.lessonSlug : ""
+  const copy =
+    language === "es"
+      ? {
+          loading: "Cargando...",
+          lessonLocked: "Leccion bloqueada",
+          purchaseNeeded:
+            "Debes comprar este curso estatal antes de acceder a las lecciones.",
+          purchaseCourse: "Comprar curso",
+          goDashboard: "Ir al panel",
+          identityRequired: "Se requiere verificacion de identidad",
+          identitySetupBody:
+            "Completa la configuracion de identidad antes de comenzar el progreso de las lecciones para este curso de Virginia.",
+          completeIdentity: "Completar configuracion de identidad",
+          backToCourse: "Volver al curso",
+          lessonIdentityTitle: "Verificacion de identidad para la leccion",
+          lessonIdentityBody:
+            "Verifica tu identidad antes de comenzar esta leccion.",
+          identityMismatch:
+            "Las respuestas de identidad no coinciden con el perfil del estudiante. Intentalo otra vez.",
+          forgotAnswers:
+            "Si olvidaste tus respuestas de identidad, vuelve a la configuracion de identidad y actualizalas antes de comenzar esta leccion.",
+          verifyIdentity: "Verificar identidad",
+          updateAnswers: "Actualizar respuestas de identidad",
+        }
+      : {
+          loading: "Loading...",
+          lessonLocked: "Lesson Locked",
+          purchaseNeeded:
+            "You need to purchase this state course before accessing lessons.",
+          purchaseCourse: "Purchase Course",
+          goDashboard: "Go to Dashboard",
+          identityRequired: "Identity Verification Required",
+          identitySetupBody:
+            "Complete identity setup before starting lesson progress for this Virginia course.",
+          completeIdentity: "Complete Identity Setup",
+          backToCourse: "Back to Course",
+          lessonIdentityTitle: "Lesson Identity Verification",
+          lessonIdentityBody:
+            "Verify your identity before beginning this lesson.",
+          identityMismatch:
+            "Identity answers did not match the student profile. Please try again.",
+          forgotAnswers:
+            "If you forgot your identity answers, return to identity setup and update them before starting this lesson.",
+          verifyIdentity: "Verify Identity",
+          updateAnswers: "Update Identity Answers",
+        }
 
-  const [loading, setLoading] = useState(true);
-  const [progress, setProgress] = useState<CourseProgressRow[]>([]);
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
-  const [accessError, setAccessError] = useState<string | null>(null);
-  const [identityReady, setIdentityReady] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true)
+  const [progress, setProgress] = useState<CourseProgressRow[]>([])
+  const [hasAccess, setHasAccess] = useState<boolean | null>(null)
+  const [accessError, setAccessError] = useState<string | null>(null)
+  const [identityReady, setIdentityReady] = useState<boolean | null>(null)
   const [identityProfile, setIdentityProfile] =
-    useState<StudentIdentityProfileRow | null>(null);
+    useState<StudentIdentityProfileRow | null>(null)
   const [verificationAnswers, setVerificationAnswers] = useState({
     q1: "",
     q2: "",
-  });
-  const [verificationError, setVerificationError] = useState("");
-  const [lessonVerified, setLessonVerified] = useState(false);
+  })
+  const [verificationError, setVerificationError] = useState("")
+  const [lessonVerified, setLessonVerified] = useState(false)
+  const [translatedLesson, setTranslatedLesson] =
+    useState<TranslatedLessonPayload | null>(null)
+  const [translationReady, setTranslationReady] = useState(language !== "es")
 
   useEffect(() => {
-    let isMounted = true;
+    let cancelled = false
 
-    async function checkAccess() {
-      const access = await getCourseAccessStatus(state);
+    async function loadTranslation() {
+      if (language !== "es") {
+        setTranslatedLesson(null)
+        setTranslationReady(true)
+        return
+      }
 
-      if (!isMounted) return;
-      setHasAccess(access.hasPaidAccess);
-      setAccessError(access.error);
+      setTranslationReady(false)
+
+      try {
+        const response = await fetch("/api/course-translation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            kind: "lesson",
+            lessonSlug,
+          }),
+        })
+
+        const data = (await response.json()) as {
+          ok?: boolean
+          translation?: TranslatedLessonPayload
+        }
+
+        if (!cancelled && data.ok && data.translation) {
+          setTranslatedLesson(data.translation)
+        }
+      } catch (error) {
+        console.error("Could not load Spanish lesson translation:", error)
+        if (!cancelled) {
+          setTranslatedLesson(null)
+        }
+      } finally {
+        if (!cancelled) {
+          setTranslationReady(true)
+        }
+      }
     }
 
-    void checkAccess();
+    void loadTranslation()
 
     return () => {
-      isMounted = false;
-    };
-  }, [state]);
+      cancelled = true
+    }
+  }, [language, lessonSlug])
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true
+
+    async function checkAccess() {
+      const access = await getCourseAccessStatus(state)
+
+      if (!isMounted) return
+      setHasAccess(access.hasPaidAccess)
+      setAccessError(access.error)
+    }
+
+    void checkAccess()
+
+    return () => {
+      isMounted = false
+    }
+  }, [state])
+
+  useEffect(() => {
+    let isMounted = true
 
     async function loadIdentityStatus() {
       try {
-        const profile = await getStudentIdentityProfile(state);
+        const profile = await getStudentIdentityProfile(state)
 
-        if (!isMounted) return;
-        setIdentityProfile(profile);
-        setIdentityReady(Boolean(profile));
+        if (!isMounted) return
+        setIdentityProfile(profile)
+        setIdentityReady(Boolean(profile))
       } catch (error) {
-        console.error("Error loading identity status:", error);
+        console.error("Error loading identity status:", error)
 
-        if (!isMounted) return;
-        setIdentityProfile(null);
-        setIdentityReady(false);
+        if (!isMounted) return
+        setIdentityProfile(null)
+        setIdentityReady(false)
       }
     }
 
     if (hasAccess) {
-      void loadIdentityStatus();
+      void loadIdentityStatus()
     }
 
     return () => {
-      isMounted = false;
-    };
-  }, [state, hasAccess]);
+      isMounted = false
+    }
+  }, [state, hasAccess])
 
   useEffect(() => {
-    setLessonVerified(false);
-    setVerificationAnswers({ q1: "", q2: "" });
-    setVerificationError("");
-  }, [lessonSlug]);
+    setLessonVerified(false)
+    setVerificationAnswers({ q1: "", q2: "" })
+    setVerificationError("")
+  }, [lessonSlug])
 
   function handleVerifyLessonIdentity() {
-    if (!identityProfile) return;
+    if (!identityProfile) return
 
     const firstMatches = verifyIdentityAnswer(
       identityProfile.security_answer_1,
       verificationAnswers.q1
-    );
+    )
     const secondMatches = verifyIdentityAnswer(
       identityProfile.security_answer_2,
       verificationAnswers.q2
-    );
+    )
 
     if (!firstMatches || !secondMatches) {
-      setVerificationError(
-        "Identity answers did not match the student profile. Please try again."
-      );
-      return;
+      setVerificationError(copy.identityMismatch)
+      return
     }
 
-    setVerificationError("");
-    setLessonVerified(true);
+    setVerificationError("")
+    setLessonVerified(true)
   }
 
   useEffect(() => {
     async function loadProgress() {
       try {
-        const rows = await getUserCourseProgress(state);
-        setProgress(rows);
+        const rows = await getUserCourseProgress(state)
+        setProgress(rows)
       } catch (error) {
-        console.error("Error loading lesson progress:", error);
+        console.error("Error loading lesson progress:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
 
     if (hasAccess) {
-      void loadProgress();
+      void loadProgress()
     } else if (hasAccess === false) {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [state, hasAccess]);
+  }, [state, hasAccess])
 
-  if (hasAccess === null || (hasAccess && identityReady === null) || loading) {
+  if (
+    hasAccess === null ||
+    (hasAccess && identityReady === null) ||
+    loading ||
+    !translationReady
+  ) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-10">
         <div className="mx-auto max-w-4xl">
-          <p className="text-sm text-slate-600">Loading...</p>
+          <p className="text-sm text-slate-600">{copy.loading}</p>
         </div>
       </main>
-    );
+    )
   }
 
   if (!hasAccess) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-10">
         <div className="mx-auto max-w-xl rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
-          <h1 className="text-2xl font-bold text-slate-900">Lesson Locked</h1>
-          <p className="mt-3 text-slate-600">
-            You need to purchase this state course before accessing lessons.
-          </p>
+          <h1 className="text-2xl font-bold text-slate-900">{copy.lessonLocked}</h1>
+          <p className="mt-3 text-slate-600">{copy.purchaseNeeded}</p>
 
           {accessError ? (
             <p className="mt-3 text-sm text-amber-700">{accessError}</p>
@@ -452,19 +630,19 @@ export default function LessonPage() {
               href={`/${state}/checkout`}
               className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
             >
-              Purchase Course
+              {copy.purchaseCourse}
             </Link>
 
             <Link
               href={`/${state}/dashboard`}
               className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
-              Go to Dashboard
+              {copy.goDashboard}
             </Link>
           </div>
         </div>
       </main>
-    );
+    )
   }
 
   if (!identityReady) {
@@ -472,44 +650,41 @@ export default function LessonPage() {
       <main className="min-h-screen bg-slate-50 px-6 py-10">
         <div className="mx-auto max-w-xl rounded-2xl border border-amber-200 bg-white p-8 text-center shadow-sm">
           <h1 className="text-2xl font-bold text-slate-900">
-            Identity Verification Required
+            {copy.identityRequired}
           </h1>
-          <p className="mt-3 text-slate-600">
-            Complete identity setup before starting lesson progress for this
-            Virginia course.
-          </p>
+          <p className="mt-3 text-slate-600">{copy.identitySetupBody}</p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
               href={`/${state}/identity`}
               className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
             >
-              Complete Identity Setup
+              {copy.completeIdentity}
             </Link>
 
             <Link
               href={`/${state}/course`}
               className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
             >
-              Back to Course
+              {copy.backToCourse}
             </Link>
           </div>
         </div>
       </main>
-    );
+    )
   }
 
   if (!lessonVerified && identityProfile) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-10">
         <div className="mx-auto max-w-xl space-y-6">
-          <h1 className="text-2xl font-bold">Lesson Identity Verification</h1>
+          <h1 className="text-2xl font-bold">{copy.lessonIdentityTitle}</h1>
 
           <div className="rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
-            Verify your identity before beginning this lesson.
+            {copy.lessonIdentityBody}
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
+          <div className="space-y-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
             <div>
               <label className="block text-sm font-medium text-slate-900">
                 {identityProfile.security_question_1}
@@ -549,7 +724,7 @@ export default function LessonPage() {
             ) : null}
 
             <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
-              If you forgot your identity answers, return to identity setup and update them before starting this lesson.
+              {copy.forgotAnswers}
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -557,27 +732,27 @@ export default function LessonPage() {
                 onClick={handleVerifyLessonIdentity}
                 className="rounded bg-blue-600 px-4 py-2 text-white"
               >
-                Verify Identity
+                {copy.verifyIdentity}
               </button>
 
               <Link
                 href={`/${state}/course`}
                 className="rounded border border-slate-300 px-4 py-2 text-center text-slate-700"
               >
-                Back to Course
+                {copy.backToCourse}
               </Link>
 
               <Link
                 href={`/${state}/identity`}
                 className="rounded border border-slate-300 px-4 py-2 text-center text-slate-700"
               >
-                Update Identity Answers
+                {copy.updateAnswers}
               </Link>
             </div>
           </div>
         </div>
       </main>
-    );
+    )
   }
 
   return (
@@ -585,6 +760,8 @@ export default function LessonPage() {
       state={state}
       lessonSlug={lessonSlug}
       progress={progress}
+      language={language}
+      translatedLesson={translatedLesson}
     />
-  );
+  )
 }

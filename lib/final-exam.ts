@@ -321,12 +321,19 @@ function shuffleArray<T>(items: T[]): T[] {
   return copy
 }
 
-export function getFinalExamQuestions(count = 50): ExamQuestion[] {
-  if (count > VIRGINIA_FINAL_EXAM_QUESTION_BANK.length) {
+export function getRandomExamQuestionsFromBank(
+  bank: ExamQuestion[],
+  count = 50
+): ExamQuestion[] {
+  if (count > bank.length) {
     throw new Error(
-      `Requested ${count} questions, but only ${VIRGINIA_FINAL_EXAM_QUESTION_BANK.length} are available.`
+      `Requested ${count} questions, but only ${bank.length} are available.`
     )
   }
 
-  return shuffleArray(VIRGINIA_FINAL_EXAM_QUESTION_BANK).slice(0, count)
+  return shuffleArray(bank).slice(0, count)
+}
+
+export function getFinalExamQuestions(count = 50): ExamQuestion[] {
+  return getRandomExamQuestionsFromBank(VIRGINIA_FINAL_EXAM_QUESTION_BANK, count)
 }
