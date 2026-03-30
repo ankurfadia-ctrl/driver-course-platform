@@ -10,7 +10,7 @@ export type ExamQuestion = {
 export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   {
     id: 1,
-    question: "What is the safest general following distance in normal driving conditions?",
+    question: "What is the minimum safe following distance in normal driving conditions?",
     options: ["1 second", "2 seconds", "3 to 4 seconds", "10 seconds"],
     correctIndex: 2,
   },
@@ -82,8 +82,8 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 13,
-    question: "A driver should increase following distance when:",
-    options: ["Roads are slick or visibility is poor", "Traffic is light", "The driver is in a hurry", "Driving a short distance"],
+    question: "If road conditions reduce traction or visibility, what is the safe response?",
+    options: ["Slow down and create more space around your vehicle", "Maintain normal speed to stay with traffic", "Follow more closely so others do not cut in", "Use high beams in every condition"],
     correctIndex: 0,
   },
   {
@@ -167,7 +167,7 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   {
     id: 27,
     question: "A driver who is angry or upset should:",
-    options: ["Drive faster to release stress", "Wait until calm before driving if possible", "Ignore emotions", "Take risks to save time"],
+    options: ["Drive faster to release stress", "Wait until calm before driving if possible", "Use that anger to stay alert", "Take risks to save time"],
     correctIndex: 1,
   },
   {
@@ -244,7 +244,7 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 40,
-    question: "What is a safer response to frustration on the road?",
+    question: "What is a safe response to frustration on the road?",
     options: ["Retaliate against other drivers", "Drive faster to escape the situation", "Create space and refocus on control", "Use close following to pressure traffic"],
     correctIndex: 2,
   },

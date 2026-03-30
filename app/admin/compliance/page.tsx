@@ -2,6 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { getAdminEmails, isAdminEmail } from "@/lib/admin-access"
+import DeleteComplianceRecordButton from "@/components/admin/delete-compliance-record-button"
 import {
   formatCurrency,
   getComplianceSummary,
@@ -163,6 +164,7 @@ export default async function AdminCompliancePage() {
                     <th className="px-4 py-3 text-left font-semibold text-slate-600">Exam</th>
                     <th className="px-4 py-3 text-left font-semibold text-slate-600">Certificate</th>
                     <th className="px-4 py-3 text-left font-semibold text-slate-600">Support</th>
+                    <th className="px-4 py-3 text-left font-semibold text-slate-600">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -204,6 +206,13 @@ export default async function AdminCompliancePage() {
                         <div className="font-mono text-xs text-slate-700">{record.certificateId}</div>
                       </td>
                       <td className="px-4 py-4 text-slate-700">{record.supportStatus}</td>
+                      <td className="px-4 py-4">
+                        <DeleteComplianceRecordButton
+                          userId={record.userId}
+                          state={record.state.toLowerCase()}
+                          studentLabel={record.email !== "-" ? record.email : record.studentName}
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>
