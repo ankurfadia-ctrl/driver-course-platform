@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = String(process.env.OPENAI_API_KEY ?? "").trim()
-    const configuredModel = String(process.env.SUPPORT_AI_MODEL ?? "gpt-5-mini").trim()
+    const configuredModel = String(process.env.SUPPORT_AI_MODEL ?? "gpt-4.1-mini").trim()
 
     if (!apiKey) {
       return NextResponse.json(
