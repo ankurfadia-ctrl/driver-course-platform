@@ -33,6 +33,8 @@ export type StateCourseConfig = {
   finalExamQuestionCount: number
   logoSrc: string
   supportEmail: string
+  supportPhone: string
+  supportPhoneDisplay: string
 }
 
 export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
@@ -101,6 +103,8 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
     supportEmail: "support@vadriverimprovementcourse.com",
+    supportPhone: "7035740146",
+    supportPhoneDisplay: "(703) 574-0146",
   },
 }
 
@@ -152,6 +156,8 @@ export function getCourseConfig(state: string): StateCourseConfig {
       finalExamQuestionCount: 50,
       logoSrc: "/logo.svg",
       supportEmail: "support@vadriverimprovementcourse.com",
+      supportPhone: "",
+      supportPhoneDisplay: "",
     }
   )
 }

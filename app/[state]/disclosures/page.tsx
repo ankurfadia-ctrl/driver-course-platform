@@ -58,6 +58,10 @@ export default async function StateDisclosuresPage({
           directPage: "Pagina directa",
           englishNote:
             "El contenido del curso y el examen final actualmente se ofrecen en ingles.",
+          phoneTitle: "Linea telefonica",
+          phoneBody:
+            "Para obtener ayuda mas rapida, usa primero la pagina de soporte. La linea telefonica esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
+          phoneLabel: "Telefono",
         }
       : {
           approvalLabel: config.approvalStatusLabel,
@@ -73,6 +77,10 @@ export default async function StateDisclosuresPage({
           directPage: "Direct page",
           englishNote:
             "Course lessons and the final exam are currently available in English.",
+          phoneTitle: "Phone line",
+          phoneBody:
+            "For fastest help, use the support page first. The phone line is mainly for account-access problems and urgent course issues.",
+          phoneLabel: "Phone",
         }
 
   return (
@@ -111,6 +119,21 @@ export default async function StateDisclosuresPage({
         <p className="mt-3 max-w-3xl leading-7 text-slate-600">
           {copy.nextStepsBody}
         </p>
+        {config.supportPhoneDisplay ? (
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-700">
+            <div className="font-semibold text-slate-900">{copy.phoneTitle}</div>
+            <p className="mt-2">{copy.phoneBody}</p>
+            <p className="mt-2 font-semibold text-slate-900">
+              {copy.phoneLabel}:{" "}
+              <a
+                href={`tel:${config.supportPhone}`}
+                className="underline decoration-slate-300 underline-offset-4"
+              >
+                {config.supportPhoneDisplay}
+              </a>
+            </p>
+          </div>
+        ) : null}
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
             href={`/${state}/checkout`}

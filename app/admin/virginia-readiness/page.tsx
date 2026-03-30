@@ -132,6 +132,12 @@ export default async function VirginiaReadinessPage() {
             Operations Guide
           </Link>
           <Link
+            href="/admin/approval-packet"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Approval Packet
+          </Link>
+          <Link
             href="/admin/launch-readiness"
             className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
           >

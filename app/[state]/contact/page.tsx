@@ -21,6 +21,10 @@ export default async function StateContactPage({
           stepOne: "Inicia sesion en tu cuenta de estudiante.",
           stepTwo:
             "Usa la pagina de soporte para recibir ayuda instantanea y registrar cualquier problema no resuelto.",
+          phoneTitle: "Linea telefonica",
+          phoneBody:
+            "Para obtener ayuda mas rapida, usa primero la pagina de soporte. El telefono esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
+          phoneLabel: "Telefono",
           cta: "Abrir soporte",
         }
       : {
@@ -32,6 +36,10 @@ export default async function StateContactPage({
           stepOne: "Log in to your student account.",
           stepTwo:
             "Use the support page to get instant help and save any unresolved issue for follow-up review.",
+          phoneTitle: "Phone line",
+          phoneBody:
+            "For fastest help, use the support page first. The phone line is mainly for account-access problems and urgent course issues.",
+          phoneLabel: "Phone",
           cta: "Open Support",
         }
 
@@ -60,6 +68,24 @@ export default async function StateContactPage({
           {copy.cta}
         </Link>
       </section>
+
+      {config.supportPhoneDisplay ? (
+        <section className="glass-panel rounded-[2rem] bg-white p-8">
+          <h2 className="text-xl font-semibold text-slate-900">{copy.phoneTitle}</h2>
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-700">
+            {copy.phoneBody}
+          </p>
+          <p className="mt-4 text-sm font-semibold text-slate-900">
+            {copy.phoneLabel}:{" "}
+            <a
+              href={`tel:${config.supportPhone}`}
+              className="text-slate-900 underline decoration-slate-300 underline-offset-4"
+            >
+              {config.supportPhoneDisplay}
+            </a>
+          </p>
+        </section>
+      ) : null}
     </div>
   )
 }
