@@ -15,6 +15,30 @@ type SupportFaqEntry = {
 
 const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
   {
+    id: "refund-policy",
+    question: {
+      en: "Can I get a refund?",
+      es: "Puedo recibir un reembolso?",
+    },
+    answer: {
+      en: "Refund requests are reviewed under the course refund policy. Refunds may be reviewed before meaningful course use, but purchases are generally not refundable after substantial course progress, final exam access, certificate issuance, or mailed-certificate fulfillment has begun. Priority-support upgrades are generally not refundable after purchase.",
+      es: "Las solicitudes de reembolso se revisan segun la politica de reembolsos del curso. Los reembolsos pueden revisarse antes de un uso significativo del curso, pero por lo general no son reembolsables una vez que ha comenzado un progreso sustancial del curso, el acceso al examen final, la emision del certificado o el envio fisico del certificado. Las mejoras a soporte prioritario por lo general no son reembolsables despues de la compra.",
+    },
+    keywords: ["refund", "money back", "want my money back", "can i get a refund", "refund policy"],
+  },
+  {
+    id: "real-person",
+    question: {
+      en: "Can I talk to a real person?",
+      es: "Puedo hablar con una persona real?",
+    },
+    answer: {
+      en: "Yes. Human support is available through the support page after AI help has been tried first. Priority support includes back-and-forth human replies and is handled first, usually in less than 1 business day. Standard support requests stay in the support inbox and may take up to 3 business days for a first human response.",
+      es: "Si. El soporte humano esta disponible a traves de la pagina de soporte despues de intentar primero la ayuda de IA. El soporte prioritario incluye respuestas humanas de ida y vuelta y se atiende primero, normalmente en menos de 1 dia habil. Las solicitudes de soporte estandar permanecen en la bandeja de soporte y pueden tardar hasta 3 dias habiles en recibir una primera respuesta humana.",
+    },
+    keywords: ["real person", "talk to a person", "human support", "talk to someone", "speak to someone"],
+  },
+  {
     id: "approved",
     question: {
       en: "Is this course approved?",
@@ -273,4 +297,3 @@ export function findSupportFaqMatch(text: string, language: SiteLanguage = "en")
     answer: entry.answer[language],
   }
 }
-

@@ -55,6 +55,51 @@ function buildDirectQuestionResponse(
 
   if (
     includesAny(text, [
+      "refund",
+      "money back",
+      "want my money back",
+      "get a refund",
+      "refund policy",
+    ])
+  ) {
+    return {
+      summary:
+        "Refund requests are reviewed under the course refund policy. Refunds may be reviewed before meaningful course use, but purchases are generally not refundable after substantial course progress, final exam access, certificate issuance, or mailed-certificate fulfillment has begun.",
+      suggestedSteps: [
+        "Review the refunds page for the full policy.",
+        "If you have not meaningfully used the course yet, send the request to support so it can be reviewed.",
+        "If the request involves a mailed certificate or support upgrade, those add-ons are generally not refundable after purchase or fulfillment begins.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
+      "real person",
+      "talk to a person",
+      "human support",
+      "talk to someone",
+      "speak to someone",
+      "real human",
+    ])
+  ) {
+    return {
+      summary:
+        "Yes. Human support is available after AI help is tried first. Priority support includes back-and-forth human replies and is handled first, usually in less than 1 business day. Standard support may take up to 3 business days for a first human response.",
+      suggestedSteps: [
+        "Use the AI chat first so the site can answer common questions immediately.",
+        "If you still need human help, send the chat to support.",
+        "Priority support includes the direct reply thread. Standard support requests are reviewed in the support inbox.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
       "do i need to take the final",
       "do i have to take the final",
       "is the final required",
