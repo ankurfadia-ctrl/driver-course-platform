@@ -25,6 +25,7 @@ import {
   isCertificateUnlockedBySeatTime,
   isFinalExamUnlockedBySeatTime,
 } from "@/lib/course-timing"
+import { useSeatTimeTracker } from "@/lib/course/seat-time/useSeatTimeTracker"
 import {
   getStudentIdentityProfile,
   type StudentIdentityProfileRow,
@@ -221,6 +222,14 @@ export default function FinalExamPage() {
   const [timerExpired, setTimerExpired] = useState(false)
   const [timerPaused, setTimerPaused] = useState(false)
 
+  const seatTimeTracker = useSeatTimeTracker({
+    stateCode: state,
+    lessonNumber: 9,
+    pagePath: `/${state}/course/final-exam`,
+    requiredSeconds: COURSE_TOTAL_REQUIRED_SECONDS,
+    enabled: Boolean(hasAccess),
+  })
+
   const checkpoints = useMemo(() => [15, 35], [])
   const effectiveSeatTimeForExam = seatTimeBypassed
     ? COURSE_TOTAL_REQUIRED_SECONDS
@@ -233,6 +242,14 @@ export default function FinalExamPage() {
       seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
     )
   const lessonLinks = useMemo(() => getLessonLinks(state), [state])
+
+  useEffect(() => {
+    if (seatTimeTracker.totalSeconds > 0) {
+      setSeatTimeTotalSeconds(seatTimeTracker.totalSeconds)
+      setSeatTimeComplete(seatTimeTracker.isCompleted)
+      setSeatTimeReady(true)
+    }
+  }, [seatTimeTracker.isCompleted, seatTimeTracker.totalSeconds])
 
   useEffect(() => {
     let isMounted = true
@@ -938,7 +955,7 @@ export default function FinalExamPage() {
         )}
 
         <div className="rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
-          Final exam instruction time complete. Verify your identity to unlock the final exam.
+          Final exam instruction time complete. Verify your identity to unlock the final exam. Time spent on this final exam page counts toward the full 8-hour course minimum.
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
@@ -1029,7 +1046,7 @@ export default function FinalExamPage() {
         )}
 
         <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-900">
-          Identity verified successfully. The final exam opens after at least 7 hours of instruction, but the full 8-hour minimum is still required before your certificate can be released.
+          Identity verified successfully. The final exam opens after at least 7 hours of instruction, and time spent on this exam page counts toward the full 8-hour minimum. Your certificate still stays locked until the full 8 hours is complete.
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
