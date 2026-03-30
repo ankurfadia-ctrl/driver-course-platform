@@ -87,10 +87,10 @@ function buildDirectQuestionResponse(
   ) {
     return {
       summary:
-        "Yes. If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact support before purchase and we will review it for a possible price match.",
+        "Yes. If you find a lower publicly advertised price for an equivalent online driver improvement course for the same state, contact support before purchase and we will review it for a possible price match.",
       suggestedSteps: [
         "Send the competitor link before purchasing.",
-        "Make sure the competing offer is for an equivalent Virginia online driver improvement course.",
+        "Make sure the competing offer is for an equivalent online driver improvement course for the same state.",
         "Private coupon codes, expired promotions, bundles, hidden-fee offers, and nonequivalent courses are not included in price-match reviews.",
       ],
       escalationRecommended: false,
