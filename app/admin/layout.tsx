@@ -21,6 +21,7 @@ const adminNavLinks = [
   { href: "/admin/reporting", label: "DMV Reporting" },
   { href: "/admin/approval-packet", label: "Approval Packet" },
   { href: "/admin/virginia-readiness", label: "Virginia Readiness" },
+  { href: "/admin/florida-readiness", label: "Florida Readiness" },
   { href: "/admin/launch-readiness", label: "Launch Readiness" },
   { href: "/admin/qa-checklist", label: "Hosted QA" },
 ]

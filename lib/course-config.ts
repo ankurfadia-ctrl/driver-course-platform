@@ -11,6 +11,14 @@ export type StateDisclosureItem = {
   body: string
 }
 
+export type StateCourseTrack = {
+  code: string
+  name: string
+  audience: string
+  status: "planned" | "criteria-requested" | "criteria-received" | "in-build" | "submitted" | "approved"
+  notes: string
+}
+
 export type StateCourseConfig = {
   stateCode: string
   stateSlug: string
@@ -35,6 +43,7 @@ export type StateCourseConfig = {
   supportEmail: string
   supportPhone: string
   supportPhoneDisplay: string
+  courseTracks?: StateCourseTrack[]
 }
 
 export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
@@ -145,6 +154,88 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     supportEmail: "support@vadriverimprovementcourse.com",
     supportPhone: "8777980235",
     supportPhoneDisplay: "(877) 798-0235",
+    courseTracks: [
+      {
+        code: "va-driver-improvement",
+        name: "Virginia Driver Improvement Course",
+        audience: "General Virginia driver improvement students",
+        status: "submitted",
+        notes: "Virginia packet has been submitted and is awaiting DMV review.",
+      },
+    ],
+  },
+  florida: {
+    stateCode: "FL",
+    stateSlug: "florida",
+    stateName: "Florida",
+    courseSlug: "driver-improvement",
+    siteTitle: "Florida Driver Improvement Courses",
+    brandName: "Florida Driver Improvement Courses",
+    courseName: "Florida Driver Improvement Courses",
+    marketingHeadline: "Prepare Florida driver improvement courses online.",
+    marketingDescription:
+      "Florida driver improvement platform scaffolding for BDI, ADI, TLSAE, and Mature Driver courses with secure enrollment, support, and approval-readiness planning.",
+    certificateIssuerLine: "Florida Driver Improvement Course Platform",
+    approvalStatusLabel: "Florida course criteria requested",
+    disclosuresIntro:
+      "Florida-specific course disclosures and official acceptance details will be finalized after FLHSMV returns the minimum course content criteria for each course type.",
+    disclosures: [
+      {
+        title: "Florida development status",
+        body:
+          "Florida courses are not open for enrollment yet. FLHSMV minimum content criteria have been requested for BDI, ADI, TLSAE, and Mature Driver course types.",
+      },
+      {
+        title: "Official course criteria",
+        body:
+          "Florida course content and provider submission materials will be finalized only after FLHSMV returns the official minimum course content criteria for each requested course type.",
+      },
+      {
+        title: "State-specific acceptance",
+        body:
+          "Florida acceptance, reporting, certificate, and completion rules are state-specific and will be implemented according to FLHSMV guidance before launch.",
+      },
+    ],
+    dashboardLabel: "Dashboard",
+    courseLabel: "Course",
+    certificateLabel: "Certificate",
+    finalExamLabel: "Final Exam",
+    passingScorePercent: 80,
+    finalExamQuestionCount: 50,
+    logoSrc: "/logo.svg",
+    supportEmail: "support@vadriverimprovementcourse.com",
+    supportPhone: "8777980235",
+    supportPhoneDisplay: "(877) 798-0235",
+    courseTracks: [
+      {
+        code: "fl-bdi",
+        name: "Basic Driver Improvement (BDI)",
+        audience: "General Florida driver improvement students",
+        status: "criteria-requested",
+        notes: "Best first Florida build because it is closest to the current Virginia-style product.",
+      },
+      {
+        code: "fl-adi",
+        name: "Advanced Driver Improvement (ADI)",
+        audience: "Florida advanced/remedial driver improvement students",
+        status: "criteria-requested",
+        notes: "Planned second after BDI once FLHSMV criteria are received.",
+      },
+      {
+        code: "fl-tlsae",
+        name: "Traffic Law and Substance Abuse Education (TLSAE)",
+        audience: "First-time Florida licensing and certain hardship reinstatement students",
+        status: "criteria-requested",
+        notes: "Florida-specific 4-hour course type with a different student story from BDI and ADI.",
+      },
+      {
+        code: "fl-mature-driver",
+        name: "Mature Driver Discount Insurance Course",
+        audience: "Florida mature-driver insurance discount students",
+        status: "criteria-requested",
+        notes: "Useful future add-on product line after BDI, ADI, and TLSAE are mapped.",
+      },
+    ],
   },
 }
 
