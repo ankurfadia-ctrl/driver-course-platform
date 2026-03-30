@@ -30,7 +30,7 @@ import { getCourseConfig } from "@/lib/course-config"
 import { hasStudentIdentityProfile } from "@/lib/student-identity"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
-const LESSONS_EN = [
+const VIRGINIA_LESSONS_EN = [
   { id: 1, slug: "lesson-1", title: "Lesson 1 - Course Introduction" },
   { id: 2, slug: "lesson-2", title: "Lesson 2 - Defensive Driving Habits" },
   { id: 3, slug: "lesson-3", title: "Lesson 3 - Speed Management and Following Distance" },
@@ -41,7 +41,7 @@ const LESSONS_EN = [
   { id: 8, slug: "lesson-8", title: "Lesson 8 - Attitude, Risk, and Long-Term Responsibility" },
 ]
 
-const LESSONS_ES = [
+const VIRGINIA_LESSONS_ES = [
   { id: 1, slug: "lesson-1", title: "Leccion 1 - Introduccion al curso" },
   { id: 2, slug: "lesson-2", title: "Leccion 2 - Habitos de conduccion defensiva" },
   { id: 3, slug: "lesson-3", title: "Leccion 3 - Control de velocidad y distancia de seguimiento" },
@@ -52,6 +52,17 @@ const LESSONS_ES = [
   { id: 8, slug: "lesson-8", title: "Leccion 8 - Actitud, riesgo y responsabilidad a largo plazo" },
 ]
 
+function getDefaultLessons(language: "en" | "es") {
+  return Array.from({ length: 8 }, (_, index) => ({
+    id: index + 1,
+    slug: `lesson-${index + 1}`,
+    title:
+      language === "es"
+        ? `Leccion ${index + 1}`
+        : `Lesson ${index + 1}`,
+  }))
+}
+
 export default function StateCoursePage() {
   const params = useParams()
 
@@ -59,7 +70,15 @@ export default function StateCoursePage() {
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
   const language = usePreferredSiteLanguageClient()
-  const lessons = language === "es" ? LESSONS_ES : LESSONS_EN
+  const isVirginia = config.stateSlug === "virginia"
+  const lessons =
+    language === "es"
+      ? isVirginia
+        ? VIRGINIA_LESSONS_ES
+        : getDefaultLessons("es")
+      : isVirginia
+        ? VIRGINIA_LESSONS_EN
+        : getDefaultLessons("en")
   const copy =
     language === "es"
       ? {
@@ -75,7 +94,9 @@ export default function StateCoursePage() {
           headerLabel: `${config.stateName} curso del estudiante`,
           identityTitle: "Se requiere verificacion de identidad",
           identityBody:
-            "Virginia requiere verificacion de identidad durante el curso y antes del examen final. Completa la configuracion de identidad antes de comenzar el progreso de las lecciones y preparate para verificar tu identidad otra vez antes de cada leccion.",
+            isVirginia
+              ? "Virginia requiere verificacion de identidad durante el curso y antes del examen final. Completa la configuracion de identidad antes de comenzar el progreso de las lecciones y preparate para verificar tu identidad otra vez antes de cada leccion."
+              : "La verificacion de identidad puede formar parte del flujo del curso y del acceso al examen final. Completa la configuracion de identidad antes de comenzar el progreso de las lecciones.",
           completeIdentity: "Completar configuracion de identidad",
           needHelp: "Necesitas ayuda?",
           helpBody: "Obten respuestas instantaneas o contacta soporte.",
@@ -116,7 +137,9 @@ export default function StateCoursePage() {
           headerLabel: `${config.stateName} Student Course`,
           identityTitle: "Identity verification required",
           identityBody:
-            "Virginia requires identity verification throughout the course and before the final exam. Complete identity setup before starting lesson progress, and be ready to verify identity again before each lesson begins.",
+            isVirginia
+              ? "Virginia requires identity verification throughout the course and before the final exam. Complete identity setup before starting lesson progress, and be ready to verify identity again before each lesson begins."
+              : "Identity verification may be part of the course flow and final-exam access. Complete identity setup before starting lesson progress.",
           completeIdentity: "Complete Identity Setup",
           needHelp: "Need help?",
           helpBody: "Get instant answers or contact support.",
