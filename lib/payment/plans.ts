@@ -1,5 +1,9 @@
 export type SupportTier = "standard" | "priority"
-export type PlanKind = "full-course" | "support-upgrade" | "certificate-mail"
+export type PlanKind =
+  | "full-course"
+  | "support-upgrade"
+  | "certificate-mail"
+  | "court-review"
 
 export type CoursePlan = {
   stateCode: string
@@ -57,6 +61,20 @@ const COURSE_PLANS: CoursePlan[] = [
   {
     stateCode: "virginia",
     courseSlug: "driver-improvement",
+    planCode: "va-premium-bundle",
+    planKind: "full-course",
+    displayName:
+      "Virginia Driver Improvement Course + Priority Support + Court Review + Mailed Certificate",
+    priceCents: 3499,
+    currency: "usd",
+    supportTier: "priority",
+    includesCertificate: true,
+    includesPrioritySupport: true,
+    active: true,
+  },
+  {
+    stateCode: "virginia",
+    courseSlug: "driver-improvement",
     planCode: "va-priority-upgrade",
     planKind: "support-upgrade",
     displayName: "Priority Support Upgrade",
@@ -74,6 +92,19 @@ const COURSE_PLANS: CoursePlan[] = [
     planKind: "certificate-mail",
     displayName: "Mailed Certificate Copy",
     priceCents: 499,
+    currency: "usd",
+    supportTier: "standard",
+    includesCertificate: false,
+    includesPrioritySupport: false,
+    active: true,
+  },
+  {
+    stateCode: "virginia",
+    courseSlug: "driver-improvement",
+    planCode: "va-court-review",
+    planKind: "court-review",
+    displayName: "Court Document Review",
+    priceCents: 999,
     currency: "usd",
     supportTier: "standard",
     includesCertificate: false,
@@ -135,6 +166,20 @@ export function getPlanEligibility(
       return {
         allowed: false,
         reason: "You must complete a paid course purchase before ordering a mailed certificate copy.",
+      }
+    }
+
+    return {
+      allowed: true,
+      reason: null,
+    }
+  }
+
+  if (plan.planKind === "court-review") {
+    if (!purchase.hasPaidAccess) {
+      return {
+        allowed: false,
+        reason: "You must purchase the course before buying court document review.",
       }
     }
 

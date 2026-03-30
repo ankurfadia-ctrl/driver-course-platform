@@ -77,6 +77,29 @@ function buildDirectQuestionResponse(
 
   if (
     includesAny(text, [
+      "price match",
+      "match a price",
+      "lower price",
+      "cheaper price",
+      "better price",
+      "igualacion de precio",
+    ])
+  ) {
+    return {
+      summary:
+        "Yes. If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact support before purchase and we will review it for a possible price match.",
+      suggestedSteps: [
+        "Send the competitor link before purchasing.",
+        "Make sure the competing offer is for an equivalent Virginia online driver improvement course.",
+        "Private coupon codes, expired promotions, bundles, hidden-fee offers, and nonequivalent courses are not included in price-match reviews.",
+      ],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
+
+  if (
+    includesAny(text, [
       "real person",
       "talk to a person",
       "human support",
@@ -87,11 +110,11 @@ function buildDirectQuestionResponse(
   ) {
     return {
       summary:
-        "Yes. Human support is available after AI help is tried first. Priority support includes back-and-forth human replies and is handled first, usually in less than 1 business day. Standard support may take up to 3 business days for a first human response.",
+        "Yes, with priority support. Standard plans use FAQ and AI chat only. Priority support includes human replies after AI help is tried first and is usually handled in less than 1 business day.",
       suggestedSteps: [
         "Use the AI chat first so the site can answer common questions immediately.",
-        "If you still need human help, send the chat to support.",
-        "Priority support includes the direct reply thread. Standard support requests are reviewed in the support inbox.",
+        "If you want human help, upgrade to priority support.",
+        "After upgrading, send the AI chat to support to open the human support thread.",
       ],
       escalationRecommended: false,
       escalationReason: null,

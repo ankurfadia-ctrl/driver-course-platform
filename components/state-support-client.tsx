@@ -41,15 +41,17 @@ function buildCopy(language: SiteLanguage, stateName: string) {
       send: "Enviar",
       saving: "Enviando...",
       supportSave: "Enviar este chat a soporte",
+      priorityOnlySave:
+        "Enviar a soporte humano esta incluido solo con soporte prioritario.",
       supportSent: "Este chat fue enviado a soporte.",
       supportError: "No se pudo guardar la solicitud de soporte.",
       loginNeeded: "Debes iniciar sesion para enviar una solicitud de soporte.",
       priorityNote:
         "Soporte prioritario: tus solicitudes se atienden primero y normalmente reciben una primera respuesta en menos de 1 dia habil.",
       standardNote:
-        "Soporte estandar: revisa FAQ y chat IA primero. Las respuestas humanas pueden tardar hasta 3 dias habiles.",
+        "Soporte estandar: incluye FAQ y chat con IA. Para soporte humano, debes mejorar a soporte prioritario.",
       standardLocked:
-        "Las respuestas humanas de ida y vuelta estan incluidas solo con soporte prioritario.",
+        "El soporte humano y las respuestas de ida y vuelta estan incluidos solo con soporte prioritario.",
       conversationTitle: "Solicitudes y respuestas",
       replyPlaceholder: "Escribe tu respuesta...",
       sendReply: "Responder",
@@ -76,15 +78,17 @@ function buildCopy(language: SiteLanguage, stateName: string) {
     send: "Send",
     saving: "Sending...",
     supportSave: "Send this chat to support",
+    priorityOnlySave:
+      "Sending to human support is included only with priority support.",
     supportSent: "This chat has been sent to support.",
     supportError: "Could not save support request.",
     loginNeeded: "You need to sign in before sending a support request.",
     priorityNote:
       "Priority support: your questions are handled first and usually receive a first response in less than 1 business day.",
     standardNote:
-      "Standard support: start with FAQ and AI chat first. Human responses may take up to 3 business days.",
+      "Standard support includes FAQ and AI chat only. Upgrade to priority support for human support.",
     standardLocked:
-      "Back-and-forth human replies are included only with priority support.",
+      "Human support and back-and-forth replies are included only with priority support.",
     conversationTitle: "Requests and replies",
     replyPlaceholder: "Type your reply...",
     sendReply: "Reply",
@@ -495,14 +499,20 @@ export default function StateSupportClient({
               {supportTier === "priority" ? copy.priorityNote : copy.standardNote}
             </div>
             <div className="mt-4 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={() => void handleSaveToSupport()}
-                disabled={!lastAiResponse || savingSupport}
-                className="inline-flex rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {savingSupport ? copy.saving : copy.supportSave}
-              </button>
+              {supportTier === "priority" ? (
+                <button
+                  type="button"
+                  onClick={() => void handleSaveToSupport()}
+                  disabled={!lastAiResponse || savingSupport}
+                  className="inline-flex rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {savingSupport ? copy.saving : copy.supportSave}
+                </button>
+              ) : (
+                <div className="rounded-lg border border-dashed border-slate-300 bg-white px-4 py-2 text-sm text-slate-600">
+                  {copy.priorityOnlySave}
+                </div>
+              )}
               {showUpgradeButton ? (
                 <Link
                   href={`/${state}/checkout`}

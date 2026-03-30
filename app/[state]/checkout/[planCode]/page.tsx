@@ -72,6 +72,10 @@ export default function StatePlanCheckoutPage() {
           sectionLabel: `${stateDisplayName} pago`,
           supportUpgradeBody:
             "Esta mejora mantiene activo el acceso al curso y cambia tu nivel de soporte a prioritario despues del pago.",
+          courtReviewBody:
+            "Esta compra agrega una revision administrativa de documentos judiciales para estudiantes que ya compraron el curso.",
+          bundleBody:
+            "Este paquete incluye el curso, soporte prioritario, revision administrativa de documentos judiciales y una copia del certificado por correo despues de completar el curso exitosamente.",
           approvalLabel: "Aprobacion pendiente",
           approvalBody:
             "Antes de pagar, confirma que este curso en linea es aceptable para tu requisito especifico en Virginia. Revisa la informacion sobre identidad, tiempo del curso y reglas del examen.",
@@ -95,6 +99,10 @@ export default function StatePlanCheckoutPage() {
           sectionLabel: `${stateDisplayName} Checkout`,
           supportUpgradeBody:
             "This upgrade keeps your course access active and changes your support tier to priority after payment.",
+          courtReviewBody:
+            "This purchase adds administrative court document review for students who already purchased the course.",
+          bundleBody:
+            "This bundle includes the course, priority support, administrative court document review, and one mailed certificate copy after successful completion.",
           approvalLabel: config.approvalStatusLabel,
           approvalBody:
             "Before paying, confirm that this online course is acceptable for your specific Virginia requirement. Review disclosures for identity, seat-time, and exam rules.",
@@ -246,6 +254,18 @@ export default function StatePlanCheckoutPage() {
       {plan.planKind === "support-upgrade" ? (
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-slate-700">
           {copy.supportUpgradeBody}
+        </div>
+      ) : null}
+
+      {plan.planCode === "va-court-review" ? (
+        <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+          {copy.courtReviewBody}
+        </div>
+      ) : null}
+
+      {plan.planCode === "va-premium-bundle" ? (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-slate-700">
+          {copy.bundleBody}
         </div>
       ) : null}
 

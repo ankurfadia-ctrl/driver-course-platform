@@ -4,6 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin"
 import { getAdminEmails } from "@/lib/admin-access"
 import { getCourseConfig } from "@/lib/course-config"
 import { getSupportReplyAddress } from "@/lib/support-email-routing"
+import { getCoursePlanByCode } from "@/lib/payment/plans"
 import {
   sendAdminPrioritySupportNotificationEmail,
 } from "@/lib/email"
@@ -20,6 +21,43 @@ type CreateSupportRequestBody = {
     escalationReason?: string | null
   } | null
   priorityRequested?: boolean
+}
+
+async function getStudentSupportTier(userId: string, stateCode: string) {
+  const adminSupabase = createAdminClient()
+  const { data, error } = await adminSupabase
+    .from("course_purchases")
+    .select("plan_code, support_tier, purchase_status, purchased_at")
+    .eq("user_id", userId)
+    .eq("state_code", stateCode)
+    .eq("purchase_status", "paid")
+    .order("purchased_at", { ascending: false })
+    .limit(25)
+
+  if (error) {
+    throw error
+  }
+
+  const purchases = data ?? []
+  const fullCoursePurchase =
+    purchases.find((purchase) => {
+      const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+      return plan?.planKind === "full-course"
+    }) ?? null
+
+  const priorityPurchase = purchases.find((purchase) => {
+    const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+
+    if (!plan) {
+      return purchase.support_tier === "priority"
+    }
+
+    return (
+      plan.planKind === "full-course" || plan.planKind === "support-upgrade"
+    ) && purchase.support_tier === "priority"
+  })
+
+  return priorityPurchase ? "priority" : fullCoursePurchase?.support_tier ?? null
 }
 
 export async function POST(request: NextRequest) {
@@ -42,12 +80,22 @@ export async function POST(request: NextRequest) {
     const category = String(body.category ?? "other").trim()
     const subject = String(body.subject ?? "").trim()
     const message = String(body.message ?? "").trim()
-    const priorityRequested = Boolean(body.priorityRequested)
-
     if (!stateCode || message.length < 5 || subject.length < 2) {
       return NextResponse.json(
         { ok: false, error: "Invalid support request." },
         { status: 400 }
+      )
+    }
+
+    const actualSupportTier = await getStudentSupportTier(user.id, stateCode)
+
+    if (actualSupportTier !== "priority") {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Human support requests are available only with priority support. Standard plans use FAQ and AI chat.",
+        },
+        { status: 403 }
       )
     }
 
@@ -62,7 +110,7 @@ export async function POST(request: NextRequest) {
       ai_suggested_steps: body.aiResponse?.suggestedSteps ?? [],
       escalation_recommended: body.aiResponse?.escalationRecommended ?? false,
       escalation_reason: body.aiResponse?.escalationReason ?? null,
-      priority_requested: priorityRequested,
+      priority_requested: true,
       status: "open",
     }
 
@@ -80,27 +128,25 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (priorityRequested) {
-      const baseUrl = String(process.env.NEXT_PUBLIC_BASE_URL ?? "").trim()
-      const adminEmails = getAdminEmails()
-      const config = getCourseConfig(stateCode)
+    const baseUrl = String(process.env.NEXT_PUBLIC_BASE_URL ?? "").trim()
+    const adminEmails = getAdminEmails()
+    const config = getCourseConfig(stateCode)
 
-      if (baseUrl && adminEmails.length > 0 && user.email) {
-        await Promise.all(
-          adminEmails.map((email) =>
-            sendAdminPrioritySupportNotificationEmail({
-              email,
-              stateName: config.stateName,
-              subject,
-              studentEmail: user.email ?? "Unknown",
-              supportUrl: `${baseUrl}/admin/support`,
-              message,
-              priorityRequested,
-              replyTo: getSupportReplyAddress(data.id) ?? undefined,
-            })
-          )
+    if (baseUrl && adminEmails.length > 0 && user.email) {
+      await Promise.all(
+        adminEmails.map((email) =>
+          sendAdminPrioritySupportNotificationEmail({
+            email,
+            stateName: config.stateName,
+            subject,
+            studentEmail: user.email ?? "Unknown",
+            supportUrl: `${baseUrl}/admin/support`,
+            message,
+            priorityRequested: true,
+            replyTo: getSupportReplyAddress(data.id) ?? undefined,
+          })
         )
-      }
+      )
     }
 
     return NextResponse.json({ ok: true, id: data.id })

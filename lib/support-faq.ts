@@ -27,14 +27,26 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     keywords: ["refund", "money back", "want my money back", "can i get a refund", "refund policy"],
   },
   {
+    id: "price-match",
+    question: {
+      en: "Do you offer a price match?",
+      es: "Ofrecen igualacion de precio?",
+    },
+    answer: {
+      en: "Yes. If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact support before purchase and we will review it for a possible price match. Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
+      es: "Si. Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de Virginia en linea, contacta a soporte antes de comprar y revisaremos una posible igualacion de precio. Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
+    },
+    keywords: ["price match", "match a price", "lower price", "cheaper price", "igualacion de precio"],
+  },
+  {
     id: "real-person",
     question: {
       en: "Can I talk to a real person?",
       es: "Puedo hablar con una persona real?",
     },
     answer: {
-      en: "Yes. Human support is available through the support page after AI help has been tried first. Priority support includes back-and-forth human replies and is handled first, usually in less than 1 business day. Standard support requests stay in the support inbox and may take up to 3 business days for a first human response.",
-      es: "Si. El soporte humano esta disponible a traves de la pagina de soporte despues de intentar primero la ayuda de IA. El soporte prioritario incluye respuestas humanas de ida y vuelta y se atiende primero, normalmente en menos de 1 dia habil. Las solicitudes de soporte estandar permanecen en la bandeja de soporte y pueden tardar hasta 3 dias habiles en recibir una primera respuesta humana.",
+      en: "Yes, with priority support. Standard plans use FAQ and AI chat only. Priority support includes human support through the support page after AI help has been tried first, and those requests are handled first, usually in less than 1 business day.",
+      es: "Si, con soporte prioritario. Los planes estandar usan solo FAQ y chat con IA. El soporte prioritario incluye soporte humano a traves de la pagina de soporte despues de intentar primero la ayuda de IA, y esas solicitudes se atienden primero, normalmente en menos de 1 dia habil.",
     },
     keywords: ["real person", "talk to a person", "human support", "talk to someone", "speak to someone"],
   },
@@ -244,8 +256,8 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
       es: "Cual es la diferencia entre el soporte estandar y el prioritario?",
     },
     answer: {
-      en: "Both plans include AI help first. Priority support means your questions and support requests are handled ahead of standard requests and usually receive a first response in less than 1 business day. Standard requests may take up to 3 business days for a first response.",
-      es: "Ambos planes incluyen ayuda inicial por IA. El soporte prioritario hace que tus preguntas y solicitudes se atiendan antes que las solicitudes estandar y normalmente reciban una primera respuesta en menos de 1 dia habil. Las solicitudes estandar pueden tardar hasta 3 dias habiles en recibir una primera respuesta.",
+      en: "Both plans include AI help first. Standard support is self-serve FAQ and AI chat only. Priority support adds human support, puts your requests ahead of standard students, and usually receives a first response in less than 1 business day.",
+      es: "Ambos planes incluyen ayuda inicial por IA. El soporte estandar es solo FAQ y chat con IA. El soporte prioritario agrega soporte humano, pone tus solicitudes por delante de los estudiantes estandar y normalmente recibe una primera respuesta en menos de 1 dia habil.",
     },
     keywords: ["difference between standard and priority", "priority support", "standard support"],
   },

@@ -24,6 +24,137 @@ function normalizeSupportTier(value: string | null): SupportTier | null {
   return null
 }
 
+function getPlanPresentation(planCode: string, language: "en" | "es") {
+  if (language === "es") {
+    switch (planCode) {
+      case "va-priority":
+        return {
+          marketingTitle: "Curso + Soporte Prioritario",
+          audience:
+            "Ideal para estudiantes con fecha limite o que quieren ayuda mas rapida.",
+          bullets: [
+            "Curso completo de Virginia",
+            "Elegibilidad para certificado despues de cumplir todos los requisitos",
+            "Soporte prioritario con primera respuesta humana normalmente en menos de 1 dia habil",
+          ],
+          highlight: "Mejor valor",
+        }
+      case "va-premium-bundle":
+        return {
+          marketingTitle: "Paquete Premium",
+          audience:
+            "Ideal para estudiantes dirigidos por la corte o para quienes quieren la opcion mas completa desde el inicio.",
+          bullets: [
+            "Curso completo de Virginia",
+            "Soporte prioritario con respuestas humanas mas rapidas",
+            "Revision administrativa de documentos de la corte",
+            "Una copia del certificado enviada por correo despues de completar el curso",
+          ],
+          highlight: "Todo incluido",
+        }
+      case "va-standard":
+        return {
+          marketingTitle: "Curso Estandar",
+          audience:
+            "Ideal para estudiantes que quieren el curso completo al precio mas bajo.",
+          bullets: [
+            "Curso completo de Virginia",
+            "Elegibilidad para certificado despues de cumplir todos los requisitos",
+            "Soporte estandar con ayuda inicial por IA",
+          ],
+          highlight: null,
+        }
+      case "va-court-review":
+        return {
+          marketingTitle: "Revision de Documentos Judiciales",
+          audience:
+            "Ideal para estudiantes dirigidos por la corte que quieren una revision administrativa adicional de sus documentos.",
+          bullets: [
+            "Revision administrativa de la informacion judicial cargada",
+            "Ayuda para confirmar que los detalles judiciales clave parezcan completos",
+            "No incluye asesoria legal ni garantiza resultados judiciales o del DMV",
+          ],
+          highlight: null,
+        }
+      default:
+        return {
+          marketingTitle: "Mejora a Soporte Prioritario",
+          audience: "Solo para cuentas que ya compraron el curso estandar.",
+          bullets: [
+            "Convierte una compra estandar en soporte prioritario",
+            "Tus solicitudes pasan al frente de la cola estandar",
+            "Mantienes el mismo acceso al curso y al certificado",
+          ],
+          highlight: null,
+        }
+    }
+  }
+
+  switch (planCode) {
+    case "va-priority":
+      return {
+        marketingTitle: "Course + Priority Support",
+        audience:
+          "Best for students on a deadline or students who want faster help.",
+        bullets: [
+          "Full Virginia course access",
+          "Certificate eligibility after all course requirements are met",
+          "Priority support with a first human response usually in less than 1 business day",
+        ],
+        highlight: "Best value",
+      }
+    case "va-premium-bundle":
+      return {
+        marketingTitle: "Premium Bundle",
+        audience:
+          "Best for court-directed students or anyone who wants the most complete option from the start.",
+        bullets: [
+          "Full Virginia course access",
+          "Priority support with faster human responses",
+          "Administrative court document review",
+          "One mailed certificate copy after successful completion",
+        ],
+        highlight: "All-in-one",
+      }
+    case "va-standard":
+      return {
+        marketingTitle: "Standard Course",
+        audience:
+          "Best for students who want the full course at the lowest price.",
+        bullets: [
+          "Full Virginia course access",
+          "Certificate eligibility after all course requirements are met",
+          "Standard support with AI help first",
+        ],
+        highlight: null,
+      }
+    case "va-court-review":
+      return {
+        marketingTitle: "Court Document Review",
+        audience:
+          "Best for court-directed students who want an extra administrative review of their uploaded court details.",
+        bullets: [
+          "Administrative review of uploaded court details",
+          "Helps confirm key court information appears complete",
+          "Does not include legal advice or guarantee court or DMV outcomes",
+        ],
+        highlight: null,
+      }
+    default:
+      return {
+        marketingTitle: "Priority Support Upgrade",
+        audience:
+          "Only for accounts that already purchased the standard course.",
+        bullets: [
+          "Upgrades an existing standard purchase to priority support",
+          "Moves your requests ahead of standard support",
+          "Keeps the same course and certificate access",
+        ],
+        highlight: null,
+      }
+  }
+}
+
 export default function StateCheckoutPage() {
   const params = useParams()
 
@@ -64,6 +195,7 @@ export default function StateCheckoutPage() {
             "Esta cuenta ya tiene el curso. Puedes mejorar a soporte prioritario abajo.",
           bodyCheckout:
             "Revisa las opciones disponibles abajo. El pago se completa de forma segura con Stripe despues de elegir un plan.",
+          compareLabel: "Elige la opcion que mejor se adapte a ti",
           infoTitle: "Informacion importante antes de inscribirte",
           infoOne: "El acceso al curso es una compra unica para este estado.",
           infoTwo:
@@ -75,6 +207,7 @@ export default function StateCheckoutPage() {
           currentPlan: "Plan actual: soporte estandar",
           currentPlanBody:
             "Ya tienes acceso al curso. Si quieres una atencion mas rapida, puedes comprar la mejora a soporte prioritario abajo.",
+          labelBundle: "Paquete",
           labelUpgrade: "Mejora",
           labelPriority: "Soporte prioritario",
           labelStandard: "Estandar",
@@ -86,6 +219,10 @@ export default function StateCheckoutPage() {
             "Incluye el curso completo y elegibilidad para certificado.",
           priorityPricingDetail:
             "Compra ahora por $24.99 una sola vez. Si compras soporte prioritario despues, la mejora cuesta $9.99 por separado. Ahorro al comprar ahora: $5.",
+          bundlePricingDetail:
+            "Incluye soporte prioritario, revision administrativa de documentos judiciales y una copia del certificado por correo en una sola compra.",
+          courtReviewPricingDetail:
+            "Disponible despues de comprar el curso para estudiantes que quieren una revision administrativa adicional de sus documentos judiciales.",
           standardPricingDetail:
             "El soporte prioritario puede agregarse mas tarde por $9.99 como mejora separada.",
           oneTime: "pago unico",
@@ -98,7 +235,19 @@ export default function StateCheckoutPage() {
           prioritySupportInfo:
             "Las preguntas y solicitudes con soporte prioritario se atienden antes que las solicitudes estandar y normalmente reciben la primera respuesta en menos de 1 dia habil.",
           standardSupportInfo:
-            "Las solicitudes con soporte estandar se revisan despues de las prioritarias y pueden tardar hasta 3 dias habiles en recibir una primera respuesta.",
+            "El soporte estandar incluye FAQ y chat con IA. Para soporte humano, el estudiante debe mejorar a soporte prioritario.",
+          optionalAddOns: "Complementos opcionales",
+          addOnsBody:
+            "Despues de comprar el curso, los estudiantes aun pueden comprar ciertos extras cuando los necesiten.",
+          addOnMail: "Copia del certificado por correo",
+          addOnMailBody:
+            "Pide una copia fisica del certificado despues de completar el curso exitosamente.",
+          addOnUpgrade: "Mejora a soporte prioritario",
+          addOnUpgradeBody:
+            "Los estudiantes que comienzan con soporte estandar pueden mejorar despues para recibir atencion humana mas rapida.",
+          addOnCourt: "Revision de Documentos Judiciales",
+          addOnCourtBody:
+            "Disponible para estudiantes dirigidos por la corte que quieren una revision administrativa adicional de la informacion judicial cargada.",
           selectUpgrade: "Mejorar a soporte prioritario",
           selectPriority: "Elegir prioritario",
           selectStandard: "Elegir estandar",
@@ -123,6 +272,11 @@ export default function StateCheckoutPage() {
           refundBody:
             "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Despues de progreso importante, acceso al examen final, emision del certificado o cumplimiento de correo fisico, la compra normalmente deja de ser reembolsable.",
           refundCta: "Leer politica de reembolso",
+          priceMatchTitle: "Proteccion de precio",
+          priceMatchBody:
+            "Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de Virginia en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.",
+          priceMatchNote:
+            "Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas ocultas ni cursos no equivalentes.",
           accountTitle: "Crea tu cuenta antes de pagar",
           accountBody:
             "Los estudiantes nuevos deben crear una cuenta o iniciar sesion antes del pago para que la compra quede guardada y el curso se desbloquee correctamente.",
@@ -152,6 +306,7 @@ export default function StateCheckoutPage() {
             "This account already has the course. You can upgrade to priority support below.",
           bodyCheckout:
             "Review the available course options below. Payment is completed securely through Stripe after you choose a plan.",
+          compareLabel: "Choose the option that fits you best",
           infoTitle: "Important information before enrollment",
           infoOne: "Course access is a one-time purchase for this state.",
           infoTwo: "Students should plan to complete the course within 90 days of purchase.",
@@ -162,6 +317,7 @@ export default function StateCheckoutPage() {
           currentPlan: "Current plan: standard support",
           currentPlanBody:
             "You already have course access. If you want faster support handling, you can purchase the priority support upgrade below.",
+          labelBundle: "Bundle",
           labelUpgrade: "Upgrade",
           labelPriority: "Priority Support",
           labelStandard: "Standard",
@@ -173,6 +329,10 @@ export default function StateCheckoutPage() {
             "Includes the full course and certificate eligibility.",
           priorityPricingDetail:
             "Buy now for $24.99 as a one-time payment. If you buy priority support later, the upgrade costs $9.99 separately. Savings when purchased now: $5.",
+          bundlePricingDetail:
+            "Includes priority support, administrative court document review, and one mailed certificate copy in a single purchase.",
+          courtReviewPricingDetail:
+            "Available after course purchase for students who want an extra administrative review of their court documents.",
           standardPricingDetail:
             "Priority support can be added later as a separate $9.99 upgrade.",
           oneTime: "one-time payment",
@@ -185,7 +345,19 @@ export default function StateCheckoutPage() {
           prioritySupportInfo:
             "Priority support questions and requests are handled before any standard ones and usually receive a first response in less than 1 business day.",
           standardSupportInfo:
-            "Standard support requests are reviewed after priority requests and may take up to 3 business days for a first response.",
+            "Standard support includes FAQ and AI chat. Human support requires a priority support upgrade.",
+          optionalAddOns: "Optional add-ons",
+          addOnsBody:
+            "After course purchase, students can still buy selected extras when needed.",
+          addOnMail: "Mailed Certificate Copy",
+          addOnMailBody:
+            "Order a physical mailed copy of the certificate after successful completion.",
+          addOnUpgrade: "Priority Support Upgrade",
+          addOnUpgradeBody:
+            "Students who start with standard support can upgrade later for faster human support handling.",
+          addOnCourt: "Court Document Review",
+          addOnCourtBody:
+            "Available for court-directed students who want an extra administrative review of uploaded court information.",
           selectUpgrade: "Upgrade to Priority Support",
           selectPriority: "Select Priority",
           selectStandard: "Select Standard",
@@ -210,6 +382,11 @@ export default function StateCheckoutPage() {
           refundBody:
             "Refund requests may be reviewed before substantial use of the course. After significant progress, final exam access, certificate issuance, or physical-mail fulfillment, the purchase is generally no longer refundable.",
           refundCta: "Read refund policy",
+          priceMatchTitle: "Price-match protection",
+          priceMatchBody:
+            "If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact us before purchase and we will review it for a possible price match.",
+          priceMatchNote:
+            "Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
           accountTitle: "Create your account before payment",
           accountBody:
             "New students should create an account or log in before checkout so the purchase can be saved and the course unlocks correctly after payment.",
@@ -288,7 +465,7 @@ export default function StateCheckoutPage() {
     )
   }
 
-  if (hasPaidPurchase && normalizedSupportTier === "priority") {
+  if (hasPaidPurchase && normalizedSupportTier === "priority" && plans.length === 0) {
     return (
       <div className="mx-auto max-w-3xl space-y-6">
         <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">
@@ -393,6 +570,17 @@ export default function StateCheckoutPage() {
         >
           {copy.refundCta}
         </Link>
+        <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+            {copy.priceMatchTitle}
+          </div>
+          <p className="mt-2 text-sm leading-7 text-slate-700">
+            {copy.priceMatchBody}
+          </p>
+          <p className="mt-2 text-xs leading-6 text-slate-500">
+            {copy.priceMatchNote}
+          </p>
+        </div>
       </section>
 
       {!isAuthenticated && !hasPaidPurchase ? (
@@ -433,10 +621,19 @@ export default function StateCheckoutPage() {
         </div>
       ) : null}
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <section className="rounded-[1.75rem] border border-slate-200 bg-slate-50 p-6">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {copy.compareLabel}
+        </div>
+      </section>
+
+      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
         {plans.map((plan) => {
+          const isBundle = plan.planCode === "va-premium-bundle"
+          const isCourtReview = plan.planCode === "va-court-review"
           const isPriority = plan.includesPrioritySupport
           const isUpgrade = plan.planKind === "support-upgrade"
+          const presentation = getPlanPresentation(plan.planCode, language)
 
           return (
             <div
@@ -449,6 +646,8 @@ export default function StateCheckoutPage() {
                     className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] ${
                       isUpgrade
                         ? "bg-emerald-50 text-emerald-700"
+                        : isBundle
+                        ? "bg-amber-50 text-amber-700"
                         : isPriority
                         ? "bg-blue-50 text-blue-700"
                         : "bg-slate-100 text-slate-700"
@@ -456,32 +655,42 @@ export default function StateCheckoutPage() {
                   >
                     {isUpgrade
                       ? copy.labelUpgrade
+                      : isBundle
+                      ? copy.labelBundle
                       : isPriority
                       ? copy.labelPriority
                       : copy.labelStandard}
                   </div>
 
                   <h2 className="mt-4 text-3xl font-semibold text-slate-950">
-                    {plan.displayName}
+                    {presentation.marketingTitle}
                   </h2>
 
                   <p className="mt-3 max-w-xl leading-7 text-slate-600">
-                    {plan.planKind === "support-upgrade"
-                      ? copy.supportUpgradeDescription
-                      : plan.includesPrioritySupport
-                      ? copy.priorityDescription
-                      : copy.standardDescription}
+                    {presentation.audience}
                   </p>
+
+                  {presentation.highlight ? (
+                    <div className="mt-3 inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                      {presentation.highlight}
+                    </div>
+                  ) : null}
 
                   {plan.planKind === "full-course" && plan.includesPrioritySupport ? (
                     <p className="mt-3 max-w-xl text-sm leading-6 text-blue-700">
-                      {copy.priorityPricingDetail}
+                      {isBundle ? copy.bundlePricingDetail : copy.priorityPricingDetail}
                     </p>
                   ) : null}
 
                   {plan.planKind === "full-course" && !plan.includesPrioritySupport ? (
                     <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">
                       {copy.standardPricingDetail}
+                    </p>
+                  ) : null}
+
+                  {isCourtReview ? (
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">
+                      {copy.courtReviewPricingDetail}
                     </p>
                   ) : null}
                 </div>
@@ -495,6 +704,12 @@ export default function StateCheckoutPage() {
               </div>
 
               <div className="mt-6 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <div className="space-y-2 border-b border-slate-200 pb-3 text-sm text-slate-700">
+                  {presentation.bullets.map((bullet) => (
+                    <div key={bullet}>- {bullet}</div>
+                  ))}
+                </div>
+
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">{copy.fullCourseAccess}</span>
                   <span className="font-semibold text-slate-900">
@@ -539,6 +754,8 @@ export default function StateCheckoutPage() {
                   className={`inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-center font-semibold text-white ${
                     isUpgrade
                       ? "bg-emerald-600 hover:bg-emerald-700"
+                      : isBundle
+                      ? "bg-amber-600 hover:bg-amber-700"
                       : isPriority
                       ? "bg-slate-900 hover:bg-slate-800"
                       : "bg-blue-600 hover:bg-blue-700"
@@ -559,6 +776,37 @@ export default function StateCheckoutPage() {
           )
         })}
       </div>
+
+      {!hasPaidPurchase ? (
+        <section className="rounded-[1.75rem] border border-slate-200 bg-white p-6">
+          <h2 className="text-2xl font-semibold text-slate-950">
+            {copy.optionalAddOns}
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600">
+            {copy.addOnsBody}
+          </p>
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="font-semibold text-slate-900">{copy.addOnMail}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {copy.addOnMailBody}
+                </p>
+            </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="font-semibold text-slate-900">{copy.addOnUpgrade}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {copy.addOnUpgradeBody}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="font-semibold text-slate-900">{copy.addOnCourt}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {copy.addOnCourtBody}
+                </p>
+              </div>
+            </div>
+        </section>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="glass-panel rounded-[2rem] bg-white p-6 sm:p-7">

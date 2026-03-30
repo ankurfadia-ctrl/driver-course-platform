@@ -4,7 +4,7 @@ export type StripeCheckoutPlan = {
   planCode: string
   stateCode: string
   courseSlug: string
-  planKind: "full-course" | "support-upgrade" | "certificate-mail"
+  planKind: "full-course" | "support-upgrade" | "certificate-mail" | "court-review"
   displayName: string
   unitAmount: number
   currency: "usd"
