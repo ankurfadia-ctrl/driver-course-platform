@@ -150,8 +150,9 @@ function getRetakeEligibleAt(completedAt: string) {
   return next
 }
 
-function formatRetakeEligibleAt(completedAt: string) {
-  return getRetakeEligibleAt(completedAt).toLocaleString("en-US", {
+function formatRetakeEligibleAt(completedAt: string, locale = "en-US") {
+  return getRetakeEligibleAt(completedAt).toLocaleString(locale, {
+    localeMatcher: "best fit",
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -177,6 +178,165 @@ export default function FinalExamPage() {
     typeof params?.state === "string" ? params.state : "virginia"
 
   const config = getCourseConfig(state)
+  const copy = useMemo(
+    () =>
+      language === "es"
+      ? {
+          checkingAccess: "Cargando acceso al examen final...",
+          finalExamLocked: "Examen final bloqueado",
+          purchaseNeeded: "Debes comprar este curso estatal antes de tomar el examen final.",
+          purchaseCourse: "Comprar curso",
+          dashboard: "Volver al panel",
+          loadingExam: "Cargando examen final...",
+          completeLessonsFirst: "Completa todas las lecciones antes de comenzar el examen final.",
+          returnToCourse: "Volver al curso",
+          seatTimeRequired: "Debes completar todas las lecciones y al menos 7 horas de instruccion antes de tomar el examen final.",
+          approvedSeatTime: "Tiempo aprobado",
+          unlockPoint: "Punto de desbloqueo del examen final",
+          remaining: "Tiempo restante",
+          finalExam: "Examen final",
+          devBypass: "El modo de prueba esta activo. El bloqueo por tiempo del examen final esta temporalmente desactivado para pruebas.",
+          dailyBypass: "El modo de prueba esta activo. El bloqueo de reintento del mismo dia esta temporalmente desactivado para este estado.",
+          identitySetupRequired: "Se requiere configuracion de identidad antes de comenzar el examen final.",
+          goToIdentity: "Ir a configuracion de identidad",
+          todaysAttempt: "Intento de hoy",
+          latestAttempt: "Ultimo intento guardado",
+          passedShort: "APROBADO",
+          failedShort: "NO APROBADO",
+          passedMessage: "Felicidades. Aprobaste el examen final.",
+          passedWaitMessagePrefix: "Felicidades. Aprobaste el examen final. Permanece en el curso por",
+          passedWaitMessageSuffix: "mas antes de que tu certificado pueda liberarse.",
+          failedMessagePrefix: "Lo sentimos. No aprobaste este intento. Espera al menos 24 horas antes de comenzar el examen final otra vez. Hora mas temprana para regresar:",
+          viewCertificate: "Ver certificado",
+          reviewCourse: "Repasar curso",
+          identityVerification: "Verificacion de identidad",
+          identityUnlock: "El tiempo de instruccion previo al examen ya esta completo. Verifica tu identidad para desbloquear el examen final. El tiempo en esta pagina del examen cuenta para el minimo total de 8 horas.",
+          forgotIdentity: "Si olvidaste tus respuestas de identidad, vuelve a la configuracion de identidad y actualizalas antes de comenzar el examen final.",
+          verifyIdentity: "Verificar identidad",
+          updateAnswers: "Actualizar respuestas de identidad",
+          examInstructions: "Instrucciones del examen final",
+          identityVerified: "La identidad fue verificada correctamente. El examen final se abre despues de al menos 7 horas de instruccion, y el tiempo en esta pagina cuenta para el minimo total de 8 horas. El certificado sigue bloqueado hasta completar las 8 horas.",
+          questionCount: "Numero de preguntas",
+          passingScore: "Puntuacion para aprobar",
+          timeLimit: "Limite de tiempo",
+          examUnlockPoint: "Punto de desbloqueo del examen",
+          fortyFiveMinutes: "45 minutos",
+          sevenHours: "7 horas",
+          instructionBullets: [
+            "No cambies de pestaña ni salgas de la pagina del examen durante la prueba.",
+            "El examen puede incluir verificaciones de identidad durante la prueba.",
+            "Debes responder todas las preguntas antes de enviarlo manualmente.",
+            "Si se acaba el tiempo, el examen se enviara automaticamente.",
+            "Salir repetidamente de la pagina termina el intento del examen.",
+          ],
+          ackIdentity: "Confirmo que soy el estudiante inscrito que esta tomando este examen.",
+          ackNoHelp: "Entiendo que debo completar este examen sin ayuda externa.",
+          ackStay: "Entiendo que salir de la pagina del examen puede generar advertencias o terminar el intento.",
+          ackReady: "Estoy listo para comenzar el examen final ahora.",
+          startExam: "Comenzar examen final",
+          doNotLeave: "No cambies de pestaña ni salgas de la pagina del examen.",
+          warnings: "Advertencias",
+          timeRemaining: "Tiempo restante",
+          pausedWhileAway: "en pausa mientras estabas fuera",
+          submitting: "Enviando...",
+          submitExam: "Enviar examen",
+          score: "Puntuacion",
+          nextSteps: "Proximos pasos: repasa el material del curso, vuelve a tu panel y regresa despues de la hora de reintento si se permite otro intento.",
+          suggestedLessons: "Lecciones sugeridas para repasar",
+          answered: "Respondidas",
+          identityCheckRequired: "Se requiere verificacion de identidad",
+          answerVerification: "Responde esta pregunta de verificacion antes de continuar.",
+          continueExam: "Continuar examen",
+          verifyFailed: "La verificacion de identidad fallo. Intentalo otra vez.",
+          answerAll: "Responde todas las preguntas.",
+          tabWarning: (next: number) =>
+            `Advertencia ${next} de 4: permanece en la pagina del examen final.`,
+          examEndedAway:
+            "El examen termino por alejarte repetidamente de la pagina del examen.",
+          examEndedSaveError:
+            "El examen termino por alejarte repetidamente, pero no se pudo guardar el resultado. Comunicate con soporte.",
+          timeoutSaveError:
+            "El tiempo se acabo, pero no se pudo guardar el examen. Comunicate con soporte.",
+        }
+      : {
+          checkingAccess: "Checking final exam access...",
+          finalExamLocked: "Final Exam Locked",
+          purchaseNeeded: "You need to purchase this state course before taking the final exam.",
+          purchaseCourse: "Purchase Course",
+          dashboard: "Return to Dashboard",
+          loadingExam: "Loading final exam...",
+          completeLessonsFirst: "Complete every lesson before the final exam can begin.",
+          returnToCourse: "Return to Course",
+          seatTimeRequired: "You must complete all lessons and at least 7 hours of course instruction before taking the final exam.",
+          approvedSeatTime: "Approved seat time",
+          unlockPoint: "Final exam unlock point",
+          remaining: "Remaining",
+          finalExam: "Final Exam",
+          devBypass: "Dev bypass is ON. Final exam seat-time lock is temporarily bypassed for testing.",
+          dailyBypass: "Dev testing mode is ON. Same-day retake lock is temporarily bypassed for this state.",
+          identitySetupRequired: "Identity setup is required before the final exam can begin.",
+          goToIdentity: "Go to Identity Setup",
+          todaysAttempt: "Today's attempt",
+          latestAttempt: "Latest saved attempt",
+          passedShort: "PASSED",
+          failedShort: "FAILED",
+          passedMessage: "Congratulations. You passed the final exam.",
+          passedWaitMessagePrefix: "Congratulations. You passed the final exam. Stay in the course for",
+          passedWaitMessageSuffix: "more before your certificate can be released.",
+          failedMessagePrefix: "We are sorry, you did not pass this attempt. Please wait at least 24 hours before beginning the final exam again. Earliest return time:",
+          viewCertificate: "View Certificate",
+          reviewCourse: "Review Course",
+          identityVerification: "Identity Verification",
+          identityUnlock: "Final exam instruction time complete. Verify your identity to unlock the final exam. Time spent on this final exam page counts toward the full 8-hour course minimum.",
+          forgotIdentity: "If you forgot your identity answers, return to identity setup and update them before beginning the final exam.",
+          verifyIdentity: "Verify Identity",
+          updateAnswers: "Update Identity Answers",
+          examInstructions: "Final Exam Instructions",
+          identityVerified: "Identity verified successfully. The final exam opens after at least 7 hours of instruction, and time spent on this exam page counts toward the full 8-hour minimum. Your certificate still stays locked until the full 8 hours is complete.",
+          questionCount: "Question count",
+          passingScore: "Passing score",
+          timeLimit: "Time limit",
+          examUnlockPoint: "Exam unlock point",
+          fortyFiveMinutes: "45 minutes",
+          sevenHours: "7 hours",
+          instructionBullets: [
+            "Do not switch tabs or leave the exam page during the exam.",
+            "The exam may include mid-exam identity verification prompts.",
+            "All questions must be answered before manual submission.",
+            "If time expires, the exam will automatically submit.",
+            "Repeated navigation away from the page ends the exam attempt.",
+          ],
+          ackIdentity: "I confirm that I am the enrolled student taking this exam.",
+          ackNoHelp: "I understand that I should complete this exam without outside assistance.",
+          ackStay: "I understand that leaving the exam page may trigger warnings or end the attempt.",
+          ackReady: "I am ready to begin the final exam now.",
+          startExam: "Start Final Exam",
+          doNotLeave: "Do not switch tabs or leave the exam page.",
+          warnings: "Warnings",
+          timeRemaining: "Time remaining",
+          pausedWhileAway: "paused while away",
+          submitting: "Submitting...",
+          submitExam: "Submit Exam",
+          score: "Score",
+          nextSteps: "Next steps: review the course material, return to your dashboard, and come back after the retake time if another attempt is allowed.",
+          suggestedLessons: "Suggested lessons to review",
+          answered: "Answered",
+          identityCheckRequired: "Identity Check Required",
+          answerVerification: "Please answer this verification question before continuing.",
+          continueExam: "Continue Exam",
+          verifyFailed: "Identity verification failed. Please try again.",
+          answerAll: "Please answer all questions",
+          tabWarning: (next: number) =>
+            `Warning ${next} of 4: please remain on the exam page during the final exam.`,
+          examEndedAway:
+            "The exam was ended due to repeated navigation away from the exam page.",
+          examEndedSaveError:
+            "The exam ended due to repeated navigation away, but the result could not be saved. Please contact support.",
+          timeoutSaveError:
+            "Time expired, but the exam could not be saved. Please contact support.",
+        },
+    [language]
+  )
   const todayKey = getTodayKey()
   const seatTimeBypassed = isFinalExamSeatTimeBypassed(state)
   const dailyAttemptLockBypassed = seatTimeBypassed
@@ -448,7 +608,7 @@ export default function FinalExamPage() {
     )
 
     if (!correct1 || !correct2) {
-      setVerificationError("Identity verification failed. Please try again.")
+      setVerificationError(copy.verifyFailed)
       return
     }
 
@@ -500,7 +660,7 @@ export default function FinalExamPage() {
     )
 
     if (!ok) {
-      alert("Identity verification failed")
+      alert(copy.verifyFailed)
       return
     }
 
@@ -645,22 +805,18 @@ export default function FinalExamPage() {
                 setSaving(true)
                 setSaveError("")
                 await finalizeExam({ score: 0, passed: false })
-                alert(
-                  "The exam was ended due to repeated navigation away from the exam page."
-                )
+                alert(copy.examEndedAway)
               } catch (error) {
                 console.error(error)
                 setSaveError(
-                  "The exam ended due to repeated navigation away, but the result could not be saved. Please contact support."
+                  copy.examEndedSaveError
                 )
               } finally {
                 setSaving(false)
               }
             })()
           } else {
-            alert(
-              `Warning ${next} of 4: please remain on the exam page during the final exam.`
-            )
+            alert(copy.tabWarning(next))
           }
 
           return next
@@ -675,7 +831,7 @@ export default function FinalExamPage() {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange)
     }
-  }, [examStarted, finalizeExam, locked, submitted, timerExpired, verified])
+  }, [copy, examStarted, finalizeExam, locked, submitted, timerExpired, verified])
 
   useEffect(() => {
     if (
@@ -733,7 +889,7 @@ export default function FinalExamPage() {
     }
 
     if (unanswered > 0) {
-      alert("Please answer all questions")
+      alert(copy.answerAll)
       return
     }
 
@@ -744,7 +900,11 @@ export default function FinalExamPage() {
       await finalizeExam()
     } catch (error) {
       console.error(error)
-      setSaveError("Could not save exam result. Please try again.")
+      setSaveError(
+        language === "es"
+          ? "No se pudo guardar el resultado del examen. Intentalo de nuevo."
+          : "Could not save exam result. Please try again."
+      )
     } finally {
       setSaving(false)
     }
@@ -771,7 +931,7 @@ export default function FinalExamPage() {
       } catch (error) {
         console.error(error)
         setSaveError(
-          "Time expired, but the exam could not be saved. Please contact support."
+            copy.timeoutSaveError
         )
       } finally {
         setSaving(false)
@@ -779,15 +939,22 @@ export default function FinalExamPage() {
     }
 
     void autoSubmit()
-  }, [examStarted, finalizeExam, locked, saving, submitted, timerExpired, verified])
+  }, [
+    copy.timeoutSaveError,
+    examStarted,
+    finalizeExam,
+    locked,
+    saving,
+    submitted,
+    timerExpired,
+    verified,
+  ])
 
   if (hasAccess === null || !translationReady) {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          {language === "es"
-            ? "Cargando acceso al examen final..."
-            : "Checking final exam access..."}
+          {copy.checkingAccess}
         </div>
       </div>
     )
@@ -797,9 +964,9 @@ export default function FinalExamPage() {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h1 className="text-2xl font-bold text-slate-900">Final Exam Locked</h1>
+          <h1 className="text-2xl font-bold text-slate-900">{copy.finalExamLocked}</h1>
           <p className="mt-3 text-slate-600">
-            You need to purchase this state course before taking the final exam.
+            {copy.purchaseNeeded}
           </p>
 
           {accessError ? (
@@ -811,14 +978,14 @@ export default function FinalExamPage() {
               href={`/${state}/checkout`}
               className="rounded bg-blue-600 px-4 py-2 text-white"
             >
-              Purchase Course
+              {copy.purchaseCourse}
             </Link>
 
             <Link
               href={`/${state}/dashboard`}
               className="rounded bg-slate-200 px-4 py-2 text-slate-900"
             >
-              Go to Dashboard
+              {copy.dashboard}
             </Link>
           </div>
         </div>
@@ -830,7 +997,7 @@ export default function FinalExamPage() {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          Loading final exam...
+          {copy.loadingExam}
         </div>
       </div>
     )
@@ -839,17 +1006,17 @@ export default function FinalExamPage() {
   if (!allLessonsCompleted) {
     return (
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="text-2xl font-bold">Final Exam Locked</h1>
+        <h1 className="text-2xl font-bold">{copy.finalExamLocked}</h1>
 
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
-          Complete every lesson before the final exam can begin.
+          {copy.completeLessonsFirst}
         </div>
 
         <Link
           href={`/${state}/course`}
           className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
         >
-          Return to Course
+          {copy.returnToCourse}
         </Link>
       </div>
     )
@@ -860,24 +1027,24 @@ export default function FinalExamPage() {
 
     return (
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="text-2xl font-bold">Final Exam Locked</h1>
+        <h1 className="text-2xl font-bold">{copy.finalExamLocked}</h1>
 
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
-          You must complete all lessons and at least 7 hours of course instruction before taking the final exam.
+          {copy.seatTimeRequired}
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <div className="text-sm text-slate-500">Approved seat time</div>
+          <div className="text-sm text-slate-500">{copy.approvedSeatTime}</div>
           <div className="mt-1 text-xl font-semibold text-slate-900">
             {formatSeatTime(seatTimeTotalSeconds)}
           </div>
 
-          <div className="mt-4 text-sm text-slate-500">Final exam unlock point</div>
+          <div className="mt-4 text-sm text-slate-500">{copy.unlockPoint}</div>
           <div className="mt-1 text-xl font-semibold text-slate-900">
             {formatCourseDuration(FINAL_EXAM_UNLOCK_SECONDS)}
           </div>
 
-          <div className="mt-4 text-sm text-slate-500">Remaining</div>
+          <div className="mt-4 text-sm text-slate-500">{copy.remaining}</div>
           <div className="mt-1 text-xl font-semibold text-slate-900">
             {formatCourseDuration(remainingSeconds)}
           </div>
@@ -887,7 +1054,7 @@ export default function FinalExamPage() {
           href={`/${state}/course`}
           className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
         >
-          Return to Course
+          {copy.returnToCourse}
         </Link>
       </div>
     )
@@ -896,20 +1063,20 @@ export default function FinalExamPage() {
   if (!identity) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Final Exam</h1>
+        <h1 className="text-2xl font-bold">{copy.finalExam}</h1>
 
         {seatTimeBypassed && !seatTimeComplete && (
           <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
-            Dev bypass is ON. Final exam seat-time lock is temporarily bypassed for testing.
+            {copy.devBypass}
           </div>
         )}
 
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
-          Identity setup is required before the final exam can begin.
+          {copy.identitySetupRequired}
         </div>
 
         <Link href={`/${state}/identity`} className="text-blue-600 underline">
-          Go to Identity Setup
+          {copy.goToIdentity}
         </Link>
       </div>
     )
@@ -918,11 +1085,11 @@ export default function FinalExamPage() {
   if (locked && lastAttempt) {
     return (
       <div className="mx-auto max-w-2xl space-y-6">
-        <h1 className="text-2xl font-bold">Final Exam</h1>
+        <h1 className="text-2xl font-bold">{copy.finalExam}</h1>
 
         {seatTimeBypassed && !seatTimeComplete && (
           <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-amber-900">
-            Dev bypass is ON. Final exam seat-time lock is temporarily bypassed for testing.
+            {copy.devBypass}
           </div>
         )}
 
@@ -936,17 +1103,18 @@ export default function FinalExamPage() {
               lastAttempt.passed ? "text-green-600" : "text-red-600"
             }`}
           >
-            {lastAttempt.passed ? "PASSED" : "FAILED"}
+            {lastAttempt.passed ? copy.passedShort : copy.failedShort}
           </div>
           <p className="mt-3 text-sm text-slate-600">
             {lastAttempt.passed
               ? certificateUnlockedBySeatTime
-                ? "Congratulations. You passed the final exam."
-                : `Congratulations. You passed the final exam. Stay in the course for ${formatCourseDuration(
+                ? copy.passedMessage
+                : `${copy.passedWaitMessagePrefix} ${formatCourseDuration(
                     getRemainingToCertificate(effectiveSeatTimeForExam)
-                  )} more before your certificate can be released.`
-              : `We are sorry, you did not pass this attempt. Please wait at least 24 hours before beginning the final exam again. Earliest return time: ${formatRetakeEligibleAt(
-                  lastAttempt.completedAt
+                  )} ${copy.passedWaitMessageSuffix}`
+              : `${copy.failedMessagePrefix} ${formatRetakeEligibleAt(
+                  lastAttempt.completedAt,
+                  language === "es" ? "es-US" : "en-US"
                 )}.`}
           </p>
 
@@ -962,14 +1130,14 @@ export default function FinalExamPage() {
                   className="rounded bg-blue-600 px-4 py-2 text-white"
                 >
                   {certificateUnlockedBySeatTime
-                    ? "View Certificate"
-                    : "Return to Course"}
+                    ? copy.viewCertificate
+                    : copy.returnToCourse}
                 </Link>
                 <Link
                   href={`/${state}/dashboard`}
                   className="rounded bg-slate-200 px-4 py-2 text-slate-900"
                 >
-                  Return to Dashboard
+                  {copy.dashboard}
                 </Link>
               </>
             )}
@@ -980,13 +1148,13 @@ export default function FinalExamPage() {
                   href={`/${state}/course`}
                   className="rounded bg-blue-600 px-4 py-2 text-white"
                 >
-                  Review Course
+                  {copy.reviewCourse}
                 </Link>
                 <Link
                   href={`/${state}/dashboard`}
                   className="rounded bg-slate-200 px-4 py-2 text-slate-900"
                 >
-                  Return to Dashboard
+                  {copy.dashboard}
                 </Link>
               </>
             )}
@@ -999,29 +1167,29 @@ export default function FinalExamPage() {
   if (!verified) {
     return (
       <div className="mx-auto max-w-xl space-y-6">
-        <h1 className="text-2xl font-bold">Identity Verification</h1>
+        <h1 className="text-2xl font-bold">{copy.identityVerification}</h1>
 
         {seatTimeBypassed && !seatTimeComplete && (
           <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-            Dev bypass is ON. Final exam seat-time lock is temporarily bypassed for testing.
+            {copy.devBypass}
           </div>
         )}
 
         {dailyAttemptLockBypassed && (
           <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-            Dev testing mode is ON. Same-day retake lock is temporarily bypassed for this state.
+            {copy.dailyBypass}
           </div>
         )}
 
         {lastAttempt && (
           <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-            Latest saved attempt: {lastAttempt.score}%{" "}
-            {lastAttempt.passed ? "(passed)" : "(failed)"}
+            {copy.latestAttempt}: {lastAttempt.score}%{" "}
+            {lastAttempt.passed ? `(${copy.passedShort.toLowerCase()})` : `(${copy.failedShort.toLowerCase()})`}
           </div>
         )}
 
         <div className="rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800">
-          Final exam instruction time complete. Verify your identity to unlock the final exam. Time spent on this final exam page counts toward the full 8-hour course minimum.
+          {copy.identityUnlock}
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm space-y-4">
@@ -1058,7 +1226,7 @@ export default function FinalExamPage() {
           )}
 
           <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
-            If you forgot your identity answers, return to identity setup and update them before beginning the final exam.
+            {copy.forgotIdentity}
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -1066,14 +1234,14 @@ export default function FinalExamPage() {
               onClick={handleVerify}
               className="rounded bg-blue-600 px-4 py-2 text-white"
             >
-              Verify Identity
+              {copy.verifyIdentity}
             </button>
 
             <Link
               href={`/${state}/identity`}
               className="rounded border border-slate-300 px-4 py-2 text-slate-900"
             >
-              Update Identity Answers
+              {copy.updateAnswers}
             </Link>
           </div>
         </div>
@@ -1090,58 +1258,58 @@ export default function FinalExamPage() {
 
     return (
       <div className="mx-auto max-w-3xl space-y-6">
-        <h1 className="text-2xl font-bold">Final Exam Instructions</h1>
+        <h1 className="text-2xl font-bold">{copy.examInstructions}</h1>
 
         {seatTimeBypassed && !seatTimeComplete && (
           <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-            Dev bypass is ON. Final exam seat-time lock is temporarily bypassed for testing.
+            {copy.devBypass}
           </div>
         )}
 
         {dailyAttemptLockBypassed && (
           <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-            Dev testing mode is ON. Same-day retake lock is temporarily bypassed for this state.
+            {copy.dailyBypass}
           </div>
         )}
 
         {lastAttempt && (
           <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-            Latest saved attempt: {lastAttempt.score}%{" "}
-            {lastAttempt.passed ? "(passed)" : "(failed)"}
+            {copy.latestAttempt}: {lastAttempt.score}%{" "}
+            {lastAttempt.passed ? `(${copy.passedShort.toLowerCase()})` : `(${copy.failedShort.toLowerCase()})`}
           </div>
         )}
 
         <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-900">
-          Identity verified successfully. The final exam opens after at least 7 hours of instruction, and time spent on this exam page counts toward the full 8-hour minimum. Your certificate still stays locked until the full 8 hours is complete.
+          {copy.identityVerified}
         </div>
 
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <div className="text-sm text-slate-500">Question count</div>
+              <div className="text-sm text-slate-500">{copy.questionCount}</div>
               <div className="mt-1 text-xl font-semibold text-slate-900">
                 {config.finalExamQuestionCount}
               </div>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <div className="text-sm text-slate-500">Passing score</div>
+              <div className="text-sm text-slate-500">{copy.passingScore}</div>
               <div className="mt-1 text-xl font-semibold text-slate-900">
                 {config.passingScorePercent}%
               </div>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <div className="text-sm text-slate-500">Time limit</div>
+              <div className="text-sm text-slate-500">{copy.timeLimit}</div>
               <div className="mt-1 text-xl font-semibold text-slate-900">
-                45 minutes
+                {copy.fortyFiveMinutes}
               </div>
             </div>
 
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-              <div className="text-sm text-slate-500">Exam unlock point</div>
+              <div className="text-sm text-slate-500">{copy.examUnlockPoint}</div>
               <div className="mt-1 text-xl font-semibold text-slate-900">
-                7 hours
+                {copy.sevenHours}
               </div>
             </div>
           </div>
@@ -1168,7 +1336,7 @@ export default function FinalExamPage() {
                 }
               />
               <span className="text-sm text-slate-700">
-                I confirm that I am the enrolled student taking this exam.
+                {copy.ackIdentity}
               </span>
             </label>
 
@@ -1185,7 +1353,7 @@ export default function FinalExamPage() {
                 }
               />
               <span className="text-sm text-slate-700">
-                I understand that I should complete this exam without outside assistance.
+                {copy.ackNoHelp}
               </span>
             </label>
 
@@ -1202,7 +1370,7 @@ export default function FinalExamPage() {
                 }
               />
               <span className="text-sm text-slate-700">
-                I understand that leaving the exam page may trigger warnings or end the attempt.
+                {copy.ackStay}
               </span>
             </label>
 
@@ -1219,7 +1387,7 @@ export default function FinalExamPage() {
                 }
               />
               <span className="text-sm text-slate-700">
-                I am ready to begin the final exam now.
+                {copy.ackReady}
               </span>
             </label>
           </div>
@@ -1229,7 +1397,7 @@ export default function FinalExamPage() {
               href={`/${state}/course`}
               className="rounded bg-slate-200 px-4 py-2 text-slate-900"
             >
-              Back to Course
+              {copy.returnToCourse}
             </Link>
 
             <button
@@ -1237,7 +1405,7 @@ export default function FinalExamPage() {
               disabled={!allChecked}
               className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-50"
             >
-              Start Final Exam
+              {copy.startExam}
             </button>
           </div>
         </div>
@@ -1248,28 +1416,28 @@ export default function FinalExamPage() {
   return (
     <>
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Final Exam</h1>
+        <h1 className="text-2xl font-bold">{copy.finalExam}</h1>
 
         {seatTimeBypassed && !seatTimeComplete && (
           <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-            Dev bypass is ON. Final exam seat-time lock is temporarily bypassed for testing.
+            {copy.devBypass}
           </div>
         )}
 
         {dailyAttemptLockBypassed && (
           <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-            Dev testing mode is ON. Same-day retake lock is temporarily bypassed for this state.
+            {copy.dailyBypass}
           </div>
         )}
 
         <div className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-          Do not switch tabs or leave the exam page. Warnings: {tabWarnings}/4
+          {copy.doNotLeave} {copy.warnings}: {tabWarnings}/4
         </div>
 
         <div className="rounded border border-blue-300 bg-blue-50 p-3 text-sm font-semibold text-blue-800">
-          Time remaining: {formatTimeRemaining(timeRemaining)}
+          {copy.timeRemaining}: {formatTimeRemaining(timeRemaining)}
           {timerPaused && (
-            <span className="ml-2 text-amber-700">(paused while away)</span>
+            <span className="ml-2 text-amber-700">({copy.pausedWhileAway})</span>
           )}
         </div>
 
@@ -1279,7 +1447,7 @@ export default function FinalExamPage() {
             disabled={saving || Boolean(midExamCheck) || timerExpired}
             className="rounded bg-blue-600 px-4 py-2 text-white disabled:opacity-60"
           >
-            {saving ? "Submitting..." : "Submit Exam"}
+            {saving ? copy.submitting : copy.submitExam}
           </button>
         )}
 
@@ -1291,31 +1459,36 @@ export default function FinalExamPage() {
 
         {submitted && lastAttempt && (
           <div className="rounded-xl border bg-white p-4 shadow">
-            <div className="text-lg font-semibold">Score: {lastAttempt.score}%</div>
+            <div className="text-lg font-semibold">{copy.score}: {lastAttempt.score}%</div>
 
             <div
               className={`font-bold ${
                 lastAttempt.passed ? "text-green-600" : "text-red-600"
               }`}
             >
-              {lastAttempt.passed ? "PASSED" : "FAILED"}
+              {lastAttempt.passed ? copy.passedShort : copy.failedShort}
             </div>
 
             {lastAttempt.passed ? (
               <div className="mt-4 space-y-4">
                 {certificateUnlockedBySeatTime ? (
                   <div className="rounded-lg border border-green-300 bg-green-50 p-3 text-sm text-green-800">
-                    Congratulations. You passed the final exam. Your next step is to view your certificate.
+                    {copy.passedMessage}{" "}
+                    {language === "es"
+                      ? "Tu siguiente paso es ver tu certificado."
+                      : "Your next step is to view your certificate."}
                   </div>
                 ) : (
                   <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-                    Congratulations. You passed the final exam. Stay in the course for{" "}
+                    {copy.passedWaitMessagePrefix}{" "}
                     <span className="font-semibold">
                       {formatCourseDuration(
                         getRemainingToCertificate(effectiveSeatTimeForExam)
                       )}
                     </span>{" "}
-                    more before your certificate can be released at the full 8-hour minimum.
+                    {language === "es"
+                      ? "mas antes de que tu certificado pueda liberarse al cumplir el minimo total de 8 horas."
+                      : "more before your certificate can be released at the full 8-hour minimum."}
                   </div>
                 )}
 
@@ -1329,34 +1502,37 @@ export default function FinalExamPage() {
                     className="inline-block rounded bg-blue-600 px-4 py-2 text-white"
                   >
                     {certificateUnlockedBySeatTime
-                      ? "View Certificate"
-                      : "Return to Course"}
+                      ? copy.viewCertificate
+                      : copy.returnToCourse}
                   </Link>
                   <Link
                     href={`/${state}/dashboard`}
                     className="rounded bg-slate-200 px-4 py-2 text-slate-900"
                   >
-                    Return to Dashboard
+                    {copy.dashboard}
                   </Link>
                 </div>
               </div>
             ) : (
               <div className="mt-4 space-y-4">
                 <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-                  We are sorry, you did not pass this attempt. Please wait at least 24 hours before beginning the final exam again. Earliest return time:{" "}
+                  {copy.failedMessagePrefix}{" "}
                   <span className="font-semibold">
-                    {formatRetakeEligibleAt(lastAttempt.completedAt)}
+                    {formatRetakeEligibleAt(
+                      lastAttempt.completedAt,
+                      language === "es" ? "es-US" : "en-US"
+                    )}
                   </span>
                   .
                 </div>
 
                 <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-                  Next steps: review the course material, return to your dashboard, and come back after the retake time if another attempt is allowed.
+                  {copy.nextSteps}
                 </div>
 
                 {failedReviewLessons.length > 0 && (
                   <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-900">
-                    <div className="font-semibold">Suggested lessons to review</div>
+                    <div className="font-semibold">{copy.suggestedLessons}</div>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {failedReviewLessons.map((lesson) => (
                         <Link
@@ -1376,14 +1552,14 @@ export default function FinalExamPage() {
                     href={`/${state}/course`}
                     className="rounded bg-blue-600 px-4 py-2 text-white"
                   >
-                    Review Course
+                    {copy.reviewCourse}
                   </Link>
 
                   <Link
                     href={`/${state}/dashboard`}
                     className="rounded bg-slate-200 px-4 py-2 text-slate-900"
                   >
-                    Return to Dashboard
+                    {copy.dashboard}
                   </Link>
                 </div>
               </div>
@@ -1392,7 +1568,7 @@ export default function FinalExamPage() {
         )}
 
         <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
-          Answered: {answeredCount} / {questions.length}
+          {copy.answered}: {answeredCount} / {questions.length}
         </div>
 
         <div className="space-y-4">
@@ -1434,7 +1610,7 @@ export default function FinalExamPage() {
               disabled={saving || Boolean(midExamCheck) || timerExpired}
               className="rounded bg-blue-600 px-6 py-3 text-lg font-semibold text-white disabled:opacity-60"
             >
-              {saving ? "Submitting..." : "Submit Exam"}
+              {saving ? copy.submitting : copy.submitExam}
             </button>
           </div>
         )}
@@ -1444,10 +1620,10 @@ export default function FinalExamPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
             <div className="text-lg font-bold text-slate-900">
-              Identity Check Required
+              {copy.identityCheckRequired}
             </div>
             <p className="mt-2 text-sm text-slate-600">
-              Please answer this verification question before continuing.
+              {copy.answerVerification}
             </p>
 
             <div className="mt-4">
@@ -1470,7 +1646,7 @@ export default function FinalExamPage() {
               onClick={handleMidExamCheckSubmit}
               className="mt-4 w-full rounded bg-blue-600 px-4 py-2 text-white"
             >
-              Continue Exam
+              {copy.continueExam}
             </button>
           </div>
         </div>

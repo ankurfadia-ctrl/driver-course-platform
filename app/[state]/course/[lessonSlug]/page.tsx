@@ -357,7 +357,7 @@ function LessonContentPage({
             ))}
           </div>
 
-          <LessonVisuals lessonSlug={lessonSlug} />
+          <LessonVisuals lessonSlug={lessonSlug} language={language} />
 
           <div className="mt-8 rounded-2xl bg-slate-50 p-5">
             <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">
