@@ -6,6 +6,7 @@ import { useParams } from "next/navigation"
 import {
   formatPriceFromCents,
   getAvailableCoursePlans,
+  getCoursePlanByCode,
   type SupportTier,
 } from "@/lib/payment/plans"
 import { getCourseConfig, getDisclosuresRoute, getRefundsRoute } from "@/lib/course-config"
@@ -155,6 +156,16 @@ function getPlanPresentation(planCode: string, language: "en" | "es") {
   }
 }
 
+function getPlanPriceLabel(planCode: string) {
+  const plan = getCoursePlanByCode(planCode)
+
+  if (!plan) {
+    return ""
+  }
+
+  return formatPriceFromCents(plan.priceCents, plan.currency)
+}
+
 export default function StateCheckoutPage() {
   const params = useParams()
 
@@ -172,6 +183,9 @@ export default function StateCheckoutPage() {
 
   const stateDisplayName = useMemo(() => getStateDisplayName(state), [state])
   const normalizedSupportTier = normalizeSupportTier(purchaseSupportTier)
+  const priorityUpgradePrice = useMemo(() => getPlanPriceLabel("va-priority-upgrade"), [])
+  const mailedCertificatePrice = useMemo(() => getPlanPriceLabel("va-mailed-certificate"), [])
+  const courtReviewPrice = useMemo(() => getPlanPriceLabel("va-court-review"), [])
   const copy =
     language === "es"
       ? {
@@ -194,7 +208,7 @@ export default function StateCheckoutPage() {
           bodyUpgrade:
             "Esta cuenta ya tiene el curso. Puedes mejorar a soporte prioritario abajo.",
           bodyCheckout:
-            "Revisa las opciones disponibles abajo. El pago se completa de forma segura con Stripe despues de elegir un plan.",
+            "Elige una opcion abajo. El pago se completa de forma segura con Stripe.",
           compareLabel: "Elige la opcion que mejor se adapte a ti",
           infoTitle: "Informacion importante antes de inscribirte",
           infoOne: "El acceso al curso es una compra unica para este estado.",
@@ -218,13 +232,13 @@ export default function StateCheckoutPage() {
           standardDescription:
             "Incluye el curso completo y elegibilidad para certificado.",
           priorityPricingDetail:
-            "Compra ahora por $24.99 una sola vez. Si compras soporte prioritario despues, la mejora cuesta $9.99 por separado. Ahorro al comprar ahora: $5.",
+            "Compra ahora y ahorra $5 frente a comprar el curso estandar y la mejora despues.",
           bundlePricingDetail:
-            "Incluye soporte prioritario, revision administrativa de documentos judiciales y una copia del certificado por correo en una sola compra.",
+            "Ahorra $9.97 frente a comprar estos extras por separado despues.",
           courtReviewPricingDetail:
-            "Disponible despues de comprar el curso para estudiantes que quieren una revision administrativa adicional de sus documentos judiciales.",
+            "Disponible despues de comprar el curso.",
           standardPricingDetail:
-            "El soporte prioritario puede agregarse mas tarde por $9.99 como mejora separada.",
+            "Puedes agregar extras despues si los necesitas.",
           oneTime: "pago unico",
           fullCourseAccess: "Acceso completo al curso",
           alreadyIncluded: "Ya incluido",
@@ -238,16 +252,17 @@ export default function StateCheckoutPage() {
             "El soporte estandar incluye FAQ y chat con IA. Para soporte humano, el estudiante debe mejorar a soporte prioritario.",
           optionalAddOns: "Complementos opcionales",
           addOnsBody:
-            "Despues de comprar el curso, los estudiantes aun pueden comprar ciertos extras cuando los necesiten.",
+            "Estos extras pueden comprarse despues del curso base.",
           addOnMail: "Copia del certificado por correo",
           addOnMailBody:
-            "Pide una copia fisica del certificado despues de completar el curso exitosamente.",
+            "Compra despues de completar el curso exitosamente.",
           addOnUpgrade: "Mejora a soporte prioritario",
           addOnUpgradeBody:
-            "Los estudiantes que comienzan con soporte estandar pueden mejorar despues para recibir atencion humana mas rapida.",
+            "Para soporte humano mas rapido.",
           addOnCourt: "Revision de Documentos Judiciales",
           addOnCourtBody:
-            "Disponible para estudiantes dirigidos por la corte que quieren una revision administrativa adicional de la informacion judicial cargada.",
+            "Revision administrativa adicional para estudiantes dirigidos por la corte.",
+          boughtLater: "Si se compra despues",
           selectUpgrade: "Mejorar a soporte prioritario",
           selectPriority: "Elegir prioritario",
           selectStandard: "Elegir estandar",
@@ -305,7 +320,7 @@ export default function StateCheckoutPage() {
           bodyUpgrade:
             "This account already has the course. You can upgrade to priority support below.",
           bodyCheckout:
-            "Review the available course options below. Payment is completed securely through Stripe after you choose a plan.",
+            "Choose an option below. Payment is completed securely through Stripe.",
           compareLabel: "Choose the option that fits you best",
           infoTitle: "Important information before enrollment",
           infoOne: "Course access is a one-time purchase for this state.",
@@ -328,13 +343,13 @@ export default function StateCheckoutPage() {
           standardDescription:
             "Includes the full course and certificate eligibility.",
           priorityPricingDetail:
-            "Buy now for $24.99 as a one-time payment. If you buy priority support later, the upgrade costs $9.99 separately. Savings when purchased now: $5.",
+            "Buy now and save $5 compared with buying standard first and upgrading later.",
           bundlePricingDetail:
-            "Includes priority support, administrative court document review, and one mailed certificate copy in a single purchase.",
+            "Save $9.97 compared with buying these extras separately later.",
           courtReviewPricingDetail:
-            "Available after course purchase for students who want an extra administrative review of their court documents.",
+            "Available after course purchase.",
           standardPricingDetail:
-            "Priority support can be added later as a separate $9.99 upgrade.",
+            "Add extras later only if you need them.",
           oneTime: "one-time payment",
           fullCourseAccess: "Full course access",
           alreadyIncluded: "Already included",
@@ -348,16 +363,17 @@ export default function StateCheckoutPage() {
             "Standard support includes FAQ and AI chat. Human support requires a priority support upgrade.",
           optionalAddOns: "Optional add-ons",
           addOnsBody:
-            "After course purchase, students can still buy selected extras when needed.",
+            "These extras can be purchased later after the base course.",
           addOnMail: "Mailed Certificate Copy",
           addOnMailBody:
-            "Order a physical mailed copy of the certificate after successful completion.",
+            "Buy after successful completion.",
           addOnUpgrade: "Priority Support Upgrade",
           addOnUpgradeBody:
-            "Students who start with standard support can upgrade later for faster human support handling.",
+            "For faster human support.",
           addOnCourt: "Court Document Review",
           addOnCourtBody:
-            "Available for court-directed students who want an extra administrative review of uploaded court information.",
+            "Extra administrative review for court-directed students.",
+          boughtLater: "If purchased later",
           selectUpgrade: "Upgrade to Priority Support",
           selectPriority: "Select Priority",
           selectStandard: "Select Standard",
@@ -767,10 +783,6 @@ export default function StateCheckoutPage() {
                     ? copy.selectPriority
                     : copy.selectStandard}
                 </Link>
-
-                <div className="text-center text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
-                  {copy.planCode}: {plan.planCode}
-                </div>
               </div>
             </div>
           )
@@ -787,21 +799,45 @@ export default function StateCheckoutPage() {
           </p>
             <div className="mt-5 grid gap-4 md:grid-cols-3">
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div className="font-semibold text-slate-900">{copy.addOnMail}</div>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="font-semibold text-slate-900">{copy.addOnMail}</div>
+                  <div className="text-sm font-semibold text-slate-900">
+                    {mailedCertificatePrice}
+                  </div>
+                </div>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
                   {copy.addOnMailBody}
                 </p>
-            </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div className="font-semibold text-slate-900">{copy.addOnUpgrade}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  {copy.addOnUpgradeBody}
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">
+                  {copy.boughtLater}
                 </p>
               </div>
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <div className="font-semibold text-slate-900">{copy.addOnCourt}</div>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="font-semibold text-slate-900">{copy.addOnUpgrade}</div>
+                  <div className="text-sm font-semibold text-slate-900">
+                    {priorityUpgradePrice}
+                  </div>
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {copy.addOnUpgradeBody}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">
+                  {copy.boughtLater}
+                </p>
+              </div>
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="font-semibold text-slate-900">{copy.addOnCourt}</div>
+                  <div className="text-sm font-semibold text-slate-900">
+                    {courtReviewPrice}
+                  </div>
+                </div>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
                   {copy.addOnCourtBody}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500">
+                  {copy.boughtLater}
                 </p>
               </div>
             </div>
