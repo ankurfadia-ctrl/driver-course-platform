@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import {
   getCourseConfig,
@@ -5,6 +6,36 @@ import {
 } from "@/lib/course-config"
 import { getSupportFaqEntries } from "@/lib/support-faq"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import { getPublicBaseUrl } from "@/lib/runtime-config"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ state: string }>
+}): Promise<Metadata> {
+  const { state } = await params
+  const config = getCourseConfig(state)
+  const baseUrl = getPublicBaseUrl()
+  const canonicalUrl = `${baseUrl}/${config.stateSlug}/faq`
+
+  return {
+    title: `${config.stateName} Driver Improvement FAQ | ${config.brandName}`,
+    description:
+      `${config.stateName} driver improvement course FAQ covering enrollment, timing, final exam, certificate access, DMV reporting, and support.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${config.stateName} Driver Improvement FAQ`,
+      description:
+        `${config.stateName} driver improvement course FAQ covering common student questions about the course, final exam, and certificate.`,
+      url: canonicalUrl,
+      siteName: config.brandName,
+      locale: "en_US",
+      type: "website",
+    },
+  }
+}
 
 export default async function StateFaqPage({
   params,
@@ -16,6 +47,38 @@ export default async function StateFaqPage({
   const language = await getPreferredSiteLanguage()
 
   const faqs = getSupportFaqEntries(language)
+  const baseUrl = getPublicBaseUrl()
+  const canonicalUrl = `${baseUrl}/${config.stateSlug}/faq`
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  }
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: config.stateName,
+        item: `${baseUrl}/${config.stateSlug}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: language === "es" ? "Preguntas frecuentes" : "FAQ",
+        item: canonicalUrl,
+      },
+    ],
+  }
 
   const copy =
     language === "es"
@@ -42,6 +105,12 @@ export default async function StateFaqPage({
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([faqSchema, breadcrumbSchema]),
+        }}
+      />
       <section className="glass-panel rounded-[2rem] bg-white p-8">
         <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
           {copy.label}

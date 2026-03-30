@@ -1,6 +1,52 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import { getPublicBaseUrl } from "@/lib/runtime-config"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ state: string }>
+}): Promise<Metadata> {
+  const { state } = await params
+  const config = getCourseConfig(state)
+  const baseUrl = getPublicBaseUrl()
+  const canonicalUrl = `${baseUrl}/${config.stateSlug}`
+
+  return {
+    title: `${config.stateName} Online Driver Improvement Course | ${config.brandName}`,
+    description:
+      `${config.stateName} online driver improvement course with secure enrollment, required seat-time tracking, final exam completion, certificate access, and student support.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${config.stateName} Online Driver Improvement Course`,
+      description:
+        `${config.stateName} online driver improvement course with enrollment, course progress, final exam, and certificate delivery.`,
+      url: canonicalUrl,
+      siteName: config.brandName,
+      images: [
+        {
+          url: `${baseUrl}${config.logoSrc}`,
+          width: 256,
+          height: 256,
+          alt: config.brandName,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary",
+      title: `${config.stateName} Online Driver Improvement Course`,
+      description:
+        `${config.stateName} online driver improvement course with course access, final exam, and certificate delivery.`,
+      images: [`${baseUrl}${config.logoSrc}`],
+    },
+  }
+}
 
 export default async function StateHomePage({
   params,
@@ -10,6 +56,8 @@ export default async function StateHomePage({
   const { state } = await params
   const config = getCourseConfig(state)
   const language = await getPreferredSiteLanguage()
+  const baseUrl = getPublicBaseUrl()
+  const canonicalUrl = `${baseUrl}/${config.stateSlug}`
   const copy =
     language === "es"
       ? {
@@ -44,12 +92,18 @@ export default async function StateHomePage({
               "El examen final forma parte del minimo total de 8 horas. Despues de aprobarlo y completar el tiempo total requerido, tu certificado estara disponible en tu cuenta.",
             ],
           ] as const,
+          valueLabel: "Por que elegir este curso",
+          valuePoints: [
+            "Precio simple y competitivo con flujo de inscripcion claro",
+            "El examen final cuenta dentro del minimo total de 8 horas",
+            "Soporte en el sitio con ayuda inmediata por IA y opcion de soporte prioritario",
+          ],
           approvalTitle: "Revisa la informacion del curso antes de inscribirte",
           approvalBody:
             "Los estudiantes son responsables de confirmar si un curso en linea de mejoramiento para conductores de Virginia es aceptable para su necesidad especifica ante tribunal, empleador, seguro o DMV antes de comprarlo. Pueden aplicarse verificaciones de identidad, controles de tiempo y reglas del examen final.",
           infoCta: "Leer informacion del curso",
           englishNote:
-            "Las lecciones del curso y el examen final actualmente se ofrecen en ingles.",
+            "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas.",
         }
       : {
           sectionLabel: `${config.stateName} Online Course`,
@@ -83,16 +137,49 @@ export default async function StateHomePage({
               "The final exam is included in the overall 8-hour minimum. After you pass the exam and complete the full time requirement, your certificate will be available in your account.",
             ],
           ] as const,
+          valueLabel: "Why students may choose this course",
+          valuePoints: [
+            "Simple competitive pricing with a clear enrollment flow",
+            "The final exam counts toward the full 8-hour minimum",
+            "On-site support with immediate AI help and optional priority support",
+          ],
           approvalTitle: "Review Virginia disclosures before enrolling",
           approvalBody:
             "Students are responsible for confirming whether an online Virginia driver improvement course is acceptable for their specific court, employer, insurance, or DMV requirement before purchasing. Identity verification, seat-time controls, and final exam rules may apply.",
           infoCta: "Read Course Information",
           englishNote:
-            "Course lessons and the final exam are currently available in English.",
+            "The course offers an English and Spanish experience, and the main course and final-exam content are available in both languages.",
         }
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: config.brandName,
+    url: canonicalUrl,
+    telephone: config.supportPhoneDisplay,
+    email: config.supportEmail,
+  }
+
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: config.courseName,
+    description: config.marketingDescription,
+    provider: {
+      "@type": "Organization",
+      name: config.brandName,
+      url: canonicalUrl,
+    },
+  }
 
   return (
     <div className="space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([organizationSchema, courseSchema]),
+        }}
+      />
       <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-8 sm:p-10">
         <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <div className="max-w-4xl space-y-5">
@@ -119,6 +206,16 @@ export default async function StateHomePage({
             </div>
             <div className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
               {copy.englishNote}
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm leading-6 text-slate-700">
+              <div className="font-semibold uppercase tracking-[0.16em] text-slate-900">
+                {copy.valueLabel}
+              </div>
+              <div className="mt-3 space-y-2">
+                {copy.valuePoints.map((item) => (
+                  <div key={item}>• {item}</div>
+                ))}
+              </div>
             </div>
           </div>
 

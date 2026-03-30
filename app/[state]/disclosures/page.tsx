@@ -1,6 +1,37 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import { getPublicBaseUrl } from "@/lib/runtime-config"
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ state: string }>
+}): Promise<Metadata> {
+  const { state } = await params
+  const config = getCourseConfig(state)
+  const baseUrl = getPublicBaseUrl()
+  const canonicalUrl = `${baseUrl}/${config.stateSlug}/disclosures`
+
+  return {
+    title: `${config.stateName} Course Information | ${config.brandName}`,
+    description:
+      `${config.stateName} driver improvement course information covering approval status, eligibility, seat-time rules, identity verification, final exam rules, and certificate details.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${config.stateName} Course Information`,
+      description:
+        `${config.stateName} driver improvement course information, disclosures, timing rules, and certificate details.`,
+      url: canonicalUrl,
+      siteName: config.brandName,
+      locale: "en_US",
+      type: "website",
+    },
+  }
+}
 
 export default async function StateDisclosuresPage({
   params,
@@ -57,7 +88,7 @@ export default async function StateDisclosuresPage({
           backToState: `Volver a ${config.stateName}`,
           directPage: "Pagina directa",
           englishNote:
-            "El contenido del curso y el examen final actualmente se ofrecen en ingles.",
+            "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas.",
           phoneTitle: "Linea telefonica",
           phoneBody:
             "Para obtener ayuda mas rapida, usa primero la pagina de soporte. La linea telefonica esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
@@ -76,7 +107,7 @@ export default async function StateDisclosuresPage({
           backToState: `Back to ${config.stateName}`,
           directPage: "Direct page",
           englishNote:
-            "Course lessons and the final exam are currently available in English.",
+            "The course offers an English and Spanish experience, and the main course and final-exam content are available in both languages.",
           phoneTitle: "Phone line",
           phoneBody:
             "For fastest help, use the support page first. The phone line is mainly for account-access problems and urgent course issues.",
