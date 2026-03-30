@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 const adminNavLinks = [
   { href: "/admin/compliance", label: "Compliance" },
   { href: "/admin/support", label: "Support" },
+  { href: "/admin/pricing", label: "Pricing" },
   { href: "/admin/curriculum", label: "Curriculum" },
   { href: "/admin/operations", label: "Operations" },
   { href: "/admin/reporting", label: "DMV Reporting" },
