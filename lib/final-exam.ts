@@ -94,8 +94,8 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   },
   {
     id: 15,
-    question: "If an emergency vehicle approaches with lights and siren, you should:",
-    options: ["Maintain speed", "Move right and stop when safe", "Stop in your lane immediately", "Race to the next intersection"],
+    question: "If an emergency vehicle approaches from behind with lights and siren, you should:",
+    options: ["Maintain speed", "Safely pull over to the right and stop", "Stop in your lane immediately", "Race to the next intersection"],
     correctIndex: 1,
   },
   {
@@ -149,7 +149,7 @@ export const VIRGINIA_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
   {
     id: 24,
     question: "Unsafe driving can lead to:",
-    options: ["Automatic better insurance rates", "Reduced stopping distance", "Higher insurance costs and possible injury", "Guaranteed license protection"],
+    options: ["Automatic better insurance rates", "Longer tire life with no added risk", "Higher insurance costs and possible injury", "Guaranteed license protection"],
     correctIndex: 2,
   },
   {
