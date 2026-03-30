@@ -303,12 +303,14 @@ export default function StateCoursePage() {
           ) : null}
 
           {identityReady ? (
-            <Link
-              href={finalExamAvailable ? `/${state}/course/final-exam` : `/${state}/course`}
-              className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
-            >
-              {finalExamAvailable ? "Go to Final Exam" : "Finish Course Requirements"}
-            </Link>
+            finalExamAvailable ? (
+              <Link
+                href={`/${state}/course/final-exam`}
+                className="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-lg"
+              >
+                Go to Final Exam
+              </Link>
+            ) : null
           ) : (
             <Link
               href={`/${state}/identity`}
