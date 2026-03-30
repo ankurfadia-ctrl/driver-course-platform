@@ -293,6 +293,7 @@ export default function StateCheckoutPage() {
             "Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de Virginia en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.",
           priceMatchNote:
             "Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas ocultas ni cursos no equivalentes.",
+          priceMatchCta: "Solicitar igualacion de precio",
           accountTitle: "Crea tu cuenta antes de pagar",
           accountBody:
             "Los estudiantes nuevos deben crear una cuenta o iniciar sesion antes del pago para que la compra quede guardada y el curso se desbloquee correctamente.",
@@ -405,6 +406,7 @@ export default function StateCheckoutPage() {
             "If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact us before purchase and we will review it for a possible price match.",
           priceMatchNote:
             "Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
+          priceMatchCta: "Request Price Match",
           accountTitle: "Create your account before payment",
           accountBody:
             "New students should create an account or log in before checkout so the purchase can be saved and the course unlocks correctly after payment.",
@@ -598,6 +600,12 @@ export default function StateCheckoutPage() {
           <p className="mt-2 text-xs leading-6 text-slate-500">
             {copy.priceMatchNote}
           </p>
+          <Link
+            href={`/${state}/price-match`}
+            className="mt-3 inline-flex rounded-xl border border-emerald-300 bg-white px-4 py-2 font-semibold text-emerald-900 hover:bg-emerald-100"
+          >
+            {copy.priceMatchCta}
+          </Link>
         </div>
       </section>
 

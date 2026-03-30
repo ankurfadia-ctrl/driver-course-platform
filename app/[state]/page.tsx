@@ -128,6 +128,7 @@ export default async function StateHomePage({
             "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas.",
           priceMatchHome:
             "Si encuentras un precio publico mas bajo para un curso equivalente de Virginia en linea, preguntanos por una posible igualacion de precio antes de comprar.",
+          priceMatchHomeCta: "Solicitar igualacion",
         }
       : {
           sectionLabel: `${config.stateName} Online Course`,
@@ -197,6 +198,7 @@ export default async function StateHomePage({
             "The course offers an English and Spanish experience, and the main course and final-exam content are available in both languages.",
           priceMatchHome:
             "If you find a lower publicly advertised price for an equivalent Virginia online course, ask us about a possible price match before you buy.",
+          priceMatchHomeCta: "Request a match",
         }
 
   const organizationSchema = {
@@ -253,7 +255,13 @@ export default async function StateHomePage({
               </Link>
             </div>
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
-              {copy.priceMatchHome}
+              <div>{copy.priceMatchHome}</div>
+              <Link
+                href={`/${state}/price-match`}
+                className="mt-2 inline-flex font-semibold underline"
+              >
+                {copy.priceMatchHomeCta}
+              </Link>
             </div>
             <div className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
               {copy.englishNote}

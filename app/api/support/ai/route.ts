@@ -92,6 +92,36 @@ function parseAiResponse(text: string): SupportAssistantResponse | null {
   }
 }
 
+async function callOpenAi(args: {
+  apiKey: string
+  model: string
+  prompt: string
+}) {
+  const response = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${args.apiKey}`,
+    },
+    body: JSON.stringify({
+      model: args.model,
+      input: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "input_text",
+              text: args.prompt,
+            },
+          ],
+        },
+      ],
+    }),
+  })
+
+  return response
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as SupportAiBody
@@ -112,7 +142,7 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = String(process.env.OPENAI_API_KEY ?? "").trim()
-    const model = String(process.env.SUPPORT_AI_MODEL ?? "gpt-5-mini").trim()
+    const configuredModel = String(process.env.SUPPORT_AI_MODEL ?? "gpt-5-mini").trim()
 
     if (!apiKey) {
       return NextResponse.json(
@@ -168,34 +198,46 @@ Return JSON only with this shape:
 }
 `.trim()
 
-    const response = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        input: [
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-      }),
-    })
+    const modelCandidates = Array.from(
+      new Set([configuredModel, "gpt-4.1-mini", "gpt-4o-mini"].filter(Boolean))
+    )
 
-    if (!response.ok) {
+    let data: unknown = null
+    let lastStatus = 502
+    let lastError = "AI support is temporarily unavailable. Please try again in a moment."
+
+    for (const model of modelCandidates) {
+      const response = await callOpenAi({
+        apiKey,
+        model,
+        prompt,
+      })
+
+      if (!response.ok) {
+        lastStatus = response.status
+        const errorText = await response.text()
+        console.error(`Support AI model failed (${model}):`, errorText)
+        continue
+      }
+
+      data = (await response.json()) as unknown
+      lastError = ""
+      break
+    }
+
+    if (!data) {
       return NextResponse.json(
         {
           ok: false,
-          error: "AI support is temporarily unavailable. Please try again in a moment.",
+          error:
+            lastStatus === 401 || lastStatus === 403
+              ? "AI support is not authorized right now. Please verify the OpenAI API key in production settings."
+              : lastError,
         },
         { status: 502 }
       )
     }
 
-    const data = (await response.json()) as unknown
     const text = extractOutputText(data)
     const parsed = parseAiResponse(text)
 
