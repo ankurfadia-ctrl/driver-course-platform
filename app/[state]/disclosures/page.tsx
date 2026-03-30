@@ -44,51 +44,27 @@ export default async function StateDisclosuresPage({
   const copy =
     language === "es"
       ? {
-          approvalLabel: "Aprobacion pendiente",
+          approvalLabel: config.approvalStatusLabel,
           title: `${config.stateName} informacion del curso`,
-          intro:
-            "Revisa esta informacion del curso de Virginia antes de comprar, inscribirte o depender de la finalizacion para requisitos judiciales, laborales, de seguro o del DMV.",
-          disclosures: [
-            {
-              title: "Estado de aprobacion",
-              body:
-                "La aprobacion del DMV de Virginia aun no ha sido otorgada. Los estudiantes deben revisar la informacion del curso cuidadosamente y confirmar la aceptacion para su requisito especifico antes de inscribirse o depender de la finalizacion.",
-            },
-            {
-              title: "Responsabilidad sobre elegibilidad y aceptacion",
-              body:
-                "Los estudiantes son responsables de confirmar que un curso en linea de mejoramiento para conductores de Virginia sea aceptable para su tribunal, empleador, seguro o requisito del DMV antes de inscribirse.",
-            },
-            {
-              title: "Expectativas de tiempo del curso",
-              body:
-                "Se espera que los programas en linea de mejoramiento para conductores de Virginia incluyan al menos ocho horas de instruccion. Los estudiantes deben esperar controles de tiempo, monitoreo de actividad y seguimiento de finalizacion como parte del flujo del curso.",
-            },
-            {
-              title: "Verificacion de identidad",
-              body:
-                "La verificacion de identidad puede requerirse antes de hitos del curso, durante el curso y antes o durante el examen final. Un estudiante que no pueda completar la validacion de identidad puede verse impedido de terminar el curso.",
-            },
-            {
-              title: "Intentos del examen final",
-              body:
-                "Las reglas de los examenes finales en linea de Virginia pueden limitar el examen a un intento por dia habil. Los estudiantes deben estar preparados para completar el examen personalmente y permanecer en la pagina del examen durante todo el intento.",
-            },
-            {
-              title: "Soporte y revision de registros",
-              body:
-                "Los estudiantes deben mantener exactos los datos de su cuenta y usar soporte de inmediato si tienen problemas con compras, acceso, identidad, examen o certificado.",
-            },
-          ],
+          intro: config.disclosuresIntro,
+          disclosures: config.disclosures,
           nextSteps: "Proximos pasos para estudiantes",
           nextStepsBody:
             "Revisa esta informacion antes de inscribirte. Si el curso se ajusta a tu situacion, puedes continuar al pago o volver a tu cuenta de estudiante.",
-          viewPlans: "Ver planes del curso",
-          studentLogin: "Ingreso de estudiantes",
+          viewPlans:
+            config.stateSlug === "virginia"
+              ? "Ver planes del curso"
+              : "Leer informacion del curso",
+          studentLogin:
+            config.stateSlug === "virginia"
+              ? "Ingreso de estudiantes"
+              : "Volver al estado",
           backToState: `Volver a ${config.stateName}`,
           directPage: "Pagina directa",
           englishNote:
-            "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas.",
+            config.stateSlug === "virginia"
+              ? "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas."
+              : "La plataforma se esta preparando para ofrecer experiencias en ingles y espanol donde el estado y el regulador lo permitan.",
           phoneTitle: "Linea telefonica",
           phoneBody:
             "Para obtener ayuda mas rapida, usa primero la pagina de soporte. La linea telefonica esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
@@ -167,13 +143,17 @@ export default async function StateDisclosuresPage({
         ) : null}
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
-            href={`/${state}/checkout`}
+            href={
+              config.stateSlug === "virginia"
+                ? `/${state}/checkout`
+                : getDisclosuresRoute(state)
+            }
             className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
           >
             {copy.viewPlans}
           </Link>
           <Link
-            href={`/${state}/login`}
+            href={config.stateSlug === "virginia" ? `/${state}/login` : `/${state}`}
             className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             {copy.studentLogin}

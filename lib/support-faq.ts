@@ -41,8 +41,8 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
       es: "Ofrecen igualacion de precio?",
     },
     answer: {
-      en: "Yes. If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact support before purchase and we will review it for a possible price match. Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
-      es: "Si. Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de Virginia en linea, contacta a soporte antes de comprar y revisaremos una posible igualacion de precio. Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
+      en: "Yes. If you find a lower publicly advertised price for an equivalent online driver improvement course for the same state, contact support before purchase and we will review it for a possible price match. Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
+      es: "Si. Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo en linea para el mismo estado, contacta a soporte antes de comprar y revisaremos una posible igualacion de precio. Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
     },
     keywords: ["price match", "match a price", "lower price", "cheaper price", "igualacion de precio"],
   },
