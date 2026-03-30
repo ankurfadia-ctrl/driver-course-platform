@@ -62,12 +62,32 @@ export default async function StateHomePage({
     language === "es"
       ? {
           sectionLabel: `${config.stateName} curso en linea`,
-          headline: `Completa tu curso de mejoramiento para conductores de ${config.stateName} en linea.`,
+          headline: `Curso de mejoramiento para conductores de ${config.stateName} en linea.`,
           intro:
-            "Completa las lecciones en linea, cumple el tiempo requerido, toma el examen final y accede a tu certificado despues de completar los requisitos del curso.",
+            "Precio simple, curso en ingles y espanol, y examen final incluido dentro del minimo total de 8 horas.",
+          priceCallout: "Desde $19.99",
+          priceSupport: "Sin cargos ocultos del curso y con planes faciles de comparar.",
           approvalLabel: "Aprobacion pendiente",
           viewPlans: "Ver planes",
           studentLogin: "Ingreso de estudiantes",
+          compareTitle: "Compara opciones rapidamente",
+          comparePlans: [
+            {
+              name: "Estandar",
+              price: "$19.99",
+              detail: "Curso completo con FAQ y chat con IA.",
+            },
+            {
+              name: "Prioritario",
+              price: "$24.99",
+              detail: "Curso completo con soporte humano prioritario.",
+            },
+            {
+              name: "Premium",
+              price: "$34.99",
+              detail: "Curso, soporte prioritario, revision judicial y copia por correo.",
+            },
+          ] as const,
           expectationsLabel: "Expectativas del curso en Virginia",
           expectations: [
             "Curso en linea de 8 horas; el examen final cuenta dentro del minimo total de 8 horas",
@@ -94,9 +114,11 @@ export default async function StateHomePage({
           ] as const,
           valueLabel: "Por que elegir este curso",
           valuePoints: [
-            "Precio simple y competitivo con flujo de inscripcion claro",
-            "El examen final cuenta dentro del minimo total de 8 horas",
-            "Soporte en el sitio con ayuda inmediata por IA y opcion de soporte prioritario",
+            "Precio bajo y transparente",
+            "Examen final incluido dentro de las 8 horas",
+            "Funciona en telefono o computadora",
+            "Experiencia en ingles y espanol",
+            "FAQ, IA y opcion de soporte prioritario",
           ],
           approvalTitle: "Revisa la informacion del curso antes de inscribirte",
           approvalBody:
@@ -104,15 +126,37 @@ export default async function StateHomePage({
           infoCta: "Leer informacion del curso",
           englishNote:
             "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas.",
+          priceMatchHome:
+            "Si encuentras un precio publico mas bajo para un curso equivalente de Virginia en linea, preguntanos por una posible igualacion de precio antes de comprar.",
         }
       : {
           sectionLabel: `${config.stateName} Online Course`,
-          headline: config.marketingHeadline,
+          headline: `${config.stateName} Driver Improvement Course Online`,
           intro:
-            "Complete lessons online, satisfy the required seat time, take the final exam, and access your certificate after completing the course requirements.",
+            "Simple pricing, English and Spanish course flow, and the final exam is included in the full 8-hour minimum.",
+          priceCallout: "From $19.99",
+          priceSupport: "No hidden course fees and easy plan choices.",
           approvalLabel: config.approvalStatusLabel,
           viewPlans: "View Plans",
           studentLogin: "Student Login",
+          compareTitle: "Compare plans quickly",
+          comparePlans: [
+            {
+              name: "Standard",
+              price: "$19.99",
+              detail: "Full course with FAQ and AI chat.",
+            },
+            {
+              name: "Priority",
+              price: "$24.99",
+              detail: "Full course with priority human support.",
+            },
+            {
+              name: "Premium",
+              price: "$34.99",
+              detail: "Course, priority support, court review, and mailed certificate.",
+            },
+          ] as const,
           expectationsLabel: "Virginia course expectations",
           expectations: [
             "8-hour online course; the final exam is included in the overall 8-hour minimum",
@@ -137,11 +181,13 @@ export default async function StateHomePage({
               "The final exam is included in the overall 8-hour minimum. After you pass the exam and complete the full time requirement, your certificate will be available in your account.",
             ],
           ] as const,
-          valueLabel: "Why students may choose this course",
+          valueLabel: "Why choose this course",
           valuePoints: [
-            "Simple competitive pricing with a clear enrollment flow",
-            "The final exam counts toward the full 8-hour minimum",
-            "On-site support with immediate AI help and optional priority support",
+            "Low transparent pricing",
+            "Final exam included in the full 8-hour minimum",
+            "Works on phone or computer",
+            "English and Spanish experience",
+            "FAQ, AI help, and optional priority support",
           ],
           approvalTitle: "Review Virginia disclosures before enrolling",
           approvalBody:
@@ -149,6 +195,8 @@ export default async function StateHomePage({
           infoCta: "Read Course Information",
           englishNote:
             "The course offers an English and Spanish experience, and the main course and final-exam content are available in both languages.",
+          priceMatchHome:
+            "If you find a lower publicly advertised price for an equivalent Virginia online course, ask us about a possible price match before you buy.",
         }
 
   const organizationSchema = {
@@ -204,6 +252,9 @@ export default async function StateHomePage({
                 {copy.studentLogin}
               </Link>
             </div>
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
+              {copy.priceMatchHome}
+            </div>
             <div className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
               {copy.englishNote}
             </div>
@@ -213,7 +264,7 @@ export default async function StateHomePage({
               </div>
               <div className="mt-3 space-y-2">
                 {copy.valuePoints.map((item) => (
-                  <div key={item}>• {item}</div>
+                  <div key={item}>-  {item}</div>
                 ))}
               </div>
             </div>
