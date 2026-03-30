@@ -3,10 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import { getCourseAccessStatus } from "@/lib/course-access"
-import {
-  getSupportAssistantResponse,
-  type SupportAssistantResponse,
-} from "@/lib/support-assistant"
+import type { SupportAssistantResponse } from "@/lib/support-assistant"
 import { getSupportFaqEntries } from "@/lib/support-faq"
 import {
   loadStudentSupportThreads,
@@ -158,6 +155,37 @@ async function createSupportRequest(args: {
   return data.id
 }
 
+async function getAiSupportResponse(args: {
+  state: string
+  language: SiteLanguage
+  messages: ChatMessage[]
+}) {
+  const response = await fetch("/api/support/ai", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      state: args.state,
+      language: args.language,
+      messages: args.messages.map((message) => ({
+        role: message.role,
+        text: message.text,
+      })),
+    }),
+  })
+
+  const data = (await response.json()) as
+    | { ok: true; response: SupportAssistantResponse }
+    | { ok: false; error?: string }
+
+  if (!response.ok || !data.ok) {
+    throw new Error("error" in data ? data.error ?? "AI support failed." : "AI support failed.")
+  }
+
+  return data.response
+}
+
 export default function StateSupportClient({
   state,
   stateName,
@@ -256,26 +284,42 @@ export default function StateSupportClient({
       text: question,
     }
 
-    const aiResponse = getSupportAssistantResponse({
-      state,
-      category: "other",
-      subject: deriveSubject(question, language),
-      message: question,
-      language,
-    })
+    const nextMessages = [...chatMessages, userMessage]
 
-    const assistantText = aiResponse.summary || copy.aiNeedMore
-    const assistantMessage: ChatMessage = {
-      id: `assistant-${Date.now() + 1}`,
-      role: "assistant",
-      text: assistantText,
-    }
-
-    setChatMessages((prev) => [...prev, userMessage, assistantMessage])
-    setLastStudentMessage(question)
-    setLastAiResponse(aiResponse)
+    setChatMessages(nextMessages)
     setChatInput("")
-    setSendingChat(false)
+
+    try {
+      const aiResponse = await getAiSupportResponse({
+        state,
+        language,
+        messages: nextMessages,
+      })
+
+      const assistantText = aiResponse.summary || copy.aiNeedMore
+      const assistantMessage: ChatMessage = {
+        id: `assistant-${Date.now() + 1}`,
+        role: "assistant",
+        text: assistantText,
+      }
+
+      setChatMessages((prev) => [...prev, assistantMessage])
+      setLastStudentMessage(question)
+      setLastAiResponse(aiResponse)
+    } catch (error) {
+      const assistantMessage: ChatMessage = {
+        id: `assistant-${Date.now() + 1}`,
+        role: "assistant",
+        text:
+          error instanceof Error && error.message
+            ? error.message
+            : copy.aiNeedMore,
+      }
+
+      setChatMessages((prev) => [...prev, assistantMessage])
+    } finally {
+      setSendingChat(false)
+    }
   }
 
   async function handleSaveToSupport() {

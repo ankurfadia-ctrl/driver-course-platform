@@ -30,6 +30,8 @@ ADMIN_EMAILS=
 EMAIL_PROVIDER=log
 EMAIL_FROM=
 RESEND_API_KEY=
+OPENAI_API_KEY=
+SUPPORT_AI_MODEL=gpt-5-mini
 SUPPORT_DIGEST_SECRET=
 CRON_SECRET=
 RESEND_WEBHOOK_SECRET=
@@ -58,6 +60,7 @@ LOB_FROM_COUNTRY=US
 - New priority support requests send an immediate admin notification email to every address in `ADMIN_EMAILS`
 - Standard support requests stay in the admin inbox and do not send an immediate admin email
 - If `SUPPORT_REPLY_DOMAIN` is set, priority notification emails include a reply-to address that can sync Gmail replies back into the support thread
+- If `OPENAI_API_KEY` is set, the support page can use a stronger model-backed AI response instead of fallback rule logic
 - If `EMAIL_PROVIDER=log`, emails are not actually sent; they are treated as log/no-op events
 - If you want live delivery, set:
   - `EMAIL_PROVIDER=resend`

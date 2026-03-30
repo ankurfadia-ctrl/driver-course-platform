@@ -25,7 +25,11 @@ export type SupportAssistantResponse = {
 }
 
 function normalizeText(value: string) {
-  return String(value ?? "").trim().toLowerCase()
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .replace(/\s+/g, " ")
 }
 
 function includesAny(text: string, keywords: string[]) {
@@ -34,10 +38,11 @@ function includesAny(text: string, keywords: string[]) {
 
 function buildDirectQuestionResponse(
   state: string,
-  text: string
+  text: string,
+  language: SiteLanguage = "en"
 ): SupportAssistantResponse | null {
   const stateName = titleCaseState(state)
-  const faqMatch = findSupportFaqMatch(text)
+  const faqMatch = findSupportFaqMatch(text, language)
 
   if (faqMatch) {
     return {
@@ -100,6 +105,8 @@ function buildDirectQuestionResponse(
       "failed the final",
       "fail the exam",
       "did not pass",
+      "i failed",
+      "failed exam",
     ])
   ) {
     return {
@@ -168,6 +175,7 @@ function buildDirectQuestionResponse(
       "does dmv get my certificate",
       "do you send to dmv",
       "is my completion sent to dmv",
+      "will dmv get it",
     ])
   ) {
     return {
@@ -377,7 +385,11 @@ export function getSupportAssistantResponse(
 ): SupportAssistantResponse {
   const state = input.state
   const combinedText = normalizeText(`${input.subject} ${input.message}`)
-  const directQuestionResponse = buildDirectQuestionResponse(state, combinedText)
+  const directQuestionResponse = buildDirectQuestionResponse(
+    state,
+    combinedText,
+    input.language ?? "en"
+  )
 
   if (directQuestionResponse) {
     return directQuestionResponse
