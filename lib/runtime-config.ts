@@ -39,9 +39,6 @@ export function getRuntimeConfigChecks(): RuntimeConfigCheck[] {
   const emailProvider = getTrimmedEnvValue("EMAIL_PROVIDER").toLowerCase() || "log"
   const emailFrom = getTrimmedEnvValue("EMAIL_FROM")
   const resendApiKey = getTrimmedEnvValue("RESEND_API_KEY")
-  const openAiApiKey = getTrimmedEnvValue("OPENAI_API_KEY")
-  const supportAiModel = getTrimmedEnvValue("SUPPORT_AI_MODEL") || "gpt-4.1-mini"
-
   return [
     {
       label: "Supabase public config",
@@ -90,11 +87,9 @@ export function getRuntimeConfigChecks(): RuntimeConfigCheck[] {
           : `Email provider is "${emailProvider}". Live purchase/completion email still needs EMAIL_FROM and RESEND_API_KEY with EMAIL_PROVIDER=resend.`,
     },
     {
-      label: "Support AI",
-      ready: Boolean(openAiApiKey),
-      detail: openAiApiKey
-        ? `OpenAI support AI is configured with model "${supportAiModel}".`
-        : "OPENAI_API_KEY is missing, so AI help chat cannot answer in production.",
+      label: "Support chat engine",
+      ready: true,
+      detail: "Built-in support knowledge base is active for instant course answers.",
     },
   ]
 }

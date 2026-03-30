@@ -13,6 +13,14 @@ type SupportFaqEntry = {
   keywords: string[]
 }
 
+function normalizeSupportText(value: string) {
+  return String(value ?? "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
 const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
   {
     id: "refund-policy",
@@ -308,7 +316,7 @@ export function getSupportFaqEntries(language: SiteLanguage) {
 }
 
 export function findSupportFaqMatch(text: string, language: SiteLanguage = "en") {
-  const normalized = String(text ?? "").trim().toLowerCase()
+  const normalized = normalizeSupportText(text)
 
   if (!normalized) {
     return null
@@ -327,4 +335,49 @@ export function findSupportFaqMatch(text: string, language: SiteLanguage = "en")
     question: entry.question[language],
     answer: entry.answer[language],
   }
+}
+
+export function searchSupportFaqEntries(
+  text: string,
+  language: SiteLanguage = "en",
+  limit = 3
+) {
+  const normalized = normalizeSupportText(text)
+
+  if (!normalized) {
+    return []
+  }
+
+  const tokens = new Set(normalized.split(" ").filter((token) => token.length > 1))
+
+  return SUPPORT_FAQ_ENTRIES.map((entry) => {
+    let score = 0
+
+    for (const keyword of entry.keywords) {
+      const normalizedKeyword = normalizeSupportText(keyword)
+
+      if (normalized.includes(normalizedKeyword)) {
+        score += Math.max(5, normalizedKeyword.split(" ").length * 2)
+      }
+
+      const keywordTokens = normalizedKeyword.split(" ").filter((token) => token.length > 1)
+      const overlapCount = keywordTokens.filter((token) => tokens.has(token)).length
+      score += overlapCount
+    }
+
+    const questionText = normalizeSupportText(entry.question[language])
+    const questionTokens = questionText.split(" ").filter((token) => token.length > 1)
+    const questionOverlap = questionTokens.filter((token) => tokens.has(token)).length
+    score += questionOverlap
+
+    return {
+      id: entry.id,
+      question: entry.question[language],
+      answer: entry.answer[language],
+      score,
+    }
+  })
+    .filter((entry) => entry.score > 0)
+    .sort((left, right) => right.score - left.score)
+    .slice(0, limit)
 }
