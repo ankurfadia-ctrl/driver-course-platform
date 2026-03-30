@@ -110,6 +110,7 @@ export async function POST(request: NextRequest) {
       certificateId,
       certificateUrl: `${baseUrl}/${state}/certificate`,
       verifyUrl,
+      providerEmail: config.supportEmail,
       certificateFilename,
       certificatePdfBase64,
     })

@@ -29,6 +29,7 @@ type CompletionEmailInput = {
   certificateId: string
   certificateUrl: string
   verifyUrl: string
+  providerEmail: string
   certificateFilename?: string
   certificatePdfBase64?: string
 }
@@ -175,13 +176,16 @@ export async function sendPurchaseConfirmationEmail(input: PurchaseEmailInput) {
 }
 
 export async function sendCompletionCertificateEmail(input: CompletionEmailInput) {
-  const subject = `${input.courseName} completion details`
+  const subject = "Eight-Hour Online Driver Improvement Clinic Course"
   const html = `
     <div style="font-family:Segoe UI,Arial,sans-serif;line-height:1.6;color:#0f172a">
-      <h1 style="font-size:24px;margin-bottom:12px;">Course completion recorded</h1>
-      <p>You have completed <strong>${escapeHtml(input.courseName)}</strong>.</p>
+      <h1 style="font-size:24px;margin-bottom:12px;">Eight-Hour Online Driver Improvement Clinic Course</h1>
+      <p>Your electronic certificate of completion is attached which indicates that you successfully completed an Eight-Hour Online Driver Improvement Clinic Course. Your completion of the online driver improvement clinic will be posted to your driving record within 24 hours of the completion date of the course.</p>
+      <p>
+        Provider email: <strong>${escapeHtml(input.providerEmail)}</strong><br />
+        Student email: <strong>${escapeHtml(input.email)}</strong>
+      </p>
       <p>Certificate ID: <strong>${escapeHtml(input.certificateId)}</strong></p>
-      <p>Your certificate PDF is attached to this email.</p>
       <p>
         <a href="${input.certificateUrl}">Open certificate</a><br />
         <a href="${input.verifyUrl}">Verification page</a>
@@ -189,11 +193,14 @@ export async function sendCompletionCertificateEmail(input: CompletionEmailInput
     </div>
   `.trim()
   const text = [
-    "Course completion recorded",
+    "Eight-Hour Online Driver Improvement Clinic Course",
     "",
-    `You have completed ${input.courseName}.`,
+    "Your electronic certificate of completion is attached which indicates that you successfully completed an Eight-Hour Online Driver Improvement Clinic Course. Your completion of the online driver improvement clinic will be posted to your driving record within 24 hours of the completion date of the course.",
+    "",
+    `Provider email: ${input.providerEmail}`,
+    `Student email: ${input.email}`,
+    "",
     `Certificate ID: ${input.certificateId}`,
-    "Your certificate PDF is attached to this email.",
     `Certificate: ${input.certificateUrl}`,
     `Verification: ${input.verifyUrl}`,
   ].join("\n")
