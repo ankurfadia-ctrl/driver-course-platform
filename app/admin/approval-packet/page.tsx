@@ -140,6 +140,26 @@ export default async function AdminApprovalPacketPage() {
         </div>
       </div>
 
+      <section className="rounded-3xl border border-blue-200 bg-blue-50 p-6 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-semibold text-slate-900">
+              Reviewer-ready export
+            </h2>
+            <p className="mt-2 max-w-3xl text-sm leading-7 text-slate-700">
+              Open the reviewer packet and use your browser&apos;s print function
+              to save a clean PDF bundle for Virginia submission review.
+            </p>
+          </div>
+          <Link
+            href="/admin/approval-packet/reviewer"
+            className="inline-flex rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700"
+          >
+            Open Reviewer Packet
+          </Link>
+        </div>
+      </section>
+
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5 shadow-sm">
           <div className="text-sm text-blue-700">Submission focus</div>
