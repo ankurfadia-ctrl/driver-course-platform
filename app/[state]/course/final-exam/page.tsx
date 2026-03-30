@@ -974,12 +974,25 @@ export default function FinalExamPage() {
             </div>
           )}
 
-          <button
-            onClick={handleVerify}
-            className="rounded bg-blue-600 px-4 py-2 text-white"
-          >
-            Verify Identity
-          </button>
+          <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+            If you forgot your identity answers, return to identity setup and update them before beginning the final exam.
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={handleVerify}
+              className="rounded bg-blue-600 px-4 py-2 text-white"
+            >
+              Verify Identity
+            </button>
+
+            <Link
+              href={`/${state}/identity`}
+              className="rounded border border-slate-300 px-4 py-2 text-slate-900"
+            >
+              Update Identity Answers
+            </Link>
+          </div>
         </div>
       </div>
     )

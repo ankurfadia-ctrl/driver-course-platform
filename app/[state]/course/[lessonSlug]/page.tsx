@@ -548,6 +548,10 @@ export default function LessonPage() {
               </div>
             ) : null}
 
+            <div className="rounded border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+              If you forgot your identity answers, return to identity setup and update them before starting this lesson.
+            </div>
+
             <div className="flex flex-col gap-3 sm:flex-row">
               <button
                 onClick={handleVerifyLessonIdentity}
@@ -561,6 +565,13 @@ export default function LessonPage() {
                 className="rounded border border-slate-300 px-4 py-2 text-center text-slate-700"
               >
                 Back to Course
+              </Link>
+
+              <Link
+                href={`/${state}/identity`}
+                className="rounded border border-slate-300 px-4 py-2 text-center text-slate-700"
+              >
+                Update Identity Answers
               </Link>
             </div>
           </div>

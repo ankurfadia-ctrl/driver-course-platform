@@ -198,23 +198,23 @@ function BacVisual() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5">
-          <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
+          <div className="text-xs font-semibold uppercase tracking-wide text-red-700">
             Under 21
           </div>
-          <div className="mt-3 text-3xl font-bold text-slate-950">0.02</div>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            Virginia can treat a BAC from 0.02 up to less than 0.08 as illegal alcohol consumption for drivers under 21.
+          <div className="mt-3 text-3xl font-bold text-slate-950">0.02+</div>
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            For drivers under 21, a BAC from 0.02 and above is already a serious legal and safety problem.
           </p>
         </div>
 
         <div className="rounded-2xl border border-red-200 bg-red-50 p-5">
           <div className="text-xs font-semibold uppercase tracking-wide text-red-700">
-            DUI threshold
+            Age 21 and older
           </div>
-          <div className="mt-3 text-3xl font-bold text-slate-950">0.08</div>
+          <div className="mt-3 text-3xl font-bold text-slate-950">0.08+</div>
           <p className="mt-2 text-sm leading-6 text-slate-700">
-            Drivers 21 and older are considered under the influence at 0.08 BAC or higher.
+            For drivers 21 and older, 0.08 BAC or higher is the DUI threshold, but impairment can begin earlier.
           </p>
         </div>
 
@@ -438,7 +438,7 @@ export default function LessonVisuals({ lessonSlug }: LessonVisualsProps) {
         <VisualShell
           label="BAC and impairment"
           title="Alcohol affects judgment before a driver feels fully impaired"
-          description="Virginia treats certain BAC levels as legal thresholds, but safe driving decisions should happen before alcohol or drugs begin reducing attention, judgment, and control."
+          description="BAC thresholds matter, but the safest decision is to avoid driving before alcohol or drugs begin reducing attention, judgment, and control."
         >
           <BacVisual />
         </VisualShell>
