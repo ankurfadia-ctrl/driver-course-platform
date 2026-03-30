@@ -17,6 +17,7 @@ const adminNavLinks = [
   { href: "/admin/pricing", label: "Pricing" },
   { href: "/admin/curriculum", label: "Curriculum" },
   { href: "/admin/operations", label: "Operations" },
+  { href: "/admin/outreach", label: "Regulatory Outreach" },
   { href: "/admin/reporting", label: "DMV Reporting" },
   { href: "/admin/approval-packet", label: "Approval Packet" },
   { href: "/admin/virginia-readiness", label: "Virginia Readiness" },
