@@ -156,6 +156,66 @@ function getPlanPresentation(planCode: string, language: "en" | "es") {
   }
 }
 
+function getPlanFeatureValues(planCode: string, language: "en" | "es") {
+  const yes = language === "es" ? "Incluido" : "Included"
+  const no = language === "es" ? "No incluido" : "Not included"
+  const standard = language === "es" ? "Estandar" : "Standard"
+  const priority = language === "es" ? "Prioritario" : "Priority"
+  const sameCourse = language === "es" ? "Ya incluido" : "Already included"
+  const unchanged = language === "es" ? "Sin cambios" : "Unchanged"
+
+  switch (planCode) {
+    case "va-premium-bundle":
+      return {
+        courseAccess: yes,
+        certificate: yes,
+        support: priority,
+        courtReview: yes,
+        mailedCertificate: yes,
+      }
+    case "va-priority":
+      return {
+        courseAccess: yes,
+        certificate: yes,
+        support: priority,
+        courtReview: no,
+        mailedCertificate: no,
+      }
+    case "va-standard":
+      return {
+        courseAccess: yes,
+        certificate: yes,
+        support: standard,
+        courtReview: no,
+        mailedCertificate: no,
+      }
+    case "va-priority-upgrade":
+      return {
+        courseAccess: sameCourse,
+        certificate: unchanged,
+        support: priority,
+        courtReview: no,
+        mailedCertificate: no,
+      }
+    case "va-court-review":
+      return {
+        courseAccess: sameCourse,
+        certificate: unchanged,
+        support: standard,
+        courtReview: yes,
+        mailedCertificate: no,
+      }
+    default:
+      return {
+        courseAccess: no,
+        certificate: no,
+        support: standard,
+        courtReview: no,
+        mailedCertificate: no,
+      }
+  }
+}
+
 function getPlanPriceLabel(planCode: string) {
   const plan = getCoursePlanByCode(planCode)
 
@@ -243,9 +303,12 @@ export default function StateCheckoutPage() {
           fullCourseAccess: "Acceso completo al curso",
           alreadyIncluded: "Ya incluido",
           included: "Incluido",
+          notIncluded: "No incluido",
           certificateEligibility: "Elegibilidad para certificado",
           unchanged: "Sin cambios",
           supportTierLabel: "Nivel de soporte",
+          courtReviewLabel: "Revision de documentos judiciales",
+          mailedCertificateLabel: "Copia del certificado por correo",
           prioritySupportInfo:
             "Las preguntas y solicitudes con soporte prioritario se atienden antes que las solicitudes estandar y normalmente reciben la primera respuesta en menos de 1 dia habil.",
           standardSupportInfo:
@@ -356,9 +419,12 @@ export default function StateCheckoutPage() {
           fullCourseAccess: "Full course access",
           alreadyIncluded: "Already included",
           included: "Included",
+          notIncluded: "Not included",
           certificateEligibility: "Certificate eligibility",
           unchanged: "Unchanged",
           supportTierLabel: "Support tier",
+          courtReviewLabel: "Court document review",
+          mailedCertificateLabel: "Mailed certificate copy",
           prioritySupportInfo:
             "Priority support questions and requests are handled before any standard ones and usually receive a first response in less than 1 business day.",
           standardSupportInfo:
@@ -660,6 +726,7 @@ export default function StateCheckoutPage() {
           const isPriority = plan.includesPrioritySupport
           const isUpgrade = plan.planKind === "support-upgrade"
           const presentation = getPlanPresentation(plan.planCode, language)
+          const featureValues = getPlanFeatureValues(plan.planCode, language)
 
           return (
             <div
@@ -730,23 +797,17 @@ export default function StateCheckoutPage() {
               </div>
 
               <div className="mt-6 space-y-3 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <div className="space-y-2 border-b border-slate-200 pb-3 text-sm text-slate-700">
-                  {presentation.bullets.map((bullet) => (
-                    <div key={bullet}>- {bullet}</div>
-                  ))}
-                </div>
-
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">{copy.fullCourseAccess}</span>
                   <span className="font-semibold text-slate-900">
-                    {isUpgrade ? copy.alreadyIncluded : copy.included}
+                    {featureValues.courseAccess}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between gap-4 text-sm">
                   <span className="text-slate-600">{copy.certificateEligibility}</span>
                   <span className="font-semibold text-slate-900">
-                    {plan.includesCertificate ? copy.included : copy.unchanged}
+                    {featureValues.certificate}
                   </span>
                 </div>
 
@@ -766,11 +827,25 @@ export default function StateCheckoutPage() {
                       <summary className="cursor-pointer list-none font-semibold text-slate-900 underline decoration-dotted underline-offset-4">
                         {copy.labelStandard}
                       </summary>
-                      <div className="mt-2 max-w-xs rounded-xl border border-slate-200 bg-white p-3 text-left text-xs leading-5 text-slate-700">
-                        {copy.standardSupportInfo}
-                      </div>
-                    </details>
+                        <div className="mt-2 max-w-xs rounded-xl border border-slate-200 bg-white p-3 text-left text-xs leading-5 text-slate-700">
+                          {copy.standardSupportInfo}
+                        </div>
+                      </details>
                   )}
+                </div>
+
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="text-slate-600">{copy.courtReviewLabel}</span>
+                  <span className="font-semibold text-slate-900">
+                    {featureValues.courtReview}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between gap-4 text-sm">
+                  <span className="text-slate-600">{copy.mailedCertificateLabel}</span>
+                  <span className="font-semibold text-slate-900">
+                    {featureValues.mailedCertificate}
+                  </span>
                 </div>
               </div>
 
