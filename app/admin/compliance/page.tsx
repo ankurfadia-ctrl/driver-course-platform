@@ -187,7 +187,19 @@ export default async function AdminCompliancePage() {
                         <div className="text-slate-600">{record.seatTimeHours}</div>
                       </td>
                       <td className="px-4 py-4 text-slate-700">{record.lessonProgress}</td>
-                      <td className="px-4 py-4 text-slate-700">{record.examStatus}</td>
+                      <td className="px-4 py-4">
+                        <div className="font-medium text-slate-900">{record.examStatus}</div>
+                        {record.examFailureReason !== "-" ? (
+                          <div className="mt-1 text-xs text-red-700">
+                            {record.examFailureReason}
+                          </div>
+                        ) : null}
+                        {record.examRetakeAt !== "-" ? (
+                          <div className="mt-1 text-xs text-slate-500">
+                            Retake eligible: {record.examRetakeAt}
+                          </div>
+                        ) : null}
+                      </td>
                       <td className="px-4 py-4">
                         <div className="font-mono text-xs text-slate-700">{record.certificateId}</div>
                       </td>

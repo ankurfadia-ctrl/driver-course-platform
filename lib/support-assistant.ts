@@ -1,3 +1,6 @@
+import { findSupportFaqMatch } from "@/lib/support-faq"
+import type { SiteLanguage } from "@/lib/site-language"
+
 export type SupportCategory =
   | "course-access"
   | "seat-time"
@@ -11,6 +14,7 @@ export type SupportAssistantInput = {
   category: SupportCategory
   subject: string
   message: string
+  language?: SiteLanguage
 }
 
 export type SupportAssistantResponse = {
@@ -33,6 +37,16 @@ function buildDirectQuestionResponse(
   text: string
 ): SupportAssistantResponse | null {
   const stateName = titleCaseState(state)
+  const faqMatch = findSupportFaqMatch(text)
+
+  if (faqMatch) {
+    return {
+      summary: faqMatch.answer,
+      suggestedSteps: [],
+      escalationRecommended: false,
+      escalationReason: null,
+    }
+  }
 
   if (
     includesAny(text, [

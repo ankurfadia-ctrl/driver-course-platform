@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getCourseConfig } from "@/lib/course-config"
 import {
   getReasonForAttendingLabel,
   isCourtRelatedReason,
@@ -77,6 +78,8 @@ export type ComplianceRecord = {
   seatTimeHours: string
   lessonProgress: string
   examStatus: string
+  examFailureReason: string
+  examRetakeAt: string
   completedAt: string
   certificateId: string
   supportStatus: string
@@ -112,6 +115,48 @@ function formatDateTime(value: string | null | undefined) {
     hour: "numeric",
     minute: "2-digit",
   })
+}
+
+function getRetakeEligibleAt(value: string | null | undefined) {
+  if (!value) {
+    return "-"
+  }
+
+  const date = new Date(value)
+
+  if (Number.isNaN(date.getTime())) {
+    return "-"
+  }
+
+  date.setHours(date.getHours() + 24)
+  return formatDateTime(date.toISOString())
+}
+
+function getExamFailureReason(args: {
+  score: number | null
+  passed: boolean | null
+  state: string
+}) {
+  if (args.passed !== false) {
+    return "-"
+  }
+
+  const passingScorePercent = getCourseConfig(args.state).passingScorePercent
+
+  if (typeof args.score !== "number") {
+    return `Below the ${passingScorePercent}% passing score.`
+  }
+
+  const totalQuestions = 50
+  const currentCorrect = Math.round((args.score / 100) * totalQuestions)
+  const neededCorrect = Math.ceil((passingScorePercent / 100) * totalQuestions)
+  const moreNeeded = Math.max(0, neededCorrect - currentCorrect)
+
+  if (moreNeeded <= 0) {
+    return `Did not meet the ${passingScorePercent}% passing requirement.`
+  }
+
+  return `Below the ${passingScorePercent}% passing score; needed about ${moreNeeded} more correct answer${moreNeeded === 1 ? "" : "s"}.`
 }
 
 export function formatCurrency(amount: number | null, currency: string | null) {
@@ -290,6 +335,15 @@ export function buildComplianceRecords(args: {
             exam.score != null ? ` (${exam.score}%)` : ""
           }`
         : "No attempt",
+      examFailureReason: getExamFailureReason({
+        score: exam?.score ?? null,
+        passed: exam?.passed ?? null,
+        state: purchase.state_code,
+      }),
+      examRetakeAt:
+        exam?.passed === false
+          ? getRetakeEligibleAt(exam.completed_at ?? exam.created_at)
+          : "-",
       completedAt: formatDateTime(completionTimestamp),
       certificateId: exam?.certificate_id ?? "-",
       supportStatus,
@@ -479,6 +533,8 @@ export function toCsv(records: ComplianceRecord[]) {
     "seat_time_hours",
     "lesson_progress",
     "exam_status",
+    "exam_failure_reason",
+    "exam_retake_at",
     "completed_at",
     "certificate_id",
     "support_status",
@@ -505,6 +561,8 @@ export function toCsv(records: ComplianceRecord[]) {
       record.seatTimeHours,
       record.lessonProgress,
       record.examStatus,
+      record.examFailureReason,
+      record.examRetakeAt,
       record.completedAt,
       record.certificateId,
       record.supportStatus,
