@@ -52,7 +52,7 @@ export default async function AdminReportingPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="text-sm text-slate-500">Queue size</div>
           <div className="mt-2 text-3xl font-bold text-slate-900">
@@ -60,15 +60,21 @@ export default async function AdminReportingPage() {
           </div>
         </div>
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
-          <div className="text-sm text-amber-700">Pending now</div>
+          <div className="text-sm text-amber-700">Ready to report</div>
           <div className="mt-2 text-3xl font-bold text-amber-900">
-            {queue.filter((record) => record.dmvReportStatus === "Pending").length}
+            {queue.filter((record) => record.dmvReportStatus === "Ready to report").length}
           </div>
         </div>
         <div className="rounded-2xl border border-red-200 bg-red-50 p-5 shadow-sm">
-          <div className="text-sm text-red-700">Overdue</div>
+          <div className="text-sm text-red-700">Missing court document</div>
           <div className="mt-2 text-3xl font-bold text-red-900">
-            {queue.filter((record) => record.dmvReportStatus === "Overdue").length}
+            {queue.filter((record) => record.dmvReportStatus === "Missing court document").length}
+          </div>
+        </div>
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
+          <div className="text-sm text-emerald-700">Reported to DMV</div>
+          <div className="mt-2 text-3xl font-bold text-emerald-900">
+            {queue.filter((record) => record.dmvReportStatus === "Reported to DMV").length}
           </div>
         </div>
       </div>
@@ -98,6 +104,7 @@ export default async function AdminReportingPage() {
                   <th className="px-4 py-3 text-left font-semibold text-slate-600">Completion</th>
                   <th className="px-4 py-3 text-left font-semibold text-slate-600">Certificate</th>
                   <th className="px-4 py-3 text-left font-semibold text-slate-600">Reporting</th>
+                  <th className="px-4 py-3 text-left font-semibold text-slate-600">Reported at</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
@@ -125,9 +132,9 @@ export default async function AdminReportingPage() {
                     <td className="px-4 py-4">
                       <span
                         className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
-                          record.dmvReportStatus === "Overdue"
+                          record.dmvReportStatus === "Missing court document"
                             ? "bg-red-100 text-red-700"
-                            : record.dmvReportStatus === "Pending"
+                            : record.dmvReportStatus === "Ready to report"
                             ? "bg-amber-100 text-amber-800"
                             : "bg-emerald-100 text-emerald-700"
                         }`}
@@ -135,6 +142,7 @@ export default async function AdminReportingPage() {
                         {record.dmvReportStatus}
                       </span>
                     </td>
+                    <td className="px-4 py-4 text-slate-600">{record.reportedAt}</td>
                   </tr>
                 ))}
               </tbody>

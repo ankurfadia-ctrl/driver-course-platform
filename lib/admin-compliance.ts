@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin"
 import {
   getReasonForAttendingLabel,
+  isCourtRelatedReason,
   normalizeDriverCourseProfileMetadata,
   type DriverCourseProfileMetadata,
 } from "@/lib/student-attendance"
@@ -84,6 +85,7 @@ export type ComplianceRecord = {
   caseOrTicketNumber: string
   accuracyStatus: string
   dmvReportStatus: string
+  reportedAt: string
 }
 
 type AuthUserProfileRow = {
@@ -238,21 +240,29 @@ export function buildComplianceRecords(args: {
     const completionReady = Boolean(exam?.passed && exam?.certificate_id)
     const completionTimestamp = exam?.completed_at ?? exam?.created_at ?? null
     let dmvReportStatus = "Not ready"
+    let reportedAt = "-"
+    const courtRelated = isCourtRelatedReason(driverCourseProfile.reasonForAttending)
+    const hasCourtInfo = Boolean(
+      driverCourseProfile.courtName?.trim() ||
+        driverCourseProfile.caseOrTicketNumber?.trim() ||
+        driverCourseProfile.courtDocumentNotes?.trim()
+    )
 
     if (completionReady) {
       if (driverCourseProfile.dmvReportedAt) {
-        dmvReportStatus = `Reported ${formatDateTime(
-          driverCourseProfile.dmvReportedAt
-        )}`
+        dmvReportStatus = "Reported to DMV"
+        reportedAt = formatDateTime(driverCourseProfile.dmvReportedAt)
+      } else if (courtRelated && !hasCourtInfo) {
+        dmvReportStatus = "Missing court document"
       } else if (completionTimestamp) {
         const completedAtDate = new Date(completionTimestamp)
         const isOverdue =
           !Number.isNaN(completedAtDate.getTime()) &&
           Date.now() - completedAtDate.getTime() > 24 * 60 * 60 * 1000
 
-        dmvReportStatus = isOverdue ? "Overdue" : "Pending"
+        dmvReportStatus = isOverdue ? "Ready to report" : "Ready to report"
       } else {
-        dmvReportStatus = "Pending"
+        dmvReportStatus = "Ready to report"
       }
     }
 
@@ -292,6 +302,7 @@ export function buildComplianceRecords(args: {
         ? "Acknowledged"
         : "Missing",
       dmvReportStatus,
+      reportedAt,
     } satisfies ComplianceRecord
   })
 }
@@ -428,8 +439,8 @@ export function getComplianceSummary(records: ComplianceRecord[], purchases: Pur
     supportOpen: records.filter((record) => record.supportStatus !== "No requests" && record.supportStatus !== "Resolved").length,
     reportingPending: records.filter(
       (record) =>
-        record.dmvReportStatus === "Pending" ||
-        record.dmvReportStatus === "Overdue"
+        record.dmvReportStatus === "Ready to report" ||
+        record.dmvReportStatus === "Missing court document"
     ).length,
   }
 }
@@ -439,16 +450,16 @@ export function getDmvReportingQueue(records: ComplianceRecord[]) {
     .filter(
       (record) =>
         record.certificateId !== "-" &&
-        (record.dmvReportStatus === "Pending" ||
-          record.dmvReportStatus === "Overdue" ||
-          record.dmvReportStatus.startsWith("Reported"))
+        (record.dmvReportStatus === "Ready to report" ||
+          record.dmvReportStatus === "Missing court document" ||
+          record.dmvReportStatus === "Reported to DMV")
     )
     .sort((a, b) => {
       if (a.dmvReportStatus === b.dmvReportStatus) return 0
-      if (a.dmvReportStatus === "Overdue") return -1
-      if (b.dmvReportStatus === "Overdue") return 1
-      if (a.dmvReportStatus === "Pending") return -1
-      if (b.dmvReportStatus === "Pending") return 1
+      if (a.dmvReportStatus === "Missing court document") return -1
+      if (b.dmvReportStatus === "Missing court document") return 1
+      if (a.dmvReportStatus === "Ready to report") return -1
+      if (b.dmvReportStatus === "Ready to report") return 1
       return 0
     })
 }
@@ -476,6 +487,7 @@ export function toCsv(records: ComplianceRecord[]) {
     "case_or_ticket_number",
     "accuracy_status",
     "dmv_report_status",
+    "reported_at",
   ]
 
   const rows = records.map((record) =>
@@ -501,6 +513,7 @@ export function toCsv(records: ComplianceRecord[]) {
       record.caseOrTicketNumber,
       record.accuracyStatus,
       record.dmvReportStatus,
+      record.reportedAt,
     ]
       .map((value) => `"${String(value).replace(/"/g, '""')}"`)
       .join(",")
