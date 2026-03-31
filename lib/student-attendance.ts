@@ -29,14 +29,14 @@ export const REASON_FOR_ATTENDING_OPTIONS: Array<{
     label: "Court Required (COU)",
     studentLabel: "Court required",
     description:
-      "Choose this only if a court required you to complete a Virginia driver improvement course.",
+      "Choose this only if a court required you to complete a driver improvement course.",
   },
   {
     value: "DMV",
     label: "DMV Required (DMV)",
     studentLabel: "DMV required",
     description:
-      "Choose this if Virginia DMV required you to complete the course.",
+      "Choose this if DMV required you to complete the course.",
   },
   {
     value: "INS",

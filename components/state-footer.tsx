@@ -20,7 +20,7 @@ export default async function StateFooter({ state }: { state: string }) {
       ? {
           courseLabel: `${config.stateName} Course`,
           title: `Curso de mejoramiento para conductores de ${config.stateName}.`,
-          description: "Curso en linea claro y sencillo para estudiantes de Virginia.",
+          description: `Curso en linea claro y sencillo para estudiantes de ${config.stateName}.`,
           resources: "Recursos para estudiantes",
           disclosures: "Informacion",
           faq: "Preguntas",
@@ -37,7 +37,7 @@ export default async function StateFooter({ state }: { state: string }) {
       : {
           courseLabel: `${config.stateName} Course`,
           title: `${config.stateName} driver improvement course.`,
-          description: "Clear online course experience for Virginia students.",
+          description: `Clear online course experience for ${config.stateName} students.`,
           resources: "Student Resources",
           disclosures: "Disclosures",
           faq: "FAQ",
