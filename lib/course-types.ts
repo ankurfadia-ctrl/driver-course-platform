@@ -78,5 +78,7 @@ export function getCourseTypeForState(
 }
 
 export function getAllCourseTypes() {
-  return ["virginia", "florida"].flatMap((state) => getCourseTypesForState(state))
+  return ["virginia", "florida", "california"].flatMap((state) =>
+    getCourseTypesForState(state)
+  )
 }

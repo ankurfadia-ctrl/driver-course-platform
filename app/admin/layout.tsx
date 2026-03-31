@@ -23,6 +23,8 @@ const adminNavLinks = [
   { href: "/admin/virginia-readiness", label: "Virginia Readiness" },
   { href: "/admin/florida-readiness", label: "Florida Readiness" },
   { href: "/admin/florida-approval-packet", label: "Florida Packet" },
+  { href: "/admin/california-readiness", label: "California Readiness" },
+  { href: "/admin/california-approval-packet", label: "California Packet" },
   { href: "/admin/course-types", label: "Course Types" },
   { href: "/admin/launch-readiness", label: "Launch Readiness" },
   { href: "/admin/qa-checklist", label: "Hosted QA" },

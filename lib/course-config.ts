@@ -240,6 +240,59 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       },
     ],
   },
+  california: {
+    stateCode: "CA",
+    stateSlug: "california",
+    stateName: "California",
+    enrollmentOpen: false,
+    courseSlug: "traffic-violator-school",
+    siteTitle: "California Traffic Violator School",
+    brandName: "California Traffic Violator School",
+    courseName: "California Traffic Violator School",
+    marketingHeadline: "Prepare a California traffic violator school offering.",
+    marketingDescription:
+      "California traffic violator school provider planning workspace with prep-only public pages, packet organization, and occupational licensing readiness.",
+    certificateIssuerLine: "California Traffic Violator School Platform",
+    approvalStatusLabel: "California name approval starting",
+    disclosuresIntro:
+      "California-specific licensing, curriculum approval, and launch details are still being prepared. Enrollment will remain closed until the California DMV path is completed.",
+    disclosures: [
+      {
+        title: "California development status",
+        body:
+          "California public enrollment is not open. The first California step is TVS name approval, followed by owner, operator, instructor, bond, and curriculum approval work.",
+      },
+      {
+        title: "Occupational licensing structure",
+        body:
+          "California traffic violator school licensing is an occupational licensing program that requires more than a public course website, including licensing, property or office documentation, and course approval steps.",
+      },
+      {
+        title: "State-specific launch timing",
+        body:
+          "California launch timing depends on DMV name approval, licensing, bond, fingerprinting, and curriculum review requirements. No California student should rely on this platform for course completion until launch is formally opened.",
+      },
+    ],
+    dashboardLabel: "Dashboard",
+    courseLabel: "Course",
+    certificateLabel: "Certificate",
+    finalExamLabel: "Final Exam",
+    passingScorePercent: 80,
+    finalExamQuestionCount: 50,
+    logoSrc: "/logo.svg",
+    supportEmail: "support@vadriverimprovementcourse.com",
+    supportPhone: "8777980235",
+    supportPhoneDisplay: "(877) 798-0235",
+    courseTracks: [
+      {
+        code: "ca-tvs",
+        name: "California Traffic Violator School",
+        audience: "California court-ordered traffic school students",
+        status: "in-build",
+        notes: "California name approval is the current first step before deeper owner, operator, instructor, and curriculum work.",
+      },
+    ],
+  },
 }
 
 export function getCourseConfig(state: string): StateCourseConfig {
