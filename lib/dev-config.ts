@@ -5,7 +5,7 @@ export const DEV_CONFIG = {
 
   states: {
     virginia: {
-      BYPASS_FINAL_EXAM_SEAT_TIME: true,
+      BYPASS_FINAL_EXAM_SEAT_TIME: false,
     },
   },
 } as const
