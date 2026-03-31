@@ -44,6 +44,8 @@ export type StateCourseConfig = {
   supportEmail: string
   supportPhone: string
   supportPhoneDisplay: string
+  secondarySupportPhone?: string
+  secondarySupportPhoneDisplay?: string
   courseTracks?: StateCourseTrack[]
 }
 
@@ -73,7 +75,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Provider contact information",
         body:
-          "Online registration displays the provider name Virginia Driver Improvement Course and the provider toll-free telephone number (877) 798-0235.",
+          "Online registration displays the provider name Virginia Driver Improvement Course, the primary Virginia telephone number (703) 574-0146, and the toll-free alternate line (877) 798-0235.",
       },
       {
         title: "Court and eligibility responsibility",
@@ -154,8 +156,10 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
     supportEmail: "support@vadriverimprovementcourse.com",
-    supportPhone: "8777980235",
-    supportPhoneDisplay: "(877) 798-0235",
+    supportPhone: "7035740146",
+    supportPhoneDisplay: "(703) 574-0146",
+    secondarySupportPhone: "8777980235",
+    secondarySupportPhoneDisplay: "(877) 798-0235",
     courseTracks: [
       {
         code: "va-driver-improvement",
@@ -207,8 +211,10 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
     supportEmail: "support@vadriverimprovementcourse.com",
-    supportPhone: "8777980235",
-    supportPhoneDisplay: "(877) 798-0235",
+    supportPhone: "7035740146",
+    supportPhoneDisplay: "(703) 574-0146",
+    secondarySupportPhone: "8777980235",
+    secondarySupportPhoneDisplay: "(877) 798-0235",
     courseTracks: [
       {
         code: "fl-bdi",
@@ -281,8 +287,10 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
     supportEmail: "support@vadriverimprovementcourse.com",
-    supportPhone: "8777980235",
-    supportPhoneDisplay: "(877) 798-0235",
+    supportPhone: "7035740146",
+    supportPhoneDisplay: "(703) 574-0146",
+    secondarySupportPhone: "8777980235",
+    secondarySupportPhoneDisplay: "(877) 798-0235",
     courseTracks: [
       {
         code: "ca-tvs",

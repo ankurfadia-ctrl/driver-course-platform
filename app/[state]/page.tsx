@@ -66,7 +66,15 @@ export default async function StateHomePage({
 }) {
   const { state } = await params
   const config = getCourseConfig(state)
+  const secondarySupportPhoneDisplay = config.secondarySupportPhoneDisplay ?? null
+  const secondarySupportPhone = config.secondarySupportPhone ?? null
   const language = await getPreferredSiteLanguage()
+  const primarySupportPhoneLabel =
+    language === "es"
+      ? `Linea principal de ${config.stateName}`
+      : `${config.stateName} primary line`
+  const secondarySupportPhoneLabel =
+    language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
   const baseUrl = getPublicBaseUrl()
   const canonicalUrl = `${baseUrl}/${config.stateSlug}`
   const copy =
@@ -365,6 +373,26 @@ export default async function StateHomePage({
                 {copy.studentLogin}
               </Link>
             </div>
+            {secondarySupportPhoneDisplay && secondarySupportPhone ? (
+              <div className="text-xs leading-6 text-slate-500">
+                {primarySupportPhoneLabel}:{" "}
+                <a
+                  href={`tel:${config.supportPhone}`}
+                  className="underline decoration-slate-300 underline-offset-4"
+                >
+                  {config.supportPhoneDisplay}
+                </a>
+                {" "}
+                <span className="text-slate-400">|</span>
+                {" "}{secondarySupportPhoneLabel}:{" "}
+                <a
+                  href={`tel:${secondarySupportPhone}`}
+                  className="underline decoration-slate-300 underline-offset-4"
+                >
+                  {secondarySupportPhoneDisplay}
+                </a>
+              </div>
+            ) : null}
             {config.stateSlug === "virginia" ? (
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
                 <div>{copy.priceMatchHome}</div>

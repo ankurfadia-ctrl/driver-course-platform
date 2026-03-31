@@ -41,8 +41,11 @@ export default function LoginPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const secondarySupportPhoneDisplay = config.secondarySupportPhoneDisplay ?? null
   const enrollmentOpen = config.enrollmentOpen
   const language = usePreferredSiteLanguageClient()
+  const secondarySupportPhoneLabel =
+    language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
   const copy =
     language === "es"
       ? {
@@ -132,9 +135,11 @@ export default function LoginPage() {
             "Completa tu nombre legal, fecha de nacimiento y numero de cliente del DMV o numero de licencia antes de crear la cuenta.",
           registrationTitle: "Requisitos del portal de registro",
           registrationBody:
-            "Este portal de registro muestra el nombre del proveedor, el telefono gratuito, la tarifa del curso y los campos requeridos del estudiante antes de la inscripcion.",
+            secondarySupportPhoneDisplay
+              ? "Este portal de registro muestra el nombre del proveedor, la linea principal, la linea gratuita alternativa, la tarifa del curso y los campos requeridos del estudiante antes de la inscripcion."
+              : "Este portal de registro muestra el nombre del proveedor, el telefono, la tarifa del curso y los campos requeridos del estudiante antes de la inscripcion.",
           providerNameLabel: "Proveedor",
-          providerPhoneLabel: "Telefono gratuito",
+          providerPhoneLabel: `Linea principal de ${config.stateName}`,
           feeLabel: "Tarifa del curso",
           vendorLinkLabel: "Informacion del proveedor del plan de estudios",
           vendorLinkCta: "Leer informacion del curso",
@@ -228,9 +233,11 @@ export default function LoginPage() {
             "Complete your legal name, date of birth, and DMV customer number or out-of-state license number before creating the account.",
           registrationTitle: "Registration portal requirements",
           registrationBody:
-            "This registration portal displays the provider name, toll-free phone number, course fee, and required student fields before enrollment.",
+            secondarySupportPhoneDisplay
+              ? "This registration portal displays the provider name, the primary phone line, the toll-free alternate line, course fee, and required student fields before enrollment."
+              : "This registration portal displays the provider name, phone number, course fee, and required student fields before enrollment.",
           providerNameLabel: "Provider",
-          providerPhoneLabel: "Toll-free phone",
+          providerPhoneLabel: `${config.stateName} primary line`,
           feeLabel: "Course fee",
           vendorLinkLabel: "Curriculum vendor information",
           vendorLinkCta: "Read course information",
@@ -595,6 +602,12 @@ export default function LoginPage() {
                     <span className="font-semibold">{copy.providerPhoneLabel}:</span>{" "}
                     {config.supportPhoneDisplay}
                   </p>
+                  {secondarySupportPhoneDisplay ? (
+                    <p>
+                      <span className="font-semibold">{secondarySupportPhoneLabel}:</span>{" "}
+                      {secondarySupportPhoneDisplay}
+                    </p>
+                  ) : null}
                   <p>
                     <span className="font-semibold">{copy.feeLabel}:</span>{" "}
                     {courseFeeSummary}

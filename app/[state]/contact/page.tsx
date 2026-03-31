@@ -9,7 +9,15 @@ export default async function StateContactPage({
 }) {
   const { state } = await params
   const config = getCourseConfig(state)
+  const secondarySupportPhoneDisplay = config.secondarySupportPhoneDisplay ?? null
+  const secondarySupportPhone = config.secondarySupportPhone ?? null
   const language = await getPreferredSiteLanguage()
+  const primarySupportPhoneLabel =
+    language === "es"
+      ? `Linea principal de ${config.stateName}`
+      : `${config.stateName} primary line`
+  const secondarySupportPhoneLabel =
+    language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
   const copy =
     language === "es"
       ? {
@@ -23,7 +31,9 @@ export default async function StateContactPage({
             "Usa la pagina de soporte para recibir ayuda instantanea y registrar cualquier problema no resuelto.",
           phoneTitle: "Linea telefonica",
           phoneBody:
-            "Para obtener ayuda mas rapida, usa primero la pagina de soporte. El telefono esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
+            secondarySupportPhoneDisplay
+              ? "Para obtener ayuda mas rapida, usa primero la pagina de soporte. Si necesitas llamar, usa primero la linea principal. La linea gratuita permanece visible como contacto alternativo."
+              : "Para obtener ayuda mas rapida, usa primero la pagina de soporte. El telefono esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
           phoneLabel: "Telefono",
           cta: "Abrir soporte",
         }
@@ -38,7 +48,9 @@ export default async function StateContactPage({
             "Use the support page to get instant help and save any unresolved issue for follow-up review.",
           phoneTitle: "Phone line",
           phoneBody:
-            "For fastest help, use the support page first. The phone line is mainly for account-access problems and urgent course issues.",
+            secondarySupportPhoneDisplay
+              ? "For fastest help, use the support page first. If you need to call, use the primary line first. The toll-free line remains listed as an alternate contact."
+              : "For fastest help, use the support page first. The phone line is mainly for account-access problems and urgent course issues.",
           phoneLabel: "Phone",
           cta: "Open Support",
         }
@@ -76,7 +88,7 @@ export default async function StateContactPage({
             {copy.phoneBody}
           </p>
           <p className="mt-4 text-sm font-semibold text-slate-900">
-            {copy.phoneLabel}:{" "}
+            {secondarySupportPhoneDisplay ? primarySupportPhoneLabel : copy.phoneLabel}:{" "}
             <a
               href={`tel:${config.supportPhone}`}
               className="text-slate-900 underline decoration-slate-300 underline-offset-4"
@@ -84,6 +96,17 @@ export default async function StateContactPage({
               {config.supportPhoneDisplay}
             </a>
           </p>
+          {secondarySupportPhoneDisplay && secondarySupportPhone ? (
+            <p className="mt-2 text-sm font-semibold text-slate-900">
+              {secondarySupportPhoneLabel}:{" "}
+              <a
+                href={`tel:${secondarySupportPhone}`}
+                className="text-slate-900 underline decoration-slate-300 underline-offset-4"
+              >
+                {secondarySupportPhoneDisplay}
+              </a>
+            </p>
+          ) : null}
         </section>
       ) : null}
     </div>

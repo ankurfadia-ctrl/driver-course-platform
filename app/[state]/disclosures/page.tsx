@@ -40,8 +40,16 @@ export default async function StateDisclosuresPage({
 }) {
   const { state } = await params
   const config = getCourseConfig(state)
+  const secondarySupportPhoneDisplay = config.secondarySupportPhoneDisplay ?? null
+  const secondarySupportPhone = config.secondarySupportPhone ?? null
   const enrollmentOpen = config.enrollmentOpen
   const language = await getPreferredSiteLanguage()
+  const primarySupportPhoneLabel =
+    language === "es"
+      ? `Linea principal de ${config.stateName}`
+      : `${config.stateName} primary line`
+  const secondarySupportPhoneLabel =
+    language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
   const copy =
     language === "es"
       ? {
@@ -70,7 +78,9 @@ export default async function StateDisclosuresPage({
               : "La plataforma se esta preparando para ofrecer experiencias en ingles y espanol donde el estado y el regulador lo permitan.",
           phoneTitle: "Linea telefonica",
           phoneBody:
-            "Para obtener ayuda mas rapida, usa primero la pagina de soporte. La linea telefonica esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
+            secondarySupportPhoneDisplay
+              ? "Para obtener ayuda mas rapida, usa primero la pagina de soporte. Si necesitas llamar, usa primero la linea principal. La linea gratuita permanece visible como contacto alternativo."
+              : "La linea telefonica esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
           phoneLabel: "Telefono",
         }
       : {
@@ -91,7 +101,9 @@ export default async function StateDisclosuresPage({
             "The course offers an English and Spanish experience, and the main course and final-exam content are available in both languages.",
           phoneTitle: "Phone line",
           phoneBody:
-            "For fastest help, use the support page first. The phone line is mainly for account-access problems and urgent course issues.",
+            secondarySupportPhoneDisplay
+              ? "For fastest help, use the support page first. If you need to call, use the primary line first. The toll-free line remains listed as an alternate contact."
+              : "The phone line is mainly for account-access problems and urgent course issues.",
           phoneLabel: "Phone",
         }
 
@@ -136,7 +148,7 @@ export default async function StateDisclosuresPage({
             <div className="font-semibold text-slate-900">{copy.phoneTitle}</div>
             <p className="mt-2">{copy.phoneBody}</p>
             <p className="mt-2 font-semibold text-slate-900">
-              {copy.phoneLabel}:{" "}
+              {secondarySupportPhoneDisplay ? primarySupportPhoneLabel : copy.phoneLabel}:{" "}
               <a
                 href={`tel:${config.supportPhone}`}
                 className="underline decoration-slate-300 underline-offset-4"
@@ -144,6 +156,17 @@ export default async function StateDisclosuresPage({
                 {config.supportPhoneDisplay}
               </a>
             </p>
+            {secondarySupportPhoneDisplay && secondarySupportPhone ? (
+              <p className="mt-1 font-semibold text-slate-900">
+                {secondarySupportPhoneLabel}:{" "}
+                <a
+                  href={`tel:${secondarySupportPhone}`}
+                  className="underline decoration-slate-300 underline-offset-4"
+                >
+                  {secondarySupportPhoneDisplay}
+                </a>
+              </p>
+            ) : null}
           </div>
         ) : null}
         <div className="mt-4 flex flex-wrap gap-3">
