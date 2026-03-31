@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { createServerClient } from "@supabase/ssr"
 import { isAdminEmail } from "@/lib/admin-access"
+import { isReviewerEmail } from "@/lib/reviewer-access"
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({
@@ -36,10 +37,14 @@ export async function proxy(request: NextRequest) {
   const isAdminLoginRoute = pathname === "/admin/login"
 
   const isAuthPage = segments.length >= 2 && segments[1] === "login"
+  const isReviewerRoute =
+    segments.length >= 2 && segments[1] === "reviewer-access"
 
   const isProtectedRoute =
     segments.length >= 2 &&
-    (segments[1] === "dashboard" || segments[1] === "course")
+    (segments[1] === "dashboard" ||
+      segments[1] === "course" ||
+      segments[1] === "reviewer-access")
 
   if (!state) {
     return response
@@ -75,6 +80,17 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  if (user && isReviewerRoute) {
+    if (!isReviewerEmail(user.email) && !isAdminEmail(user.email)) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${state}/login`
+      url.searchParams.set("reason", "reviewer")
+      return NextResponse.redirect(url)
+    }
+
+    return response
+  }
+
   // 🔁 Logged in → block login page
   if (user && isAuthPage) {
     const url = request.nextUrl.clone()
@@ -89,6 +105,7 @@ export const config = {
   matcher: [
     "/:state/dashboard/:path*",
     "/:state/course/:path*",
+    "/:state/reviewer-access",
     "/:state/login",
     "/admin/login",
     "/admin/:path*",

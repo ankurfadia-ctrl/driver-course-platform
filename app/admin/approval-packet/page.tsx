@@ -66,6 +66,11 @@ const packetSections = [
 
 const sourceLinks = [
   {
+    label: "Virginia reviewer portal",
+    href: "/virginia/reviewer-access",
+    note: "Logged-in non-admin reviewer view for DMV or packet reviewers",
+  },
+  {
     label: "Virginia curriculum packet",
     href: "/admin/curriculum",
     note: "Lessons, knowledge checks, and final exam bank",
@@ -158,6 +163,11 @@ export default async function AdminApprovalPacketPage() {
             Open Reviewer Packet
           </Link>
         </div>
+        <p className="mt-3 text-sm leading-7 text-slate-700">
+          If DMV wants a username-and-password review path instead of a printed
+          packet, use the Virginia reviewer portal with a reviewer account
+          listed in <code>REVIEWER_EMAILS</code>.
+        </p>
       </section>
 
       <div className="grid gap-4 md:grid-cols-3">
