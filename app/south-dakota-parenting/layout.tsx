@@ -22,8 +22,8 @@ export default async function SouthDakotaParentingLayout({
     <PublicHeader language={language} />
     <main className="public-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="glass-panel overflow-hidden rounded-[2rem] border-[#f0e2c6] bg-white">
-          <div className="grid gap-6 border-b border-[#eee4d3] bg-[linear-gradient(135deg,#fff7eb_0%,#ffffff_52%,#fdfaf2_100%)] px-6 py-8 lg:grid-cols-[1fr_auto] lg:items-start lg:px-8">
+        <div className="glass-panel overflow-hidden rounded-[2rem] border-amber-100 bg-white">
+          <div className="grid gap-6 border-b border-amber-100 bg-[linear-gradient(135deg,#fff7eb_0%,#ffffff_52%,#fdfaf2_100%)] px-6 py-8 lg:grid-cols-[1fr_auto] lg:items-start lg:px-8">
             <div className="space-y-4">
               <div className="section-label !bg-amber-50 !text-amber-900 before:!bg-amber-600">
                 {isSpanish

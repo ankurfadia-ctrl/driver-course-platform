@@ -121,7 +121,7 @@ export default async function SouthDakotaParentEducationPage() {
 
   return (
     <div className="space-y-8">
-      <section className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8 lg:p-10">
+      <section className="glass-panel rounded-[2rem] border-amber-100 bg-white p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <div className="space-y-6">
             <div className="section-label !bg-amber-50 !text-amber-900 before:!bg-amber-600">
@@ -159,7 +159,7 @@ export default async function SouthDakotaParentEducationPage() {
             {highlights.map((item) => (
               <div
                 key={item.label}
-                className="rounded-3xl border border-[#f0e2c6] bg-[#fff8ee] p-6"
+                className="rounded-3xl border border-amber-100 bg-amber-50 p-6"
               >
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">
                   {item.label}
@@ -177,7 +177,7 @@ export default async function SouthDakotaParentEducationPage() {
         {features.map((item) => (
           <article
             key={item.title}
-            className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-7"
+            className="glass-panel rounded-[2rem] border-amber-100 bg-white p-7"
           >
             <h3 className="text-xl font-semibold text-slate-950">
               {item.title}
@@ -257,7 +257,7 @@ export default async function SouthDakotaParentEducationPage() {
         terms={terms}
       />
 
-      <section className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8">
+      <section className="glass-panel rounded-[2rem] border-amber-100 bg-white p-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
@@ -278,7 +278,7 @@ export default async function SouthDakotaParentEducationPage() {
           {previewFaqs.map((item) => (
             <details
               key={item.question}
-              className="group rounded-2xl border border-[#f0e2c6] bg-[#fff8ee]"
+              className="group rounded-2xl border border-amber-100 bg-amber-50"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4">
                 <span className="font-semibold text-slate-950">{item.question}</span>

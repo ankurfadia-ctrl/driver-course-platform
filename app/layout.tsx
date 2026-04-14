@@ -17,6 +17,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   alternates: {
     canonical: "/",
+    languages: {
+      "en": "/",
+      "es": "/",
+      "x-default": "/",
+    },
   },
   openGraph: {
     title: "National Course Portal",

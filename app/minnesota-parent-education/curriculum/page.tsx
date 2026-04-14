@@ -48,7 +48,7 @@ export default async function MinnesotaCurriculumPage() {
 
   return (
     <div className="space-y-8">
-      <section className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-8">
+      <section className="glass-panel rounded-[2rem] border-emerald-100 bg-white p-8">
         <div className="section-label !bg-emerald-50 !text-emerald-800 before:!bg-emerald-600">
           {copy.label}
         </div>
@@ -93,7 +93,7 @@ export default async function MinnesotaCurriculumPage() {
         ))}
       </section>
 
-      <section className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-8">
+      <section className="glass-panel rounded-[2rem] border-emerald-100 bg-white p-8">
         <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
           {copy.methodsLabel}
         </div>
@@ -109,7 +109,7 @@ export default async function MinnesotaCurriculumPage() {
         </div>
       </section>
 
-      <section className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-8">
+      <section className="glass-panel rounded-[2rem] border-emerald-100 bg-white p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-3xl">
             <div className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">

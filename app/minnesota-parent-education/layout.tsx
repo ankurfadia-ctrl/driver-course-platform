@@ -22,8 +22,8 @@ export default async function MinnesotaParentEducationLayout({
     <PublicHeader language={language} />
     <main className="public-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="glass-panel overflow-hidden rounded-[2rem] border-[#d9efe7] bg-white">
-          <div className="grid gap-6 border-b border-[#e3ece8] bg-[linear-gradient(135deg,#eefaf5_0%,#ffffff_52%,#f4fbff_100%)] px-6 py-8 lg:grid-cols-[1fr_auto] lg:items-start lg:px-8">
+        <div className="glass-panel overflow-hidden rounded-[2rem] border-emerald-100 bg-white">
+          <div className="grid gap-6 border-b border-emerald-100 bg-[linear-gradient(135deg,#eefaf5_0%,#ffffff_52%,#f4fbff_100%)] px-6 py-8 lg:grid-cols-[1fr_auto] lg:items-start lg:px-8">
             <div className="space-y-4">
               <div className="section-label !bg-emerald-50 !text-emerald-800 before:!bg-emerald-600">
                 {isSpanish ? "Educación para padres de Minnesota" : "Minnesota Parent Education"}

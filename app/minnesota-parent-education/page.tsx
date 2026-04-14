@@ -110,7 +110,7 @@ export default async function MinnesotaParentEducationPage() {
 
   return (
     <div className="space-y-8">
-      <section className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-8 lg:p-10">
+      <section className="glass-panel rounded-[2rem] border-emerald-100 bg-white p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-start">
           <div className="space-y-6">
             <div className="section-label !bg-emerald-50 !text-emerald-800 before:!bg-emerald-600">
@@ -148,7 +148,7 @@ export default async function MinnesotaParentEducationPage() {
             {highlights.map((item) => (
               <div
                 key={item.label}
-                className="rounded-3xl border border-[#d9efe7] bg-[#f4fbf7] p-6"
+                className="rounded-3xl border border-emerald-100 bg-emerald-50 p-6"
               >
                 <div className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
                   {item.label}
@@ -166,7 +166,7 @@ export default async function MinnesotaParentEducationPage() {
         {features.map((item) => (
           <article
             key={item.title}
-            className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-7"
+            className="glass-panel rounded-[2rem] border-emerald-100 bg-white p-7"
           >
             <h3 className="text-xl font-semibold text-slate-950">
               {item.title}
@@ -246,7 +246,7 @@ export default async function MinnesotaParentEducationPage() {
         terms={priceMatchTerms}
       />
 
-      <section className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-8">
+      <section className="glass-panel rounded-[2rem] border-emerald-100 bg-white p-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
@@ -267,7 +267,7 @@ export default async function MinnesotaParentEducationPage() {
           {previewFaqs.map((item) => (
             <details
               key={item.question}
-              className="group rounded-2xl border border-[#d9efe7] bg-[#f4fbf7]"
+              className="group rounded-2xl border border-emerald-100 bg-emerald-50"
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4">
                 <span className="font-semibold text-slate-950">{item.question}</span>

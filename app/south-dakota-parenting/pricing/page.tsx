@@ -58,7 +58,7 @@ export default async function SouthDakotaPricingPage() {
 
   return (
     <div className="space-y-8">
-      <section className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8">
+      <section className="glass-panel rounded-[2rem] border-amber-100 bg-white p-8">
         <div className="section-label !bg-amber-50 !text-amber-900 before:!bg-amber-600">
           {copy.label}
         </div>
@@ -107,7 +107,7 @@ export default async function SouthDakotaPricingPage() {
           </div>
         </div>
 
-        <div className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8">
+        <div className="glass-panel rounded-[2rem] border-amber-100 bg-white p-8">
           <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
             {copy.helpLabel}
           </div>
