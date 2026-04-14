@@ -27,11 +27,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "dmv-certificate",
     question: {
       en: "Will my certificate be sent automatically to DMV?",
-      es: "Se enviara mi certificado automaticamente al DMV?",
+      es: "Se enviara mi certificado automáticamente al DMV?",
     },
     answer: {
       en: "Your certificate page unlocks after successful completion. DMV reporting is handled automatically after completion, and you should still follow any court, employer, or insurance instructions that apply to your situation.",
-      es: "Tu pagina de certificado se habilita despues de completar el curso. El informe al DMV se maneja automaticamente despues de completar el curso, y aun debes seguir cualquier instruccion de la corte, el empleador o el seguro que corresponda.",
+      es: "Tu página de certificado se habilita después de completar el curso. El informe al DMV se maneja automáticamente después de completar el curso, y aún debes seguir cualquier instrucción de la corte, el empleador o el seguro que corresponda.",
     },
     keywords: ["sent to dmv automatically", "certificate sent to dmv", "do you send to dmv", "dmv report"],
   },
@@ -43,7 +43,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Refund requests are reviewed under the course refund policy. Refunds may be reviewed before meaningful course use, but purchases are generally not refundable after substantial course progress, final exam access, certificate issuance, or mailed-certificate fulfillment has begun. Priority-support upgrades are generally not refundable after purchase.",
-      es: "Las solicitudes de reembolso se revisan segun la politica de reembolsos del curso. Los reembolsos pueden revisarse antes de un uso significativo del curso, pero por lo general no son reembolsables una vez que ha comenzado un progreso sustancial del curso, el acceso al examen final, la emision del certificado o el envio fisico del certificado. Las mejoras a soporte prioritario por lo general no son reembolsables despues de la compra.",
+      es: "Las solicitudes de reembolso se revisan segun la politica de reembolsos del curso. Los reembolsos pueden revisarse antes de un uso significativo del curso, pero por lo general no son reembolsables una vez que ha comenzado un progreso sustancial del curso, el acceso al examen final, la emision del certificado o el envio fisico del certificado. Las mejoras a soporte prioritario por lo general no son reembolsables después de la compra.",
     },
     keywords: ["refund", "money back", "want my money back", "can i get a refund", "refund policy"],
   },
@@ -67,7 +67,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Pricing depends on the state and course. Current plans and prices are shown on the pricing and checkout pages. If the state is still in preparation, final pricing has not been published yet.",
-      es: "El precio depende del estado y del curso. Los planes y precios actuales se muestran en las paginas de matricula y pago. Si el estado sigue en preparacion, el precio final todavia no ha sido publicado.",
+      es: "El precio depende del estado y del curso. Los planes y precios actuales se muestran en las páginas de matrícula y pago. Si el estado sigue en preparación, el precio final todavia no ha sido publicado.",
     },
     keywords: [
       "how much does the course cost",
@@ -91,7 +91,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Yes, with priority support. Standard plans use the FAQ and self-serve support resources. Priority support includes human support through the support page, and those requests are handled first, usually in less than 1 business day.",
-      es: "Si, con soporte prioritario. Los planes estandar usan las preguntas frecuentes y recursos de autoservicio. El soporte prioritario incluye soporte humano a traves de la pagina de soporte, y esas solicitudes se atienden primero, normalmente en menos de 1 dia habil.",
+      es: "Si, con soporte prioritario. Los planes estándar usan las preguntas frecuentes y recursos de autoservicio. El soporte prioritario incluye soporte humano a traves de la página de soporte, y esas solicitudes se atienden primero, normalmente en menos de 1 dia habil.",
     },
     keywords: ["real person", "talk to a person", "human support", "talk to someone", "speak to someone"],
   },
@@ -103,7 +103,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Approval and acceptance depend on the state and the student's specific requirement. Review the disclosures carefully and confirm acceptance before purchasing or relying on completion.",
-      es: "La aprobacion y la aceptacion dependen del estado y de la necesidad especifica del estudiante. Revisa la informacion del curso y confirma la aceptacion antes de comprar o depender de la finalizacion.",
+      es: "La aprobación y la aceptación dependen del estado y de la necesidad específica del estudiante. Revisa la información del curso y confirma la aceptación antes de comprar o depender de la finalización.",
     },
     keywords: ["approved course", "is this course approved", "course approved"],
   },
@@ -111,11 +111,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "finish-requirements",
     question: {
       en: "What do I need before I can finish the course?",
-      es: "Que necesito antes de terminar el curso?",
+      es: "¿Qué necesito antes de terminar el curso?",
     },
     answer: {
       en: "Students generally need course access, required seat time, identity verification, and a passing final exam result before a certificate becomes available.",
-      es: "Por lo general, los estudiantes necesitan acceso al curso, el tiempo requerido, verificacion de identidad y un resultado aprobatorio en el examen final antes de que el certificado este disponible.",
+      es: "Por lo general, los estudiantes necesitan acceso al curso, el tiempo requerido, verificación de identidad y un resultado aprobatorio en el examen final antes de que el certificado esté disponible.",
     },
     keywords: ["finish the course", "complete the course", "finish class requirements"],
   },
@@ -127,7 +127,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Identity verification helps confirm that the person completing the course and taking the final exam is the enrolled student. It is also part of the course controls used to protect certificate integrity and completion records.",
-      es: "La verificacion de identidad ayuda a confirmar que la persona que esta completando el curso y tomando el examen final es el estudiante inscrito. Tambien forma parte de los controles del curso para proteger la integridad del certificado y de los registros de finalizacion.",
+      es: "La verificación de identidad ayuda a confirmar que la persona que esta completando el curso y tomando el examen final es el estudiante inscrito. También forma parte de los controles del curso para proteger la integridad del certificado y de los registros de finalización.",
     },
     keywords: ["verify my identity", "why identity", "identity verification"],
   },
@@ -135,7 +135,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "lesson-quizzes",
     question: {
       en: "Do I have to take the lesson quizzes?",
-      es: "Tengo que hacer las evaluaciones de cada leccion?",
+      es: "¿Tengo que hacer las evaluaciones de cada leccion?",
     },
     answer: {
       en: "The lesson knowledge checks are there to reinforce learning. They help you review the material, but they do not replace the course final exam.",
@@ -163,7 +163,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "No. You must complete all required lessons, at least 7 hours of course instruction, and identity verification before the final exam can be started.",
-      es: "No. Debes completar todas las lecciones requeridas, al menos 7 horas de instruccion del curso y la verificacion de identidad antes de comenzar el examen final.",
+      es: "No. Debes completar todas las lecciones requeridas, al menos 7 horas de instrucción del curso y la verificación de identidad antes de comenzar el examen final.",
     },
     keywords: ["take the final right away", "final exam right away", "can i take the final now"],
   },
@@ -175,7 +175,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Yes. The final exam is included in the overall 8-hour minimum. In this course, the final exam unlocks after at least 7 hours of instruction, but the certificate stays locked until the full 8 hours is complete.",
-      es: "Si. El examen final forma parte del minimo total de 8 horas. En este curso, el examen final se habilita despues de al menos 7 horas de instruccion, pero el certificado permanece bloqueado hasta completar el minimo total de 8 horas.",
+      es: "Si. El examen final forma parte del mínimo total de 8 horas. En este curso, el examen final se habilita después de al menos 7 horas de instrucción, pero el certificado permanece bloqueado hasta completar el mínimo total de 8 horas.",
     },
     keywords: ["8 hours", "does the 8 hours include the final", "eight hours include final"],
   },
@@ -183,11 +183,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "time-per-page",
     question: {
       en: "Do I have to spend a certain amount of time on each page?",
-      es: "Tengo que pasar cierta cantidad de tiempo en cada pagina?",
+      es: "¿Tengo que pasar cierta cantidad de tiempo en cada página?",
     },
     answer: {
       en: "No. There is not a fixed minimum required time for each individual page. Your course time is tracked across active participation in the course, and you still need to complete the required lessons, reach at least 7 hours before the final exam unlocks, and complete the full 8 hours before your certificate can unlock.",
-      es: "No. No hay un tiempo minimo fijo requerido para cada pagina individual. El tiempo del curso se registra segun tu participacion activa en el curso, y aun debes completar las lecciones requeridas, alcanzar al menos 7 horas antes de que se habilite el examen final y completar las 8 horas totales antes de que se habilite tu certificado.",
+      es: "No. No hay un tiempo mínimo fijo requerido para cada página individual. El tiempo del curso se registra segun tu participacion activa en el curso, y aún debes completar las lecciones requeridas, alcanzar al menos 7 horas antes de que se habilite el examen final y completar las 8 horas totales antes de que se habilite tu certificado.",
     },
     keywords: [
       "certain amount of time on each page",
@@ -202,11 +202,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "passing-score",
     question: {
       en: "What score do I need on the final exam?",
-      es: "Que puntuacion necesito en el examen final?",
+      es: "¿Qué puntuación necesito en el examen final?",
     },
     answer: {
       en: "The final exam requires a passing score of 80% before the course can be completed and the certificate can unlock.",
-      es: "El examen final requiere una puntuacion aprobatoria de 80% para completar el curso y desbloquear el certificado.",
+      es: "El examen final requiere una puntuación aprobatoria de 80% para completar el curso y desbloquear el certificado.",
     },
     keywords: ["passing score", "score do i need", "pass the final", "what score to pass"],
   },
@@ -218,7 +218,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "If you do not pass, the exam page shows your result, an earliest return time for another attempt, and suggested lessons to review before you try again.",
-      es: "Si no apruebas, la pagina del examen muestra tu resultado, una hora estimada para volver a intentarlo y sugerencias sobre que lecciones repasar antes del siguiente intento.",
+      es: "Si no apruebas, la página del examen muestra tu resultado, una hora estimada para volver a intentarlo y sugerencias sobre que lecciones repasar antes del siguiente intento.",
     },
     keywords: ["fail the final", "failed final", "what happens if i fail", "did not pass"],
   },
@@ -238,11 +238,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "read-pages",
     question: {
       en: "Do I have to read all the course pages?",
-      es: "Tengo que leer todas las paginas del curso?",
+      es: "¿Tengo que leer todas las páginas del curso?",
     },
     answer: {
       en: "You need to complete the course flow, including required timing and progress controls, before the final exam and certificate become available.",
-      es: "Debes completar el flujo del curso, incluidos los controles de tiempo y progreso requeridos, antes de que el examen final y el certificado esten disponibles.",
+      es: "Debes completar el flujo del curso, incluidos los controles de tiempo y progreso requeridos, antes de que el examen final y el certificado estén disponibles.",
     },
     keywords: ["read all the pages", "skip pages", "skip lessons", "complete all lessons"],
   },
@@ -254,7 +254,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Once course requirements are complete and the final exam is passed, the certificate page unlocks so the student can view, download, print, and verify the certificate.",
-      es: "Una vez completados los requisitos del curso y aprobado el examen final, la pagina del certificado se habilita para verlo, descargarlo, imprimirlo y verificarlo.",
+      es: "Una vez completados los requisitos del curso y aprobado el examen final, la página del certificado se habilita para verlo, descargarlo, imprimirlo y verificarlo.",
     },
     keywords: ["get my certificate", "how do i get certificate", "certificate page"],
   },
@@ -262,11 +262,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "after-finish",
     question: {
       en: "What do I need to do after I finish the class?",
-      es: "Que tengo que hacer despues de terminar la clase?",
+      es: "¿Que tengo que hacer después de terminar la clase?",
     },
     answer: {
       en: "After you complete the course, pass the final exam, open your certificate page and save a copy for your records. If your court, employer, or insurance company needs anything else from you, follow their instructions.",
-      es: "Despues de completar el curso, aprueba el examen final, abre tu pagina de certificado y guarda una copia para tus registros. Si tu corte, empleador o compania de seguros necesita documentacion adicional de tu parte, sigue sus instrucciones.",
+      es: "Después de completar el curso, aprueba el examen final, abre tu página de certificado y guarda una copia para tus registros. Si tu corte, empleador o compania de seguros necesita documentacion adicional de tu parte, sigue sus instrucciones.",
     },
     keywords: ["after i finish", "after i finish class", "what next after i finish", "finished the class"],
   },
@@ -278,7 +278,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Use the support page after signing in for help with payment, access, certificate, or course-related issues.",
-      es: "Usa la pagina de soporte despues de iniciar sesion para recibir ayuda con pagos, acceso, certificado o problemas del curso.",
+      es: "Usa la página de soporte después de iniciar sesion para recibir ayuda con pagos, acceso, certificado o problemas del curso.",
     },
     keywords: ["payment issue", "access issue", "certificate issue"],
   },
@@ -286,11 +286,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "support-difference",
     question: {
       en: "What is the difference between standard and priority support?",
-      es: "Cual es la diferencia entre el soporte estandar y el prioritario?",
+      es: "Cual es la diferencia entre el soporte estándar y el prioritario?",
     },
     answer: {
       en: "Standard support uses the FAQ and self-serve resources. Priority support adds human support, puts your requests ahead of standard students, and usually receives a first response in less than 1 business day.",
-      es: "El soporte estandar usa las preguntas frecuentes y recursos de autoservicio. El soporte prioritario agrega soporte humano, pone tus solicitudes por delante de los estudiantes estandar y normalmente recibe una primera respuesta en menos de 1 dia habil.",
+      es: "El soporte estándar usa las preguntas frecuentes y recursos de autoservicio. El soporte prioritario agrega soporte humano, pone tus solicitudes por delante de los estudiantes estándar y normalmente recibe una primera respuesta en menos de 1 dia habil.",
     },
     keywords: ["difference between standard and priority", "priority support", "standard support"],
   },
@@ -302,7 +302,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "The final exam stays locked until you complete the required lessons, satisfy the course seat time, and finish the required identity verification steps.",
-      es: "El examen final permanece bloqueado hasta que completes las lecciones requeridas, cumplas el tiempo del curso y termines la verificacion de identidad necesaria.",
+      es: "El examen final permanece bloqueado hasta que completes las lecciones requeridas, cumplas el tiempo del curso y termines la verificación de identidad necesaria.",
     },
     keywords: ["exam locked", "final exam locked", "why is my exam locked", "why is the exam locked"],
   },
@@ -322,11 +322,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "timer-not-done",
     question: {
       en: "Why is my course timer not done yet?",
-      es: "Por que mi temporizador del curso aun no termina?",
+      es: "Por que mi temporizador del curso aún no termina?",
     },
     answer: {
       en: "Course time is tracked based on your activity. Keep progressing through lessons and remain active on the course pages until the required time is completed.",
-      es: "El tiempo del curso se registra segun tu actividad. Sigue avanzando por las lecciones y permanece activo en las paginas del curso hasta completar el tiempo requerido.",
+      es: "El tiempo del curso se registra segun tu actividad. Sigue avanzando por las lecciones y permanece activo en las páginas del curso hasta completar el tiempo requerido.",
     },
     keywords: ["timer not done", "course timer", "seat time", "time not moving"],
   },
@@ -341,12 +341,12 @@ function getVirginiaPricingAnswer(language: SiteLanguage) {
 
   if (!standard || !priority || !premium) {
     return language === "es"
-      ? "Los precios de Virginia se muestran en la pagina de pago antes de comprar."
+      ? "Los precios de Virginia se muestran en la página de pago antes de comprar."
       : "Virginia pricing is shown on the checkout page before purchase."
   }
 
   return language === "es"
-    ? `Los planes actuales de Virginia comienzan en ${formatPriceFromCents(standard.priceCents)}. El plan con soporte prioritario cuesta ${formatPriceFromCents(priority.priceCents)} y el paquete premium cuesta ${formatPriceFromCents(premium.priceCents)}. Puedes revisar los detalles del plan en la pagina de pago antes de comprar.`
+    ? `Los planes actuales de Virginia comienzan en ${formatPriceFromCents(standard.priceCents)}. El plan con soporte prioritario cuesta ${formatPriceFromCents(priority.priceCents)} y el paquete premium cuesta ${formatPriceFromCents(premium.priceCents)}. Puedes revisar los detalles del plan en la página de pago antes de comprar.`
     : `Current Virginia plans start at ${formatPriceFromCents(standard.priceCents)}. The priority-support plan is ${formatPriceFromCents(priority.priceCents)} and the premium bundle is ${formatPriceFromCents(premium.priceCents)}. You can review the plan details on the checkout page before purchasing.`
 }
 
@@ -360,13 +360,13 @@ function getFaqAnswer(entry: SupportFaqEntry, language: SiteLanguage, state?: st
 
     if (entry.id === "approved") {
       return language === "es"
-        ? "El curso de Virginia sigue en el proceso de aprobacion y permanece bajo revision. Revisa cuidadosamente la informacion del curso y confirma la aceptacion para tu requisito especifico antes de comprar o depender de la finalizacion."
+        ? "El curso de Virginia sigue en el proceso de aprobación y permanece bajo revision. Revisa cuidadosamente la información del curso y confirma la aceptación para tu requisito especifico antes de comprar o depender de la finalización."
         : "The Virginia course remains in the approval process and is still under review. Review the course information carefully and confirm acceptance for your specific requirement before purchasing or relying on completion."
     }
 
     if (entry.id === "dmv-certificate") {
       return language === "es"
-        ? "El reporte al DMV se maneja automaticamente despues de completar el curso. Tu pagina de certificado tambien se habilita para tus registros. Algunas situaciones de tribunal, empleador, seguro o DMV pueden requerir documentacion adicional, pasos extra o seguimiento por parte del estudiante."
+        ? "El reporte al DMV se maneja automáticamente después de completar el curso. Tu página de certificado tambien se habilita para tus registros. Algunas situaciones de tribunal, empleador, seguro o DMV pueden requerir documentacion adicional, pasos extra o seguimiento por parte del estudiante."
         : "DMV reporting is handled automatically after successful completion. Your certificate page also unlocks for your records. Some court, employer, insurance, or DMV situations may still require extra documentation, additional steps, or student follow-up."
     }
   }

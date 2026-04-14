@@ -67,12 +67,12 @@ export default function CertificatePage() {
             loading: "Cargando certificado...",
             lockedTitle: "Certificado bloqueado",
             lockedExam:
-              "Aprueba el examen final antes de que tu certificado este disponible.",
+              "Aprueba el examen final antes de que tu certificado esté disponible.",
             lockedNotReady:
-              "Tu certificado aun no esta listo. Actualiza esta pagina en un momento.",
+              "Tu certificado aún no está listo. Actualiza esta página en un momento.",
             lockedSeatTimePrefix: "Aprobaste el examen final. Permanece en el curso por",
             lockedSeatTimeSuffix:
-              "mas antes de que tu certificado pueda liberarse al completar el minimo total de 8 horas.",
+              "más antes de que tu certificado pueda liberarse al completar el mínimo total de 8 horas.",
             returnCourse: "Volver al curso",
             returnDashboard: "Volver al panel",
             back: "Volver",
@@ -81,31 +81,31 @@ export default function CertificatePage() {
             downloading: "Generando PDF...",
             emailCert: "Enviar certificado",
             emailing: "Enviando correo...",
-            emailSent: "Correo de finalizacion enviado.",
-            emailError: "No se pudo enviar el correo de finalizacion en este momento.",
+            emailSent: "Correo de finalización enviado.",
+            emailError: "No se pudo enviar el correo de finalización en este momento.",
             orderMailed: "Pedir copia por correo",
-            certificateHeading: "Certificado de finalizacion",
+            certificateHeading: "Certificado de finalización",
             certifiesThat: "Se certifica que",
             completedText:
               "ha completado exitosamente todos los requisitos y aprobo el examen final.",
-            scoreLabel: "Puntuacion",
+            scoreLabel: "Puntuación",
             dateLabel: "Fecha",
             certificateIdLabel: "ID de certificado",
             verifyLabel: "Verifica este certificado en:",
             studentNameFallback: "Nombre del estudiante",
             passedLabel: "Aprobado",
             pdf: {
-              heading: "CERTIFICADO DE FINALIZACION",
+              heading: "CERTIFICADO DE FINALIZACIÓN",
               certifiesThat: "Se certifica que",
               completedText:
-                "ha completado exitosamente todos los requisitos y aprobo el examen final de",
+                "ha completado exitosamente todos los requisitos y aprobó el examen final de",
               stateLabel: "Estado",
-              finalExamScoreLabel: "Puntuacion del examen final",
-              completionDateLabel: "Fecha de finalizacion",
+              finalExamScoreLabel: "Puntuación del examen final",
+              completionDateLabel: "Fecha de finalización",
               certificateIdLabel: "ID de certificado",
               verifyLabel: "Verifica este certificado en",
             },
-            pdfError: "No se pudo generar el PDF. Intentalo de nuevo.",
+            pdfError: "No se pudo generar el PDF. Inténtalo de nuevo.",
           }
         : {
             loading: "Loading certificate...",
@@ -553,6 +553,11 @@ export default function CertificatePage() {
   return (
     <>
       <style jsx global>{`
+        @page {
+          size: letter landscape;
+          margin: 0.5in;
+        }
+
         @media print {
           .no-print {
             display: none !important;
@@ -560,6 +565,10 @@ export default function CertificatePage() {
 
           body {
             background: white !important;
+          }
+
+          .certificate-shell {
+            page-break-inside: avoid;
           }
         }
       `}</style>
@@ -652,7 +661,7 @@ export default function CertificatePage() {
             {verifyUrl && (
               <div className="mt-6 text-xs text-slate-500">
                 {copy.verifyLabel}
-                <div className="mt-1 break-all font-mono">
+                <div className="mt-1 break-words font-mono">
                   {verifyUrl}
                 </div>
               </div>

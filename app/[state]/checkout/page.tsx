@@ -32,10 +32,10 @@ function getPlanPresentation(planCode: string, language: "en" | "es") {
         return {
           marketingTitle: "Curso + Soporte Prioritario",
           audience:
-            "Ideal para estudiantes con fecha limite o que quieren ayuda mas rapida.",
+            "Ideal para estudiantes con fecha limite o que quieren ayuda mas rápida.",
           bullets: [
             "Curso completo de Virginia",
-            "Elegibilidad para certificado despues de cumplir todos los requisitos",
+            "Elegibilidad para certificado después de cumplir todos los requisitos",
             "Soporte prioritario con primera respuesta humana normalmente en menos de 1 dia habil",
           ],
           highlight: "Mejor valor",
@@ -44,34 +44,34 @@ function getPlanPresentation(planCode: string, language: "en" | "es") {
         return {
           marketingTitle: "Paquete Premium",
           audience:
-            "Ideal para estudiantes dirigidos por la corte o para quienes quieren la opcion mas completa desde el inicio.",
+            "Ideal para estudiantes dirigidos por la corte o para quienes quieren la opción mas completa desde el inicio.",
           bullets: [
             "Curso completo de Virginia",
             "Soporte prioritario con respuestas humanas mas rapidas",
-            "Revision administrativa de documentos de la corte",
-            "Una copia del certificado enviada por correo despues de completar el curso",
+            "Revisión administrativa de documentos de la corte",
+            "Una copia del certificado enviada por correo después de completar el curso",
           ],
           highlight: "Todo incluido",
         }
       case "va-standard":
         return {
-          marketingTitle: "Curso Estandar",
+          marketingTitle: "Curso Estándar",
           audience:
-            "Ideal para estudiantes que quieren el curso completo al precio mas bajo.",
+            "Ideal para estudiantes que quieren el curso completo al precio más bajo.",
           bullets: [
             "Curso completo de Virginia",
-            "Elegibilidad para certificado despues de cumplir todos los requisitos",
-            "Soporte estandar con ayuda inicial por IA",
+            "Elegibilidad para certificado después de cumplir todos los requisitos",
+            "Soporte estándar con ayuda inicial por IA",
           ],
           highlight: null,
         }
       case "va-court-review":
         return {
-          marketingTitle: "Revision de Documentos Judiciales",
+          marketingTitle: "Revisión de Documentos Judiciales",
           audience:
-            "Ideal para estudiantes dirigidos por la corte que quieren una revision administrativa adicional de sus documentos.",
+            "Ideal para estudiantes dirigidos por la corte que quieren una revisión administrativa adicional de sus documentos.",
           bullets: [
-            "Revision administrativa de la informacion judicial cargada",
+            "Revisión administrativa de la información judicial cargada",
             "Ayuda para confirmar que los detalles judiciales clave parezcan completos",
             "No incluye asesoria legal ni garantiza resultados judiciales o del DMV",
           ],
@@ -80,10 +80,10 @@ function getPlanPresentation(planCode: string, language: "en" | "es") {
       default:
         return {
           marketingTitle: "Mejora a Soporte Prioritario",
-          audience: "Solo para cuentas que ya compraron el curso estandar.",
+          audience: "Solo para cuentas que ya compraron el curso estándar.",
           bullets: [
-            "Convierte una compra estandar en soporte prioritario",
-            "Tus solicitudes pasan al frente de la cola estandar",
+            "Convierte una compra estándar en soporte prioritario",
+            "Tus solicitudes pasan al frente de la cola estándar",
             "Mantienes el mismo acceso al curso y al certificado",
           ],
           highlight: null,
@@ -159,7 +159,7 @@ function getPlanPresentation(planCode: string, language: "en" | "es") {
 function getPlanFeatureValues(planCode: string, language: "en" | "es") {
   const yes = language === "es" ? "Incluido" : "Included"
   const no = language === "es" ? "No incluido" : "Not included"
-  const standard = language === "es" ? "Estandar" : "Standard"
+  const standard = language === "es" ? "Estándar" : "Standard"
   const priority = language === "es" ? "Prioritario" : "Priority"
   const sameCourse = language === "es" ? "Ya incluido" : "Already included"
   const unchanged = language === "es" ? "Sin cambios" : "Unchanged"
@@ -257,7 +257,7 @@ export default function StateCheckoutPage() {
           purchasedTitle: `Ya tienes acceso al curso de ${stateDisplayName}`,
           purchasedBody:
             "Esta cuenta ya tiene una compra pagada con soporte prioritario para este estado, por lo que no es necesario pagar otra vez.",
-          planCode: "Codigo del plan",
+          planCode: "Código del plan",
           supportTier: "Nivel de soporte",
           priority: "Prioritario",
           goCourse: "Ir al curso",
@@ -268,37 +268,37 @@ export default function StateCheckoutPage() {
           bodyUpgrade:
             "Esta cuenta ya tiene el curso. Puedes mejorar a soporte prioritario abajo.",
           bodyCheckout:
-            "Elige una opcion abajo. El pago se completa de forma segura con Stripe.",
-          compareLabel: "Elige la opcion que mejor se adapte a ti",
+            "Elige una opción abajo. El pago se completa de forma segura con Stripe.",
+          compareLabel: "Elige la opción que mejor se adapte a ti",
           infoTitle: "Informacion importante antes de inscribirte",
-          infoOne: "El acceso al curso es una compra unica para este estado.",
+          infoOne: "El acceso al curso es una compra única para este estado.",
           infoTwo:
-            "Los estudiantes deben planear completar el curso dentro de 90 dias desde la compra.",
+            "Los estudiantes deben planear completar el curso dentro de 90 días desde la compra.",
           infoThreeUpgrade:
-            "Las mejoras a soporte prioritario solo estan disponibles para compras estandar existentes.",
+            "Las mejoras a soporte prioritario solo estan disponibles para compras estándar existentes.",
           infoThreeCheckout:
             "Siguen aplicando el tiempo del curso, las verificaciones de identidad, las reglas del examen final y cualquier plazo externo mas corto.",
-          currentPlan: "Plan actual: soporte estandar",
+          currentPlan: "Plan actual: soporte estándar",
           currentPlanBody:
-            "Ya tienes acceso al curso. Si quieres una atencion mas rapida, puedes comprar la mejora a soporte prioritario abajo.",
+            "Ya tienes acceso al curso. Si quieres una atención mas rápida, puedes comprar la mejora a soporte prioritario abajo.",
           labelBundle: "Paquete",
           labelUpgrade: "Mejora",
           labelPriority: "Soporte prioritario",
-          labelStandard: "Estandar",
+          labelStandard: "Estándar",
           supportUpgradeDescription:
-            "Mejora una compra estandar existente a soporte prioritario.",
+            "Mejora una compra estándar existente a soporte prioritario.",
           priorityDescription:
             "Incluye el curso completo, elegibilidad para certificado y soporte prioritario.",
           standardDescription:
             "Incluye el curso completo y elegibilidad para certificado.",
           priorityPricingDetail:
-            "Compra ahora y ahorra $5 frente a comprar el curso estandar y la mejora despues.",
+            "Compra ahora y ahorra $5 frente a comprar el curso estándar y la mejora después.",
           bundlePricingDetail:
-            "Ahorra $9.97 frente a comprar estos extras por separado despues.",
+            "Ahorra $9.97 frente a comprar estos extras por separado después.",
           courtReviewPricingDetail:
-            "Disponible despues de comprar el curso.",
+            "Disponible después de comprar el curso.",
           standardPricingDetail:
-            "Puedes agregar extras despues si los necesitas.",
+            "Puedes agregar extras después si los necesitas.",
           oneTime: "pago unico",
           fullCourseAccess: "Acceso completo al curso",
           alreadyIncluded: "Ya incluido",
@@ -307,63 +307,63 @@ export default function StateCheckoutPage() {
           certificateEligibility: "Elegibilidad para certificado",
           unchanged: "Sin cambios",
           supportTierLabel: "Nivel de soporte",
-          courtReviewLabel: "Revision de documentos judiciales",
+          courtReviewLabel: "Revisión de documentos judiciales",
           mailedCertificateLabel: "Copia del certificado por correo",
           prioritySupportInfo:
-            "Las preguntas y solicitudes con soporte prioritario se atienden antes que las solicitudes estandar y normalmente reciben la primera respuesta en menos de 1 dia habil.",
+            "Las preguntas y solicitudes con soporte prioritario se atienden antes que las solicitudes estándar y normalmente reciben la primera respuesta en menos de 1 dia habil.",
           standardSupportInfo:
-            "El soporte estandar incluye FAQ. Para mensajes directos, el estudiante debe mejorar a soporte prioritario.",
+            "El soporte estándar incluye FAQ. Para mensajes directos, el estudiante debe mejorar a soporte prioritario.",
           optionalAddOns: "Complementos opcionales",
           addOnsBody:
-            "Estos extras pueden comprarse despues del curso base.",
+            "Estos extras pueden comprarse después del curso base.",
           addOnMail: "Copia del certificado por correo",
           addOnMailBody:
-            "Compra despues de completar el curso exitosamente.",
+            "Compra después de completar el curso exitosamente.",
           addOnUpgrade: "Mejora a soporte prioritario",
           addOnUpgradeBody:
-            "Para soporte humano mas rapido.",
-          addOnCourt: "Revision de Documentos Judiciales",
+            "Para soporte humano mas rápido.",
+          addOnCourt: "Revisión de Documentos Judiciales",
           addOnCourtBody:
-            "Revision administrativa adicional para estudiantes dirigidos por la corte.",
-          boughtLater: "Si se compra despues",
+            "Revisión administrativa adicional para estudiantes dirigidos por la corte.",
+          boughtLater: "Si se compra después",
           selectBundle: "Elegir premium",
           selectUpgrade: "Mejorar a soporte prioritario",
           selectPriority: "Elegir prioritario",
-          selectStandard: "Elegir estandar",
-          enrollmentProcess: "Proceso de inscripcion",
+          selectStandard: "Elegir estándar",
+          enrollmentProcess: "Proceso de inscripción",
           upgradeProcess: "Proceso de mejora",
           processUpgrade: [
-            ["1. Elige la mejora", "Selecciona la opcion de mejora a soporte prioritario."],
+            ["1. Elige la mejora", "Selecciona la opción de mejora a soporte prioritario."],
             ["2. Completa el pago", "El pago seguro se realiza mediante Stripe."],
-            ["3. Prioridad activada", "Despues del pago, el soporte prioritario queda activo en esta cuenta."],
+            ["3. Prioridad activada", "Después del pago, el soporte prioritario queda activo en esta cuenta."],
           ] as const,
           processEnroll: [
-            ["1. Elige un plan", "Selecciona la opcion del curso que quieres comprar."],
+            ["1. Elige un plan", "Selecciona la opción del curso que quieres comprar."],
             ["2. Completa el pago", "El pago seguro se realiza mediante Stripe."],
-            ["3. Comienza el curso", "Despues del pago, la cuenta puede entrar al flujo del curso."],
+            ["3. Comienza el curso", "Después del pago, la cuenta puede entrar al flujo del curso."],
           ] as const,
           approvalLabel: "Aprobacion pendiente",
-          reviewTitle: "Revisa la informacion del curso antes de comprar",
+          reviewTitle: "Revisa la información del curso antes de comprar",
           reviewBody:
-            "Los estudiantes deben confirmar la aceptacion del curso para su necesidad especifica ante tribunal, DMV, empleador o seguro antes de inscribirse. Tambien deben planear completar el curso dentro de 90 dias desde la compra, salvo que su requisito externo les otorgue menos tiempo.",
-          reviewCta: `Leer informacion del curso de ${stateDisplayName}`,
+            "Los estudiantes deben confirmar la aceptacion del curso para su necesidad específica ante tribunal, DMV, empleador o seguro antes de inscribirse. También deben planear completar el curso dentro de 90 días desde la compra, salvo que su requisito externo les otorgue menos tiempo.",
+          reviewCta: `Leer información del curso de ${stateDisplayName}`,
           refundTitle: "Resumen de reembolso",
           refundBody:
-            "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Despues de progreso importante, acceso al examen final, emision del certificado o cumplimiento de correo fisico, la compra normalmente deja de ser reembolsable.",
-          refundCta: "Leer politica de reembolso",
+            "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Después de progreso importante, acceso al examen final, emisión del certificado o cumplimiento de correo fisico, la compra normalmente deja de ser reembolsable.",
+          refundCta: "Leer política de reembolso",
           priceMatchTitle: "Proteccion de precio",
           priceMatchBody:
-            `Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de ${stateDisplayName} en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.`,
+            `Si encuentras un precio público más bajo para un curso equivalente de mejoramiento de manejo de ${stateDisplayName} en linea, contactanos antes de comprar y revisaremos una posible igualación de precio.`,
           priceMatchNote:
-            "Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas ocultas ni cursos no equivalentes.",
-          priceMatchCta: "Solicitar igualacion de precio",
+            "Las revisiones de igualación de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas ocultas ni cursos no equivalentes.",
+          priceMatchCta: "Solicitar igualación de precio",
           accountTitle: "Crea tu cuenta antes de pagar",
           accountBody:
             "Los estudiantes nuevos deben crear una cuenta o iniciar sesion antes del pago para que la compra quede guardada y el curso se desbloquee correctamente.",
           createAccount: "Crear cuenta",
           logIn: "Iniciar sesion",
           backCourse: "Volver al curso",
-          questions: "Preguntas antes de comprar?",
+          questions: "¿Preguntas antes de comprar?",
         }
       : {
           checkingTitle: "Checking your purchase status...",
@@ -544,12 +544,12 @@ export default function StateCheckoutPage() {
           <div className="section-label">{stateDisplayName} Checkout</div>
           <h1 className="text-4xl font-semibold text-slate-950">
             {language === "es"
-              ? `La inscripcion para ${stateDisplayName} aun no esta abierta`
+              ? `La inscripción para ${stateDisplayName} aún no está abierta`
               : `${stateDisplayName} enrollment is not open yet`}
           </h1>
           <p className="mt-4 max-w-3xl leading-8 text-slate-600">
             {language === "es"
-              ? `Los planes, precios y complementos finales para ${stateDisplayName} se publicaran cuando la aprobacion estatal y los requisitos del curso esten listos.`
+              ? `Los planes, precios y complementos finales para ${stateDisplayName} se publicaran cuando la aprobación estatal y los requisitos del curso esten listos.`
               : `Final plans, pricing, and add-ons for ${stateDisplayName} will be published after the state-specific approval and course requirements are ready.`}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
