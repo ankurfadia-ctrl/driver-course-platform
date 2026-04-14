@@ -27,13 +27,18 @@ export type StateCourseConfig = {
   courseSlug: string
   siteTitle: string
   brandName: string
+  brandNameEs?: string
   courseName: string
+  courseNameEs?: string
   marketingHeadline: string
   marketingDescription: string
   certificateIssuerLine: string
   approvalStatusLabel: string
+  approvalStatusLabelEs?: string
   disclosuresIntro: string
+  disclosuresIntroEs?: string
   disclosures: StateDisclosureItem[]
+  disclosuresEs?: StateDisclosureItem[]
   dashboardLabel: string
   courseLabel: string
   certificateLabel: string
@@ -58,24 +63,29 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     courseSlug: "driver-improvement",
     siteTitle: "Virginia Driver Improvement Course",
     brandName: "Virginia Driver Improvement Course",
+    brandNameEs: "Curso de mejoramiento para conductores de Virginia",
     courseName: "Virginia Driver Improvement Course",
+    courseNameEs: "Curso de mejoramiento para conductores de Virginia",
     marketingHeadline: "Complete your Virginia driver improvement course online.",
     marketingDescription:
       "Online Virginia driver improvement course with secure enrollment, course progress, final exam completion, and certificate delivery.",
     certificateIssuerLine: "Virginia Driver Improvement Course Platform",
-    approvalStatusLabel: "Approval pending",
+    approvalStatusLabel: "Virginia DMV review in progress",
+    approvalStatusLabelEs: "Revision del DMV de Virginia en curso",
     disclosuresIntro:
-      "Review this Virginia course information before purchasing, enrolling, or relying on completion for court, employer, insurance, or DMV purposes.",
+      "Review this Virginia course information, student responsibilities, and course controls before purchasing, enrolling, or relying on completion for court, employer, insurance, or DMV purposes.",
+    disclosuresIntroEs:
+      "Revisa la informacion del curso de Virginia, las responsabilidades del estudiante y los controles del curso antes de comprar, inscribirte o depender de la finalizacion para tribunal, empleador, seguro o DMV.",
     disclosures: [
       {
-        title: "Approval status",
+        title: "Submission status",
         body:
-          "Virginia DMV approval has not yet been granted. Students should review course information carefully and confirm acceptance for their specific requirement before enrolling or relying on completion.",
+          "The Virginia provider submission has been filed and remains under review by Virginia DMV. Students should review course information carefully and confirm acceptance for their specific requirement before enrolling or relying on completion.",
       },
       {
         title: "Provider contact information",
         body:
-          "Online registration displays the provider name Virginia Driver Improvement Course, the primary Virginia telephone number (703) 574-0146, and the toll-free alternate line (877) 798-0235.",
+          "Before enrolling, students can review the Virginia Driver Improvement Course name, the primary Virginia telephone number, and other required provider contact details on the course information and support pages.",
       },
       {
         title: "Court and eligibility responsibility",
@@ -130,7 +140,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Printed certificate requirements",
         body:
-          "If the certificate is presented to DMV, it must be printed on 8 1/2 by 11 plain white bonded paper. DMV does not accept certificates printed on color or special designed paper, paper with advertising, or certificates altered in any way.",
+          "If the certificate is presented to DMV, it must be printed on 8.5 x 11-inch plain white bond paper. DMV does not accept certificates printed on colored or specially designed paper, paper with advertising, or certificates altered in any way.",
       },
       {
         title: "DMV comments or concerns",
@@ -140,12 +150,94 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "DMV operating certificate display",
         body:
-          "Once DMV issues an online clinic operating certificate, a facsimile of that DMV certificate will be displayed as part of the validation and sign-in sequence as required.",
+          "After Virginia DMV issues the online clinic operating certificate, a copy of that DMV certificate will be displayed during the validation and sign-in process as required.",
       },
       {
         title: "Support and record review",
         body:
           "Students should keep account details accurate and contact support promptly if they experience purchase, access, identity, exam, or certificate issues.",
+      },
+    ],
+    disclosuresEs: [
+      {
+        title: "Estado de la presentacion",
+        body:
+          "La solicitud del proveedor de Virginia se presento y sigue en revision del DMV de Virginia. Los estudiantes deben revisar la informacion del curso y confirmar la aceptacion para su requisito especifico antes de inscribirse o depender de la finalizacion.",
+      },
+      {
+        title: "Informacion de contacto del proveedor",
+        body:
+          "Antes de inscribirse, los estudiantes pueden revisar el nombre del curso, el telefono principal de Virginia y otros datos de contacto requeridos en las paginas de informacion y soporte.",
+      },
+      {
+        title: "Responsabilidad de tribunal y elegibilidad",
+        body:
+          "Los estudiantes son responsables de confirmar que un curso en linea de mejoramiento para conductores de Virginia sea aceptable para su requisito especifico de tribunal, empleador, seguro o DMV antes de inscribirse.",
+      },
+      {
+        title: "Tecnologia y uso independiente",
+        body:
+          "Para beneficiarse del curso, el estudiante debe poder trabajar de forma independiente y sentirse comodo usando una computadora.",
+      },
+      {
+        title: "Administracion solo en linea",
+        body:
+          "El curso y el examen final deben completarse en linea a traves del portal del proveedor. No se permite examen en papel.",
+      },
+      {
+        title: "Expectativas de tiempo del curso",
+        body:
+          "El curso clinico de mejoramiento para conductores en linea es de ocho horas, incluido el examen final, y debe completarse en su totalidad antes de emitir el certificado. En este curso, el examen final se desbloquea despues de al menos siete horas de instruccion y el certificado permanece bloqueado hasta completar las ocho horas.",
+      },
+      {
+        title: "Plazo de finalizacion del curso",
+        body:
+          "Los estudiantes deben planear completar el curso dentro de 90 dias de la compra. Una orden judicial u otro requisito externo puede imponer una fecha limite mas temprana, y el estudiante sigue siendo responsable de cumplirla.",
+      },
+      {
+        title: "Verificacion de identidad",
+        body:
+          "La verificacion de identidad se requiere durante el curso y antes del examen final. Un estudiante que no pueda completar la validacion puede quedar impedido de terminar el curso.",
+      },
+      {
+        title: "Intentos del examen final",
+        body:
+          "El examen final solo puede tomarse una vez por dia habil. El estudiante debe estar preparado para completar el examen personalmente y permanecer en la pagina durante el intento.",
+      },
+      {
+        title: "Puntos de manejo seguro",
+        body:
+          "La finalizacion voluntaria puede otorgar cinco puntos de manejo seguro solo una vez cada 24 meses. Si la asistencia es ordenada por tribunal, el tribunal determina si se otorgan puntos, y la documentacion requerida debe proporcionarse antes de que el DMV pueda otorgarlos.",
+      },
+      {
+        title: "Tiempo de envio del certificado",
+        body:
+          "El certificado de finalizacion se transmite electronicamente a los estudiantes aprobados dentro de las 24 horas posteriores a la finalizacion del curso.",
+      },
+      {
+        title: "Prueba de finalizacion aceptada",
+        body:
+          "El Certificado estandarizado de finalizacion del DMV (DIC 552B) es el unico documento aceptado por el DMV de Virginia y los tribunales como prueba de finalizacion de un curso clinico en linea.",
+      },
+      {
+        title: "Requisitos de impresion del certificado",
+        body:
+          "Si se presenta el certificado al DMV, debe imprimirse en papel bond blanco de 8.5 x 11. El DMV no acepta certificados impresos en papel de color o con diseno especial, con publicidad o alterados.",
+      },
+      {
+        title: "Comentarios o inquietudes para el DMV",
+        body:
+          "Si los estudiantes tienen comentarios o inquietudes sobre este curso, pueden llamar al DMV al (1-877-885-5790).",
+      },
+      {
+        title: "Exhibicion del certificado operativo del DMV",
+        body:
+          "Despues de que el DMV de Virginia emita el certificado operativo de la clinica en linea, se mostrara una copia durante la validacion y el inicio de sesion, segun se requiera.",
+      },
+      {
+        title: "Soporte y revision de registros",
+        body:
+          "Los estudiantes deben mantener su informacion de cuenta actualizada y contactar soporte si tienen problemas de compra, acceso, identidad, examen o certificado.",
       },
     ],
     dashboardLabel: "Dashboard",
@@ -155,7 +247,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     passingScorePercent: 80,
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
-    supportEmail: "support@vadriverimprovementcourse.com",
+    supportEmail: "admin@nationaldriverimprovement.com",
     supportPhone: "7035740146",
     supportPhoneDisplay: "(703) 574-0146",
     secondarySupportPhone: "8777980235",
@@ -179,28 +271,28 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     siteTitle: "Florida Driver Improvement Courses",
     brandName: "Florida Driver Improvement Courses",
     courseName: "Florida Driver Improvement Courses",
-    marketingHeadline: "Prepare Florida driver improvement courses online.",
+    marketingHeadline: "Florida driver improvement courses coming soon.",
     marketingDescription:
-      "Florida driver improvement platform scaffolding for BDI, ADI, TLSAE, and Mature Driver courses with secure enrollment, support, and approval-readiness planning.",
+      "Florida driver improvement course information for BDI, ADI, TLSAE, and Mature Driver courses, with details added as each course opens.",
     certificateIssuerLine: "Florida Driver Improvement Course Platform",
-    approvalStatusLabel: "Florida course criteria requested",
+    approvalStatusLabel: "Florida courses coming soon",
     disclosuresIntro:
-      "Florida-specific course disclosures and official acceptance details will be finalized after FLHSMV returns the minimum course content criteria for each course type.",
+      "Review the current Florida course information here. Enrollment will open after each Florida course becomes available.",
     disclosures: [
       {
-        title: "Florida development status",
+        title: "Florida course availability",
         body:
-          "Florida courses are not open for enrollment yet. FLHSMV minimum content criteria have been requested for BDI, ADI, TLSAE, and Mature Driver course types.",
+          "Florida courses are not open for enrollment yet. As each course becomes available, this page will show pricing, timing, and certificate details.",
       },
       {
-        title: "Official course criteria",
+        title: "Florida course types",
         body:
-          "Florida course content and provider submission materials will be finalized only after FLHSMV returns the official minimum course content criteria for each requested course type.",
+          "Florida courses are organized by course type so you can review the right information for BDI, ADI, TLSAE, and Mature Driver courses.",
       },
       {
         title: "State-specific acceptance",
         body:
-          "Florida acceptance, reporting, certificate, and completion rules are state-specific and will be implemented according to FLHSMV guidance before launch.",
+          "Florida acceptance, reporting, certificate, and completion rules will be listed with each course before enrollment opens.",
       },
     ],
     dashboardLabel: "Dashboard",
@@ -210,39 +302,37 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     passingScorePercent: 80,
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
-    supportEmail: "support@vadriverimprovementcourse.com",
+    supportEmail: "admin@nationaldriverimprovement.com",
     supportPhone: "7035740146",
     supportPhoneDisplay: "(703) 574-0146",
-    secondarySupportPhone: "8777980235",
-    secondarySupportPhoneDisplay: "(877) 798-0235",
     courseTracks: [
       {
         code: "fl-bdi",
         name: "Basic Driver Improvement (BDI)",
         audience: "General Florida driver improvement students",
-        status: "criteria-requested",
-        notes: "Best first Florida build because it is closest to the current Virginia-style product.",
+        status: "in-build",
+        notes: "First Florida build target. BDI packet assembly is now in progress from the Florida forms received on March 31, 2026.",
       },
       {
         code: "fl-adi",
         name: "Advanced Driver Improvement (ADI)",
         audience: "Florida advanced/remedial driver improvement students",
-        status: "criteria-requested",
-        notes: "Planned second after BDI once FLHSMV criteria are received.",
+        status: "criteria-received",
+        notes: "Forms are in hand. ADI packet should follow after BDI packet assembly is stable.",
       },
       {
         code: "fl-tlsae",
         name: "Traffic Law and Substance Abuse Education (TLSAE)",
         audience: "First-time Florida licensing and certain hardship reinstatement students",
-        status: "criteria-requested",
-        notes: "Florida-specific 4-hour course type with a different student story from BDI and ADI.",
+        status: "criteria-received",
+        notes: "Forms are in hand. TLSAE packet should follow after BDI and ADI packet work.",
       },
       {
         code: "fl-mature-driver",
         name: "Mature Driver Discount Insurance Course",
         audience: "Florida mature-driver insurance discount students",
-        status: "criteria-requested",
-        notes: "Useful future add-on product line after BDI, ADI, and TLSAE are mapped.",
+        status: "criteria-received",
+        notes: "Senior Driver technology packet was received and can be built after BDI, ADI, and TLSAE.",
       },
     ],
   },
@@ -259,7 +349,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     marketingDescription:
       "California traffic violator school provider planning workspace with prep-only public pages, packet organization, and occupational licensing readiness.",
     certificateIssuerLine: "California Traffic Violator School Platform",
-    approvalStatusLabel: "California name approval starting",
+    approvalStatusLabel: "California Occupational Licensing portal start required",
     disclosuresIntro:
       "California-specific licensing, curriculum approval, and launch details are still being prepared. Enrollment will remain closed until the California DMV path is completed.",
     disclosures: [
@@ -286,18 +376,17 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     passingScorePercent: 80,
     finalExamQuestionCount: 50,
     logoSrc: "/logo.svg",
-    supportEmail: "support@vadriverimprovementcourse.com",
+    supportEmail: "admin@nationaldriverimprovement.com",
     supportPhone: "7035740146",
     supportPhoneDisplay: "(703) 574-0146",
-    secondarySupportPhone: "8777980235",
-    secondarySupportPhoneDisplay: "(877) 798-0235",
     courseTracks: [
       {
         code: "ca-tvs",
         name: "California Traffic Violator School",
         audience: "California court-ordered traffic school students",
         status: "in-build",
-        notes: "California name approval is the current first step before deeper owner, operator, instructor, and curriculum work.",
+        notes:
+          "California DMV occupational licensing indicated the current first step is the online portal workflow for the school name and owner path before deeper owner, operator, instructor, and curriculum work.",
       },
     ],
   },
@@ -351,7 +440,7 @@ export function getCourseConfig(state: string): StateCourseConfig {
       passingScorePercent: 80,
       finalExamQuestionCount: 50,
       logoSrc: "/logo.svg",
-      supportEmail: "support@vadriverimprovementcourse.com",
+    supportEmail: "admin@nationaldriverimprovement.com",
       supportPhone: "",
       supportPhoneDisplay: "",
     }

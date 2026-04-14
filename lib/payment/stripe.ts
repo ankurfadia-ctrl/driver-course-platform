@@ -1,4 +1,5 @@
 import { getCoursePlanByCode } from "@/lib/payment/plans"
+import { getBoatingProductRouteBase } from "@/lib/boating-product-registry"
 
 export type StripeCheckoutPlan = {
   planCode: string
@@ -34,10 +35,25 @@ export function getStripeCheckoutPlan(
   }
 }
 
-export function buildCheckoutSuccessUrl(stateCode: string) {
+export function buildCheckoutSuccessUrl(
+  stateCode: string,
+  courseSlug = "driver-improvement"
+) {
+  if (courseSlug === "boating-safety") {
+    return `${getBoatingProductRouteBase(stateCode)}/checkout/success`
+  }
+
   return `/${stateCode}/checkout/success`
 }
 
-export function buildCheckoutCancelUrl(stateCode: string, planCode: string) {
+export function buildCheckoutCancelUrl(
+  stateCode: string,
+  planCode: string,
+  courseSlug = "driver-improvement"
+) {
+  if (courseSlug === "boating-safety") {
+    return `${getBoatingProductRouteBase(stateCode)}/checkout/${planCode}`
+  }
+
   return `/${stateCode}/checkout/${planCode}`
 }

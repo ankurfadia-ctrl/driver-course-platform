@@ -63,6 +63,53 @@ export const IDENTITY_VERIFICATION_QUESTIONS: IdentityVerificationQuestion[] = [
   },
 ]
 
+export const IDENTITY_VERIFICATION_QUESTIONS_ES: IdentityVerificationQuestion[] =
+  [
+    {
+      id: "firstName",
+      prompt: "Nombre",
+      helpText:
+        "Ingresa tu nombre legal exactamente como quieres que aparezca en tu registro del curso.",
+    },
+    {
+      id: "lastName",
+      prompt: "Apellido",
+      helpText:
+        "Ingresa tu apellido legal exactamente como quieres que aparezca en tu registro del curso.",
+    },
+    {
+      id: "dateOfBirth",
+      prompt: "Fecha de nacimiento",
+      helpText: "Usa la fecha de nacimiento del estudiante.",
+    },
+    {
+      id: "driversLicenseNumber",
+      prompt: "Numero de cliente del DMV de Virginia o licencia de otro estado",
+      helpText:
+        "Ingresa el numero de cliente emitido por el DMV de Virginia o, si es de otro estado, el numero de licencia de conducir.",
+    },
+    {
+      id: "securityQuestion1",
+      prompt: "Pregunta de seguridad 1",
+      helpText: "Crea una pregunta que solo el estudiante deba saber.",
+    },
+    {
+      id: "securityAnswer1",
+      prompt: "Respuesta a la pregunta de seguridad 1",
+      helpText: "Guarda la respuesta exacta para la verificacion futura.",
+    },
+    {
+      id: "securityQuestion2",
+      prompt: "Pregunta de seguridad 2",
+      helpText: "Crea una segunda pregunta que solo el estudiante deba saber.",
+    },
+    {
+      id: "securityAnswer2",
+      prompt: "Respuesta a la pregunta de seguridad 2",
+      helpText: "Guarda la respuesta exacta para la verificacion futura.",
+    },
+  ]
+
 export const EMPTY_IDENTITY_VERIFICATION_ANSWERS: IdentityVerificationAnswerSet =
   {
     firstName: "",

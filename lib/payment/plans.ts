@@ -111,6 +111,32 @@ const COURSE_PLANS: CoursePlan[] = [
     includesPrioritySupport: false,
     active: true,
   },
+  {
+    stateCode: "virginia",
+    courseSlug: "boating-safety",
+    planCode: "va-boat-standard",
+    planKind: "full-course",
+    displayName: "Virginia Boating Safety Course",
+    priceCents: 2999,
+    currency: "usd",
+    supportTier: "standard",
+    includesCertificate: true,
+    includesPrioritySupport: false,
+    active: true,
+  },
+  {
+    stateCode: "virginia",
+    courseSlug: "boating-safety",
+    planCode: "va-boat-priority",
+    planKind: "full-course",
+    displayName: "Virginia Boating Safety Course + Priority Help",
+    priceCents: 3999,
+    currency: "usd",
+    supportTier: "priority",
+    includesCertificate: true,
+    includesPrioritySupport: true,
+    active: true,
+  },
 ]
 
 export function getCoursePlans(

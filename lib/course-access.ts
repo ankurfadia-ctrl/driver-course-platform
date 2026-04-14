@@ -18,7 +18,8 @@ function normalizeState(state: string) {
 }
 
 export async function getCourseAccessStatus(
-  state: string
+  state: string,
+  courseSlug = "driver-improvement"
 ): Promise<CourseAccessStatus> {
   const supabase = createClient()
   const normalizedState = normalizeState(state)
@@ -81,7 +82,7 @@ export async function getCourseAccessStatus(
     const fullCoursePurchase =
       purchases.find((purchase) => {
         const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
-        return plan?.planKind === "full-course"
+        return plan?.planKind === "full-course" && plan.courseSlug === courseSlug
       }) ?? null
 
     const priorityPurchase = purchases.find((purchase) => {
@@ -92,8 +93,9 @@ export async function getCourseAccessStatus(
       }
 
       return (
-        plan.planKind === "full-course" ||
-        plan.planKind === "support-upgrade"
+        plan.courseSlug === courseSlug &&
+        (plan.planKind === "full-course" ||
+          plan.planKind === "support-upgrade")
       ) && purchase.support_tier === "priority"
     })
 

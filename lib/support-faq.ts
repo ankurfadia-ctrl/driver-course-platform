@@ -1,4 +1,5 @@
 import type { SiteLanguage } from "@/lib/site-language"
+import { formatPriceFromCents, getCoursePlans } from "@/lib/payment/plans"
 
 type SupportFaqEntry = {
   id: string
@@ -22,6 +23,18 @@ function normalizeSupportText(value: string) {
 }
 
 const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
+  {
+    id: "dmv-certificate",
+    question: {
+      en: "Will my certificate be sent automatically to DMV?",
+      es: "Se enviara mi certificado automaticamente al DMV?",
+    },
+    answer: {
+      en: "Your certificate page unlocks after successful completion. DMV reporting is handled automatically after completion, and you should still follow any court, employer, or insurance instructions that apply to your situation.",
+      es: "Tu pagina de certificado se habilita despues de completar el curso. El informe al DMV se maneja automaticamente despues de completar el curso, y aun debes seguir cualquier instruccion de la corte, el empleador o el seguro que corresponda.",
+    },
+    keywords: ["sent to dmv automatically", "certificate sent to dmv", "do you send to dmv", "dmv report"],
+  },
   {
     id: "refund-policy",
     question: {
@@ -47,14 +60,38 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     keywords: ["price match", "match a price", "lower price", "cheaper price", "igualacion de precio"],
   },
   {
+    id: "course-pricing",
+    question: {
+      en: "How much does the course cost?",
+      es: "Cuanto cuesta el curso?",
+    },
+    answer: {
+      en: "Pricing depends on the state and course. Current plans and prices are shown on the pricing and checkout pages. If the state is still in preparation, final pricing has not been published yet.",
+      es: "El precio depende del estado y del curso. Los planes y precios actuales se muestran en las paginas de matricula y pago. Si el estado sigue en preparacion, el precio final todavia no ha sido publicado.",
+    },
+    keywords: [
+      "how much does the course cost",
+      "how much is the course",
+      "what is the cost",
+      "what s the cost",
+      "what is the price",
+      "what s the price",
+      "course cost",
+      "course price",
+      "pricing",
+      "plans available",
+      "what options are there",
+    ],
+  },
+  {
     id: "real-person",
     question: {
       en: "Can I talk to a real person?",
       es: "Puedo hablar con una persona real?",
     },
     answer: {
-      en: "Yes, with priority support. Standard plans use FAQ and AI chat only. Priority support includes human support through the support page after AI help has been tried first, and those requests are handled first, usually in less than 1 business day.",
-      es: "Si, con soporte prioritario. Los planes estandar usan solo FAQ y chat con IA. El soporte prioritario incluye soporte humano a traves de la pagina de soporte despues de intentar primero la ayuda de IA, y esas solicitudes se atienden primero, normalmente en menos de 1 dia habil.",
+      en: "Yes, with priority support. Standard plans use the FAQ and self-serve support resources. Priority support includes human support through the support page, and those requests are handled first, usually in less than 1 business day.",
+      es: "Si, con soporte prioritario. Los planes estandar usan las preguntas frecuentes y recursos de autoservicio. El soporte prioritario incluye soporte humano a traves de la pagina de soporte, y esas solicitudes se atienden primero, normalmente en menos de 1 dia habil.",
     },
     keywords: ["real person", "talk to a person", "human support", "talk to someone", "speak to someone"],
   },
@@ -222,18 +259,6 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     keywords: ["get my certificate", "how do i get certificate", "certificate page"],
   },
   {
-    id: "dmv-certificate",
-    question: {
-      en: "Will my certificate be sent automatically to DMV?",
-      es: "Se enviara mi certificado automaticamente al DMV?",
-    },
-    answer: {
-      en: "Your certificate page unlocks after successful completion. DMV reporting is handled separately from the student certificate, and you should follow any additional court, employer, or insurance instructions that apply to your situation.",
-      es: "Tu pagina de certificado se habilita despues de completar el curso. La entrega de registros al DMV se maneja por separado del certificado del estudiante, y debes seguir cualquier instruccion adicional de la corte, el empleador o el seguro cuando corresponda.",
-    },
-    keywords: ["sent to dmv automatically", "certificate sent to dmv", "do you send to dmv", "dmv report"],
-  },
-  {
     id: "after-finish",
     question: {
       en: "What do I need to do after I finish the class?",
@@ -264,8 +289,8 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
       es: "Cual es la diferencia entre el soporte estandar y el prioritario?",
     },
     answer: {
-      en: "Both plans include AI help first. Standard support is self-serve FAQ and AI chat only. Priority support adds human support, puts your requests ahead of standard students, and usually receives a first response in less than 1 business day.",
-      es: "Ambos planes incluyen ayuda inicial por IA. El soporte estandar es solo FAQ y chat con IA. El soporte prioritario agrega soporte humano, pone tus solicitudes por delante de los estudiantes estandar y normalmente recibe una primera respuesta en menos de 1 dia habil.",
+      en: "Standard support uses the FAQ and self-serve resources. Priority support adds human support, puts your requests ahead of standard students, and usually receives a first response in less than 1 business day.",
+      es: "El soporte estandar usa las preguntas frecuentes y recursos de autoservicio. El soporte prioritario agrega soporte humano, pone tus solicitudes por delante de los estudiantes estandar y normalmente recibe una primera respuesta en menos de 1 dia habil.",
     },
     keywords: ["difference between standard and priority", "priority support", "standard support"],
   },
@@ -307,15 +332,79 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
   },
 ]
 
-export function getSupportFaqEntries(language: SiteLanguage) {
+function getVirginiaPricingAnswer(language: SiteLanguage) {
+  const plans = getCoursePlans("virginia")
+    .filter((plan) => plan.planKind === "full-course")
+    .sort((left, right) => left.priceCents - right.priceCents)
+
+  const [standard, priority, premium] = plans
+
+  if (!standard || !priority || !premium) {
+    return language === "es"
+      ? "Los precios de Virginia se muestran en la pagina de pago antes de comprar."
+      : "Virginia pricing is shown on the checkout page before purchase."
+  }
+
+  return language === "es"
+    ? `Los planes actuales de Virginia comienzan en ${formatPriceFromCents(standard.priceCents)}. El plan con soporte prioritario cuesta ${formatPriceFromCents(priority.priceCents)} y el paquete premium cuesta ${formatPriceFromCents(premium.priceCents)}. Puedes revisar los detalles del plan en la pagina de pago antes de comprar.`
+    : `Current Virginia plans start at ${formatPriceFromCents(standard.priceCents)}. The priority-support plan is ${formatPriceFromCents(priority.priceCents)} and the premium bundle is ${formatPriceFromCents(premium.priceCents)}. You can review the plan details on the checkout page before purchasing.`
+}
+
+function getFaqAnswer(entry: SupportFaqEntry, language: SiteLanguage, state?: string) {
+  const normalizedState = String(state ?? "").trim().toLowerCase()
+
+  if (normalizedState === "virginia") {
+    if (entry.id === "course-pricing") {
+      return getVirginiaPricingAnswer(language)
+    }
+
+    if (entry.id === "approved") {
+      return language === "es"
+        ? "El curso de Virginia sigue en el proceso de aprobacion y permanece bajo revision. Revisa cuidadosamente la informacion del curso y confirma la aceptacion para tu requisito especifico antes de comprar o depender de la finalizacion."
+        : "The Virginia course remains in the approval process and is still under review. Review the course information carefully and confirm acceptance for your specific requirement before purchasing or relying on completion."
+    }
+
+    if (entry.id === "dmv-certificate") {
+      return language === "es"
+        ? "El reporte al DMV se maneja automaticamente despues de completar el curso. Tu pagina de certificado tambien se habilita para tus registros. Algunas situaciones de tribunal, empleador, seguro o DMV pueden requerir documentacion adicional, pasos extra o seguimiento por parte del estudiante."
+        : "DMV reporting is handled automatically after successful completion. Your certificate page also unlocks for your records. Some court, employer, insurance, or DMV situations may still require extra documentation, additional steps, or student follow-up."
+    }
+  }
+
+  return entry.answer[language]
+}
+
+export function getSupportFaqEntryById(
+  entryId: string,
+  language: SiteLanguage = "en",
+  state?: string
+) {
+  const entry = SUPPORT_FAQ_ENTRIES.find((item) => item.id === entryId)
+
+  if (!entry) {
+    return null
+  }
+
+  return {
+    id: entry.id,
+    question: entry.question[language],
+    answer: getFaqAnswer(entry, language, state),
+  }
+}
+
+export function getSupportFaqEntries(language: SiteLanguage, state?: string) {
   return SUPPORT_FAQ_ENTRIES.map((entry) => ({
     id: entry.id,
     question: entry.question[language],
-    answer: entry.answer[language],
+    answer: getFaqAnswer(entry, language, state),
   }))
 }
 
-export function findSupportFaqMatch(text: string, language: SiteLanguage = "en") {
+export function findSupportFaqMatch(
+  text: string,
+  language: SiteLanguage = "en",
+  state?: string
+) {
   const normalized = normalizeSupportText(text)
 
   if (!normalized) {
@@ -333,14 +422,15 @@ export function findSupportFaqMatch(text: string, language: SiteLanguage = "en")
   return {
     id: entry.id,
     question: entry.question[language],
-    answer: entry.answer[language],
+    answer: getFaqAnswer(entry, language, state),
   }
 }
 
 export function searchSupportFaqEntries(
   text: string,
   language: SiteLanguage = "en",
-  limit = 3
+  limit = 3,
+  state?: string
 ) {
   const normalized = normalizeSupportText(text)
 
@@ -373,7 +463,7 @@ export function searchSupportFaqEntries(
     return {
       id: entry.id,
       question: entry.question[language],
-      answer: entry.answer[language],
+      answer: getFaqAnswer(entry, language, state),
       score,
     }
   })

@@ -15,7 +15,10 @@ export type CourseProgressRow = {
 
 const COURSE_SLUG = "driver-improvement-course";
 
-export async function getUserCourseProgress(state: string) {
+export async function getUserCourseProgress(
+  state: string,
+  courseSlug = COURSE_SLUG
+) {
   const supabase = createClient();
 
   const {
@@ -31,7 +34,7 @@ export async function getUserCourseProgress(state: string) {
     .select("*")
     .eq("user_id", user.id)
     .eq("state", state)
-    .eq("course_slug", COURSE_SLUG)
+    .eq("course_slug", courseSlug)
     .order("lesson_slug", { ascending: true });
 
   if (error) throw error;
@@ -39,7 +42,11 @@ export async function getUserCourseProgress(state: string) {
   return (data ?? []) as CourseProgressRow[];
 }
 
-export async function markLessonComplete(state: string, lessonSlug: string) {
+export async function markLessonComplete(
+  state: string,
+  lessonSlug: string,
+  courseSlug = COURSE_SLUG
+) {
   const supabase = createClient();
 
   const {
@@ -53,7 +60,7 @@ export async function markLessonComplete(state: string, lessonSlug: string) {
   const payload = {
     user_id: user.id,
     state,
-    course_slug: COURSE_SLUG,
+    course_slug: courseSlug,
     lesson_slug: lessonSlug,
     completed: true,
     score: null,
@@ -76,7 +83,8 @@ export async function markLessonComplete(state: string, lessonSlug: string) {
 export async function saveQuizScore(
   state: string,
   lessonSlug: string,
-  score: number
+  score: number,
+  courseSlug = COURSE_SLUG
 ) {
   const supabase = createClient();
 
@@ -91,7 +99,7 @@ export async function saveQuizScore(
   const payload = {
     user_id: user.id,
     state,
-    course_slug: COURSE_SLUG,
+    course_slug: courseSlug,
     lesson_slug: lessonSlug,
     completed: score >= 80,
     score,

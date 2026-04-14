@@ -27,11 +27,13 @@ function simpleHash(input: string) {
  */
 export function buildCertificateReference({
   state,
+  courseSlug,
   userId,
   examResultId,
   completedAt,
 }: {
   state: string
+  courseSlug?: string
   userId: string
   examResultId: string
   completedAt: string
@@ -43,7 +45,9 @@ export function buildCertificateReference({
     ? "0000"
     : String(completedDate.getUTCFullYear())
 
-  const token = simpleHash(`${normalizedState}|${userId}|${examResultId}|${completedAt}`)
+  const token = simpleHash(
+    `${normalizedState}|${courseSlug ?? "driver-improvement"}|${userId}|${examResultId}|${completedAt}`
+  )
 
   return `${normalizedState}-${year}-${token}`
 }
@@ -55,12 +59,14 @@ export async function getOrCreateCertificateId({
   supabase,
   examResultId,
   state,
+  courseSlug,
   userId,
   completedAt,
 }: {
   supabase: SupabaseClient
   examResultId: string
   state: string
+  courseSlug?: string
   userId: string
   completedAt: string
 }) {
@@ -82,6 +88,7 @@ export async function getOrCreateCertificateId({
   // 2. Generate new one
   const newId = buildCertificateReference({
     state,
+    courseSlug,
     userId,
     examResultId,
     completedAt,

@@ -6,11 +6,13 @@ export type ExamResultRow = {
   id: string
   user_id: string
   state: string
+  course_slug: string
   score: number
   passed: boolean
   answers: number[]
   completed_at: string
   created_at: string
+  certificate_id?: string | null
 }
 
 function normalizeState(state: string) {
@@ -38,11 +40,13 @@ async function getAuthenticatedUserId() {
 
 export async function saveExamResult({
   state,
+  courseSlug = "driver-improvement",
   score,
   passed,
   answers,
 }: {
   state: string
+  courseSlug?: string
   score: number
   passed: boolean
   answers: number[]
@@ -57,12 +61,15 @@ export async function saveExamResult({
     .insert({
       user_id: userId,
       state: normalizedState,
+      course_slug: courseSlug,
       score,
       passed,
       answers,
       completed_at: completedAt,
     })
-    .select("id, user_id, state, score, passed, answers, completed_at, created_at")
+    .select(
+      "id, user_id, state, course_slug, score, passed, answers, completed_at, created_at, certificate_id"
+    )
     .single()
 
   if (error) {
@@ -73,6 +80,13 @@ export async function saveExamResult({
 }
 
 export async function getLatestExamResult(state: string) {
+  return getLatestExamResultForCourse(state)
+}
+
+export async function getLatestExamResultForCourse(
+  state: string,
+  courseSlug = "driver-improvement"
+) {
   const supabase = createClient()
   const normalizedState = normalizeState(state)
 
@@ -91,9 +105,12 @@ export async function getLatestExamResult(state: string) {
 
   const { data, error: fetchError } = await supabase
     .from("exam_results")
-    .select("id, user_id, state, score, passed, answers, completed_at, created_at")
+    .select(
+      "id, user_id, state, course_slug, score, passed, answers, completed_at, created_at, certificate_id"
+    )
     .eq("user_id", user.id)
     .eq("state", normalizedState)
+    .eq("course_slug", courseSlug)
     .order("completed_at", { ascending: false })
     .order("created_at", { ascending: false })
     .limit(1)
@@ -106,7 +123,11 @@ export async function getLatestExamResult(state: string) {
   return data as ExamResultRow | null
 }
 
-export async function getExamAttemptsForDate(state: string, dateKey: string) {
+export async function getExamAttemptsForDate(
+  state: string,
+  dateKey: string,
+  courseSlug = "driver-improvement"
+) {
   const supabase = createClient()
   const normalizedState = normalizeState(state)
 
@@ -128,9 +149,12 @@ export async function getExamAttemptsForDate(state: string, dateKey: string) {
 
   const { data, error: fetchError } = await supabase
     .from("exam_results")
-    .select("id, user_id, state, score, passed, answers, completed_at, created_at")
+    .select(
+      "id, user_id, state, course_slug, score, passed, answers, completed_at, created_at, certificate_id"
+    )
     .eq("user_id", user.id)
     .eq("state", normalizedState)
+    .eq("course_slug", courseSlug)
     .gte("completed_at", start)
     .lte("completed_at", end)
     .order("completed_at", { ascending: false })
@@ -143,7 +167,11 @@ export async function getExamAttemptsForDate(state: string, dateKey: string) {
   return (data ?? []) as ExamResultRow[]
 }
 
-export async function hasExamAttemptOnDate(state: string, dateKey: string) {
-  const attempts = await getExamAttemptsForDate(state, dateKey)
+export async function hasExamAttemptOnDate(
+  state: string,
+  dateKey: string,
+  courseSlug = "driver-improvement"
+) {
+  const attempts = await getExamAttemptsForDate(state, dateKey, courseSlug)
   return attempts.length > 0
 }

@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getCourseConfig } from "@/lib/course-config"
+import { getCoursePlanByCode } from "@/lib/payment/plans"
 import {
   getReasonForAttendingLabel,
   isCourtRelatedReason,
@@ -25,6 +26,7 @@ export type ExamResultRow = {
   id: string
   user_id: string
   state: string
+  course_slug: string | null
   score: number | null
   passed: boolean | null
   completed_at: string | null
@@ -44,6 +46,7 @@ export type CourseAttemptRow = {
   id: string
   user_id: string
   state_code: string
+  course_slug: string | null
   status: string | null
   required_seconds: number | null
   total_seconds: number | null
@@ -95,6 +98,18 @@ type AuthUserProfileRow = {
   userId: string
   email: string
   profile: DriverCourseProfileMetadata
+}
+
+function isMissingColumnError(
+  error: { code?: string | null; message?: string | null } | null | undefined,
+  columnName: string
+) {
+  return Boolean(
+    error?.code === "42703" &&
+      String(error?.message ?? "")
+        .toLowerCase()
+        .includes(columnName.toLowerCase())
+  )
 }
 
 function formatDateTime(value: string | null | undefined) {
@@ -399,6 +414,32 @@ async function loadAuthUserProfiles() {
   return users
 }
 
+async function loadExamResultsRows(supabase: ReturnType<typeof createAdminClient>) {
+  const primaryResult = await supabase
+    .from("exam_results")
+    .select("id, user_id, state, course_slug, score, passed, completed_at, created_at, certificate_id")
+    .order("completed_at", { ascending: false })
+    .limit(500)
+
+  if (!isMissingColumnError(primaryResult.error, "course_slug")) {
+    return primaryResult
+  }
+
+  const fallbackResult = await supabase
+    .from("exam_results")
+    .select("id, user_id, state, score, passed, completed_at, created_at, certificate_id")
+    .order("completed_at", { ascending: false })
+    .limit(500)
+
+  return {
+    data: (fallbackResult.data ?? []).map((row) => ({
+      ...row,
+      course_slug: null,
+    })),
+    error: fallbackResult.error,
+  }
+}
+
 export async function loadComplianceData() {
   const supabase = createAdminClient()
 
@@ -419,23 +460,19 @@ export async function loadComplianceData() {
       .eq("purchase_status", "paid")
       .order("purchased_at", { ascending: false })
       .limit(200),
-    supabase
-      .from("exam_results")
-      .select("id, user_id, state, score, passed, completed_at, created_at, certificate_id")
-      .order("completed_at", { ascending: false })
-      .limit(500),
+    loadExamResultsRows(supabase),
     supabase
       .from("student_identity_profiles")
       .select("user_id, state, first_name, last_name, updated_at")
       .limit(500),
     supabase
       .from("course_attempts")
-      .select("id, user_id, state_code, status, required_seconds, total_seconds, current_lesson, last_activity_at, updated_at")
+      .select("id, user_id, state_code, course_slug, status, required_seconds, total_seconds, current_lesson, last_activity_at, updated_at")
       .order("updated_at", { ascending: false })
       .limit(500),
     supabase
       .from("course_progress")
-      .select("user_id, state, lesson_slug, completed")
+      .select("user_id, state, course_slug, lesson_slug, completed")
       .limit(2000),
     supabase
       .from("support_requests")
@@ -455,28 +492,42 @@ export async function loadComplianceData() {
   ].filter(Boolean)
 
   const purchases = (purchasesResult.data ?? []) as PurchaseRow[]
-  const exams = (examsResult.data ?? []) as ExamResultRow[]
+  const exams = ((examsResult.data ?? []) as ExamResultRow[]).filter(
+    (row) => (row.course_slug ?? "driver-improvement") === "driver-improvement"
+  )
   const identities = (identitiesResult.data ?? []) as IdentityRow[]
-  const attempts = (attemptsResult.data ?? []) as CourseAttemptRow[]
+  const attempts = ((attemptsResult.data ?? []) as CourseAttemptRow[]).filter(
+    (row) => (row.course_slug ?? "driver-improvement") === "driver-improvement"
+  )
   const progressRows =
     (progressResult.data ?? []) as Array<{
       user_id: string
       state: string
+      course_slug?: string | null
       lesson_slug: string
       completed: boolean | null
     }>
+  const driverPurchases = purchases.filter((purchase) => {
+    const plan = getCoursePlanByCode(String(purchase.plan_code ?? ""))
+    return !plan || plan.courseSlug === "driver-improvement"
+  })
+  const driverProgressRows = progressRows.filter((row) =>
+    ["driver-improvement", "driver-improvement-course"].includes(
+      String(row.course_slug ?? "driver-improvement")
+    )
+  )
   const supportRows = (supportResult.data ?? []) as SupportRow[]
   const authUsers = authUsersResult ?? []
 
   return {
     errors,
-    purchases,
+    purchases: driverPurchases,
     records: buildComplianceRecords({
-      purchases,
+      purchases: driverPurchases,
       exams,
       identities,
       attempts,
-      progressRows,
+      progressRows: driverProgressRows,
       supportRows,
       authUsers,
     }),
