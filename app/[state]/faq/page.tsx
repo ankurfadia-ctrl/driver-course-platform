@@ -57,18 +57,18 @@ export default async function StateFaqPage({
             label: language === "es" ? "Detalles del curso" : "Course details",
             value:
               language === "es"
-                ? "Los detalles del curso de Virginia estan listos a continuacion."
+                ? "Los detalles del curso de Virginia están listos a continuación."
                 : "Your Virginia course details are ready below.",
           },
           {
-            label: language === "es" ? "Duracion total" : "Total course length",
+            label: language === "es" ? "Duración total" : "Total course length",
             value:
               language === "es"
                 ? "8 horas en total, incluido el examen final."
                 : "8 hours total, including the final exam.",
           },
           {
-            label: language === "es" ? "Puntuacion aprobatoria" : "Passing score",
+            label: language === "es" ? "Puntuación aprobatoria" : "Passing score",
             value:
               language === "es"
                 ? `${config.passingScorePercent}% en el examen final.`
@@ -114,17 +114,17 @@ export default async function StateFaqPage({
           title: `Preguntas y respuestas sobre el curso de ${config.stateName}`,
           intro:
             enrollmentOpen
-              ? "Esta pagina ofrece respuestas generales a preguntas comunes antes de la inscripcion, durante el curso y despues de completarlo."
-              : "Esta pagina ofrece respuestas generales y se actualizara a medida que haya mas detalles disponibles.",
-          moreInfo: "Necesitas mas informacion?",
+              ? "Esta página ofrece respuestas generales a preguntas comunes antes de la inscripción, durante el curso y después de completarlo."
+              : "Esta página ofrece respuestas generales y se actualizará a medida que haya más detalles disponibles.",
+          moreInfo: "¿Necesitas más información?",
           moreInfoBody:
             enrollmentOpen
-              ? "Revisa la pagina de informacion del curso si necesitas mas detalles antes de inscribirte o depender de la finalizacion."
-              : "Revisa la pagina del estado para ver la informacion disponible y futuras actualizaciones.",
-          infoCta: "Leer informacion del curso",
+              ? "Revisa la página de información del curso si necesitas más detalles antes de inscribirte o depender de la finalización."
+              : "Revisa la página del estado para ver la información disponible y futuras actualizaciones.",
+          infoCta: "Leer información del curso",
           quickFactsTitle:
             config.stateSlug === "virginia"
-              ? "Resumen rapido de Virginia"
+              ? "Resumen rápido de Virginia"
               : null,
         }
       : {
@@ -187,17 +187,26 @@ export default async function StateFaqPage({
         </section>
       ) : null}
 
-      <section className="space-y-4">
+      <section className="space-y-3">
         {faqs.map((item) => (
-          <article
+          <details
             key={item.question}
-            className="glass-panel rounded-[1.75rem] bg-white p-6"
+            className="group glass-panel rounded-[1.75rem] bg-white"
           >
-            <h2 className="text-xl font-semibold text-slate-900">
-              {item.question}
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-slate-700">{item.answer}</p>
-          </article>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-6">
+              <h2 className="text-xl font-semibold text-slate-900">
+                {item.question}
+              </h2>
+              <span className="flex-shrink-0 text-slate-400 transition-transform group-open:rotate-180" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </span>
+            </summary>
+            <div className="px-6 pb-6">
+              <p className="text-sm leading-7 text-slate-700">{item.answer}</p>
+            </div>
+          </details>
         ))}
       </section>
 

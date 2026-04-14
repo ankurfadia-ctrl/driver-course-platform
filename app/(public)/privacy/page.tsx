@@ -53,36 +53,36 @@ const sectionsEs = [
   {
     title: "Lo que recopilamos",
     body: [
-      "Recopilamos la informacion necesaria para ayudarte a inscribirte, iniciar sesion, completar tu curso y verificar certificados cuando esas funciones esten disponibles para tu estado o tipo de curso.",
-      "Eso puede incluir tu nombre, correo electronico, numero de telefono, direccion postal, licencia o identificacion estudiantil, progreso del curso, informacion del certificado y mensajes de soporte.",
+      "Recopilamos la información necesaria para ayudarte a inscribirte, iniciar sesión, completar tu curso y verificar certificados cuando esas funciones estén disponibles para tu estado o tipo de curso.",
+      "Eso puede incluir tu nombre, correo electrónico, número de teléfono, dirección postal, licencia o identificación estudiantil, progreso del curso, información del certificado y mensajes de soporte.",
     ],
   },
   {
-    title: "Como la usamos",
+    title: "Cómo la usamos",
     body: [
-      "Usamos tu informacion para brindar acceso al curso, procesar pagos, responder preguntas de soporte, mantener registros del curso y emitir o verificar certificados cuando se permite.",
-      "Tambien podemos usar datos tecnicos basicos como dispositivo, navegador y registros para mantener el sitio seguro y funcionando.",
+      "Usamos tu información para brindar acceso al curso, procesar pagos, responder preguntas de soporte, mantener registros del curso y emitir o verificar certificados cuando se permite.",
+      "También podemos usar datos técnicos básicos como dispositivo, navegador y registros para mantener el sitio seguro y funcionando.",
     ],
   },
   {
     title: "Pagos y proveedores de servicio",
     body: [
-      "Los pagos pueden ser procesados por terceros. Recibimos los registros necesarios para confirmar tu compra, pero no almacenamos los numeros completos de tarjetas en este sitio.",
-      "Tambien usamos proveedores para el alojamiento del sitio, el envio de correo y el soporte de certificados o cuentas.",
+      "Los pagos pueden ser procesados por terceros. Recibimos los registros necesarios para confirmar tu compra, pero no almacenamos los números completos de tarjetas en este sitio.",
+      "También usamos proveedores para el alojamiento del sitio, el envío de correo y el soporte de certificados o cuentas.",
     ],
   },
   {
     title: "Registros de certificados y cursos",
     body: [
-      "Algunos cursos requieren que conservemos registros de finalizacion o certificados para soporte, verificacion, requisitos regulatorios o revisiones de proveedores.",
-      "Los periodos de retencion pueden variar segun el tipo de curso, requisitos del estado y necesidades operativas.",
+      "Algunos cursos requieren que conservemos registros de finalización o certificados para soporte, verificación, requisitos regulatorios o revisiones de proveedores.",
+      "Los períodos de retención pueden variar según el tipo de curso, requisitos del estado y necesidades operativas.",
     ],
   },
   {
     title: "Tus opciones",
     body: [
-      "Puedes contactarnos si necesitas ayuda para actualizar datos de cuenta, corregir informacion o entender que registros se relacionan con tu actividad del curso.",
-      "Si un curso tiene reglas especificas del estado, esas reglas pueden afectar que cambios se pueden hacer despues de la finalizacion o emision del certificado.",
+      "Puedes contactarnos si necesitas ayuda para actualizar datos de cuenta, corregir información o entender qué registros se relacionan con tu actividad del curso.",
+      "Si un curso tiene reglas específicas del estado, esas reglas pueden afectar qué cambios se pueden hacer después de la finalización o emisión del certificado.",
     ],
   },
 ]
@@ -101,11 +101,11 @@ export default async function PrivacyPage() {
               {isSpanish ? "Privacidad" : "Privacy"}
             </div>
             <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-              {isSpanish ? "Politica de privacidad" : "Privacy Policy"}
+              {isSpanish ? "Política de privacidad" : "Privacy Policy"}
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
               {isSpanish
-                ? "Esta pagina explica las categorias basicas de informacion que el Portal Nacional de Cursos usa para operar el sitio, apoyar a los estudiantes y mantener los registros del curso y certificados."
+                ? "Esta página explica las categorías básicas de información que el Portal Nacional de Cursos usa para operar el sitio, apoyar a los estudiantes y mantener los registros del curso y certificados."
                 : "This page explains the basic categories of information National Course Portal uses to operate the site, support students, and maintain course and certificate records."}
             </p>
           </div>
@@ -143,12 +143,12 @@ export default async function PrivacyPage() {
             .
           </p>
           <p className="mt-3">
-            {isSpanish ? "Tambien puedes volver a la " : "You can also return to the "}
+            {isSpanish ? "También puedes volver a la " : "You can also return to the "}
             <Link
               href="/"
               className="font-semibold text-slate-900 hover:text-blue-700"
             >
-              {isSpanish ? "pagina principal" : "homepage"}
+              {isSpanish ? "página principal" : "homepage"}
             </Link>{" "}
             {isSpanish
               ? "para encontrar tu curso o las herramientas de certificado."

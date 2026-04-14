@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import PriceMatchGuaranteePanel from "@/components/site/price-match-guarantee-panel"
-import { BOATING_PRODUCT_CONFIG } from "@/lib/boating-config"
+import { BOATING_PRODUCT_CONFIG, getBoatingProductConfig } from "@/lib/boating-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 import { getPublicBaseUrl } from "@/lib/runtime-config"
 
@@ -40,27 +40,28 @@ export const metadata: Metadata = {
 
 export default async function BoatingPage() {
   const language = await getPreferredSiteLanguage()
+  const config = getBoatingProductConfig(language)
   const copy =
     language === "es"
       ? {
-          sectionLabel: "Informacion del curso nautico",
-          title: "Cursos de seguridad nautica, todo en un solo lugar.",
+          sectionLabel: "Información del curso náutico",
+          title: "Cursos de seguridad náutica, todo en un solo lugar.",
           body:
-            "Consulta lo que cubre el curso nautico, que estados esperamos abrir primero y que puedes esperar cuando haya nuevas opciones disponibles.",
-          standards: "Que cubre el curso",
+            "Consulta lo que cubre el curso náutico, qué estados esperamos abrir primero y qué puedes esperar cuando haya nuevas opciones disponibles.",
+          standards: "Qué cubre el curso",
           standardsBody:
-            "El curso empieza con los temas esenciales de seguridad nautica y despues agrega reglas, certificados y requisitos especificos de cada estado.",
+            "El curso empieza con los temas esenciales de seguridad náutica y después agrega reglas, certificados y requisitos específicos de cada estado.",
           primaryCta: "Volver al inicio",
           secondaryCta: "Ver temario",
           curriculumLabel: "Temas del curso",
-          curriculumTitle: "Temas principales cubiertos en el curso nautico",
+          curriculumTitle: "Temas principales cubiertos en el curso náutico",
           roadmapLabel: "Estados planificados",
           roadmapTitle: "Estados que esperamos abrir primero",
           noteLabel: "Antes de inscribirte",
-          noteTitle: "Que debes esperar",
+          noteTitle: "Qué debes esperar",
           priorityNow: "Primero",
-          priorityNext: "Despues",
-          priorityLater: "Mas adelante",
+          priorityNext: "Después",
+          priorityLater: "Más adelante",
         }
       : {
           sectionLabel: "Boating Course Information",
@@ -124,13 +125,13 @@ export default async function BoatingPage() {
               {copy.standards}
             </div>
             <h2 className="mt-4 text-3xl font-semibold text-slate-950">
-              {BOATING_PRODUCT_CONFIG.standardsLabel}
+              {config.standardsLabel}
             </h2>
             <p className="mt-4 leading-7 text-slate-600">
               {copy.standardsBody}
             </p>
             <div className="mt-6 rounded-2xl border border-sky-100 bg-sky-50 px-4 py-4 text-sm leading-6 text-sky-950">
-              {BOATING_PRODUCT_CONFIG.curriculumIntro}
+              {config.curriculumIntro}
             </div>
           </div>
         </div>
@@ -143,7 +144,7 @@ export default async function BoatingPage() {
             {copy.curriculumTitle}
           </h2>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
-            {BOATING_PRODUCT_CONFIG.curriculumModules.map((module) => (
+            {config.curriculumModules.map((module) => (
               <article
                 key={module.code}
                 className="rounded-3xl border border-[#d7eef7] bg-[#f5fbfe] p-6"
@@ -174,7 +175,7 @@ export default async function BoatingPage() {
               {copy.roadmapTitle}
             </h2>
             <div className="mt-6 space-y-4">
-              {BOATING_PRODUCT_CONFIG.launchStates.map((state) => (
+              {config.launchStates.map((state) => (
                 <article
                   key={state.stateSlug}
                   className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
@@ -203,7 +204,7 @@ export default async function BoatingPage() {
                       href={state.routeBase}
                       className="mt-4 inline-flex rounded-xl bg-sky-700 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-800"
                     >
-                      View state details
+                      {language === "es" ? "Ver detalles del estado" : "View state details"}
                     </Link>
                   ) : null}
                 </article>
@@ -219,7 +220,7 @@ export default async function BoatingPage() {
               {copy.noteTitle}
             </h2>
             <div className="mt-5 space-y-3 text-sm leading-7 text-slate-700">
-              {BOATING_PRODUCT_CONFIG.notes.map((note) => (
+              {config.notes.map((note) => (
                 <div
                   key={note}
                   className="rounded-2xl border border-amber-200 bg-white px-4 py-4"
@@ -233,15 +234,15 @@ export default async function BoatingPage() {
 
         <div className="mt-8">
           <PriceMatchGuaranteePanel
-            label={language === "es" ? "Garantia de igualacion de precio" : "Price Match Guarantee"}
+            label={language === "es" ? "Garantía de igualación de precio" : "Price Match Guarantee"}
             title={
               language === "es"
-                ? "Compara precios de cursos nauticos y solicita una revision."
+                ? "Compara precios de cursos náuticos y solicita una revisión."
                 : "Compare boating course prices and ask for a review."
             }
             description={
               language === "es"
-                ? "Abre la pagina del estado que te interesa para ver la garantia y solicitar una revision de precio."
+                ? "Abre la página del estado que te interesa para ver la garantía y solicitar una revisión de precio."
                 : "Open the state page you need to view the guarantee and request a price review."
             }
             href="/virginia-boating/price-match"
@@ -249,7 +250,7 @@ export default async function BoatingPage() {
             accent="sky"
             terms={[
               language === "es"
-                ? "Cada estado tendra su propia opcion de igualacion de precio en la pagina publica del curso o de precios."
+                ? "Cada estado tendrá su propia opción de igualación de precio en la página pública del curso o de precios."
                 : "Each boating state will have its own price-match option on the public course or pricing page.",
               language === "es"
                 ? "Revisamos cada solicitud manualmente para comparar el mismo tipo de curso y los mismos requisitos del certificado."

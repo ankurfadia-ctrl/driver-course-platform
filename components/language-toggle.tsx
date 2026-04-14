@@ -47,6 +47,8 @@ export default function LanguageToggle({
             type="button"
             onClick={() => setLanguage(value)}
             disabled={pending}
+            aria-pressed={active}
+            aria-current={active ? "true" : undefined}
             className={`rounded-full px-3 py-1.5 text-sm font-semibold ${
               active
                 ? "bg-slate-950 text-white"

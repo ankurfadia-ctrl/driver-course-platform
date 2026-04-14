@@ -12,6 +12,8 @@ import {
   SOUTH_DAKOTA_PARENT_SITE_MODULES_ES,
   SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS,
   SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES,
+  SOUTH_DAKOTA_PARENT_SITE_FAQS,
+  SOUTH_DAKOTA_PARENT_SITE_FAQS_ES,
 } from "@/lib/south-dakota-parenting-site"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 import { getPublicBaseUrl } from "@/lib/runtime-config"
@@ -67,27 +69,31 @@ export default async function SouthDakotaParentEducationPage() {
   const terms = isSpanish
     ? SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES
     : SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS
+  const previewFaqs = (isSpanish ? SOUTH_DAKOTA_PARENT_SITE_FAQS_ES : SOUTH_DAKOTA_PARENT_SITE_FAQS).slice(0, 4)
 
   const copy = isSpanish
     ? {
         label: "Fundamentos de coparentalidad de Dakota del Sur",
         title:
-          "Curso en linea claro y accesible basado en los temas oficiales de Dakota del Sur",
+          "Curso en línea claro y accesible basado en los temas oficiales de Dakota del Sur",
         intro:
-          "Puedes revisar la matricula, comparar el plan de estudios, solicitar una igualacion de precio y entender el proceso del certificado antes de comenzar.",
-        pricingCta: "Ver matricula y soporte",
+          "Puedes revisar la matrícula, comparar el plan de estudios, solicitar una igualación de precio y entender el proceso del certificado antes de comenzar.",
+        pricingCta: "Ver matrícula y soporte",
         curriculumCta: "Explorar plan de estudios",
         certificateCta: "Revisar certificado",
         previewLabel: "Vista previa del curso",
-        previewCta: "Ver los 8 modulos",
-        journeyLabel: "Como funciona el curso",
+        previewCta: "Ver los 8 módulos",
+        journeyLabel: "Cómo funciona el curso",
         journeyStep: "Paso",
-        priceMatchLabel: "Garantia de igualacion de precio",
+        priceMatchLabel: "Garantía de igualación de precio",
         priceMatchTitle:
-          "Si un curso comparable de Dakota del Sur tiene un precio publico mas bajo, lo revisamos y lo igualamos o lo mejoramos por $1.",
+          "Si un curso comparable de Dakota del Sur tiene un precio público más bajo, lo revisamos y lo igualamos o lo mejoramos por $1.",
         priceMatchBody:
-          "Si encuentras un precio publico mas bajo para un curso comparable, puedes enviar una solicitud para revision.",
-        priceMatchCta: "Solicitar igualacion",
+          "Si encuentras un precio público más bajo para un curso comparable, puedes enviar una solicitud para revisión.",
+        priceMatchCta: "Solicitar igualación",
+        faqLabel: "Preguntas frecuentes",
+        faqTitle: "Preguntas comunes antes de comenzar",
+        faqCta: "Ver todas las preguntas",
       }
     : {
         label: "South Dakota Co-Parenting Foundations",
@@ -108,6 +114,9 @@ export default async function SouthDakotaParentEducationPage() {
         priceMatchBody:
           "If you find a lower public price for a comparable South Dakota course, you can send a request here for review.",
         priceMatchCta: "Request a price match",
+        faqLabel: "Common questions",
+        faqTitle: "Questions before you start",
+        faqCta: "See all FAQ",
       }
 
   return (
@@ -247,6 +256,43 @@ export default async function SouthDakotaParentEducationPage() {
         accent="amber"
         terms={terms}
       />
+
+      <section className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
+              {copy.faqLabel}
+            </div>
+            <h2 className="mt-3 text-3xl font-semibold text-slate-950">
+              {copy.faqTitle}
+            </h2>
+          </div>
+          <Link
+            href="/south-dakota-parenting/faq"
+            className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            {copy.faqCta}
+          </Link>
+        </div>
+        <div className="mt-6 grid gap-3">
+          {previewFaqs.map((item) => (
+            <details
+              key={item.question}
+              className="group rounded-2xl border border-[#f0e2c6] bg-[#fff8ee]"
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4">
+                <span className="font-semibold text-slate-950">{item.question}</span>
+                <span className="flex-shrink-0 text-amber-600 transition-transform group-open:rotate-180" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </span>
+              </summary>
+              <div className="px-6 pb-4 text-sm leading-7 text-slate-600">{item.answer}</div>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

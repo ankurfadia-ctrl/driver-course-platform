@@ -50,20 +50,20 @@ export default function VerifyCertificatePage() {
     () =>
       isSpanish
         ? {
-            eyebrow: "Verificacion de certificados",
+            eyebrow: "Verificación de certificados",
             title: "Verificar certificado",
             intro:
               "Usa el ID del certificado tal como aparece impreso en el certificado.",
             certificateIdLabel: "ID de certificado",
-            missingId: "No se proporciono un ID de certificado",
-            loading: "Cargando resultado de verificacion...",
+            missingId: "No se proporcionó un ID de certificado",
+            loading: "Cargando resultado de verificación...",
             verifiedLabel: "Verificado",
             verifiedTitle: "Certificado confirmado",
             studentName: "Nombre del estudiante",
             state: "Estado",
             course: "Curso",
-            finalExamScore: "Puntuacion del examen final",
-            completionDate: "Fecha de finalizacion",
+            finalExamScore: "Puntuación del examen final",
+            completionDate: "Fecha de finalización",
             status: "Estado",
             statusValue: "Aprobado y certificado validado",
             notVerified: "No verificado",
@@ -71,9 +71,9 @@ export default function VerifyCertificatePage() {
             notVerifiedHint:
               "Revisa el ID del certificado y vuelve a intentarlo.",
             back: "Volver al inicio",
-            invalidId: "ID de certificado no valido.",
+            invalidId: "ID de certificado no válido.",
             notFound: "Certificado no encontrado.",
-            verifyError: "No se pudo completar la verificacion. Intentalo de nuevo.",
+            verifyError: "No se pudo completar la verificación. Inténtalo de nuevo.",
             verifiedStudentFallback: "Estudiante verificado",
           }
         : {
@@ -213,14 +213,25 @@ export default function VerifyCertificatePage() {
 
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="text-sm text-slate-500">{copy.certificateIdLabel}</div>
-        <div className="mt-2 break-all font-mono text-lg font-semibold text-slate-900">
+        <div className="mt-2 break-words font-mono text-lg font-semibold text-slate-900">
           {normalizedCertificateId || copy.missingId}
         </div>
       </div>
 
       {loading ? (
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          {copy.loading}
+          <div className="flex items-center gap-3 text-slate-500">
+            <svg className="h-5 w-5 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            <span className="text-sm font-medium">{copy.loading}</span>
+          </div>
+          <div className="mt-5 space-y-3">
+            <div className="h-4 w-3/4 animate-pulse rounded bg-slate-100" />
+            <div className="h-4 w-1/2 animate-pulse rounded bg-slate-100" />
+            <div className="h-4 w-2/3 animate-pulse rounded bg-slate-100" />
+          </div>
         </div>
       ) : match ? (
         <div className="rounded-2xl border border-green-200 bg-green-50 p-6 shadow-sm">

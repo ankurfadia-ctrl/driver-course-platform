@@ -44,7 +44,7 @@ export default async function SouthDakotaParentingLayout({
                 </h1>
                 <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
                   {isSpanish
-                    ? "Educacion para padres en linea basada en los temas publicados por Dakota del Sur, con matricula accesible y verificacion clara del certificado."
+                    ? "Educación para padres en línea basada en los temas publicados por Dakota del Sur, con matrícula accesible y verificación clara del certificado."
                     : "Online parent education organized around South Dakota&apos;s published parenting-course topics, low-cost tuition, and a simple certificate-verification process."}
                 </p>
               </div>
@@ -59,14 +59,14 @@ export default async function SouthDakotaParentingLayout({
                   href="/south-dakota-parenting/price-match"
                   className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  {isSpanish ? "Solicitar igualacion" : "Request a price match"}
+                  {isSpanish ? "Solicitar igualación" : "Request a price match"}
                 </Link>
               </div>
             </div>
 
             <div className="max-w-xs rounded-3xl border border-amber-100 bg-white/90 px-5 py-4 text-sm leading-7 text-slate-700">
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-amber-700">
-                {isSpanish ? "Necesitas ayuda?" : "Need help?"}
+                {isSpanish ? "¿Necesitas ayuda?" : "Need help?"}
               </div>
               <div className="mt-3 font-semibold text-slate-950">
                 {SOUTH_DAKOTA_PARENT_SITE_SUPPORT.organization}

@@ -13,13 +13,13 @@ export default async function MinnesotaFaqPage() {
   const copy = isSpanish
     ? {
         label: "Preguntas frecuentes",
-        title: "Preguntas sobre matricula, finalizacion, exenciones y certificados",
+        title: "Preguntas sobre matrícula, finalización, exenciones y certificados",
         intro:
-          "Estas son las preguntas que la mayoria de las familias hacen antes de inscribirse o despues de terminar el curso.",
+          "Estas son las preguntas que la mayoría de las familias hacen antes de inscribirse o después de terminar el curso.",
         nextLabel: "Siguientes pasos",
-        nextTitle: "Listo para revisar la matricula o el certificado?",
+        nextTitle: "¿Listo para revisar la matrícula o el certificado?",
         nextBody:
-          "Puedes pasar de las preguntas a los detalles que mas quieren ver las familias sin saltar por todo el sitio.",
+          "Puedes pasar de las preguntas a los detalles que más quieren ver las familias sin saltar por todo el sitio.",
         pricingCta: "Ver matricula",
         certificateCta: "Revisar certificado",
       }
@@ -50,19 +50,26 @@ export default async function MinnesotaFaqPage() {
         </p>
       </section>
 
-      <section className="grid gap-5">
+      <section className="grid gap-4">
         {faqs.map((item) => (
-          <article
+          <details
             key={item.question}
-            className="glass-panel rounded-[2rem] bg-white p-8"
+            className="group glass-panel rounded-[2rem] bg-white"
           >
-            <h3 className="text-2xl font-semibold text-slate-950">
-              {item.question}
-            </h3>
-            <p className="mt-4 max-w-4xl leading-8 text-slate-600">
-              {item.answer}
-            </p>
-          </article>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-8">
+              <h3 className="text-2xl font-semibold text-slate-950">
+                {item.question}
+              </h3>
+              <span className="flex-shrink-0 text-slate-400 transition-transform group-open:rotate-180" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </span>
+            </summary>
+            <div className="px-8 pb-8">
+              <p className="max-w-4xl leading-8 text-slate-600">{item.answer}</p>
+            </div>
+          </details>
         ))}
       </section>
 

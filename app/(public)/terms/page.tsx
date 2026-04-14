@@ -55,36 +55,36 @@ const sectionsEs = [
   {
     title: "Uso del sitio",
     body: [
-      "National Course Portal ofrece informacion publica del curso, rutas de inscripcion, herramientas de certificado y recursos de soporte para cursos y estados seleccionados.",
-      "Al usar el sitio, aceptas utilizarlo legalmente y solo para tus necesidades de curso, soporte o verificacion, salvo autorizacion escrita adicional.",
+      "National Course Portal ofrece información pública del curso, rutas de inscripción, herramientas de certificado y recursos de soporte para cursos y estados seleccionados.",
+      "Al usar el sitio, aceptas utilizarlo legalmente y solo para tus necesidades de curso, soporte o verificación, salvo autorización escrita adicional.",
     ],
   },
   {
     title: "Cuentas y acceso al curso",
     body: [
-      "Cuando un curso ofrece acceso con cuenta, cada estudiante debe usar informacion veraz y mantener el control de su inicio de sesion.",
-      "Las reglas de curso, tiempo, examen, certificado y reembolsos pueden variar por curso y estado. Las paginas y divulgaciones especificas del estado determinan las reglas aplicables.",
+      "Cuando un curso ofrece acceso con cuenta, cada estudiante debe usar información veraz y mantener el control de su inicio de sesión.",
+      "Las reglas de curso, tiempo, examen, certificado y reembolsos pueden variar por curso y estado. Las páginas y divulgaciones específicas del estado determinan las reglas aplicables.",
     ],
   },
   {
     title: "Pagos y reembolsos",
     body: [
-      "Los precios, opciones de pago, politicas de ayuda y cualquier proceso de igualacion se describen en las paginas del curso correspondientes.",
-      "La disponibilidad de reembolsos puede depender del tipo de curso, el estado, si se otorgo acceso y si ya ocurrio progreso o actividad de certificado.",
+      "Los precios, opciones de pago, políticas de ayuda y cualquier proceso de igualación se describen en las páginas del curso correspondientes.",
+      "La disponibilidad de reembolsos puede depender del tipo de curso, el estado, si se otorgó acceso y si ya ocurrió progreso o actividad de certificado.",
     ],
   },
   {
     title: "Propiedad intelectual",
     body: [
-      "El diseno del sitio, contenido escrito, materiales del curso, paginas de precios, paginas publicas de certificado y materiales relacionados estan protegidos por derechos de autor y otras leyes, salvo que se indique lo contrario.",
+      "El diseño del sitio, contenido escrito, materiales del curso, páginas de precios, páginas públicas de certificado y materiales relacionados están protegidos por derechos de autor y otras leyes, salvo que se indique lo contrario.",
       "Puedes ver o imprimir materiales para uso personal y no comercial. No puedes copiar, republicar, extraer, vender, redistribuir ni crear materiales derivados sin permiso escrito previo.",
     ],
   },
   {
     title: "Disponibilidad y actualizaciones",
     body: [
-      "La disponibilidad del curso puede cambiar por estado, estatus de aprobacion, preparacion operativa o requisitos regulatorios.",
-      "Podemos actualizar contenido, precios y paginas publicas con el tiempo. El uso continuo del sitio despues de cambios implica aceptacion de los terminos actualizados.",
+      "La disponibilidad del curso puede cambiar por estado, estatus de aprobación, preparación operativa o requisitos regulatorios.",
+      "Podemos actualizar contenido, precios y páginas públicas con el tiempo. El uso continuo del sitio después de cambios implica aceptación de los términos actualizados.",
     ],
   },
 ] as const
@@ -100,7 +100,7 @@ export default async function TermsPage() {
           "Estos términos describen las reglas básicas para usar National Course Portal y sus cursos públicos, soporte a estudiantes y herramientas de certificado.",
         contact:
           "Si necesitas permiso para reutilizar contenido del sitio o materiales del curso, escribe a",
-        back: "pagina principal",
+        back: "página principal",
         sections: sectionsEs,
       }
     : {

@@ -105,17 +105,41 @@ export default async function DashboardPage({
         </p>
       </section>
 
-      {latestFullCoursePurchase ? (
-        <section
-          className={`rounded-[1.75rem] border p-6 text-sm leading-7 ${
-            accessExpired
+      <section
+        className={`rounded-[1.75rem] border p-6 text-sm leading-7 ${
+          !latestFullCoursePurchase
+            ? "border-slate-200 bg-slate-50 text-slate-600"
+            : accessExpired
               ? "border-amber-200 bg-amber-50 text-amber-900"
               : "border-emerald-200 bg-emerald-50 text-emerald-900"
-          }`}
-        >
-          {accessExpired ? copy.accessExpired : copy.accessActive}
-        </section>
-      ) : null}
+        }`}
+      >
+        <div className={`mb-2 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.14em] ${
+          !latestFullCoursePurchase
+            ? "bg-slate-200 text-slate-600"
+            : accessExpired
+              ? "bg-amber-200 text-amber-800"
+              : "bg-emerald-200 text-emerald-800"
+        }`}>
+          <span className={`h-1.5 w-1.5 rounded-full ${
+            !latestFullCoursePurchase ? "bg-slate-500" : accessExpired ? "bg-amber-600" : "bg-emerald-600"
+          }`} />
+          {!latestFullCoursePurchase
+            ? (isEs ? "Sin acceso" : "No access")
+            : accessExpired
+              ? (isEs ? "Acceso vencido" : "Access expired")
+              : (isEs ? "Acceso activo" : "Access active")}
+        </div>
+        <div>
+          {!latestFullCoursePurchase
+            ? (isEs
+                ? `Aún no has comprado el curso de ${config.stateName}.`
+                : `You have not purchased the ${config.stateName} course yet.`)
+            : accessExpired
+              ? copy.accessExpired
+              : copy.accessActive}
+        </div>
+      </section>
 
       <section className="glass-panel rounded-[2rem] bg-white p-8">
         <div className="flex flex-wrap gap-3">

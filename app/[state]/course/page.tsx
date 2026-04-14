@@ -42,14 +42,14 @@ const VIRGINIA_LESSONS_EN = [
 ]
 
 const VIRGINIA_LESSONS_ES = [
-  { id: 1, slug: "lesson-1", title: "Leccion 1 - Introduccion al curso" },
-  { id: 2, slug: "lesson-2", title: "Leccion 2 - Habitos de conduccion defensiva" },
-  { id: 3, slug: "lesson-3", title: "Leccion 3 - Control de velocidad y distancia de seguimiento" },
-  { id: 4, slug: "lesson-4", title: "Leccion 4 - Distraccion, fatiga e impedimento" },
-  { id: 5, slug: "lesson-5", title: "Leccion 5 - Compartir la via de forma segura" },
-  { id: 6, slug: "lesson-6", title: "Leccion 6 - Leyes de transito de Virginia y consecuencias" },
-  { id: 7, slug: "lesson-7", title: "Leccion 7 - Clima, conduccion nocturna y emergencias" },
-  { id: 8, slug: "lesson-8", title: "Leccion 8 - Actitud, riesgo y responsabilidad a largo plazo" },
+  { id: 1, slug: "lesson-1", title: "Lección 1 - Introducción al curso" },
+  { id: 2, slug: "lesson-2", title: "Lección 2 - Hábitos de conducción defensiva" },
+  { id: 3, slug: "lesson-3", title: "Lección 3 - Control de velocidad y distancia de seguimiento" },
+  { id: 4, slug: "lesson-4", title: "Lección 4 - Distracción, fatiga e impedimento" },
+  { id: 5, slug: "lesson-5", title: "Lección 5 - Compartir la vía de forma segura" },
+  { id: 6, slug: "lesson-6", title: "Lección 6 - Leyes de tránsito de Virginia y consecuencias" },
+  { id: 7, slug: "lesson-7", title: "Lección 7 - Clima, conducción nocturna y emergencias" },
+  { id: 8, slug: "lesson-8", title: "Lección 8 - Actitud, riesgo y responsabilidad a largo plazo" },
 ]
 
 function getDefaultLessons(language: "en" | "es") {
@@ -58,7 +58,7 @@ function getDefaultLessons(language: "en" | "es") {
     slug: `lesson-${index + 1}`,
     title:
       language === "es"
-        ? `Leccion ${index + 1}`
+        ? `Lección ${index + 1}`
         : `Lesson ${index + 1}`,
   }))
 }

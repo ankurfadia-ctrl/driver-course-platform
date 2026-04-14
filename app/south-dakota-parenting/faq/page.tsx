@@ -12,13 +12,13 @@ export default async function SouthDakotaFaqPage() {
   const copy = isSpanish
     ? {
         label: "Preguntas",
-        title: "Preguntas sobre precios, finalizacion, certificados y verificacion",
+        title: "Preguntas sobre precios, finalización, certificados y verificación",
         intro:
-          "Estas son las preguntas que las familias hacen con mas frecuencia antes de iniciar o despues de terminar el curso.",
+          "Estas son las preguntas que las familias hacen con más frecuencia antes de iniciar o después de terminar el curso.",
         nextLabel: "Siguientes pasos",
-        nextTitle: "Lista para revisar precios o detalles del certificado?",
+        nextTitle: "¿Lista para revisar precios o detalles del certificado?",
         nextBody:
-          "Puedes continuar desde aqui con las paginas que la mayoria de las familias revisan antes de inscribirse.",
+          "Puedes continuar desde aquí con las páginas que la mayoría de las familias revisan antes de inscribirse.",
         pricingCta: "Ver precios",
         certificateCta: "Revisar certificado",
       }
@@ -49,19 +49,26 @@ export default async function SouthDakotaFaqPage() {
         </p>
       </section>
 
-      <section className="grid gap-5">
+      <section className="grid gap-4">
         {faqs.map((item) => (
-          <article
+          <details
             key={item.question}
-            className="glass-panel rounded-[2rem] bg-white p-8"
+            className="group glass-panel rounded-[2rem] bg-white"
           >
-            <h3 className="text-2xl font-semibold text-slate-950">
-              {item.question}
-            </h3>
-            <p className="mt-4 max-w-4xl leading-8 text-slate-600">
-              {item.answer}
-            </p>
-          </article>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-8">
+              <h3 className="text-2xl font-semibold text-slate-950">
+                {item.question}
+              </h3>
+              <span className="flex-shrink-0 text-slate-400 transition-transform group-open:rotate-180" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </span>
+            </summary>
+            <div className="px-8 pb-8">
+              <p className="max-w-4xl leading-8 text-slate-600">{item.answer}</p>
+            </div>
+          </details>
         ))}
       </section>
 

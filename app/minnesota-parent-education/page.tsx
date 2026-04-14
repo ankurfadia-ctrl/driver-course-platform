@@ -12,6 +12,8 @@ import {
   MINNESOTA_PARENT_SITE_JOURNEY_ES,
   MINNESOTA_PARENT_SITE_MODULES_ES,
   MINNESOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES,
+  MINNESOTA_PARENT_SITE_FAQS,
+  MINNESOTA_PARENT_SITE_FAQS_ES,
 } from "@/lib/minnesota-parent-education-site"
 import { getPublicBaseUrl } from "@/lib/runtime-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
@@ -58,26 +60,30 @@ export default async function MinnesotaParentEducationPage() {
   const priceMatchTerms = isSpanish
     ? MINNESOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES
     : MINNESOTA_PARENT_SITE_PRICE_MATCH_TERMS
+  const previewFaqs = (isSpanish ? MINNESOTA_PARENT_SITE_FAQS_ES : MINNESOTA_PARENT_SITE_FAQS).slice(0, 4)
 
   const copy = isSpanish
     ? {
         label: "Fundamentos de Coparentalidad de Minnesota",
         headline:
-          "Un curso en linea claro y accesible de educacion para padres para asuntos familiares de Minnesota",
+          "Un curso en línea claro y accesible de educación para padres para asuntos familiares de Minnesota",
         intro:
-          "Este curso esta disenado para padres que atraviesan custodia, tiempo de crianza o asuntos familiares relacionados y necesitan un programa educativo estructurado con certificado al finalizar.",
-        enrollCta: "Ver inscripcion y matricula",
+          "Este curso está diseñado para padres que atraviesan custodia, tiempo de crianza o asuntos familiares relacionados y necesitan un programa educativo estructurado con certificado al finalizar.",
+        enrollCta: "Ver inscripción y matrícula",
         curriculumCta: "Explorar plan de estudios",
         certificateCta: "Revisar certificado",
         previewLabel: "Vista previa del curso",
-        previewCta: "Ver los 7 modulos",
-        journeyLabel: "Como funciona el curso",
+        previewCta: "Ver los 7 módulos",
+        journeyLabel: "Cómo funciona el curso",
         stepLabel: "Paso",
-        priceMatchLabel: "Garantia de igualacion de precio",
+        priceMatchLabel: "Garantía de igualación de precio",
         priceMatchTitle:
-          "Si un curso comparable de Minnesota tiene un precio publico mas bajo, lo revisamos y lo igualamos o mejoramos por $1.",
+          "Si un curso comparable de Minnesota tiene un precio público más bajo, lo revisamos y lo igualamos o mejoramos por $1.",
         priceMatchBody:
-          "Si encuentras un precio publico mas bajo para un curso comparable de Minnesota, puedes enviar una solicitud aqui para revision.",
+          "Si encuentras un precio público más bajo para un curso comparable de Minnesota, puedes enviar una solicitud aquí para revisión.",
+        faqLabel: "Preguntas frecuentes",
+        faqTitle: "Preguntas comunes antes de inscribirse",
+        faqCta: "Ver todas las preguntas",
       }
     : {
         label: "Minnesota Co-Parenting Foundations",
@@ -97,6 +103,9 @@ export default async function MinnesotaParentEducationPage() {
           "If a comparable Minnesota course posts a lower public price, we will review it and match it or beat it by $1.",
         priceMatchBody:
           "If you find a lower public price for a comparable Minnesota course, you can send a request here for review.",
+        faqLabel: "Common questions",
+        faqTitle: "Questions before you enroll",
+        faqCta: "See all FAQ",
       }
 
   return (
@@ -232,10 +241,47 @@ export default async function MinnesotaParentEducationPage() {
         title={copy.priceMatchTitle}
         description={copy.priceMatchBody}
         href="/minnesota-parent-education/price-match"
-        ctaLabel={isSpanish ? "Solicitar igualacion" : "Request a price match"}
+        ctaLabel={isSpanish ? "Solicitar igualación" : "Request a price match"}
         accent="emerald"
         terms={priceMatchTerms}
       />
+
+      <section className="glass-panel rounded-[2rem] border-[#d9efe7] bg-white p-8">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+              {copy.faqLabel}
+            </div>
+            <h2 className="mt-3 text-3xl font-semibold text-slate-950">
+              {copy.faqTitle}
+            </h2>
+          </div>
+          <Link
+            href="/minnesota-parent-education/faq"
+            className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+          >
+            {copy.faqCta}
+          </Link>
+        </div>
+        <div className="mt-6 grid gap-3">
+          {previewFaqs.map((item) => (
+            <details
+              key={item.question}
+              className="group rounded-2xl border border-[#d9efe7] bg-[#f4fbf7]"
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4">
+                <span className="font-semibold text-slate-950">{item.question}</span>
+                <span className="flex-shrink-0 text-emerald-600 transition-transform group-open:rotate-180" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </span>
+              </summary>
+              <div className="px-6 pb-4 text-sm leading-7 text-slate-600">{item.answer}</div>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

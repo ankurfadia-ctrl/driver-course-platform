@@ -20,11 +20,11 @@ const protectedItemsEn = [
 ]
 
 const protectedItemsEs = [
-  "Texto del sitio web y disenos de paginas",
-  "Descripciones de cursos y paginas publicas del curso",
+  "Texto del sitio web y diseños de páginas",
+  "Descripciones de cursos y páginas públicas del curso",
   "Contenido de precios, certificados y soporte",
   "Materiales de paquetes descargables y documentos de apoyo",
-  "Logotipos, elementos de marca y graficos personalizados cuando correspondan",
+  "Logotipos, elementos de marca y gráficos personalizados cuando correspondan",
 ]
 
 export default async function CopyrightPage() {
@@ -45,7 +45,7 @@ export default async function CopyrightPage() {
             </h1>
             <p className="max-w-3xl text-lg leading-8 text-slate-600">
               {isSpanish
-                ? "El contenido del sitio web del Portal Nacional de Cursos y los materiales relacionados estan protegidos por copyright a menos que una pagina indique lo contrario."
+                ? "El contenido del sitio web del Portal Nacional de Cursos y los materiales relacionados están protegidos por copyright a menos que una página indique lo contrario."
                 : "National Course Portal website content and related course materials are protected by copyright unless a page states otherwise."}
             </p>
           </div>
@@ -74,7 +74,7 @@ export default async function CopyrightPage() {
           <div className="mt-3 space-y-3 text-base leading-7 text-slate-600">
             <p>
               {isSpanish
-                ? "Puedes ver, imprimir o descargar materiales publicos para tus necesidades personales de curso, certificado o soporte."
+                ? "Puedes ver, imprimir o descargar materiales públicos para tus necesidades personales de curso, certificado o soporte."
                 : "You may view, print, or download public materials for your own personal course, certificate, or support needs."}
             </p>
             <p>
@@ -104,7 +104,7 @@ export default async function CopyrightPage() {
               href="/terms"
               className="font-semibold text-slate-900 hover:text-blue-700"
             >
-              {isSpanish ? "Terminos de uso" : "Terms of Use"}
+              {isSpanish ? "Términos de uso" : "Terms of Use"}
             </Link>
             .{" "}
             {isSpanish ? "Para privacidad, consulta la " : "For privacy details, see the "}
@@ -112,7 +112,7 @@ export default async function CopyrightPage() {
               href="/privacy"
               className="font-semibold text-slate-900 hover:text-blue-700"
             >
-              {isSpanish ? "Politica de privacidad" : "Privacy Policy"}
+              {isSpanish ? "Política de privacidad" : "Privacy Policy"}
             </Link>
             .
           </p>

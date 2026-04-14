@@ -27,7 +27,7 @@ export default async function CourseHeader({ state }: { state: string }) {
           course: "Curso",
           identity: "Identidad",
           finalExam: "Examen final",
-          disclosures: "Informacion",
+          disclosures: "Información",
           support: "Soporte",
           faq: "Preguntas",
           checkout: "Planes",
@@ -61,7 +61,7 @@ export default async function CourseHeader({ state }: { state: string }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-3">
           <details className="relative">
-            <summary className="list-none cursor-pointer rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950">
+            <summary className="list-none cursor-pointer rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950" role="button" aria-haspopup="true">
               {labels.navigate}
             </summary>
 

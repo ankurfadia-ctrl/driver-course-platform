@@ -26,7 +26,7 @@ export default async function MinnesotaParentEducationLayout({
           <div className="grid gap-6 border-b border-[#e3ece8] bg-[linear-gradient(135deg,#eefaf5_0%,#ffffff_52%,#f4fbff_100%)] px-6 py-8 lg:grid-cols-[1fr_auto] lg:items-start lg:px-8">
             <div className="space-y-4">
               <div className="section-label !bg-emerald-50 !text-emerald-800 before:!bg-emerald-600">
-                {isSpanish ? "Educacion para padres de Minnesota" : "Minnesota Parent Education"}
+                {isSpanish ? "Educación para padres de Minnesota" : "Minnesota Parent Education"}
               </div>
               <div>
                 <Link
@@ -42,7 +42,7 @@ export default async function MinnesotaParentEducationLayout({
                 </h1>
                 <p className="mt-3 max-w-3xl text-base leading-7 text-slate-600">
                   {isSpanish
-                    ? "Educacion para padres en linea enfocada en el bienestar infantil, comunicacion de menor conflicto y un certificado claro para asuntos familiares de Minnesota."
+                    ? "Educación para padres en línea enfocada en el bienestar infantil, comunicación de menor conflicto y un certificado claro para asuntos familiares de Minnesota."
                     : "Online parent education focused on child well-being, lower-conflict communication, and a clear completion certificate for Minnesota family-law matters."}
                 </p>
               </div>
@@ -64,7 +64,7 @@ export default async function MinnesotaParentEducationLayout({
 
             <div className="max-w-xs rounded-3xl border border-emerald-100 bg-white/90 px-5 py-4 text-sm leading-7 text-slate-700">
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
-                {isSpanish ? "Necesitas ayuda?" : "Need help?"}
+                {isSpanish ? "¿Necesitas ayuda?" : "Need help?"}
               </div>
               <div className="mt-3 font-semibold text-slate-950">
                 {MINNESOTA_PARENT_SITE_SUPPORT.organization}

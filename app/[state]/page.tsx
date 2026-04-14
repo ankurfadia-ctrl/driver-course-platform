@@ -76,13 +76,13 @@ export default async function StateHomePage({
     config.stateSlug === "florida" ? getFloridaTrackPreviews() : []
   const primarySupportPhoneLabel =
     language === "es"
-      ? `Linea principal de ${config.stateName}`
+      ? `Línea principal de ${config.stateName}`
       : `${config.stateName} primary line`
   const secondarySupportPhoneLabel =
-    language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
+    language === "es" ? "Línea gratuita alternativa" : "Toll-free alternate line"
   const secondarySupportPhoneSummary =
     language === "es"
-      ? "Linea alternativa regulatoria (requerida)"
+      ? "Línea alternativa regulatoria (requerida)"
       : "Regulatory alternate line (required)"
   const baseUrl = getPublicBaseUrl()
   const canonicalUrl = `${baseUrl}/${config.stateSlug}`
