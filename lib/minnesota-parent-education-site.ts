@@ -457,7 +457,7 @@ export const MINNESOTA_PARENT_SITE_MODULES_ES = [
     outcomes: [
       "Revisar conceptos de manutencion y responsabilidad financiera a nivel general.",
       "Entender requisitos de finalización y expectativas de certificado.",
-      "Completar la evaluacion del curso y los pasos finales.",
+      "Completar la evaluación del curso y los pasos finales.",
     ],
   },
 ] as const satisfies readonly MinnesotaSiteModule[]
@@ -482,9 +482,9 @@ export const MINNESOTA_PARENT_SITE_JOURNEY_ES = [
       "La inscripción solicita tu información de contacto, numero de caso y cualquier solicitud de ayuda con el pago.",
   },
   {
-    title: "Completa lecciones, verificaciones y evaluacion",
+    title: "Completa lecciones, verificaciones y evaluación",
     body:
-      "Avanzas por la secuencia completa de 6 horas, completas verificaciones y terminas la evaluacion del curso.",
+      "Avanzas por la secuencia completa de 6 horas, completas verificaciones y terminas la evaluación del curso.",
   },
   {
     title: "Recibe tu certificado de finalización",
@@ -498,9 +498,9 @@ export const MINNESOTA_PARENT_SITE_PRICING_ES = [
     name: "Matrícula estándar",
     price: "$22.95",
     description:
-      "Acceso completo al curso, evaluacion y procesamiento del certificado al cumplir los requisitos.",
+      "Acceso completo al curso, evaluación y procesamiento del certificado al cumplir los requisitos.",
     note:
-      "Incluye acceso, seguimiento de finalización, evaluacion y procesamiento del certificado.",
+      "Incluye acceso, seguimiento de finalización, evaluación y procesamiento del certificado.",
   },
   {
     name: "Matrícula con tarifa reducida",
@@ -523,7 +523,7 @@ export const MINNESOTA_PARENT_SITE_PRICING_ES = [
 export const MINNESOTA_PARENT_SITE_INCLUDED_ES = [
   "Acceso completo a la secuencia de 7 modulos.",
   "Campos de certificado listos para numero de caso.",
-  "Seguimiento de finalización, evaluacion final y verificación del certificado.",
+  "Seguimiento de finalización, evaluación final y verificación del certificado.",
   "Soporte por correo y telefono para inscripción y dudas de exención.",
   "Sin tarifa administrativa oculta en la inscripción en linea.",
 ] as const
@@ -533,7 +533,7 @@ export const MINNESOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES = [
   "El precio del competidor debe ser actual, público e incluir todas las tarifas obligatorias.",
   "No se incluyen cupones privados, promociones vencidas, descuentos limitados ni precios por paquetes.",
   "Si la solicitud califica, igualamos el precio verificado o lo mejoramos por $1.",
-  "Las aprobaciones se revisan manualmente para mantener terminos claros y precisos.",
+  "Las aprobaciones se revisan manualmente para mantener términos claros y precisos.",
 ] as const
 
 export const MINNESOTA_PARENT_SITE_CERTIFICATE_FIELDS_ES = [

@@ -535,7 +535,7 @@ export const SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES = [
   "El precio del competidor debe ser actual, público e incluir todas las tarifas obligatorias.",
   "No se incluyen cupones privados, promociones vencidas, tarifas especiales ni formatos no comparables.",
   "Si la solicitud califica, igualamos el precio verificado o lo mejoramos por $1.",
-  "Las aprobaciones se revisan manualmente para mantener terminos claros y precisos.",
+  "Las aprobaciones se revisan manualmente para mantener términos claros y precisos.",
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_CERTIFICATE_FIELDS_ES = [
@@ -607,7 +607,7 @@ export const SOUTH_DAKOTA_PARENT_SITE_REVIEWER_POINTS_ES = [
 export const SOUTH_DAKOTA_PARENT_SITE_REVIEW_STEPS_ES = [
   "Empieza en Resumen para revisar descripcion, matrícula y estructura.",
   "Abre Plan de estudios para ver la secuencia de 4 horas y el mapeo de temas.",
-  "Abre Precios e Igualacion para revisar la matrícula estándar y terminos.",
+  "Abre Precios e Igualacion para revisar la matrícula estándar y términos.",
   "Abre Certificado para confirmar campos y controles de autenticidad.",
   "Usa Preguntas y enlaces oficiales para referencias adicionales.",
 ] as const

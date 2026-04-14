@@ -277,7 +277,7 @@ export default function StateCheckoutPage() {
           infoThreeUpgrade:
             "Las mejoras a soporte prioritario solo estan disponibles para compras estándar existentes.",
           infoThreeCheckout:
-            "Siguen aplicando el tiempo del curso, las verificaciones de identidad, las reglas del examen final y cualquier plazo externo mas corto.",
+            "Siguen aplicando el tiempo del curso, las verificaciones de identidad, las reglas del examen final y cualquier plazo externo más corto.",
           currentPlan: "Plan actual: soporte estándar",
           currentPlanBody:
             "Ya tienes acceso al curso. Si quieres una atención mas rápida, puedes comprar la mejora a soporte prioritario abajo.",
