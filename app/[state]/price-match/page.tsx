@@ -14,26 +14,26 @@ export default async function StatePriceMatchPage({
   const stateName = config.stateName
   const title =
     language === "es"
-      ? `Envianos un precio publico mas bajo de ${stateName} para revision`
+      ? `Envianos un precio público mas bajo de ${stateName} para revision`
       : `Send us a lower public ${stateName} course price for review`
   const description =
     language === "es"
       ? config.enrollmentOpen
-        ? `Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento para conductores de ${stateName} en linea, envia los detalles abajo. Revisamos las solicitudes calificadas manualmente y, si se aprueban, igualamos el precio verificado o lo mejoramos por $1.`
-        : `Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento para conductores de ${stateName} en linea, envianoslo abajo. Lo revisaremos y daremos seguimiento cuando se abra la inscripcion.`
+        ? `Si encuentras un precio público mas bajo para un curso equivalente de mejoramiento para conductores de ${stateName} en linea, envia los detalles abajo. Revisamos las solicitudes calificadas manualmente y, si se aprueban, igualamos el precio verificado o lo mejoramos por $1.`
+        : `Si encuentras un precio público mas bajo para un curso equivalente de mejoramiento para conductores de ${stateName} en linea, envianoslo abajo. Lo revisaremos y daremos seguimiento cuando se abra la inscripción.`
       : config.enrollmentOpen
         ? `If you find a lower current public price for a comparable ${stateName} online driver-improvement course, submit the details below. We review qualifying requests manually and match the verified price or beat it by $1.`
         : `If you find a lower current public price for a comparable ${stateName} online driver-improvement course, send it to us below. We will review it and follow up when enrollment opens.`
-  const label = language === "es" ? "Solicitud de igualacion de precio" : "Price Match Request"
+  const label = language === "es" ? "Solicitud de igualación de precio" : "Price Match Request"
   const requestTitle =
     language === "es"
-      ? `Solicitud de igualacion de precio de ${stateName}`
+      ? `Solicitud de igualación de precio de ${stateName}`
       : `${stateName} price match request`
   const supportName =
     language === "es"
       ? `Soporte del curso de ${stateName}`
       : `${stateName} course support`
-  const termsLabel = language === "es" ? "Terminos de la garantia" : "Guarantee terms"
+  const termsLabel = language === "es" ? "Terminos de la garantía" : "Guarantee terms"
   const contactLabel = language === "es" ? "Contacto" : "Contact"
   const responseGoal =
     language === "es"

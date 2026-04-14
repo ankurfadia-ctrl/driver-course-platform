@@ -19,22 +19,22 @@ export default async function StateTermsPage({
             `Estos terminos describen responsabilidades generales del estudiante y expectativas de uso del curso para la experiencia en linea de ${config.brandName}.`,
           responsibilities: "Responsabilidades del estudiante",
           responsibilitiesBody1:
-            "Los estudiantes son responsables de proporcionar informacion exacta de cuenta e identidad, mantener seguro su acceso y completar el curso personalmente.",
+            "Los estudiantes son responsables de proporcionar información exacta de cuenta e identidad, mantener seguro su acceso y completar el curso personalmente.",
           responsibilitiesBody2:
-            "Los estudiantes deben confirmar si el curso es aceptable para su tribunal, DMV, empleador, seguro u otro requisito antes de comprarlo o depender de la finalizacion.",
+            "Los estudiantes deben confirmar si el curso es aceptable para su tribunal, DMV, empleador, seguro u otro requisito antes de comprarlo o depender de la finalización.",
           controls: "Controles del curso",
           controlsBody1:
-            "El curso puede usar seguimiento del tiempo, verificacion de identidad, monitoreo de actividad y controles del examen antes de conceder la finalizacion o el acceso al certificado.",
+            "El curso puede usar seguimiento del tiempo, verificación de identidad, monitoreo de actividad y controles del examen antes de conceder la finalización o el acceso al certificado.",
           controlsBody2:
-            "No completar los pasos requeridos del curso, las verificaciones de identidad o los requisitos del examen puede impedir la finalizacion.",
+            "No completar los pasos requeridos del curso, las verificaciones de identidad o los requisitos del examen puede impedir la finalización.",
           refunds: "Reembolsos",
           refundsBody:
             "Las solicitudes de reembolso pueden revisarse antes de un uso sustancial del curso. Revisa la ",
-          refundsLink: "politica de reembolso",
+          refundsLink: "política de reembolso",
           support: "Soporte",
           supportBody:
             "Para problemas de cuenta, curso o certificado, empieza con la ",
-          supportLink: "pagina de soporte",
+          supportLink: "página de soporte",
         }
       : {
           label: "Terms",

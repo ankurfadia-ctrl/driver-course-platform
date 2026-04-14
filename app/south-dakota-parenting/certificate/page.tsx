@@ -22,21 +22,21 @@ export default async function SouthDakotaCertificatePage() {
         label: "Certificado",
         title: "Los certificados estan listos para uso de archivo en Dakota del Sur",
         intro:
-          "La estructura mantiene los datos de finalizacion requeridos claros y utiliza un ID de verificacion para apoyo de autenticidad.",
+          "La estructura mantiene los datos de finalización requeridos claros y utiliza un ID de verificación para apoyo de autenticidad.",
         sampleLabel: "Estructura de certificado de muestra",
         certificateHeading: "Fundamentos de Coparentalidad de Dakota del Sur",
-        certificateTitle: "Certificado de finalizacion",
+        certificateTitle: "Certificado de finalización",
         certificateLine:
-          "Se certifica que [Nombre del participante] completo Fundamentos de Coparentalidad de Dakota del Sur el [Fecha de finalizacion].",
+          "Se certifica que [Nombre del participante] completo Fundamentos de Coparentalidad de Dakota del Sur el [Fecha de finalización].",
         courseLabel: "Nombre del curso",
-        verificationLabel: "ID de verificacion",
+        verificationLabel: "ID de verificación",
         supportLabel: "Contacto del curso",
         fieldsLabel: "Campos incluidos",
-        verificationTitle: "Controles de verificacion",
+        verificationTitle: "Controles de verificación",
         nextLabel: "Siguientes pasos",
         nextTitle: "Compara precios o revisa las preguntas mas comunes",
         nextBody:
-          "Si estabas revisando el certificado primero, las paginas utiles siguientes son precios y preguntas frecuentes.",
+          "Si estabas revisando el certificado primero, las páginas utiles siguientes son precios y preguntas frecuentes.",
         pricingCta: "Ver precios",
         faqCta: "Leer preguntas",
       }

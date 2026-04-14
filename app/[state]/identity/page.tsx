@@ -146,7 +146,7 @@ export default function IdentitySetupPage() {
     if (hasEmptyField) {
       alert(
         isSpanish
-          ? "Completa todos los campos de verificacion de identidad."
+          ? "Completa todos los campos de verificación de identidad."
           : "Please complete all identity verification fields."
       )
       return
@@ -185,7 +185,7 @@ export default function IdentitySetupPage() {
         </p>
         <h1 className="text-3xl font-bold text-slate-900">
           {isSpanish
-            ? "Configuracion de verificacion de identidad"
+            ? "Configuracion de verificación de identidad"
             : "Identity Verification Setup"}
         </h1>
         <p className="mt-2 text-slate-600">

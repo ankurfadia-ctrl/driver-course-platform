@@ -43,12 +43,12 @@ export function buildDriverPriceMatchTerms(
 ) {
   if (language === "es") {
     return [
-      `El precio mas bajo debe ser un precio publico vigente para un curso equivalente de mejoramiento para conductores de ${stateName} en linea.`,
+      `El precio mas bajo debe ser un precio público vigente para un curso equivalente de mejoramiento para conductores de ${stateName} en linea.`,
       "No se incluyen codigos de cupon privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni formatos de curso no equivalentes.",
       enrollmentOpen
         ? "Las solicitudes calificadas se revisan manualmente y, si se aprueban, se igualan o mejoran por $1 antes de la compra."
-        : "Las solicitudes calificadas se revisan manualmente y pueden respetarse cuando se abra el pago publico para este estado.",
-      "Usa un enlace publico activo de la competencia y suficientes detalles para que el equipo de precios verifique la oferta rapidamente.",
+        : "Las solicitudes calificadas se revisan manualmente y pueden respetarse cuando se abra el pago público para este estado.",
+      "Usa un enlace público activo de la competencia y suficientes detalles para que el equipo de precios verifique la oferta rapidamente.",
     ]
   }
 
@@ -68,10 +68,10 @@ export function buildBoatingPriceMatchTerms(
 ) {
   if (language === "es") {
     return [
-      `El precio mas bajo debe ser un precio publico vigente para un curso de seguridad nautica de ${stateName} con un certificado o comprobante similar.`,
+      `El precio mas bajo debe ser un precio público vigente para un curso de seguridad náutica de ${stateName} con un certificado o comprobante similar.`,
       "No se incluyen codigos de cupon privados, promociones vencidas, tarifas estatales, tarifas gubernamentales, solo alquileres ni estructuras no equivalentes.",
-      "Las solicitudes calificadas se revisan manualmente y se igualan o mejoran por $1 cuando la ruta publica de pago nautico para ese estado este activa.",
-      "Usa un enlace publico activo de la competencia e indica cualquier detalle relevante sobre edad, reciprocidad o lo que incluye el precio.",
+      "Las solicitudes calificadas se revisan manualmente y se igualan o mejoran por $1 cuando la ruta pública de pago náutico para ese estado este activa.",
+      "Usa un enlace público activo de la competencia e indica cualquier detalle relevante sobre edad, reciprocidad o lo que incluye el precio.",
     ]
   }
 

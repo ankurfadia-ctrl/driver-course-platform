@@ -51,11 +51,11 @@ export default function LessonNavigation({
     language === "es"
       ? {
           saving: "Guardando...",
-          finishLesson: "Finalizar leccion",
+          finishLesson: "Finalizar lección",
           completeContinue: "Marcar completa y continuar ->",
           previousLesson: "<- Leccion anterior",
           courseOutline: "<- Volver al esquema del curso",
-          error: "No se pudo guardar el progreso de la leccion. Intentalo otra vez.",
+          error: "No se pudo guardar el progreso de la lección. Intentalo otra vez.",
         }
       : {
           saving: "Saving...",

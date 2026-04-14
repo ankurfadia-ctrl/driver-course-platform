@@ -21,9 +21,9 @@ const enrollmentFieldsEn = [
 const enrollmentFieldsEs = [
   "Nombre completo del participante y correo de contacto",
   "Numero de caso del tribunal y condado o distrito",
-  "Detalles de solicitud de tarifa reducida o exencion cuando aplique",
+  "Detalles de solicitud de tarifa reducida o exención cuando aplique",
   "Configuracion segura de cuenta para progreso y certificado",
-  "Detalles opcionales de igualacion de precio si hay oferta comparable",
+  "Detalles opcionales de igualación de precio si hay oferta comparable",
 ] as const
 
 const paymentNotesEn = [
@@ -33,9 +33,9 @@ const paymentNotesEn = [
 ] as const
 
 const paymentNotesEs = [
-  "La matricula se publica para que familias y tribunales vean la estructura completa en un solo lugar.",
-  "Las solicitudes de tarifa reducida y exencion pueden revisarse antes de cobrar la matricula estandar.",
-  "Las preguntas sobre inscripcion, datos del caso o certificados pueden atenderse por correo o telefono.",
+  "La matrícula se pública para que familias y tribunales vean la estructura completa en un solo lugar.",
+  "Las solicitudes de tarifa reducida y exención pueden revisarse antes de cobrar la matrícula estándar.",
+  "Las preguntas sobre inscripción, datos del caso o certificados pueden atenderse por correo o telefono.",
 ] as const
 
 export default async function MinnesotaEnrollmentPage() {
@@ -50,21 +50,21 @@ export default async function MinnesotaEnrollmentPage() {
     ? {
         label: "Inscripcion y pago",
         title:
-          "Una pagina de inscripcion simple con ayuda de pago y pasos claros",
+          "Una página de inscripción simple con ayuda de pago y pasos claros",
         intro:
-          "Esta pagina muestra lo que se pedira en la inscripcion, como se manejan las solicitudes de tarifa reducida o exencion y que esperar antes de iniciar.",
-        timingTitle: "Horario de inscripcion",
+          "Esta página muestra lo que se pedira en la inscripción, como se manejan las solicitudes de tarifa reducida o exención y que esperar antes de iniciar.",
+        timingTitle: "Horario de inscripción",
         timingBody:
-          "La inscripcion se abrira despues del trabajo final de lanzamiento. Mientras tanto, puedes revisar matricula, soporte y pasos de inscripcion.",
+          "La inscripción se abrira después del trabajo final de lanzamiento. Mientras tanto, puedes revisar matrícula, soporte y pasos de inscripción.",
         enrollmentCollects: "Lo que se solicita",
         expectations: "Que esperar",
         stepLabel: "Paso",
-        includedLabel: "Incluido despues de la inscripcion",
+        includedLabel: "Incluido después de la inscripción",
         supportLabel: "Notas de soporte y pago",
-        contactLine: "Las preguntas de inscripcion pueden enviarse a",
+        contactLine: "Las preguntas de inscripción pueden enviarse a",
         contactJoiner: "o",
-        backTuition: "Volver a matricula",
-        priceMatch: "Iniciar solicitud de igualacion",
+        backTuition: "Volver a matrícula",
+        priceMatch: "Iniciar solicitud de igualación",
         certificate: "Revisar certificado",
       }
     : {

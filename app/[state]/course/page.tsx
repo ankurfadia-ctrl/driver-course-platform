@@ -316,7 +316,7 @@ export default function StateCoursePage() {
             href={`/${state}/disclosures`}
             className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-white"
           >
-            {language === "es" ? "Leer informacion del curso" : "Read course information"}
+            {language === "es" ? "Leer información del curso" : "Read course information"}
           </Link>
           <Link
             href={`/${state}`}
@@ -351,7 +351,7 @@ export default function StateCoursePage() {
         {accessExpired && accessDeadline ? (
           <p className="text-sm text-amber-700">
             {language === "es"
-              ? `Tu acceso vencio despues de ${accessDeadline}.`
+              ? `Tu acceso vencio después de ${accessDeadline}.`
               : `Your access expired after ${accessDeadline}.`}
           </p>
         ) : null}

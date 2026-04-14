@@ -20,7 +20,7 @@ export default async function MinnesotaFaqPage() {
         nextTitle: "¿Listo para revisar la matrícula o el certificado?",
         nextBody:
           "Puedes pasar de las preguntas a los detalles que más quieren ver las familias sin saltar por todo el sitio.",
-        pricingCta: "Ver matricula",
+        pricingCta: "Ver matrícula",
         certificateCta: "Revisar certificado",
       }
     : {

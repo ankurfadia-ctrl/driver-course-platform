@@ -20,29 +20,29 @@ export default async function MinnesotaPricingPage() {
     : MINNESOTA_PARENT_SITE_PRICE_MATCH_TERMS
   const copy = isSpanish
     ? {
-        label: "Matricula",
+        label: "Matrícula",
         title:
-          "Matricula clara y de bajo costo con opciones de tarifa reducida y exencion",
+          "Matrícula clara y de bajo costo con opciones de tarifa reducida y exención",
         intro:
-          "Puedes revisar una matricula estandar simple junto con opciones de tarifa reducida y exencion si el costo es una preocupacion.",
-        includedLabel: "Incluido con la matricula",
+          "Puedes revisar una matrícula estándar simple junto con opciones de tarifa reducida y exención si el costo es una preocupacion.",
+        includedLabel: "Incluido con la matrícula",
         supportLabel: "Ayuda de pago y soporte",
         supportOne:
-          "Las solicitudes de tarifa reducida pueden revisarse antes de cobrar la matricula estandar.",
+          "Las solicitudes de tarifa reducida pueden revisarse antes de cobrar la matrícula estándar.",
         supportTwo:
-          "Participantes que califican bajo Minn. Stat. Sec. 563.01 o un criterio comparable pueden usar la exencion.",
+          "Participantes que califican bajo Minn. Stat. Sec. 563.01 o un criterio comparable pueden usar la exención.",
         supportThree:
-          "Las preguntas de inscripcion y certificado pueden atenderse por correo o telefono.",
-        priceMatchLabel: "Garantia de igualacion de precio",
+          "Las preguntas de inscripción y certificado pueden atenderse por correo o telefono.",
+        priceMatchLabel: "Garantía de igualación de precio",
         priceMatchTitle:
-          "Si un curso comparable de Minnesota tiene un precio publico mas bajo, lo revisamos y lo igualamos o mejoramos por $1.",
+          "Si un curso comparable de Minnesota tiene un precio público mas bajo, lo revisamos y lo igualamos o mejoramos por $1.",
         priceMatchBody:
-          "Si encuentras un precio publico mas bajo para un curso comparable de Minnesota, puedes enviar una solicitud aqui para revision.",
+          "Si encuentras un precio público mas bajo para un curso comparable de Minnesota, puedes enviar una solicitud aqui para revision.",
         enrollmentLabel: "Inscripcion",
-        enrollmentTitle: "Mira como funciona la inscripcion",
+        enrollmentTitle: "Mira como funciona la inscripción",
         enrollmentBody:
-          "La pagina de inscripcion muestra la informacion que ingresaras, como se manejan las solicitudes de ayuda y que esperar antes de iniciar.",
-        enrollmentCta: "Abrir pagina de inscripcion",
+          "La página de inscripción muestra la información que ingresaras, como se manejan las solicitudes de ayuda y que esperar antes de iniciar.",
+        enrollmentCta: "Abrir página de inscripción",
       }
     : {
         label: "Tuition",
@@ -144,7 +144,7 @@ export default async function MinnesotaPricingPage() {
         title={copy.priceMatchTitle}
         description={copy.priceMatchBody}
         href="/minnesota-parent-education/price-match"
-        ctaLabel={isSpanish ? "Solicitar igualacion" : "Request a price match"}
+        ctaLabel={isSpanish ? "Solicitar igualación" : "Request a price match"}
         accent="emerald"
         terms={priceMatchTerms}
       />

@@ -345,7 +345,7 @@ export default function StateCheckoutPage() {
           approvalLabel: "Aprobacion pendiente",
           reviewTitle: "Revisa la información del curso antes de comprar",
           reviewBody:
-            "Los estudiantes deben confirmar la aceptacion del curso para su necesidad específica ante tribunal, DMV, empleador o seguro antes de inscribirse. También deben planear completar el curso dentro de 90 días desde la compra, salvo que su requisito externo les otorgue menos tiempo.",
+            "Los estudiantes deben confirmar la aceptación del curso para su necesidad específica ante tribunal, DMV, empleador o seguro antes de inscribirse. También deben planear completar el curso dentro de 90 días desde la compra, salvo que su requisito externo les otorgue menos tiempo.",
           reviewCta: `Leer información del curso de ${stateDisplayName}`,
           refundTitle: "Resumen de reembolso",
           refundBody:
@@ -359,9 +359,9 @@ export default function StateCheckoutPage() {
           priceMatchCta: "Solicitar igualación de precio",
           accountTitle: "Crea tu cuenta antes de pagar",
           accountBody:
-            "Los estudiantes nuevos deben crear una cuenta o iniciar sesion antes del pago para que la compra quede guardada y el curso se desbloquee correctamente.",
+            "Los estudiantes nuevos deben crear una cuenta o iniciar sesión antes del pago para que la compra quede guardada y el curso se desbloquee correctamente.",
           createAccount: "Crear cuenta",
-          logIn: "Iniciar sesion",
+          logIn: "Iniciar sesión",
           backCourse: "Volver al curso",
           questions: "¿Preguntas antes de comprar?",
         }

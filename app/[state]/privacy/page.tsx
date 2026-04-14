@@ -16,21 +16,21 @@ export default async function StatePrivacyPage({
           label: "Privacidad",
           title: `Aviso de privacidad del curso de ${config.stateName}`,
           intro:
-            `Esta pagina explica los tipos de informacion del estudiante usados por ${config.brandName} para administrar la inscripcion, la verificacion de identidad, el tiempo del curso, los controles del examen final, la entrega del certificado y los flujos de soporte.`,
+            `Esta página explica los tipos de información del estudiante usados por ${config.brandName} para administrar la inscripción, la verificación de identidad, el tiempo del curso, los controles del examen final, la entrega del certificado y los flujos de soporte.`,
           usedByPlatform: "Informacion utilizada por la plataforma",
           usedBody1:
-            "La plataforma puede usar informacion de la cuenta, detalles de compra, informacion del perfil de identidad, progreso del curso, actividad del tiempo del curso, resultados del examen, registros del certificado y envios de soporte para operar el curso y responder a problemas del estudiante.",
+            "La plataforma puede usar información de la cuenta, detalles de compra, información del perfil de identidad, progreso del curso, actividad del tiempo del curso, resultados del examen, registros del certificado y envios de soporte para operar el curso y responder a problemas del estudiante.",
           usedBody2:
-            "La informacion relacionada con la identidad puede incluir nombre legal, fecha de nacimiento, numero de licencia de conducir y respuestas a preguntas de seguridad enviadas por el estudiante para los controles del curso.",
-          whyUsed: "Por que se usa la informacion",
+            "La información relacionada con la identidad puede incluir nombre legal, fecha de nacimiento, numero de licencia de conducir y respuestas a preguntas de seguridad enviadas por el estudiante para los controles del curso.",
+          whyUsed: "Por que se usa la información",
           whyBody1:
-            "La informacion del estudiante se usa para autenticar el acceso, procesar compras, verificar identidad, aplicar controles del curso, emitir certificados, proporcionar soporte y mantener registros operativos.",
+            "La información del estudiante se usa para autenticar el acceso, procesar compras, verificar identidad, aplicar controles del curso, emitir certificados, proporcionar soporte y mantener registros operativos.",
           whyBody2:
-            "La informacion tambien puede revisarse internamente para cumplimiento, solucion de problemas, prevencion de fraude y administracion del curso.",
+            "La información tambien puede revisarse internamente para cumplimiento, solucion de problemas, prevencion de fraude y administración del curso.",
           questions: "Preguntas sobre privacidad",
           questionsBody:
             "Si necesitas ayuda con la cuenta, los registros o preguntas de privacidad, empieza con la ",
-          supportLink: "pagina de soporte",
+          supportLink: "página de soporte",
         }
       : {
           label: "Privacy",

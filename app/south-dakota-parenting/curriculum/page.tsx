@@ -22,12 +22,12 @@ export default async function SouthDakotaCurriculumPage() {
         title:
           "Un curso claro de 4 horas centrado en los temas que Dakota del Sur pide comprender",
         intro:
-          "Las lecciones son practicas, centradas en los hijos y faciles de seguir, con modulos sobre comunicacion, coparentalidad, necesidades infantiles, reduccion de conflictos y finalizacion del certificado.",
+          "Las lecciones son practicas, centradas en los hijos y faciles de seguir, con modulos sobre comunicación, coparentalidad, necesidades infantiles, reduccion de conflictos y finalización del certificado.",
         methodsLabel: "Metodos de ensenanza",
         nextLabel: "Siguiente paso",
         nextTitle: "Revisa precios o detalles del certificado",
         nextBody:
-          "Si el plan de estudios se ajusta a tu situacion, las siguientes paginas que suelen consultar las familias son precios y certificado.",
+          "Si el plan de estudios se ajusta a tu situacion, las siguientes páginas que suelen consultar las familias son precios y certificado.",
         pricingCta: "Ver precios",
         certificateCta: "Revisar certificado",
       }

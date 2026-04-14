@@ -22,10 +22,10 @@ export default async function MinnesotaCurriculumPage() {
           "La secuencia esta disenada para expectativas del tribunal familiar de Minnesota, reduccion de conflicto centrada en los hijos y orientacion practica de coparentalidad.",
         methodsLabel: "Metodos de ensenanza",
         keepGoing: "Sigue adelante",
-        keepGoingTitle: "Revisa matricula o el certificado",
+        keepGoingTitle: "Revisa matrícula o el certificado",
         keepGoingBody:
-          "Si el plan de estudios es adecuado, las siguientes paginas son matricula y certificado.",
-        tuitionCta: "Ver matricula",
+          "Si el plan de estudios es adecuado, las siguientes páginas son matrícula y certificado.",
+        tuitionCta: "Ver matrícula",
         certificateCta: "Revisar certificado",
         stepLabel: "Paso",
         previewLabel: "Vista previa del curso",

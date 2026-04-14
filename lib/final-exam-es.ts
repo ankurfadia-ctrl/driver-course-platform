@@ -38,7 +38,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "id": 4,
     "question": "¿Cuando debe usar sus luces delanteras?",
     "options": [
-      "Solo despues del anochecer",
+      "Solo después del anochecer",
       "Siempre que la visibilidad este reducida",
       "Solo en areas rurales",
       "Solo cuando otro conductor encienda y apague sus luces delanteras"
@@ -49,7 +49,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "id": 5,
     "question": "Conducir a la defensiva significa:",
     "options": [
-      "Conducir mas rapido que el trafico a su alrededor",
+      "Conducir mas rápido que el trafico a su alrededor",
       "Asumir que otros conductores siempre cumpliran las reglas",
       "Anticipar peligros y tomar decisiones seguras con anticipacion",
       "Usar la bocina frecuentemente"
@@ -126,7 +126,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "id": 12,
     "question": "Muchos choques graves comienzan con:",
     "options": [
-      "Unos pocos segundos de falta de atencion",
+      "Unos pocos segundos de falta de atención",
       "Solo fallas mecanicas",
       "Conductores que usan demasiada precaucion",
       "Condiciones perfectas del clima"
@@ -182,7 +182,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "question": "Usar un telefono mientras conduce puede:",
     "options": [
       "Mejorar el tiempo de reaccion",
-      "Reducir la atencion y aumentar el riesgo de choque",
+      "Reducir la atención y aumentar el riesgo de choque",
       "Ayudarle a concentrarse",
       "Solo afectar a conductores nuevos"
     ],
@@ -271,7 +271,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "options": [
       "Usar luces altas",
       "Usar luces bajas y reducir la velocidad",
-      "Acelerar para salir rapido",
+      "Acelerar para salir rápido",
       "Conducir solo con luces intermitentes"
     ],
     "correctIndex": 1
@@ -281,7 +281,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "question": "¿Cual es un efecto principal del alcohol en la conduccion?",
     "options": [
       "Mejora del juicio",
-      "Tiempo de reaccion mas rapido",
+      "Tiempo de reaccion mas rápido",
       "Coordinacion y juicio reducidos",
       "Mejor vision nocturna"
     ],
@@ -291,7 +291,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "id": 27,
     "question": "Un conductor que esta enojado o molesto debe:",
     "options": [
-      "Conducir mas rapido para liberar estres",
+      "Conducir mas rápido para liberar estres",
       "Esperar a calmarse antes de conducir si es posible",
       "Usar esa ira para mantenerse alerta",
       "Tomar riesgos para ahorrar tiempo"
@@ -313,7 +313,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "id": 29,
     "question": "¿Cual es la forma mas segura de controlar la velocidad?",
     "options": [
-      "Igualar al conductor mas rapido",
+      "Igualar al conductor mas rápido",
       "Conducir a una velocidad adecuada a las condiciones",
       "Siempre conducir exactamente al limite de velocidad sin importar las condiciones",
       "Conducir mas lento que todo el trafico en el carril izquierdo"
@@ -426,7 +426,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
       "Ignorar las reglas de seguridad",
       "Explicar que conduce de forma segura y mantener el control",
       "Presumir",
-      "Conducir mas rapido temporalmente"
+      "Conducir mas rápido temporalmente"
     ],
     "correctIndex": 1
   },
@@ -435,7 +435,7 @@ export const VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK: ExamQuestion[] = [
     "question": "¿Cual es una respuesta segura a la frustracion en la carretera?",
     "options": [
       "Tomar represalias contra otros conductores",
-      "Conducir mas rapido para escapar de la situacion",
+      "Conducir mas rápido para escapar de la situacion",
       "Crear espacio y reenfocarse en el control",
       "Seguir muy de cerca para presionar el trafico"
     ],

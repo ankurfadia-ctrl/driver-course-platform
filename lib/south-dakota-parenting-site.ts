@@ -338,12 +338,12 @@ export const SOUTH_DAKOTA_PARENT_SITE_NAV_ES = [
 export const SOUTH_DAKOTA_PARENT_SITE_HIGHLIGHTS_ES = [
   { label: "Duracion del curso", value: "4 horas en 8 modulos guiados" },
   {
-    label: "Matricula",
-    value: "$17.95 de matricula estandar con revision de dificultad y exencion",
+    label: "Matrícula",
+    value: "$17.95 de matrícula estándar con revision de dificultad y exención",
   },
   {
     label: "Certificado",
-    value: "Certificado de finalizacion con ID de verificacion y soporte de autenticidad",
+    value: "Certificado de finalización con ID de verificación y soporte de autenticidad",
   },
   {
     label: "Soporte",
@@ -360,17 +360,17 @@ export const SOUTH_DAKOTA_PARENT_SITE_FEATURES_ES = [
   {
     title: "Acceso en linea de bajo costo",
     body:
-      "El precio se mantiene simple y accesible, con revision por dificultad y opcion de exencion para familias que lo necesitan.",
+      "El precio se mantiene simple y accesible, con revision por dificultad y opción de exención para familias que lo necesitan.",
   },
   {
     title: "Centrado en los hijos y practico",
     body:
-      "Los modulos se enfocan en la transicion familiar, comunicacion calmada y habitos de coparentalidad en lugar de contenido generico.",
+      "Los modulos se enfocan en la transicion familiar, comunicación calmada y habitos de coparentalidad en lugar de contenido generico.",
   },
   {
-    title: "Controles de certificado y verificacion",
+    title: "Controles de certificado y verificación",
     body:
-      "Los registros se conservan, los certificados usan ID de verificacion y el contacto de soporte es facil de encontrar.",
+      "Los registros se conservan, los certificados usan ID de verificación y el contacto de soporte es facil de encontrar.",
   },
 ] as const
 
@@ -401,7 +401,7 @@ export const SOUTH_DAKOTA_PARENT_SITE_MODULES_ES = [
     title: "Modulo 3. Roles y responsabilidades de coparentalidad",
     duration: "30 minutos",
     focus:
-      "Expectativas de crianza compartida, responsabilidad entre hogares y rol parental continuo despues de la separacion.",
+      "Expectativas de crianza compartida, responsabilidad entre hogares y rol parental continuo después de la separacion.",
     outcomes: [
       "Distinguir entre conflicto adulto y responsabilidades centradas en los hijos.",
       "Planificar mayor consistencia entre hogares.",
@@ -436,7 +436,7 @@ export const SOUTH_DAKOTA_PARENT_SITE_MODULES_ES = [
     focus:
       "Comunicacion de menor conflicto, limites y habitos que evitan que los hijos queden en medio.",
     outcomes: [
-      "Usar comunicacion breve, factual y centrada en los hijos.",
+      "Usar comunicación breve, factual y centrada en los hijos.",
       "Reconocer patrones de escalamiento y elegir alternativas mas calmadas.",
       "Reducir el uso de los hijos como mensajeros.",
     ],
@@ -460,7 +460,7 @@ export const SOUTH_DAKOTA_PARENT_SITE_MODULES_ES = [
     outcomes: [
       "Revisar los puntos principales centrados en los hijos.",
       "Completar las verificaciones requeridas.",
-      "Entender como funciona el certificado y la verificacion.",
+      "Entender como funciona el certificado y la verificación.",
     ],
   },
 ] as const satisfies readonly SouthDakotaSiteModule[]
@@ -470,14 +470,14 @@ export const SOUTH_DAKOTA_PARENT_SITE_TEACHING_METHODS_ES = [
   "Preguntas de reflexion ligadas a temas comunes de coparentalidad.",
   "Ejemplos basados en escenarios centrados en el bienestar infantil.",
   "Verificaciones de comprension ligadas a temas principales.",
-  "Flujo de certificado y verificacion listo para uso judicial.",
+  "Flujo de certificado y verificación listo para uso judicial.",
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_JOURNEY_ES = [
   {
-    title: "Revisa precios y opciones de igualacion",
+    title: "Revisa precios y opciones de igualación",
     body:
-      "Puedes revisar la matricula estandar, opciones por dificultad, exencion y proceso de igualacion antes de comenzar.",
+      "Puedes revisar la matrícula estándar, opciones por dificultad, exención y proceso de igualación antes de comenzar.",
   },
   {
     title: "Completa la secuencia de 4 horas",
@@ -487,7 +487,7 @@ export const SOUTH_DAKOTA_PARENT_SITE_JOURNEY_ES = [
   {
     title: "Cumple los requisitos y desbloquea el certificado",
     body:
-      "Tu certificado se libera despues de completar todos los pasos y registrar el ID de verificacion.",
+      "Tu certificado se libera después de completar todos los pasos y registrar el ID de verificación.",
   },
   {
     title: "Recibe ayuda cuando la necesites",
@@ -498,11 +498,11 @@ export const SOUTH_DAKOTA_PARENT_SITE_JOURNEY_ES = [
 
 export const SOUTH_DAKOTA_PARENT_SITE_PRICING_ES = [
   {
-    name: "Matricula estandar",
+    name: "Matrícula estándar",
     price: "$17.95",
     description:
-      "Acceso completo, seguimiento de finalizacion y procesamiento del certificado al cumplir los requisitos.",
-    note: "Un precio simple para el curso estandar de Dakota del Sur.",
+      "Acceso completo, seguimiento de finalización y procesamiento del certificado al cumplir los requisitos.",
+    note: "Un precio simple para el curso estándar de Dakota del Sur.",
   },
   {
     name: "Revision por dificultad",
@@ -518,21 +518,21 @@ export const SOUTH_DAKOTA_PARENT_SITE_PRICING_ES = [
     description:
       "Disponible cuando se demuestra indigencia documentada o un criterio comparable reconocido por el tribunal.",
     note:
-      "La exencion permanece disponible cuando se cumple el criterio de dificultad financiera.",
+      "La exención permanece disponible cuando se cumple el criterio de dificultad financiera.",
   },
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_INCLUDED_ES = [
   "Acceso completo a la secuencia de 8 modulos.",
-  "Campos de certificado listos para presentacion judicial con ID de verificacion.",
-  "Conservacion de registros de finalizacion para autenticidad.",
-  "Soporte por telefono y correo para inscripcion y certificados.",
+  "Campos de certificado listos para presentacion judicial con ID de verificación.",
+  "Conservacion de registros de finalización para autenticidad.",
+  "Soporte por telefono y correo para inscripción y certificados.",
   "Sin tarifa adicional por procesamiento de certificado.",
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES = [
   "Revisamos precios publicos vigentes de cursos comparables en linea de Dakota del Sur.",
-  "El precio del competidor debe ser actual, publico e incluir todas las tarifas obligatorias.",
+  "El precio del competidor debe ser actual, público e incluir todas las tarifas obligatorias.",
   "No se incluyen cupones privados, promociones vencidas, tarifas especiales ni formatos no comparables.",
   "Si la solicitud califica, igualamos el precio verificado o lo mejoramos por $1.",
   "Las aprobaciones se revisan manualmente para mantener terminos claros y precisos.",
@@ -540,30 +540,30 @@ export const SOUTH_DAKOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES = [
 
 export const SOUTH_DAKOTA_PARENT_SITE_CERTIFICATE_FIELDS_ES = [
   "Nombre del participante",
-  "Fecha de finalizacion",
+  "Fecha de finalización",
   "Nombre del curso",
-  "ID de verificacion",
+  "ID de verificación",
   "Informacion de contacto del proveedor",
   "Texto listo para presentacion judicial",
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_AUTHENTICITY_ES = [
-  "Cada certificado recibe un ID de verificacion unico.",
-  "Los datos de finalizacion se conservan para verificacion de autenticidad.",
-  "Las solicitudes de verificacion pueden responderse con nombre e ID.",
-  "Los certificados se liberan solo despues de completar los pasos requeridos.",
+  "Cada certificado recibe un ID de verificación unico.",
+  "Los datos de finalización se conservan para verificación de autenticidad.",
+  "Las solicitudes de verificación pueden responderse con nombre e ID.",
+  "Los certificados se liberan solo después de completar los pasos requeridos.",
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_FAQS_ES = [
   {
     question: "Cuanto cuesta el curso de Dakota del Sur?",
     answer:
-      "La matricula estandar es $17.95. El curso mantiene una opcion de revision por dificultad y una exencion para casos documentados.",
+      "La matrícula estándar es $17.95. El curso mantiene una opción de revision por dificultad y una exención para casos documentados.",
   },
   {
-    question: "Ofrecen garantia de igualacion de precio?",
+    question: "Ofrecen garantía de igualación de precio?",
     answer:
-      "Si. Si encuentras un precio publico mas bajo para un curso comparable, envia el enlace para revision manual y lo igualamos o mejoramos por $1 si califica.",
+      "Si. Si encuentras un precio público mas bajo para un curso comparable, envia el enlace para revision manual y lo igualamos o mejoramos por $1 si califica.",
   },
   {
     question: "Cuanto dura el curso?",
@@ -573,17 +573,17 @@ export const SOUTH_DAKOTA_PARENT_SITE_FAQS_ES = [
   {
     question: "Que incluye el certificado?",
     answer:
-      "Incluye nombre del participante, nombre del curso, fecha de finalizacion, contacto del proveedor e ID de verificacion.",
+      "Incluye nombre del participante, nombre del curso, fecha de finalización, contacto del proveedor e ID de verificación.",
   },
   {
     question: "El curso ofrece asesoria legal especifica?",
     answer:
-      "No. El curso es educativo. Ofrece informacion general y educacion estructurada, pero no reemplaza asesoria legal ni terapia.",
+      "No. El curso es educativo. Ofrece información general y educacion estructurada, pero no reemplaza asesoria legal ni terapia.",
   },
   {
-    question: "Como se maneja la verificacion del certificado?",
+    question: "Como se maneja la verificación del certificado?",
     answer:
-      "Los registros de finalizacion se conservan y cada certificado recibe un ID de verificacion para confirmar autenticidad.",
+      "Los registros de finalización se conservan y cada certificado recibe un ID de verificación para confirmar autenticidad.",
   },
   {
     question: "Donde consulto sobre dificultad o certificados?",
@@ -593,21 +593,21 @@ export const SOUTH_DAKOTA_PARENT_SITE_FAQS_ES = [
   {
     question: "Como confirmar el estatus de proveedor aprobado?",
     answer:
-      "Las familias deben revisar la pagina actual de clases de UJS de Dakota del Sur y confirmar lo que el tribunal acepta.",
+      "Las familias deben revisar la página actual de clases de UJS de Dakota del Sur y confirmar lo que el tribunal acepta.",
   },
 ] as const satisfies readonly SouthDakotaSiteFaq[]
 
 export const SOUTH_DAKOTA_PARENT_SITE_REVIEWER_POINTS_ES = [
-  "El curso tiene paginas publicas claras para resumen, plan de estudios, precios, certificado, preguntas y igualacion.",
-  "El contacto usa un correo y telefono de soporte dedicados para inscripcion y certificados.",
-  "Los certificados incluyen un ID de verificacion y datos de contacto para autenticidad.",
+  "El curso tiene páginas publicas claras para resumen, plan de estudios, precios, certificado, preguntas y igualación.",
+  "El contacto usa un correo y telefono de soporte dedicados para inscripción y certificados.",
+  "Los certificados incluyen un ID de verificación y datos de contacto para autenticidad.",
   "Los enlaces oficiales de Dakota del Sur se mantienen en un solo lugar.",
 ] as const
 
 export const SOUTH_DAKOTA_PARENT_SITE_REVIEW_STEPS_ES = [
-  "Empieza en Resumen para revisar descripcion, matricula y estructura.",
+  "Empieza en Resumen para revisar descripcion, matrícula y estructura.",
   "Abre Plan de estudios para ver la secuencia de 4 horas y el mapeo de temas.",
-  "Abre Precios e Igualacion para revisar la matricula estandar y terminos.",
+  "Abre Precios e Igualacion para revisar la matrícula estándar y terminos.",
   "Abre Certificado para confirmar campos y controles de autenticidad.",
   "Usa Preguntas y enlaces oficiales para referencias adicionales.",
 ] as const

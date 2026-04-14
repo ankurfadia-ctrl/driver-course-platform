@@ -180,7 +180,7 @@ export default function CheckoutSuccessPage({
             "3. El acceso al curso ya esta activo.",
           ],
           failureOne:
-            "La pagina de pago se cargo, pero la activacion automatica no termino.",
+            "La página de pago se cargo, pero la activacion automatica no termino.",
           failureTwo:
             "Puedes ir a tu panel e intentarlo de nuevo, o usar soporte si el acceso no aparece.",
           startCourse: "Comenzar curso",

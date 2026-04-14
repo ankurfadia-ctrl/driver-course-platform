@@ -30,13 +30,13 @@ export default async function StateContactPage({
           intro:
             "Para la mayoria de las preguntas sobre cuenta, curso, examen final o certificado, empieza con las preguntas frecuentes.",
           cardTitle: "Empieza con las preguntas frecuentes",
-          stepOne: "Inicia sesion en tu cuenta de estudiante.",
+          stepOne: "Inicia sesión en tu cuenta de estudiante.",
           stepTwo:
             "Revisa las respuestas mas comunes y vuelve aqui si aun necesitas ayuda.",
           phoneTitle: "Linea telefonica",
           phoneBody:
             secondarySupportPhoneDisplay
-              ? "La linea principal es la mejor opcion para asuntos urgentes. Los detalles del contacto alternativo requerido por Virginia aparecen mas abajo si se necesitan."
+              ? "La linea principal es la mejor opción para asuntos urgentes. Los detalles del contacto alternativo requerido por Virginia aparecen mas abajo si se necesitan."
               : "La linea telefonica esta disponible principalmente para problemas de acceso a la cuenta y asuntos urgentes del curso.",
           phoneLabel: "Telefono",
           emailTitle: "Correo electronico",

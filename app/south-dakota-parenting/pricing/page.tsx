@@ -22,20 +22,20 @@ export default async function SouthDakotaPricingPage() {
     ? {
         label: "Precios",
         title:
-          "Precios de bajo costo con revision por dificultad y igualacion publica",
+          "Precios de bajo costo con revision por dificultad y igualación pública",
         intro:
-          "Una matricula estandar simple se combina con revision por dificultad, exencion y una opcion de igualacion para familias que necesitan apoyo adicional.",
-        includedLabel: "Incluido con la matricula",
+          "Una matrícula estándar simple se combina con revision por dificultad, exención y una opción de igualación para familias que necesitan apoyo adicional.",
+        includedLabel: "Incluido con la matrícula",
         helpLabel: "Necesitas ayuda antes de inscribirte?",
         helpBody:
           "Si el costo es una preocupacion o tienes preguntas antes de inscribirte, escribe a",
         helpJoiner: "o",
-        priceMatchLabel: "Garantia de igualacion de precio",
+        priceMatchLabel: "Garantía de igualación de precio",
         priceMatchTitle:
-          "Si un curso comparable de Dakota del Sur tiene un precio publico mas bajo, lo revisamos y lo igualamos o mejoramos por $1.",
+          "Si un curso comparable de Dakota del Sur tiene un precio público mas bajo, lo revisamos y lo igualamos o mejoramos por $1.",
         priceMatchBody:
-          "Si encuentras un precio publico mas bajo para un curso comparable de Dakota del Sur, envia una solicitud para revision.",
-        priceMatchCta: "Solicitar igualacion",
+          "Si encuentras un precio público mas bajo para un curso comparable de Dakota del Sur, envia una solicitud para revision.",
+        priceMatchCta: "Solicitar igualación",
       }
     : {
         label: "Pricing",

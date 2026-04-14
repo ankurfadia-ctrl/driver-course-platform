@@ -192,7 +192,7 @@ export default function FinalExamPage() {
           loadingExam: "Cargando examen final...",
           completeLessonsFirst: "Completa todas las lecciones antes de comenzar el examen final.",
           returnToCourse: "Volver al curso",
-          seatTimeRequired: "Debes completar todas las lecciones y al menos 7 horas de instruccion antes de tomar el examen final.",
+          seatTimeRequired: "Debes completar todas las lecciones y al menos 7 horas de instrucción antes de tomar el examen final.",
           approvedSeatTime: "Tiempo aprobado",
           unlockPoint: "Punto de desbloqueo del examen final",
           remaining: "Tiempo restante",
@@ -212,49 +212,49 @@ export default function FinalExamPage() {
           viewCertificate: "Ver certificado",
           reviewCourse: "Repasar curso",
           identityVerification: "Verificacion de identidad",
-          identityUnlock: "El tiempo de instruccion previo al examen ya esta completo. Verifica tu identidad para desbloquear el examen final. El tiempo en esta pagina del examen cuenta para el minimo total de 8 horas.",
+          identityUnlock: "El tiempo de instrucción previo al examen ya esta completo. Verifica tu identidad para desbloquear el examen final. El tiempo en esta página del examen cuenta para el minimo total de 8 horas.",
           forgotIdentity: "Si olvidaste tus respuestas de identidad, vuelve a la configuracion de identidad y actualizalas antes de comenzar el examen final.",
           verifyIdentity: "Verificar identidad",
           updateAnswers: "Actualizar respuestas de identidad",
           examInstructions: "Instrucciones del examen final",
-          identityVerified: "La identidad fue verificada correctamente. El examen final se abre despues de al menos 7 horas de instruccion, y el tiempo en esta pagina cuenta para el minimo total de 8 horas. El certificado sigue bloqueado hasta completar las 8 horas.",
+          identityVerified: "La identidad fue verificada correctamente. El examen final se abre después de al menos 7 horas de instrucción, y el tiempo en esta página cuenta para el minimo total de 8 horas. El certificado sigue bloqueado hasta completar las 8 horas.",
           questionCount: "Numero de preguntas",
-          passingScore: "Puntuacion para aprobar",
+          passingScore: "Puntuación para aprobar",
           timeLimit: "Limite de tiempo",
           examUnlockPoint: "Punto de desbloqueo del examen",
           fortyFiveMinutes: "45 minutos",
           sevenHours: "7 horas",
           instructionBullets: [
-            "No cambies de pestaña ni salgas de la pagina del examen durante la prueba.",
+            "No cambies de pestaña ni salgas de la página del examen durante la prueba.",
             "El examen puede incluir verificaciones de identidad durante la prueba.",
             "Debes responder todas las preguntas antes de enviarlo manualmente.",
             "Si se acaba el tiempo, el examen se enviara automaticamente.",
-            "Salir repetidamente de la pagina termina el intento del examen.",
+            "Salir repetidamente de la página termina el intento del examen.",
           ],
           ackIdentity: "Confirmo que soy el estudiante inscrito que esta tomando este examen.",
           ackNoHelp: "Entiendo que debo completar este examen sin ayuda externa.",
-          ackStay: "Entiendo que salir de la pagina del examen puede generar advertencias o terminar el intento.",
+          ackStay: "Entiendo que salir de la página del examen puede generar advertencias o terminar el intento.",
           ackReady: "Estoy listo para comenzar el examen final ahora.",
           startExam: "Comenzar examen final",
-          doNotLeave: "No cambies de pestaña ni salgas de la pagina del examen.",
+          doNotLeave: "No cambies de pestaña ni salgas de la página del examen.",
           warnings: "Advertencias",
           timeRemaining: "Tiempo restante",
           pausedWhileAway: "en pausa mientras estabas fuera",
           submitting: "Enviando...",
           submitExam: "Enviar examen",
-          score: "Puntuacion",
-          nextSteps: "Proximos pasos: repasa el material del curso, vuelve a tu panel y regresa despues de la hora de reintento si se permite otro intento.",
+          score: "Puntuación",
+          nextSteps: "Proximos pasos: repasa el material del curso, vuelve a tu panel y regresa después de la hora de reintento si se permite otro intento.",
           suggestedLessons: "Lecciones sugeridas para repasar",
           answered: "Respondidas",
-          identityCheckRequired: "Se requiere verificacion de identidad",
-          answerVerification: "Responde esta pregunta de verificacion antes de continuar.",
+          identityCheckRequired: "Se requiere verificación de identidad",
+          answerVerification: "Responde esta pregunta de verificación antes de continuar.",
           continueExam: "Continuar examen",
-          verifyFailed: "La verificacion de identidad fallo. Intentalo otra vez.",
+          verifyFailed: "La verificación de identidad fallo. Intentalo otra vez.",
           answerAll: "Responde todas las preguntas.",
           tabWarning: (next: number) =>
-            `Advertencia ${next} de 4: permanece en la pagina del examen final.`,
+            `Advertencia ${next} de 4: permanece en la página del examen final.`,
           examEndedAway:
-            "El examen termino por alejarte repetidamente de la pagina del examen.",
+            "El examen termino por alejarte repetidamente de la página del examen.",
           examEndedSaveError:
             "El examen termino por alejarte repetidamente, pero no se pudo guardar el resultado. Comunicate con soporte.",
           timeoutSaveError:
@@ -923,7 +923,7 @@ export default function FinalExamPage() {
             href={`/${state}/disclosures`}
             className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700"
           >
-            {language === "es" ? "Leer informacion del curso" : "Read course information"}
+            {language === "es" ? "Leer información del curso" : "Read course information"}
           </Link>
           <Link
             href={`/${state}`}

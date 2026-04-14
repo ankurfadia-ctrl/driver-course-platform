@@ -44,7 +44,7 @@ export default function MailedCertificateOrderPage() {
     language === "es"
       ? {
           missingCertificateId:
-            "Falta el ID del certificado. Abre esta pagina desde tu pantalla de certificado.",
+            "Falta el ID del certificado. Abre esta página desde tu pantalla de certificado.",
           checkoutError:
             "No se pudo preparar el pago para el certificado enviado por correo.",
           stripeUrlError: "No se recibio la URL de pago de Stripe.",
@@ -56,7 +56,7 @@ export default function MailedCertificateOrderPage() {
           mailingBody:
             "Ingresa la direccion donde debe enviarse la copia impresa del certificado.",
           missingCertificateBanner:
-            "Falta el ID del certificado. Vuelve a tu pagina de certificado y usa desde alli la opcion de copia enviada por correo.",
+            "Falta el ID del certificado. Vuelve a tu página de certificado y usa desde alli la opción de copia enviada por correo.",
           firstName: "Nombre",
           lastName: "Apellido",
           addressLine1: "Direccion linea 1",

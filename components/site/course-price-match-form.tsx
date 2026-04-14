@@ -41,11 +41,11 @@ export default function CoursePriceMatchForm({
             competitorLabel: "Enlace del curso del competidor",
             notesLabel: "Notas sobre el precio mas bajo",
             notesPlaceholder:
-              "Agrega cualquier detalle sobre el precio publico mas bajo, si incluye cargos o si la duracion del curso es similar.",
+              "Agrega cualquier detalle sobre el precio público mas bajo, si incluye cargos o si la duración del curso es similar.",
             submit: "Abrir solicitud por correo",
             copy: "Copiar detalles de la solicitud",
             error: "Incluye tu nombre, correo electronico y el enlace del competidor.",
-            copied: "Solicitud de igualacion copiada al portapapeles.",
+            copied: "Solicitud de igualación copiada al portapapeles.",
             helper:
               "Al abrir la solicitud se crea un correo prellenado para el equipo de precios. Copiar la solicitud te da una version de texto que puedes pegar en cualquier correo o nota de soporte.",
             bodyName: "Nombre",

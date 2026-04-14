@@ -116,12 +116,12 @@ export default function LessonVisuals({
           label={isSpanish ? "Resumen del curso" : "Course overview"}
           title={
             isSpanish
-              ? "Como avanza el curso desde la inscripcion hasta el certificado"
+              ? "Como avanza el curso desde la inscripción hasta el certificado"
               : "How the course moves from enrollment to certificate"
           }
           description={
             isSpanish
-              ? "Esta tabla rapida muestra las etapas principales del curso para que veas como se conectan las lecciones, el tiempo aprobado, el examen final y el certificado."
+              ? "Esta tabla rápida muestra las etapas principales del curso para que veas como se conectan las lecciones, el tiempo aprobado, el examen final y el certificado."
               : "This quick table shows the main course stages so you can see how lessons, seat time, the final exam, and the certificate connect."
           }
         >
@@ -134,10 +134,10 @@ export default function LessonVisuals({
             rows={
               isSpanish
                 ? [
-                    ["Lecciones", "Lee cada leccion y completa las revisiones de conocimiento", "Forma los habitos de seguridad necesarios para el examen final y el certificado"],
-                    ["Tiempo aprobado", "Mantente activo en el curso hasta completar el tiempo requerido", "Virginia exige tiempo de instruccion aprobado antes de completar el curso"],
-                    ["Examen final", "Aprueba el examen final despues de completar las lecciones y el tiempo requerido", "Confirma la comprension del material del curso"],
-                    ["Certificado", "Desbloquea el certificado despues de cumplir todos los requisitos", "Proporciona prueba de finalizacion del curso"],
+                    ["Lecciones", "Lee cada lección y completa las revisiones de conocimiento", "Forma los habitos de seguridad necesarios para el examen final y el certificado"],
+                    ["Tiempo aprobado", "Mantente activo en el curso hasta completar el tiempo requerido", "Virginia exige tiempo de instrucción aprobado antes de completar el curso"],
+                    ["Examen final", "Aprueba el examen final después de completar las lecciones y el tiempo requerido", "Confirma la comprension del material del curso"],
+                    ["Certificado", "Desbloquea el certificado después de cumplir todos los requisitos", "Proporciona prueba de finalización del curso"],
                   ]
                 : [
                     ["Lessons", "Read each lesson and complete the knowledge checks", "Builds the safety habits needed for the final exam and certificate"],
@@ -259,7 +259,7 @@ export default function LessonVisuals({
           }
           description={
             isSpanish
-              ? "Los niveles de BAC importan, pero la decision mas segura es no conducir antes de que el alcohol o las drogas reduzcan la atencion, el juicio y el control."
+              ? "Los niveles de BAC importan, pero la decision mas segura es no conducir antes de que el alcohol o las drogas reduzcan la atención, el juicio y el control."
               : "BAC thresholds matter, but the safest decision is to avoid driving before alcohol or drugs begin reducing attention, judgment, and control."
           }
         >
@@ -341,7 +341,7 @@ export default function LessonVisuals({
           ["P", "bg-blue-100", "Peatones", "Reduce la velocidad temprano cerca de cruces peatonales, autos estacionados, autobuses y zonas escolares."],
           ["B", "bg-emerald-100", "Ciclistas", "Deja mas espacio porque pueden desviarse para evitar escombros, puertas o pavimento dañado."],
           ["M", "bg-amber-100", "Motocicletas", "Revisa espejos y puntos ciegos con cuidado antes de girar o cambiar de carril."],
-          ["T", "bg-slate-200", "Camiones y autobuses", "No permanezcas a su lado ni te metas demasiado cerca despues de rebasarlos."],
+          ["T", "bg-slate-200", "Camiones y autobuses", "No permanezcas a su lado ni te metas demasiado cerca después de rebasarlos."],
         ]
       : [
           ["P", "bg-blue-100", "Pedestrians", "Slow early near crosswalks, parked cars, buses, and school areas."],
@@ -436,7 +436,7 @@ export default function LessonVisuals({
           }
           description={
             isSpanish
-              ? "Esta referencia rapida resume categorias comunes de puntos y umbrales para conductores adultos segun la guia actual de Virginia DMV."
+              ? "Esta referencia rápida resume categorias comunes de puntos y umbrales para conductores adultos segun la guia actual de Virginia DMV."
               : "This quick reference summarizes common point buckets and adult-driver thresholds from current Virginia DMV guidance."
           }
         >
@@ -523,8 +523,8 @@ export default function LessonVisuals({
                 ? [
                     ["Lluvia / pavimento mojado", "Reduce velocidad y aumenta la distancia de seguimiento", "La traccion baja y la distancia de frenado aumenta"],
                     ["Nieve / hielo", "Reduce velocidad mucho antes de las curvas y evita maniobras bruscas", "La direccion y el frenado se vuelven menos previsibles"],
-                    ["Niebla / poca visibilidad", "Conduce solo tan rapido como puedas ver claramente", "Los peligros pueden aparecer con muy poca advertencia"],
-                    ["Conduccion nocturna", "Usa correctamente las luces y baja la velocidad cuando sea necesario", "Ves menos informacion y detectas los peligros mas tarde"],
+                    ["Niebla / poca visibilidad", "Conduce solo tan rápido como puedas ver claramente", "Los peligros pueden aparecer con muy poca advertencia"],
+                    ["Conduccion nocturna", "Usa correctamente las luces y baja la velocidad cuando sea necesario", "Ves menos información y detectas los peligros mas tarde"],
                   ]
                 : [
                     ["Rain / wet roads", "Reduce speed and increase following distance", "Traction drops and stopping distance grows"],
@@ -567,7 +567,7 @@ export default function LessonVisuals({
                     ["Apurado", "Exceso de velocidad o forzar espacios", "Acepta la demora y conduce a una velocidad que conserve el control"],
                     ["Enojado", "Seguir muy de cerca, zigzaguear o responder con agresion", "Crea espacio y vuelve a concentrarte en tu propio carril y velocidad"],
                     ["Demasiada confianza", "Frenar tarde o usar el telefono casualmente", "Trata cada viaje como si las condiciones aun pudieran cambiar rapidamente"],
-                    ["Estresado", "Senales perdidas, mala atencion o impaciencia", "Haz una pausa antes de conducir y recupera tu concentracion"],
+                    ["Estresado", "Senales perdidas, mala atención o impaciencia", "Haz una pausa antes de conducir y recupera tu concentracion"],
                   ]
                 : [
                     ["Rushed", "Speeding or forcing gaps", "Accept the delay and drive the speed that preserves control"],

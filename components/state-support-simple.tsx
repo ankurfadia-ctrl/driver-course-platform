@@ -33,7 +33,7 @@ function buildCopy(language: SiteLanguage, stateName: string) {
       send: "Enviar mensaje",
       sending: "Enviando...",
       sent: "Tu mensaje fue enviado.",
-      loginNeeded: "Debes iniciar sesion para enviar un mensaje.",
+      loginNeeded: "Debes iniciar sesión para enviar un mensaje.",
       upgradeNote:
         "Los mensajes directos estan disponibles solo con soporte prioritario.",
       upgradeCta: "Mejorar a soporte prioritario",

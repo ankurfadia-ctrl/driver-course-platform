@@ -18,18 +18,18 @@ export default function VerifyCertificateEntryPage() {
   const copy = isSpanish
     ? {
         eyebrow: "Verificacion de certificados",
-        title: "Verifica un certificado de finalizacion",
+        title: "Verifica un certificado de finalización",
         intro:
-          "Ingresa el ID del certificado tal como aparece en el certificado del estudiante para confirmar los detalles de finalizacion.",
+          "Ingresa el ID del certificado tal como aparece en el certificado del estudiante para confirmar los detalles de finalización.",
         label: "ID de certificado",
         placeholder: "Ejemplo: VA-2026-ABC1234",
         submit: "Verificar certificado",
         back: "Volver al inicio",
-        detailsTitle: "Lo que confirma la verificacion",
+        detailsTitle: "Lo que confirma la verificación",
         detailOne: "El ID del certificado existe en el sistema.",
         detailTwo: "El estudiante aprobo el examen final asociado al certificado.",
         detailThree:
-          "El registro del certificado coincide con los detalles de finalizacion.",
+          "El registro del certificado coincide con los detalles de finalización.",
       }
     : {
         eyebrow: "Certificate Verification",

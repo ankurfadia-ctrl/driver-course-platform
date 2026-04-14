@@ -96,7 +96,7 @@ export const IDENTITY_VERIFICATION_QUESTIONS_ES: IdentityVerificationQuestion[] 
     {
       id: "securityAnswer1",
       prompt: "Respuesta a la pregunta de seguridad 1",
-      helpText: "Guarda la respuesta exacta para la verificacion futura.",
+      helpText: "Guarda la respuesta exacta para la verificación futura.",
     },
     {
       id: "securityQuestion2",
@@ -106,7 +106,7 @@ export const IDENTITY_VERIFICATION_QUESTIONS_ES: IdentityVerificationQuestion[] 
     {
       id: "securityAnswer2",
       prompt: "Respuesta a la pregunta de seguridad 2",
-      helpText: "Guarda la respuesta exacta para la verificacion futura.",
+      helpText: "Guarda la respuesta exacta para la verificación futura.",
     },
   ]
 

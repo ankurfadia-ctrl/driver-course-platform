@@ -76,7 +76,7 @@ export default function PublicFooter({ language = "en" }: { language?: SiteLangu
           </div>
           <div>
             {isSpanish
-              ? "La disponibilidad del curso varia segun el estado y el estatus de aprobacion."
+              ? "La disponibilidad del curso varia segun el estado y el estatus de aprobación."
               : "Course availability varies by state and approval status."}
           </div>
         </div>

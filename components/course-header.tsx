@@ -32,7 +32,7 @@ export default async function CourseHeader({ state }: { state: string }) {
           faq: "Preguntas",
           checkout: "Planes",
           certificate: "Certificado",
-          logout: "Cerrar sesion",
+          logout: "Cerrar sesión",
           navigate: "Navegar",
         }
       : {
@@ -164,7 +164,7 @@ export default async function CourseHeader({ state }: { state: string }) {
               href={`/${state}/login`}
               className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-950"
             >
-              {language === "es" ? "Iniciar sesion" : "Log in"}
+              {language === "es" ? "Iniciar sesión" : "Log in"}
             </Link>
           )}
         </div>

@@ -72,21 +72,21 @@ export default function StatePlanCheckoutPage() {
           returnCheckout: "Volver al pago",
           sectionLabel: `${stateDisplayName} pago`,
           supportUpgradeBody:
-            "Esta mejora mantiene activo el acceso al curso y cambia tu nivel de soporte a prioritario despues del pago.",
+            "Esta mejora mantiene activo el acceso al curso y cambia tu nivel de soporte a prioritario después del pago.",
           courtReviewBody:
             "Esta compra agrega una revision administrativa de documentos judiciales para estudiantes que ya compraron el curso.",
           bundleBody:
-            "Este paquete incluye el curso, soporte prioritario, revision administrativa de documentos judiciales y una copia del certificado por correo despues de completar el curso exitosamente.",
+            "Este paquete incluye el curso, soporte prioritario, revision administrativa de documentos judiciales y una copia del certificado por correo después de completar el curso exitosamente.",
           approvalLabel: "Aprobacion pendiente",
           approvalBody:
-            "Antes de pagar, confirma que este curso en linea es aceptable para tu requisito especifico en Virginia. Revisa la informacion sobre identidad, tiempo del curso y reglas del examen.",
-          disclosuresCta: "Leer informacion del curso",
+            "Antes de pagar, confirma que este curso en linea es aceptable para tu requisito especifico en Virginia. Revisa la información sobre identidad, tiempo del curso y reglas del examen.",
+          disclosuresCta: "Leer información del curso",
           continuePayment: "Continuar al pago",
           createAccount: "Crear cuenta",
-          logIn: "Iniciar sesion",
+          logIn: "Iniciar sesión",
           signInRequiredTitle: "Crea tu cuenta antes de pagar",
           signInRequiredBody:
-            "Necesitas una cuenta de estudiante para continuar al pago, guardar tu compra y desbloquear el curso despues del cobro.",
+            "Necesitas una cuenta de estudiante para continuar al pago, guardar tu compra y desbloquear el curso después del cobro.",
           preparing: "Preparando pago...",
           prepareError: "No se pudo preparar el pago. Intentalo de nuevo.",
         }

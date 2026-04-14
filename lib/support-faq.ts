@@ -43,7 +43,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Refund requests are reviewed under the course refund policy. Refunds may be reviewed before meaningful course use, but purchases are generally not refundable after substantial course progress, final exam access, certificate issuance, or mailed-certificate fulfillment has begun. Priority-support upgrades are generally not refundable after purchase.",
-      es: "Las solicitudes de reembolso se revisan segun la politica de reembolsos del curso. Los reembolsos pueden revisarse antes de un uso significativo del curso, pero por lo general no son reembolsables una vez que ha comenzado un progreso sustancial del curso, el acceso al examen final, la emision del certificado o el envio fisico del certificado. Las mejoras a soporte prioritario por lo general no son reembolsables después de la compra.",
+      es: "Las solicitudes de reembolso se revisan segun la política de reembolsos del curso. Los reembolsos pueden revisarse antes de un uso significativo del curso, pero por lo general no son reembolsables una vez que ha comenzado un progreso sustancial del curso, el acceso al examen final, la emision del certificado o el envio fisico del certificado. Las mejoras a soporte prioritario por lo general no son reembolsables después de la compra.",
     },
     keywords: ["refund", "money back", "want my money back", "can i get a refund", "refund policy"],
   },
@@ -51,13 +51,13 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "price-match",
     question: {
       en: "Do you offer a price match?",
-      es: "Ofrecen igualacion de precio?",
+      es: "Ofrecen igualación de precio?",
     },
     answer: {
       en: "Yes. If you find a lower publicly advertised price for an equivalent online driver improvement course for the same state, contact support before purchase and we will review it for a possible price match. Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
-      es: "Si. Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo en linea para el mismo estado, contacta a soporte antes de comprar y revisaremos una posible igualacion de precio. Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
+      es: "Si. Si encuentras un precio público mas bajo para un curso equivalente de mejoramiento de manejo en linea para el mismo estado, contacta a soporte antes de comprar y revisaremos una posible igualación de precio. Las revisiones de igualación de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
     },
-    keywords: ["price match", "match a price", "lower price", "cheaper price", "igualacion de precio"],
+    keywords: ["price match", "match a price", "lower price", "cheaper price", "igualación de precio"],
   },
   {
     id: "course-pricing",
@@ -135,11 +135,11 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "lesson-quizzes",
     question: {
       en: "Do I have to take the lesson quizzes?",
-      es: "¿Tengo que hacer las evaluaciones de cada leccion?",
+      es: "¿Tengo que hacer las evaluaciones de cada lección?",
     },
     answer: {
       en: "The lesson knowledge checks are there to reinforce learning. They help you review the material, but they do not replace the course final exam.",
-      es: "Las evaluaciones de conocimiento de cada leccion son para reforzar el aprendizaje. Ayudan a repasar el material, pero no reemplazan el examen final del curso.",
+      es: "Las evaluaciones de conocimiento de cada lección son para reforzar el aprendizaje. Ayudan a repasar el material, pero no reemplazan el examen final del curso.",
     },
     keywords: ["lesson quizzes", "take the quiz", "do i have to take the quiz", "knowledge check"],
   },
@@ -147,7 +147,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     id: "quiz-score",
     question: {
       en: "Do my quiz scores count in my final grade?",
-      es: "Mis puntajes de las evaluaciones cuentan para mi calificacion final?",
+      es: "Mis puntajes de las evaluaciones cuentan para mi calificación final?",
     },
     answer: {
       en: "No. Lesson quiz scores do not change your final exam result and do not replace the course requirements needed to earn a certificate.",
@@ -187,7 +187,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "No. There is not a fixed minimum required time for each individual page. Your course time is tracked across active participation in the course, and you still need to complete the required lessons, reach at least 7 hours before the final exam unlocks, and complete the full 8 hours before your certificate can unlock.",
-      es: "No. No hay un tiempo mínimo fijo requerido para cada página individual. El tiempo del curso se registra segun tu participacion activa en el curso, y aún debes completar las lecciones requeridas, alcanzar al menos 7 horas antes de que se habilite el examen final y completar las 8 horas totales antes de que se habilite tu certificado.",
+      es: "No. No hay un tiempo mínimo fijo requerido para cada página individual. El tiempo del curso se registra segun tu participación activa en el curso, y aún debes completar las lecciones requeridas, alcanzar al menos 7 horas antes de que se habilite el examen final y completar las 8 horas totales antes de que se habilite tu certificado.",
     },
     keywords: [
       "certain amount of time on each page",
@@ -278,7 +278,7 @@ const SUPPORT_FAQ_ENTRIES: SupportFaqEntry[] = [
     },
     answer: {
       en: "Use the support page after signing in for help with payment, access, certificate, or course-related issues.",
-      es: "Usa la página de soporte después de iniciar sesion para recibir ayuda con pagos, acceso, certificado o problemas del curso.",
+      es: "Usa la página de soporte después de iniciar sesión para recibir ayuda con pagos, acceso, certificado o problemas del curso.",
     },
     keywords: ["payment issue", "access issue", "certificate issue"],
   },

@@ -83,7 +83,7 @@ export default function LoginPage() {
             "Progreso del curso, examen y certificado vinculados a una sola cuenta",
             "Acceso a soporte durante el curso",
           ],
-          formTitleLogin: "Iniciar sesion",
+          formTitleLogin: "Iniciar sesión",
           formTitleSignup: "Crear cuenta",
           formBodyLogin:
             "Accede a tu panel de estudiante y continua donde lo dejaste.",
@@ -91,8 +91,8 @@ export default function LoginPage() {
             "Crea una cuenta nueva de estudiante para este curso estatal.",
           approvalLabel: "Aprobacion pendiente",
           approvalBody:
-            `La aceptacion y elegibilidad del curso pueden depender del requisito especifico del estudiante en ${config.stateName}. Revisa la informacion del curso antes de inscribirte o depender de la finalizacion.`,
-          infoCta: "Leer informacion del curso",
+            `La aceptación y elegibilidad del curso pueden depender del requisito especifico del estudiante en ${config.stateName}. Revisa la información del curso antes de inscribirte o depender de la finalización.`,
+          infoCta: "Leer información del curso",
           email: "Correo electronico",
           password: "Contrasena",
           confirmPassword: "Confirmar contrasena",
@@ -104,34 +104,34 @@ export default function LoginPage() {
           recoverLoading: "Enviando enlace...",
           recoverSuccess:
             "Si existe una cuenta para ese correo, te enviamos un enlace para restablecer la contrasena.",
-          recoverCancel: "Volver al inicio de sesion",
+          recoverCancel: "Volver al inicio de sesión",
           recoverNeedEmail:
             "Ingresa tu correo electronico primero para enviarte un enlace de restablecimiento.",
-          loginLoading: "Iniciando sesion...",
+          loginLoading: "Iniciando sesión...",
           signupLoading: "Creando cuenta...",
-          loginCta: "Iniciar sesion",
+          loginCta: "Iniciar sesión",
           signupCta: "Crear cuenta",
           newStudent: "Eres estudiante nuevo?",
           createAccount: "Crear una cuenta",
           existingStudent: "Ya tienes una cuenta?",
-          loginLink: "Iniciar sesion",
+          loginLink: "Iniciar sesión",
           plansLink: "Ver planes del curso",
-          loginSuccess: "Inicio de sesion correcto. Redirigiendo...",
+          loginSuccess: "Inicio de sesión correcto. Redirigiendo...",
           signupSuccess:
-            "Cuenta creada. Revisa tu correo y confirma tu direccion antes de iniciar sesion.",
+            "Cuenta creada. Revisa tu correo y confirma tu direccion antes de iniciar sesión.",
           signupSuccessNoConfirm:
-            "Cuenta creada correctamente. Ya puedes iniciar sesion.",
+            "Cuenta creada correctamente. Ya puedes iniciar sesión.",
           signupNextStepsTitle: "Siguiente paso",
           signupNextStepsConfirm:
             "Revisa tu correo electronico y haz clic en el enlace de confirmacion para activar tu cuenta.",
           signupNextStepsLogin:
-            "Despues de confirmar tu correo, vuelve aqui e inicia sesion para comenzar el curso.",
+            "Después de confirmar tu correo, vuelve aqui e inicia sesión para comenzar el curso.",
           signupNextStepsNoConfirm:
-            "Tu cuenta ya esta lista. Inicia sesion para continuar al panel del curso.",
+            "Tu cuenta ya esta lista. Inicia sesión para continuar al panel del curso.",
           reasonLabel: "Motivo de asistencia",
           reasonPlaceholder: "Selecciona un motivo",
           reasonHelp:
-            "Elige la opcion que mejor coincida con el motivo oficial por el que tomas el curso.",
+            "Elige la opción que mejor coincida con el motivo oficial por el que tomas el curso.",
           firstName: "Nombre legal",
           middleName: "Segundo nombre legal",
           lastName: "Apellido legal",
@@ -150,10 +150,10 @@ export default function LoginPage() {
           courtDocumentHelp:
             "Si el tribunal te entrego una orden o documento, agrega aqui los detalles que te ayudaran a encontrarlo.",
           accuracyLabel:
-            "Confirmo que mi informacion de identidad e inscripcion es correcta y entiendo que los errores pueden impedir la finalizacion, el certificado o el credito informado.",
+            "Confirmo que mi información de identidad e inscripción es correcta y entiendo que los errores pueden impedir la finalización, el certificado o el credito informado.",
           reasonRequired: "Selecciona un motivo de asistencia antes de crear la cuenta.",
           courtFieldsRequired:
-            "Completa la informacion del tribunal antes de crear la cuenta.",
+            "Completa la información del tribunal antes de crear la cuenta.",
           identityFieldsRequired:
             "Completa tu nombre legal, fecha de nacimiento y numero de cliente del DMV o numero de licencia antes de crear la cuenta.",
           passwordMismatch:
@@ -161,13 +161,13 @@ export default function LoginPage() {
           registrationTitle: "Antes de inscribirte",
           registrationBody:
             secondarySupportPhoneDisplay
-              ? "Antes de crear tu cuenta, puedes revisar el nombre del curso, la linea principal, la tarifa actual y la informacion necesaria para inscribirte. Los detalles de contacto alternativo requeridos por Virginia aparecen mas abajo."
-              : "Antes de crear tu cuenta, puedes revisar el nombre del curso, el telefono de contacto, la tarifa actual y la informacion necesaria para inscribirte.",
+              ? "Antes de crear tu cuenta, puedes revisar el nombre del curso, la linea principal, la tarifa actual y la información necesaria para inscribirte. Los detalles de contacto alternativo requeridos por Virginia aparecen mas abajo."
+              : "Antes de crear tu cuenta, puedes revisar el nombre del curso, el telefono de contacto, la tarifa actual y la información necesaria para inscribirte.",
           providerNameLabel: "Proveedor",
           providerPhoneLabel: `Linea principal de ${config.stateName}`,
           feeLabel: "Tarifa del curso",
           vendorLinkLabel: "Informacion del proveedor del plan de estudios",
-          vendorLinkCta: "Leer informacion del curso",
+          vendorLinkCta: "Leer información del curso",
           onlineOnlyNotice:
             "El curso y el examen final deben completarse en linea a traves de este portal. No se permite examen en papel.",
         }
@@ -307,7 +307,7 @@ export default function LoginPage() {
       : copy.heroTitleSignup
   const heroBody = isReviewerAccess
     ? language === "es"
-      ? "Inicia sesion con el correo autorizado del revisor para abrir el acceso protegido y revisar los materiales del curso sin exponer herramientas administrativas ni datos de estudiantes."
+      ? "Inicia sesión con el correo autorizado del revisor para abrir el acceso protegido y revisar los materiales del curso sin exponer herramientas administrativas ni datos de estudiantes."
       : "Sign in with the authorized reviewer email to open the protected review environment and inspect the course materials without exposing admin tools or student data."
     : mode === "login"
       ? copy.heroBodyLogin
@@ -509,12 +509,12 @@ export default function LoginPage() {
             <div className="section-label">{copy.sectionLabel}</div>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
               {language === "es"
-                ? `La inscripcion para ${config.stateName} aun no esta abierta.`
+                ? `La inscripción para ${config.stateName} aun no esta abierta.`
                 : `${config.stateName} enrollment is not open yet.`}
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
               {language === "es"
-                ? `La creacion de cuentas para ${config.stateName} se abrira cuando la inscripcion este disponible.`
+                ? `La creacion de cuentas para ${config.stateName} se abrira cuando la inscripción este disponible.`
                 : `${config.stateName} student account creation will open when enrollment becomes available.`}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">

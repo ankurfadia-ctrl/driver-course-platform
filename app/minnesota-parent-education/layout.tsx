@@ -51,7 +51,7 @@ export default async function MinnesotaParentEducationLayout({
                   href="/minnesota-parent-education/enroll"
                   className="rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-700"
                 >
-                  {isSpanish ? "Inscripcion y matricula" : "Enrollment and tuition"}
+                  {isSpanish ? "Inscripcion y matrícula" : "Enrollment and tuition"}
                 </Link>
                 <Link
                   href="/minnesota-parent-education/curriculum"

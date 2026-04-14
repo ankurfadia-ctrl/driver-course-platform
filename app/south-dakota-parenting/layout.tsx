@@ -53,7 +53,7 @@ export default async function SouthDakotaParentingLayout({
                   href="/south-dakota-parenting/pricing"
                   className="rounded-xl bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700"
                 >
-                  {isSpanish ? "Revisar matricula" : "Review pricing"}
+                  {isSpanish ? "Revisar matrícula" : "Review pricing"}
                 </Link>
                 <Link
                   href="/south-dakota-parenting/price-match"

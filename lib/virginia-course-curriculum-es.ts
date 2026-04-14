@@ -29,9 +29,9 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "El concepto de riesgo al conducir",
         "body": [
-          "Conducir es una de las actividades diarias mas complejas que las personas realizan, requiriendo atencion constante, coordinacion y toma de decisiones.",
+          "Conducir es una de las actividades diarias mas complejas que las personas realizan, requiriendo atención constante, coordinacion y toma de decisiones.",
           "El riesgo aumenta cuando los conductores toman atajos, apresuran las decisiones o permiten que las distracciones interfieran con la conciencia.",
-          "Cada eleccion que hace un conductor, incluyendo la velocidad, la distancia y la atencion, aumenta o disminuye el riesgo general.",
+          "Cada eleccion que hace un conductor, incluyendo la velocidad, la distancia y la atención, aumenta o disminuye el riesgo general.",
           "Los conductores seguros evaluan continuamente su entorno y ajustan su comportamiento en consecuencia.",
           "Comprender el riesgo es el primer paso para controlarlo."
         ]
@@ -51,8 +51,8 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Este curso esta dividido en varias lecciones, cada una enfocada en un aspecto especifico de la conduccion segura.",
           "Los temas incluyen conduccion defensiva, control de velocidad, leyes de transito, compartir la via, condiciones climaticas y actitud del conductor.",
-          "Cada leccion construye sobre la anterior, reforzando principios clave de seguridad.",
-          "El curso esta disenado para completarse con el tiempo, permitiendo a los conductores absorber y aplicar la informacion gradualmente.",
+          "Cada lección construye sobre la anterior, reforzando principios clave de seguridad.",
+          "El curso esta disenado para completarse con el tiempo, permitiendo a los conductores absorber y aplicar la información gradualmente.",
           "Al final del curso, deberia tener una comprension mas solida de habitos seguros de conduccion y toma de decisiones."
         ]
       },
@@ -83,7 +83,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Conducir seguro tambien disminuye el estres y mejora la confianza general en la via.",
           "Con el tiempo los costos del seguro pueden disminuir con menos incidentes.",
           "Lo mas importante es que conducir seguro protege vidas.",
-          "Los habitos que desarrolle durante este curso deben continuar mucho tiempo despues de haberlo completado."
+          "Los habitos que desarrolle durante este curso deben continuar mucho tiempo después de haberlo completado."
         ]
       }
     ],
@@ -111,7 +111,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Solo importa en mal tiempo"
         ],
         "correctAnswer": 2,
-        "explanation": "La velocidad, la atencion, la distancia y la toma de decisiones afectan el riesgo al conducir."
+        "explanation": "La velocidad, la atención, la distancia y la toma de decisiones afectan el riesgo al conducir."
       },
       {
         "id": 3,
@@ -143,7 +143,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "options": [
           "Suponer que otros conductores no cometeran errores",
           "Planificar con anticipacion y anticipar peligros",
-          "Conducir mas rapido para evitar problemas",
+          "Conducir mas rápido para evitar problemas",
           "Ignorar las condiciones hasta que aparezca el peligro"
         ],
         "correctAnswer": 1,
@@ -159,7 +159,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "heading": "Lo que realmente significa la conduccion defensiva",
         "body": [
           "La conduccion defensiva es la practica de manejar su vehiculo de una manera que reduce el riesgo, incluso cuando otros usuarios de la via cometen errores.",
-          "No significa conducir timidamente o dudar innecesariamente. Significa mantenerse alerta, pensar con anticipacion y elegir la opcion mas segura disponible.",
+          "No significa conducir timidamente o dudar innecesariamente. Significa mantenerse alerta, pensar con anticipacion y elegir la opción mas segura disponible.",
           "Un conductor defensivo no asume que el trafico se comportara perfectamente. En cambio, vigila las senales que indican que puede desarrollarse un problema.",
           "Una buena conduccion defensiva crea un colchon de seguridad alrededor del vehiculo para que haya tiempo y espacio para evitar peligros.",
           "Este enfoque reduce el estres, mejora el control y disminuye la probabilidad de un accidente."
@@ -180,7 +180,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Uno de los habitos mas importantes de la conduccion defensiva es mantener suficiente espacio alrededor de su vehiculo.",
           "Una distancia segura de seguimiento le da tiempo para reaccionar si el trafico reduce la velocidad o se detiene inesperadamente.",
-          "Tambien desea espacio lateral siempre que sea posible. Evite conducir encerrado entre vehiculos si puede crear una via de escape.",
+          "También desea espacio lateral siempre que sea posible. Evite conducir encerrado entre vehiculos si puede crear una via de escape.",
           "Cuando otro conductor le sigue demasiado de cerca, generalmente es mas seguro aumentar su distancia de seguimiento que frenar bruscamente o responder agresivamente.",
           "El espacio es tiempo, y el tiempo es seguridad."
         ]
@@ -231,7 +231,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Algunos conductores asumen que la experiencia sola los mantendra seguros. Eso puede llevar a reacciones tardias y mala evaluacion del riesgo.",
           "Los conductores defensivos se mantienen humildes. Reconocen que las condiciones pueden cambiar rapidamente y que cualquiera puede cometer un error.",
           "Los conductores mas seguros suelen ser los menos complacientes.",
-          "La experiencia es util solo cuando se combina con atencion constante y buen juicio.",
+          "La experiencia es util solo cuando se combina con atención constante y buen juicio.",
           "Los habitos defensivos deben practicarse en cada viaje, no solo en trafico intenso o mal clima."
         ]
       }
@@ -257,7 +257,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Para reducir el uso de espejos",
           "Para identificar peligros antes y tener mas opciones de respuesta",
           "Para evitar usar los frenos",
-          "Para conducir mas rapido en el trafico"
+          "Para conducir mas rápido en el trafico"
         ],
         "correctAnswer": 1,
         "explanation": "Mirar mas lejos ayuda a los conductores a reconocer las luces de freno, congestion, peligros y condiciones cambiantes del trafico antes."
@@ -317,11 +317,11 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "Distancia de percepcion, reaccion y frenado",
         "body": [
-          "La distancia de frenado incluye mas que la distancia de frenado en si. Primero, debe reconocer un peligro. Luego debe decidir como responder. Solo despues de eso comienza el frenado.",
+          "La distancia de frenado incluye mas que la distancia de frenado en si. Primero, debe reconocer un peligro. Luego debe decidir como responder. Solo después de eso comienza el frenado.",
           "Durante este tiempo de percepcion y reaccion, su vehiculo sigue en movimiento.",
           "A velocidades mayores, viaja mucho mas lejos antes de que su pie llegue siquiera al pedal del freno.",
           "Luego el vehiculo todavia necesita la distancia de frenado para detenerse realmente.",
-          "Por eso la atencion temprana y una velocidad menor son tan importantes."
+          "Por eso la atención temprana y una velocidad menor son tan importantes."
         ]
       },
       {
@@ -337,7 +337,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "Limites de velocidad publicados y velocidad segura real",
         "body": [
-          "Un limite de velocidad publicado es la velocidad maxima bajo condiciones ideales. No es una garantia de que esa velocidad sea segura en todo momento.",
+          "Un limite de velocidad publicado es la velocidad maxima bajo condiciones ideales. No es una garantía de que esa velocidad sea segura en todo momento.",
           "La construccion, el clima, el trafico intenso, caminos estrechos, curvas, danos en la carretera y mala visibilidad pueden requerir velocidades mas bajas.",
           "Los conductores seguros ajustan la velocidad antes de que las condiciones los obliguen a hacerlo.",
           "Conducir a la velocidad maxima en condiciones peligrosas aun puede ser inseguro.",
@@ -349,7 +349,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Los caminos con curvas, colinas y lineas de vision bloqueadas requieren un control especial de la velocidad.",
           "Si no puede ver lo que esta adelante, debe reducir la velocidad temprano y mantenerse preparado para un vehiculo detenido, un giro brusco, un peaton o una obstruccion en la via.",
-          "Entrar en una curva demasiado rapido puede causar perdida de control, especialmente en condiciones humedas o heladas.",
+          "Entrar en una curva demasiado rápido puede causar perdida de control, especialmente en condiciones humedas o heladas.",
           "La cima de una colina puede ocultar congestion, vehiculos girando o peligros en la carretera.",
           "Los conductores seguros reducen la velocidad antes de que la visibilidad se convierta en un problema."
         ]
@@ -357,9 +357,9 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "Velocidad y gravedad del accidente",
         "body": [
-          "Cuanto mas rapido viaje un vehiculo, mayor es la fuerza en una colision.",
+          "Cuanto mas rápido viaje un vehiculo, mayor es la fuerza en una colision.",
           "Mayor fuerza significa lesiones mas graves, mas danos materiales y menos probabilidad de evitar el impacto por completo.",
-          "Exceder la velocidad no solo hace que los accidentes sean mas probables. Tambien los hace mas peligrosos cuando ocurren.",
+          "Exceder la velocidad no solo hace que los accidentes sean mas probables. También los hace mas peligrosos cuando ocurren.",
           "Reducir la velocidad es una de las maneras mas directas de disminuir la gravedad de un accidente.",
           "Unos pocos segundos ahorrados rara vez valen el riesgo adicional."
         ]
@@ -429,7 +429,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "options": [
           "Mejora el control del vehiculo",
           "Reduce el tiempo disponible para detenerse con seguridad",
-          "Ayuda a que el trafico se mueva mas rapido",
+          "Ayuda a que el trafico se mueva mas rápido",
           "Facilita los cambios de carril"
         ],
         "correctAnswer": 1,
@@ -451,16 +451,16 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
   },
   "lesson-4": {
     "title": "Leccion 4 - Distraccion, Fatiga y Discapacidad",
-    "intro": "La distraccion, la fatiga, el alcohol, las drogas y la sobrecarga emocional pueden afectar la capacidad para conducir. Un vehiculo requiere atencion total, y incluso lapsos breves pueden ocasionar consecuencias graves.",
+    "intro": "La distraccion, la fatiga, el alcohol, las drogas y la sobrecarga emocional pueden afectar la capacidad para conducir. Un vehiculo requiere atención total, y incluso lapsos breves pueden ocasionar consecuencias graves.",
     "sections": [
       {
-        "heading": "Por que la atencion total es importante",
+        "heading": "Por que la atención total es importante",
         "body": [
-          "Conducir requiere atencion visual, fisica y mental continua.",
+          "Conducir requiere atención visual, fisica y mental continua.",
           "Debe observar la carretera, controlar el vehiculo, interpretar el trafico, anticipar peligros y tomar decisiones en tiempo real.",
           "Incluso un breve lapsus puede hacer que se pierda una senal de trafico, frene tarde, se desvie del carril o no advierta a un peaton.",
           "Muchos accidentes graves comienzan con solo unos segundos de distraccion.",
-          "La atencion es una de las herramientas de seguridad mas importantes del conductor."
+          "La atención es una de las herramientas de seguridad mas importantes del conductor."
         ]
       },
       {
@@ -480,7 +480,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Leer un mensaje, cambiar la configuracion del navegador, buscar musica o revisar notificaciones reducen la conciencia.",
           "La tecnologia manos libres puede disminuir la distraccion manual, pero no elimina la distraccion cognitiva.",
           "El habito mas seguro es preparar la navegacion, la musica y los mensajes antes de iniciar el viaje.",
-          "Si algo requiere atencion durante la conduccion, detengase en un lugar seguro primero."
+          "Si algo requiere atención durante la conduccion, detengase en un lugar seguro primero."
         ]
       },
       {
@@ -518,7 +518,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Un conductor puede estar mirando fisicamente la carretera pero mentalmente concentrado en una discusion, problema laboral o acontecimiento emocional.",
           "La distraccion mental puede ser tan peligrosa como apartar la vista.",
-          "El estres puede disminuir la atencion y reducir la paciencia.",
+          "El estres puede disminuir la atención y reducir la paciencia.",
           "La ira puede provocar decisiones agresivas como seguir de cerca, acelerar o reaccionar con violencia contra otros conductores.",
           "Los conductores deben reconocer la sobrecarga emocional temprano y reajustarse antes de que afecte el juicio."
         ]
@@ -530,7 +530,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Mantenga el interior del vehiculo ordenado para no buscar objetos mientras conduce.",
           "Si se siente abrumado, retrasado o emocionalmente alterado, tomese un momento para recuperar el enfoque antes de iniciar el vehiculo.",
           "La conduccion segura comienza antes de que se muevan las ruedas.",
-          "La preparacion reduce la distraccion y favorece un mejor juicio."
+          "La preparación reduce la distraccion y favorece un mejor juicio."
         ]
       }
     ],
@@ -538,15 +538,15 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
     "checks": [
       {
         "id": 1,
-        "question": "¿Por que es importante la atencion total mientras se conduce?",
+        "question": "¿Por que es importante la atención total mientras se conduce?",
         "options": [
           "Porque conducir requiere observacion y toma de decisiones continuas",
           "Porque las leyes de transito aplican solo cuando los conductores estan cansados",
           "Porque las distracciones importan solo a alta velocidad",
-          "Porque la atencion afecta principalmente el estacionamiento"
+          "Porque la atención afecta principalmente el estacionamiento"
         ],
         "correctAnswer": 0,
-        "explanation": "Conducir requiere atencion visual, fisica y mental constante a condiciones cambiantes."
+        "explanation": "Conducir requiere atención visual, fisica y mental constante a condiciones cambiantes."
       },
       {
         "id": 2,
@@ -570,7 +570,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Usar el telefono para mantenerse alerto"
         ],
         "correctAnswer": 2,
-        "explanation": "La fatiga afecta el juicio y el tiempo de reaccion. La opcion segura es detenerse a descansar."
+        "explanation": "La fatiga afecta el juicio y el tiempo de reaccion. La opción segura es detenerse a descansar."
       },
       {
         "id": 4,
@@ -617,7 +617,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Los peatones no tienen proteccion fisica en una colision y pueden ser dificiles de ver, especialmente de noche, con lluvia, cerca de autos estacionados o en intersecciones complejas.",
           "Los ninos pueden moverse de forma imprevisible. Los adultos mayores pueden cruzar mas despacio. Los peatones distraidos pueden ingresar a la calzada inesperadamente.",
-          "Los conductores deben reducir la velocidad cerca de cruces peatonales, escuelas, vecindarios, paradas de transporte publico y areas de estacionamiento concurridas.",
+          "Los conductores deben reducir la velocidad cerca de cruces peatonales, escuelas, vecindarios, paradas de transporte público y areas de estacionamiento concurridas.",
           "Nunca asuma que un peaton lo ve o que se mantendra fuera de su camino.",
           "Un enfoque cauteloso salva vidas."
         ]
@@ -639,23 +639,23 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Los conductores pueden asumir erroneamente que una motocicleta esta mas lejos o se mueve mas despacio de lo que realmente esta.",
           "Siempre revise los espejos y los puntos ciegos cuidadosamente antes de cambiar de carril o girar frente a una motocicleta.",
           "No se acerque demasiado a las motocicletas ni intente compartir un carril.",
-          "Los motociclistas merecen un carril completo y la atencion cuidadosa de los conductores alrededor."
+          "Los motociclistas merecen un carril completo y la atención cuidadosa de los conductores alrededor."
         ]
       },
       {
         "heading": "Camiones grandes y autobuses",
         "body": [
           "Los vehiculos grandes necesitan mas espacio para detenerse, mas espacio para girar y mas tiempo para maniobrar.",
-          "Tambien crean grandes puntos ciegos junto a la cabina, a lo largo del remolque y detras del vehiculo.",
+          "También crean grandes puntos ciegos junto a la cabina, a lo largo del remolque y detras del vehiculo.",
           "Si no puede ver los espejos del conductor del camion, puede que el conductor no pueda verlo a usted.",
-          "Evite permanecer al lado de camiones grandes y no se incorpore cerca despues de adelantar.",
+          "Evite permanecer al lado de camiones grandes y no se incorpore cerca después de adelantar.",
           "De a los autobuses y camiones el espacio que necesitan para operar con seguridad."
         ]
       },
       {
         "heading": "Vehiculos de emergencia y respondedores en la via",
         "body": [
-          "Los vehiculos de emergencia necesitan atencion inmediata porque las demoras pueden afectar vidas y la seguridad en la escena.",
+          "Los vehiculos de emergencia necesitan atención inmediata porque las demoras pueden afectar vidas y la seguridad en la escena.",
           "Cuando vea luces de emergencia o escuche sirenas, mantenga la calma y actue con seguridad conforme a la ley.",
           "Los conductores tambien deben usar precaucion extra alrededor de vehiculos de emergencia detenidos, gruas y trabajadores de la via.",
           "Reducir la velocidad y aumentar la distancia son esenciales en estas situaciones.",
@@ -667,7 +667,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Las zonas escolares y los vecindarios residenciales requieren precaucion aumentada porque es mas probable la presencia de ninos, vehiculos estacionados, autobuses, mascotas y movimientos inesperados.",
           "Los ninos pueden actuar impulsivamente o enfocarse mas en amigos que en el trafico.",
-          "Los conductores deben reducir la velocidad, escanear cuidadosamente y estar listos para detenerse rapida pero suavemente.",
+          "Los conductores deben reducir la velocidad, escanear cuidadosamente y estar listos para detenerse rápida pero suavemente.",
           "Unos segundos de precaucion en estas areas pueden prevenir tragedias.",
           "Los conductores seguros asumen que puede haber movimiento oculto siempre que la visibilidad sea limitada."
         ]
@@ -691,7 +691,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "options": [
           "Siempre son predecibles",
           "No tienen proteccion en una colision",
-          "Se mueven mas rapido que los vehiculos",
+          "Se mueven mas rápido que los vehiculos",
           "Nunca aparecen cerca de autos estacionados"
         ],
         "correctAnswer": 1,
@@ -725,7 +725,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "id": 4,
         "question": "¿Por que deben los conductores tener cuidado alrededor de camiones grandes?",
         "options": [
-          "Frenan mas rapido que vehiculos pequenos",
+          "Frenan mas rápido que vehiculos pequenos",
           "Tienen grandes puntos ciegos y necesitan mas espacio",
           "Siempre pueden ver todos los vehiculos cercanos",
           "Giran mas facilmente en espacios reducidos"
@@ -785,10 +785,10 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "heading": "Infracciones por conduccion distraida",
         "body": [
           "Las infracciones relacionadas con la distraccion existen porque un conductor distraido no puede responder tan eficazmente a condiciones cambiantes.",
-          "Usar un telefono, manipular un dispositivo o desviar la atencion de otra manera crea un riesgo serio.",
+          "Usar un telefono, manipular un dispositivo o desviar la atención de otra manera crea un riesgo serio.",
           "Un conductor distraido puede desviarse, frenar tarde, pasar por alto controles de trafico o no ver a los peatones.",
           "Incluso una distraccion corta puede crear una cadena larga de consecuencias.",
-          "Los conductores seguros tratan la atencion como algo innegociable."
+          "Los conductores seguros tratan la atención como algo innegociable."
         ]
       },
       {
@@ -808,15 +808,15 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Las infracciones de trafico pueden implicar costos judiciales, aumentos en el seguro, perdida de tiempo, consecuencias en la licencia, problemas laborales y carga financiera a largo plazo.",
           "Si ocurre una colision, las consecuencias pueden incluir lesiones, muerte, responsabilidad civil y trauma emocional.",
           "El verdadero precio de una conduccion descuidada puede extenderse mucho mas alla del dia del incidente.",
-          "Por eso, la prevencion siempre es la opcion mas segura y economica."
+          "Por eso, la prevencion siempre es la opción mas segura y economica."
         ]
       },
       {
         "heading": "Buenos habitos que reducen las infracciones",
         "body": [
           "La mayoria de las infracciones pueden reducirse con habitos simples pero consistentes: escanear adelante, mantener distancia de seguimiento, revisar espejos, usar senales, obedecer senales y controlar la velocidad.",
-          "La preparacion tambien importa. Un conductor calmado y organizado tiene menos probabilidades de apresurarse, improvisar o pasar por alto condiciones de trafico.",
-          "Los conductores seguros tratan la ley como un estandar minimo y apuntan a superarlo con buen juicio.",
+          "La preparación tambien importa. Un conductor calmado y organizado tiene menos probabilidades de apresurarse, improvisar o pasar por alto condiciones de trafico.",
+          "Los conductores seguros tratan la ley como un estándar minimo y apuntan a superarlo con buen juicio.",
           "Los mejores conductores no son solo cumplidores de reglas. Son reductores de riesgos.",
           "Los habitos seguros rutinarios bajan tanto el riesgo de choque como el de infracciones."
         ]
@@ -889,7 +889,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Confiar en el instinto en lugar de escanear",
           "Usar habitos consistentes de conduccion segura",
           "Ignorar controles de trafico menores",
-          "Conducir mas rapido cuando la carretera esta despejada"
+          "Conducir mas rápido cuando la carretera esta despejada"
         ],
         "correctAnswer": 1,
         "explanation": "Habitos consistentes como escanear, mantener distancia, senalizar y controlar la velocidad reducen tanto infracciones como accidentes."
@@ -903,7 +903,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "Por que las condiciones importan",
         "body": [
-          "Las condiciones de manejo pueden cambiar mas rapido de lo que muchos conductores esperan.",
+          "Las condiciones de manejo pueden cambiar mas rápido de lo que muchos conductores esperan.",
           "La lluvia, la nieve, el hielo, la niebla, la oscuridad, los problemas del vehiculo y los incidentes en la via reducen tu margen de error.",
           "Un conductor seguro no espera a perder el control o a un accidente cercano para adaptarse.",
           "La conduccion basada en las condiciones significa ajustar la velocidad, el espacio, la observacion y las expectativas antes de que el riesgo sea inmediato.",
@@ -927,7 +927,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "La distancia de frenado aumenta dramaticamente y la respuesta de la direccion se vuelve menos predecible.",
           "Los puentes, areas sombreadas y superficies sin tratamiento pueden congelarse primero.",
           "Los conductores deben reducir la velocidad mucho antes de las curvas o intersecciones y evitar movimientos bruscos.",
-          "En condiciones severas, la opcion mas segura puede ser retrasar el viaje por completo."
+          "En condiciones severas, la opción mas segura puede ser retrasar el viaje por completo."
         ]
       },
       {
@@ -943,11 +943,11 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "Conduccion nocturna",
         "body": [
-          "La oscuridad reduce la informacion visual y hace que los peligros sean mas dificiles de detectar.",
+          "La oscuridad reduce la información visual y hace que los peligros sean mas dificiles de detectar.",
           "Peatones, ciclistas, animales, escombros y vehiculos averiados pueden ser visibles solo a corta distancia.",
           "La fatiga tambien es mas comun de noche, lo que agrega otro nivel de riesgo.",
           "Los faros deben usarse de manera adecuada y la limpieza del parabrisas es aun mas importante.",
-          "De noche, conducir mas despacio y con mas atencion suele ser la opcion mas segura."
+          "De noche, conducir mas despacio y con mas atención suele ser la opción mas segura."
         ]
       },
       {
@@ -975,7 +975,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "Acercarse a una escena de accidente, trafico detenido o emergencia en la via requiere precaucion inmediata.",
           "Los conductores deben reducir la velocidad temprano, observar a los respondedores y vehiculos averiados, y estar preparados para cambios subitos de carril o trafico detenido adelante.",
-          "Mirar con curiosidad disminuye la atencion y crea riesgos adicionales.",
+          "Mirar con curiosidad disminuye la atención y crea riesgos adicionales.",
           "La forma mas segura de pasar es hacerlo con cuidado, seguir en movimiento si es apropiado y enfocarse en tu propio carril y entorno.",
           "Las areas de emergencia son zonas de alto riesgo tanto para respondedores como para conductores."
         ]
@@ -987,7 +987,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "id": 1,
         "question": "¿Cual es una de las primeras respuestas mas seguras ante el mal tiempo?",
         "options": [
-          "Acelerar para atravesarlo mas rapido",
+          "Acelerar para atravesarlo mas rápido",
           "Reducir la velocidad y aumentar la distancia de seguimiento",
           "Seguir mas de cerca el trafico para guiarse",
           "Frenar bruscamente cada vez que la visibilidad disminuya"
@@ -1014,7 +1014,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Conducir a la velocidad senalizada si el trafico es ligero",
           "Conducir a una velocidad que te permita detenerte dentro de lo que puedes ver",
           "Seguir muy cerca las luces traseras adelante",
-          "Usar la velocidad para pasar el peligro mas rapido"
+          "Usar la velocidad para pasar el peligro mas rápido"
         ],
         "correctAnswer": 1,
         "explanation": "Cuando la visibilidad disminuye, la velocidad tambien debe disminuir para que puedas detenerte dentro de tu distancia visible."
@@ -1029,7 +1029,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Los limites de velocidad ya no aplican"
         ],
         "correctAnswer": 2,
-        "explanation": "La oscuridad reduce la informacion visual, haciendo que peatones, escombros y vehiculos averiados sean mas dificiles de ver."
+        "explanation": "La oscuridad reduce la información visual, haciendo que peatones, escombros y vehiculos averiados sean mas dificiles de ver."
       },
       {
         "id": 5,
@@ -1074,7 +1074,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "body": [
           "La ira puede convertir rapidamente un viaje normal en uno peligroso.",
           "Un conductor frustrado puede seguir demasiado cerca, hacer gestos a otros, zigzaguear en el trafico o retaliar por agravios percibidos.",
-          "Este comportamiento estrecha la atencion y reduce el buen juicio.",
+          "Este comportamiento estrecha la atención y reduce el buen juicio.",
           "La conduccion agresiva tambien incrementa la tension con otros usuarios de la via.",
           "La respuesta mas segura a la frustracion es desconectarse, crear espacio y reenfocarse en el control."
         ]
@@ -1086,7 +1086,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "La sobreconfianza puede llevar a exceder la velocidad, uso casual del telefono, seguir muy de cerca, frenar tarde o reducir las revisiones en los espejos.",
           "La complacencia crece cuando la conduccion se siente rutinaria y sin novedades.",
           "Los conductores seguros comprenden que la experiencia no elimina el riesgo.",
-          "Mantenerse humilde ayuda a preservar la atencion y el juicio."
+          "Mantenerse humilde ayuda a preservar la atención y el juicio."
         ]
       },
       {
@@ -1100,7 +1100,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         ]
       },
       {
-        "heading": "Elegir la opcion mas segura temprano",
+        "heading": "Elegir la opción mas segura temprano",
         "body": [
           "Conducir seguro a menudo significa tomar una decision mas segura antes de que la situacion se vuelva urgente.",
           "Ejemplos incluyen salir mas temprano, reducir la velocidad antes, aumentar la distancia de seguimiento o simplemente dejar que otro conductor pase primero.",
@@ -1112,7 +1112,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
       {
         "heading": "Construyendo habitos seguros a largo plazo",
         "body": [
-          "Un curso de mejora para conductores es mas util cuando cambia el comportamiento despues de que termino el curso.",
+          "Un curso de mejora para conductores es mas util cuando cambia el comportamiento después de que termino el curso.",
           "Eso significa practicar la paciencia, la observacion anticipada, el manejo de la velocidad, mantenerse atento y controlar las emociones en cada viaje.",
           "La seguridad se vuelve mas fiable cuando se basa en habitos en lugar del estado de animo.",
           "Los mejores habitos de conduccion son los que usas incluso cuando nadie te esta observando.",
@@ -1139,7 +1139,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
           "Solo determina la eleccion de la musica",
           "Afecta el juicio y el comportamiento al conducir",
           "Solo es importante cuando el trafico es denso",
-          "Reemplaza la necesidad de atencion"
+          "Reemplaza la necesidad de atención"
         ],
         "correctAnswer": 1,
         "explanation": "La mentalidad del conductor afecta la eleccion de velocidad, la paciencia, las reacciones y la disposicion a tomar riesgos."
@@ -1173,7 +1173,7 @@ export const VIRGINIA_SPANISH_LESSON_CONTENT: Record<string, SpanishLessonPayloa
         "question": "¿Cual es una respuesta mas segura a la frustracion en la via?",
         "options": [
           "Tomar represalias contra otros conductores",
-          "Conducir mas rapido para escapar de la situacion",
+          "Conducir mas rápido para escapar de la situacion",
           "Crear espacio y reenfocar el control",
           "Seguir muy de cerca para presionar el trafico"
         ],

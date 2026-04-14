@@ -332,7 +332,7 @@ export const MINNESOTA_PARENT_SITE_SUPPORT = {
 export const MINNESOTA_PARENT_SITE_NAV_ES = [
   { label: "Resumen", href: "/minnesota-parent-education" },
   { label: "Plan de estudios", href: "/minnesota-parent-education/curriculum" },
-  { label: "Matricula", href: "/minnesota-parent-education/pricing" },
+  { label: "Matrícula", href: "/minnesota-parent-education/pricing" },
   { label: "Inscripcion", href: "/minnesota-parent-education/enroll" },
   { label: "Certificado", href: "/minnesota-parent-education/certificate" },
   { label: "Preguntas", href: "/minnesota-parent-education/faq" },
@@ -346,16 +346,16 @@ export const MINNESOTA_PARENT_SITE_HIGHLIGHTS_ES = [
     value: "6 horas en 7 modulos guiados",
   },
   {
-    label: "Matricula",
-    value: "$22.95 de matricula estandar con opciones de tarifa reducida y exencion",
+    label: "Matrícula",
+    value: "$22.95 de matrícula estándar con opciones de tarifa reducida y exención",
   },
   {
     label: "Certificado",
-    value: "Certificado de finalizacion con campos de numero de caso e ID de verificacion",
+    value: "Certificado de finalización con campos de numero de caso e ID de verificación",
   },
   {
     label: "Soporte",
-    value: "Soporte por telefono y correo con ayuda para exencion",
+    value: "Soporte por telefono y correo con ayuda para exención",
   },
 ] as const
 
@@ -368,17 +368,17 @@ export const MINNESOTA_PARENT_SITE_FEATURES_ES = [
   {
     title: "Centrado en los hijos y practico",
     body:
-      "Las lecciones se enfocan en las necesidades emocionales de los hijos, la comunicacion entre hogares, la reduccion del estres y decisiones mas estables.",
+      "Las lecciones se enfocan en las necesidades emocionales de los hijos, la comunicación entre hogares, la reduccion del estres y decisiones mas estables.",
   },
   {
     title: "Accesible y de bajo costo",
     body:
-      "La matricula se mantiene accesible, con revision de tarifa reducida y ayuda para exencion cuando el participante califica.",
+      "La matrícula se mantiene accesible, con revision de tarifa reducida y ayuda para exención cuando el participante califica.",
   },
   {
-    title: "Detalles de finalizacion faciles de usar",
+    title: "Detalles de finalización faciles de usar",
     body:
-      "El certificado incluye los datos mas solicitados: nombre del participante, numero de caso, fechas de asistencia, fecha de finalizacion y ID de verificacion.",
+      "El certificado incluye los datos mas solicitados: nombre del participante, numero de caso, fechas de asistencia, fecha de finalización y ID de verificación.",
   },
 ] as const
 
@@ -387,11 +387,11 @@ export const MINNESOTA_PARENT_SITE_MODULES_ES = [
     title: "Modulo 1. Orientacion y panorama del tribunal familiar de Minnesota",
     duration: "45 minutos",
     focus:
-      "Proposito del curso, enfoque de mejores intereses y panorama en lenguaje claro de la participacion en el tribunal familiar de Minnesota.",
+      "Proposito del curso, enfoque de mejores intereses y panorama en lenguaje claro de la participación en el tribunal familiar de Minnesota.",
     outcomes: [
       "Comprender por que se asigna la educacion para padres en asuntos de derecho familiar de Minnesota.",
       "Revisar el rol del tribunal y expectativas comunes a nivel educativo general.",
-      "Establecer expectativas de participacion respetuosa y centrada en los hijos durante todo el curso.",
+      "Establecer expectativas de participación respetuosa y centrada en los hijos durante todo el curso.",
     ],
   },
   {
@@ -420,9 +420,9 @@ export const MINNESOTA_PARENT_SITE_MODULES_ES = [
     title: "Modulo 4. Comunicacion, coparentalidad y reduccion de conflictos",
     duration: "60 minutos",
     focus:
-      "Habilidades de comunicacion, habitos de coparentalidad y formas de resolver asuntos rutinarios con menos conflicto.",
+      "Habilidades de comunicación, habitos de coparentalidad y formas de resolver asuntos rutinarios con menos conflicto.",
     outcomes: [
-      "Usar comunicacion breve, factual y centrada en los hijos.",
+      "Usar comunicación breve, factual y centrada en los hijos.",
       "Reconocer patrones de escalamiento y elegir alternativas mas calmadas.",
       "Planificar asuntos de tiempo de crianza sin usar a los hijos como mensajeros.",
     ],
@@ -435,7 +435,7 @@ export const MINNESOTA_PARENT_SITE_MODULES_ES = [
     outcomes: [
       "Comprender el rol general de profesionales conectados al tribunal.",
       "Revisar opciones de resolucion de disputas a nivel informativo.",
-      "Diferenciar informacion legal educativa de asesoria legal individual.",
+      "Diferenciar información legal educativa de asesoria legal individual.",
     ],
   },
   {
@@ -453,10 +453,10 @@ export const MINNESOTA_PARENT_SITE_MODULES_ES = [
     title: "Modulo 7. Responsabilidades financieras, manutencion infantil y cierre",
     duration: "60 minutos",
     focus:
-      "Responsabilidades financieras, contexto del costo de criar a un hijo y flujo final de finalizacion.",
+      "Responsabilidades financieras, contexto del costo de criar a un hijo y flujo final de finalización.",
     outcomes: [
       "Revisar conceptos de manutencion y responsabilidad financiera a nivel general.",
-      "Entender requisitos de finalizacion y expectativas de certificado.",
+      "Entender requisitos de finalización y expectativas de certificado.",
       "Completar la evaluacion del curso y los pasos finales.",
     ],
   },
@@ -466,20 +466,20 @@ export const MINNESOTA_PARENT_SITE_TEACHING_METHODS_ES = [
   "Segmentos cortos con explicaciones claras.",
   "Preguntas de reflexion y ejemplos basados en escenarios.",
   "Verificaciones de comprension ligadas a conceptos clave.",
-  "Ejercicios de comunicacion centrados en los hijos.",
+  "Ejercicios de comunicación centrados en los hijos.",
   "Listas de recursos y seguridad para aplicar lo aprendido.",
 ] as const
 
 export const MINNESOTA_PARENT_SITE_JOURNEY_ES = [
   {
-    title: "Revisa matricula y opciones de apoyo",
+    title: "Revisa matrícula y opciones de apoyo",
     body:
-      "Puedes comparar la matricula estandar, opciones de tarifa reducida y criterios de exencion antes de comenzar.",
+      "Puedes comparar la matrícula estándar, opciones de tarifa reducida y criterios de exención antes de comenzar.",
   },
   {
     title: "Crea tu cuenta e ingresa datos del caso",
     body:
-      "La inscripcion solicita tu informacion de contacto, numero de caso y cualquier solicitud de ayuda con el pago.",
+      "La inscripción solicita tu información de contacto, numero de caso y cualquier solicitud de ayuda con el pago.",
   },
   {
     title: "Completa lecciones, verificaciones y evaluacion",
@@ -487,31 +487,31 @@ export const MINNESOTA_PARENT_SITE_JOURNEY_ES = [
       "Avanzas por la secuencia completa de 6 horas, completas verificaciones y terminas la evaluacion del curso.",
   },
   {
-    title: "Recibe tu certificado de finalizacion",
+    title: "Recibe tu certificado de finalización",
     body:
-      "Al finalizar los requisitos, tu certificado se emite con los detalles de finalizacion y el ID de verificacion.",
+      "Al finalizar los requisitos, tu certificado se emite con los detalles de finalización y el ID de verificación.",
   },
 ] as const
 
 export const MINNESOTA_PARENT_SITE_PRICING_ES = [
   {
-    name: "Matricula estandar",
+    name: "Matrícula estándar",
     price: "$22.95",
     description:
       "Acceso completo al curso, evaluacion y procesamiento del certificado al cumplir los requisitos.",
     note:
-      "Incluye acceso, seguimiento de finalizacion, evaluacion y procesamiento del certificado.",
+      "Incluye acceso, seguimiento de finalización, evaluacion y procesamiento del certificado.",
   },
   {
-    name: "Matricula con tarifa reducida",
+    name: "Matrícula con tarifa reducida",
     price: "$12.95",
     description:
       "Disponible para participantes con documentacion de dificultad comparable o elegibilidad de bajos ingresos.",
     note:
-      "Las solicitudes pueden revisarse antes de cobrar la matricula estandar.",
+      "Las solicitudes pueden revisarse antes de cobrar la matrícula estándar.",
   },
   {
-    name: "Matricula con exencion",
+    name: "Matrícula con exención",
     price: "$0",
     description:
       "Disponible para participantes que califican bajo Minn. Stat. Sec. 563.01 o un criterio de indigencia aprobado.",
@@ -523,14 +523,14 @@ export const MINNESOTA_PARENT_SITE_PRICING_ES = [
 export const MINNESOTA_PARENT_SITE_INCLUDED_ES = [
   "Acceso completo a la secuencia de 7 modulos.",
   "Campos de certificado listos para numero de caso.",
-  "Seguimiento de finalizacion, evaluacion final y verificacion del certificado.",
-  "Soporte por correo y telefono para inscripcion y dudas de exencion.",
-  "Sin tarifa administrativa oculta en la inscripcion en linea.",
+  "Seguimiento de finalización, evaluacion final y verificación del certificado.",
+  "Soporte por correo y telefono para inscripción y dudas de exención.",
+  "Sin tarifa administrativa oculta en la inscripción en linea.",
 ] as const
 
 export const MINNESOTA_PARENT_SITE_PRICE_MATCH_TERMS_ES = [
   "Revisamos precios publicos vigentes de cursos comparables de educacion para padres de Minnesota.",
-  "El precio del competidor debe ser actual, publico e incluir todas las tarifas obligatorias.",
+  "El precio del competidor debe ser actual, público e incluir todas las tarifas obligatorias.",
   "No se incluyen cupones privados, promociones vencidas, descuentos limitados ni precios por paquetes.",
   "Si la solicitud califica, igualamos el precio verificado o lo mejoramos por $1.",
   "Las aprobaciones se revisan manualmente para mantener terminos claros y precisos.",
@@ -540,17 +540,17 @@ export const MINNESOTA_PARENT_SITE_CERTIFICATE_FIELDS_ES = [
   "Nombre del participante",
   "Numero de caso del tribunal",
   "Fecha o fechas de asistencia",
-  "Fecha de finalizacion",
+  "Fecha de finalización",
   "Nombre del curso",
-  "ID de verificacion",
+  "ID de verificación",
   "Informacion de contacto del proveedor",
 ] as const
 
 export const MINNESOTA_PARENT_SITE_AUTHENTICITY_ES = [
-  "Cada certificado recibe un ID de verificacion unico.",
-  "Los datos de finalizacion se conservan para verificacion de autenticidad.",
-  "Las solicitudes de verificacion pueden responderse con nombre, numero de caso e ID.",
-  "Los certificados se liberan solo despues de completar todos los requisitos.",
+  "Cada certificado recibe un ID de verificación unico.",
+  "Los datos de finalización se conservan para verificación de autenticidad.",
+  "Las solicitudes de verificación pueden responderse con nombre, numero de caso e ID.",
+  "Los certificados se liberan solo después de completar todos los requisitos.",
 ] as const
 
 export const MINNESOTA_PARENT_SITE_FAQS_ES = [
@@ -567,47 +567,47 @@ export const MINNESOTA_PARENT_SITE_FAQS_ES = [
   {
     question: "Que incluye el certificado?",
     answer:
-      "Incluye el nombre del participante, numero de caso, fechas de asistencia, fecha de finalizacion, nombre del curso, contacto del proveedor e ID de verificacion.",
+      "Incluye el nombre del participante, numero de caso, fechas de asistencia, fecha de finalización, nombre del curso, contacto del proveedor e ID de verificación.",
   },
   {
     question: "Ofrecen exenciones o tarifa reducida?",
     answer:
-      "Si. El modelo incluye una opcion de tarifa reducida y una exencion para participantes que califican bajo Minn. Stat. Sec. 563.01 o un criterio comparable.",
+      "Si. El modelo incluye una opción de tarifa reducida y una exención para participantes que califican bajo Minn. Stat. Sec. 563.01 o un criterio comparable.",
   },
   {
-    question: "Ofrecen garantia de igualacion de precio?",
+    question: "Ofrecen garantía de igualación de precio?",
     answer:
-      "Si. Si encuentras un precio publico mas bajo para un curso comparable de Minnesota, envia el enlace para revision manual y lo igualamos o mejoramos por $1 si califica.",
+      "Si. Si encuentras un precio público mas bajo para un curso comparable de Minnesota, envia el enlace para revision manual y lo igualamos o mejoramos por $1 si califica.",
   },
   {
-    question: "Hay soporte durante inscripcion o finalizacion?",
+    question: "Hay soporte durante inscripción o finalización?",
     answer:
-      "Si. Las preguntas de inscripcion, exencion y certificado pueden atenderse por correo o telefono.",
+      "Si. Las preguntas de inscripción, exención y certificado pueden atenderse por correo o telefono.",
   },
   {
     question: "El curso ofrece asesoria legal o terapia?",
     answer:
-      "No. El curso es educativo. Ofrece informacion general y educacion estructurada, pero no reemplaza asesoria legal ni tratamiento de salud mental.",
+      "No. El curso es educativo. Ofrece información general y educacion estructurada, pero no reemplaza asesoria legal ni tratamiento de salud mental.",
   },
   {
     question: "Como puede revisar el sitio un tribunal?",
     answer:
-      "Si un tribunal o abogado necesita una revision estructurada, hay una pagina de Revision Judicial con secciones principales y enlaces oficiales.",
+      "Si un tribunal o abogado necesita una revision estructurada, hay una página de Revision Judicial con secciones principales y enlaces oficiales.",
   },
 ] as const satisfies readonly MinnesotaSiteFaq[]
 
 export const MINNESOTA_PARENT_SITE_REVIEWER_POINTS_ES = [
-  "El curso de Minnesota tiene su propio sitio publico, nombre del curso, matricula, certificado y contacto.",
-  "Las paginas publicas cubren resumen, plan de estudios, matricula, inscripcion, certificado, preguntas y revision judicial.",
+  "El curso de Minnesota tiene su propio sitio público, nombre del curso, matrícula, certificado y contacto.",
+  "Las páginas publicas cubren resumen, plan de estudios, matrícula, inscripción, certificado, preguntas y revision judicial.",
   "Las secciones publicas usan correo y telefono de soporte en lugar de un domicilio personal.",
   "La documentacion formal puede entregarse por separado si Minnesota la solicita.",
 ] as const
 
 export const MINNESOTA_PARENT_SITE_REVIEW_STEPS_ES = [
-  "Empieza en Resumen para revisar descripcion del curso, matricula y estructura general.",
+  "Empieza en Resumen para revisar descripcion del curso, matrícula y estructura general.",
   "Abre Plan de estudios para ver la secuencia de modulos, resultados y metodos.",
-  "Abre Matricula e Inscripcion para revisar precios y opciones de ayuda.",
-  "Abre Certificado para confirmar campos de finalizacion y verificacion.",
+  "Abre Matrícula e Inscripcion para revisar precios y opciones de ayuda.",
+  "Abre Certificado para confirmar campos de finalización y verificación.",
   "Usa Preguntas y los enlaces oficiales para referencias adicionales.",
 ] as const
 

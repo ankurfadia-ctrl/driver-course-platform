@@ -46,8 +46,8 @@ function LessonCheckSection({
           body:
             "Esta revision sirve para reforzar el aprendizaje. No reemplaza el examen final.",
           submit: "Enviar revision",
-          scoreTitle: "Puntuacion de la revision",
-          scoreBody: "Tu puntuacion fue",
+          scoreTitle: "Puntuación de la revision",
+          scoreBody: "Tu puntuación fue",
           retake: "Repetir revision",
           correct: "Correcta",
           incorrect: "Incorrecta",
@@ -236,7 +236,7 @@ function LessonContentPage({
   const copy =
     language === "es"
       ? {
-          loadingLesson: "Cargando leccion...",
+          loadingLesson: "Cargando lección...",
           backToCourse: "Volver al esquema del curso",
           courseLabel: "Curso de Virginia",
           minutesLabel: "min",
@@ -397,18 +397,18 @@ export default function LessonPage() {
             "Debes comprar este curso estatal antes de acceder a las lecciones.",
           purchaseCourse: "Comprar curso",
           goDashboard: "Ir al panel",
-          identityRequired: "Se requiere verificacion de identidad",
+          identityRequired: "Se requiere verificación de identidad",
           identitySetupBody:
             "Completa la configuracion de identidad antes de comenzar el progreso de las lecciones para este curso de Virginia.",
           completeIdentity: "Completar configuracion de identidad",
           backToCourse: "Volver al curso",
-          lessonIdentityTitle: "Verificacion de identidad para la leccion",
+          lessonIdentityTitle: "Verificacion de identidad para la lección",
           lessonIdentityBody:
-            "Verifica tu identidad antes de comenzar esta leccion.",
+            "Verifica tu identidad antes de comenzar esta lección.",
           identityMismatch:
             "Las respuestas de identidad no coinciden con el perfil del estudiante. Intentalo otra vez.",
           forgotAnswers:
-            "Si olvidaste tus respuestas de identidad, vuelve a la configuracion de identidad y actualizalas antes de comenzar esta leccion.",
+            "Si olvidaste tus respuestas de identidad, vuelve a la configuracion de identidad y actualizalas antes de comenzar esta lección.",
           verifyIdentity: "Verificar identidad",
           updateAnswers: "Actualizar respuestas de identidad",
         }
@@ -565,7 +565,7 @@ export default function LessonPage() {
               href={`/${state}/disclosures`}
               className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white hover:bg-blue-700"
             >
-              {language === "es" ? "Leer informacion del curso" : "Read course information"}
+              {language === "es" ? "Leer información del curso" : "Read course information"}
             </Link>
             <Link
               href={`/${state}`}

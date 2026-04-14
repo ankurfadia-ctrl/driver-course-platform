@@ -75,7 +75,7 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
     disclosuresIntro:
       "Review this Virginia course information, student responsibilities, and course controls before purchasing, enrolling, or relying on completion for court, employer, insurance, or DMV purposes.",
     disclosuresIntroEs:
-      "Revisa la informacion del curso de Virginia, las responsabilidades del estudiante y los controles del curso antes de comprar, inscribirte o depender de la finalizacion para tribunal, empleador, seguro o DMV.",
+      "Revisa la información del curso de Virginia, las responsabilidades del estudiante y los controles del curso antes de comprar, inscribirte o depender de la finalización para tribunal, empleador, seguro o DMV.",
     disclosures: [
       {
         title: "Submission status",
@@ -162,12 +162,12 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Estado de la presentacion",
         body:
-          "La solicitud del proveedor de Virginia se presento y sigue en revision del DMV de Virginia. Los estudiantes deben revisar la informacion del curso y confirmar la aceptacion para su requisito especifico antes de inscribirse o depender de la finalizacion.",
+          "La solicitud del proveedor de Virginia se presento y sigue en revision del DMV de Virginia. Los estudiantes deben revisar la información del curso y confirmar la aceptación para su requisito especifico antes de inscribirse o depender de la finalización.",
       },
       {
         title: "Informacion de contacto del proveedor",
         body:
-          "Antes de inscribirse, los estudiantes pueden revisar el nombre del curso, el telefono principal de Virginia y otros datos de contacto requeridos en las paginas de informacion y soporte.",
+          "Antes de inscribirse, los estudiantes pueden revisar el nombre del curso, el telefono principal de Virginia y otros datos de contacto requeridos en las páginas de información y soporte.",
       },
       {
         title: "Responsabilidad de tribunal y elegibilidad",
@@ -187,37 +187,37 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Expectativas de tiempo del curso",
         body:
-          "El curso clinico de mejoramiento para conductores en linea es de ocho horas, incluido el examen final, y debe completarse en su totalidad antes de emitir el certificado. En este curso, el examen final se desbloquea despues de al menos siete horas de instruccion y el certificado permanece bloqueado hasta completar las ocho horas.",
+          "El curso clinico de mejoramiento para conductores en linea es de ocho horas, incluido el examen final, y debe completarse en su totalidad antes de emitir el certificado. En este curso, el examen final se desbloquea después de al menos siete horas de instrucción y el certificado permanece bloqueado hasta completar las ocho horas.",
       },
       {
-        title: "Plazo de finalizacion del curso",
+        title: "Plazo de finalización del curso",
         body:
           "Los estudiantes deben planear completar el curso dentro de 90 dias de la compra. Una orden judicial u otro requisito externo puede imponer una fecha limite mas temprana, y el estudiante sigue siendo responsable de cumplirla.",
       },
       {
         title: "Verificacion de identidad",
         body:
-          "La verificacion de identidad se requiere durante el curso y antes del examen final. Un estudiante que no pueda completar la validacion puede quedar impedido de terminar el curso.",
+          "La verificación de identidad se requiere durante el curso y antes del examen final. Un estudiante que no pueda completar la validación puede quedar impedido de terminar el curso.",
       },
       {
         title: "Intentos del examen final",
         body:
-          "El examen final solo puede tomarse una vez por dia habil. El estudiante debe estar preparado para completar el examen personalmente y permanecer en la pagina durante el intento.",
+          "El examen final solo puede tomarse una vez por dia habil. El estudiante debe estar preparado para completar el examen personalmente y permanecer en la página durante el intento.",
       },
       {
         title: "Puntos de manejo seguro",
         body:
-          "La finalizacion voluntaria puede otorgar cinco puntos de manejo seguro solo una vez cada 24 meses. Si la asistencia es ordenada por tribunal, el tribunal determina si se otorgan puntos, y la documentacion requerida debe proporcionarse antes de que el DMV pueda otorgarlos.",
+          "La finalización voluntaria puede otorgar cinco puntos de manejo seguro solo una vez cada 24 meses. Si la asistencia es ordenada por tribunal, el tribunal determina si se otorgan puntos, y la documentacion requerida debe proporcionarse antes de que el DMV pueda otorgarlos.",
       },
       {
         title: "Tiempo de envio del certificado",
         body:
-          "El certificado de finalizacion se transmite electronicamente a los estudiantes aprobados dentro de las 24 horas posteriores a la finalizacion del curso.",
+          "El certificado de finalización se transmite electronicamente a los estudiantes aprobados dentro de las 24 horas posteriores a la finalización del curso.",
       },
       {
-        title: "Prueba de finalizacion aceptada",
+        title: "Prueba de finalización aceptada",
         body:
-          "El Certificado estandarizado de finalizacion del DMV (DIC 552B) es el unico documento aceptado por el DMV de Virginia y los tribunales como prueba de finalizacion de un curso clinico en linea.",
+          "El Certificado estandarizado de finalización del DMV (DIC 552B) es el unico documento aceptado por el DMV de Virginia y los tribunales como prueba de finalización de un curso clinico en linea.",
       },
       {
         title: "Requisitos de impresion del certificado",
@@ -232,12 +232,12 @@ export const COURSE_CONFIGS: Record<string, StateCourseConfig> = {
       {
         title: "Exhibicion del certificado operativo del DMV",
         body:
-          "Despues de que el DMV de Virginia emita el certificado operativo de la clinica en linea, se mostrara una copia durante la validacion y el inicio de sesion, segun se requiera.",
+          "Después de que el DMV de Virginia emita el certificado operativo de la clinica en linea, se mostrara una copia durante la validación y el inicio de sesión, segun se requiera.",
       },
       {
         title: "Soporte y revision de registros",
         body:
-          "Los estudiantes deben mantener su informacion de cuenta actualizada y contactar soporte si tienen problemas de compra, acceso, identidad, examen o certificado.",
+          "Los estudiantes deben mantener su información de cuenta actualizada y contactar soporte si tienen problemas de compra, acceso, identidad, examen o certificado.",
       },
     ],
     dashboardLabel: "Dashboard",

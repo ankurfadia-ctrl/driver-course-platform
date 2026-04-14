@@ -20,31 +20,31 @@ export default async function StateRefundsPage({
           label: "Reembolsos",
           title: `Politica de reembolso del curso de ${config.stateName}`,
           intro:
-            "Esta pagina explica cuando puede estar disponible un reembolso y cuando una compra normalmente deja de ser reembolsable.",
+            "Esta página explica cuando puede estar disponible un reembolso y cuando una compra normalmente deja de ser reembolsable.",
           sectionOne: "Regla general",
           sectionOneBody1:
-            "Las solicitudes de reembolso pueden revisarse si el estudiante no ha usado el curso de forma significativa despues de la compra.",
+            "Las solicitudes de reembolso pueden revisarse si el estudiante no ha usado el curso de forma significativa después de la compra.",
           sectionOneBody2:
             "Una vez que el curso se ha usado de forma sustancial, el acceso ya no se considera una compra sin usar.",
           sectionTwo: "Cuando una compra normalmente no es reembolsable",
           sectionTwoBody1:
-            "Las compras normalmente no son reembolsables despues de progreso sustancial en el curso, acceso al examen final, emision del certificado o uso material del acceso comprado.",
+            "Las compras normalmente no son reembolsables después de progreso sustancial en el curso, acceso al examen final, emision del certificado o uso material del acceso comprado.",
           sectionTwoBody2:
             "Las copias de certificado enviadas por correo normalmente no son reembolsables una vez que el pedido ha sido enviado al proveedor de correo para su cumplimiento.",
           sectionThree: "Cargos duplicados y mejoras",
           sectionThreeBody1:
             "Los cargos duplicados accidentales pueden revisarse para reembolso.",
           sectionThreeBody2:
-            "Las mejoras a soporte prioritario son compras opcionales adicionales y normalmente no son reembolsables despues de la compra, aunque el beneficio mejorado no llegue a usarse despues.",
+            "Las mejoras a soporte prioritario son compras opcionales adicionales y normalmente no son reembolsables después de la compra, aunque el beneficio mejorado no llegue a usarse después.",
           sectionFour: "Igualacion de precio",
           sectionFourBody1:
-            `Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de ${config.stateName} en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.`,
+            `Si encuentras un precio público mas bajo para un curso equivalente de mejoramiento de manejo de ${config.stateName} en linea, contactanos antes de comprar y revisaremos una posible igualación de precio.`,
           sectionFourBody2:
-            "Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
+            "Las revisiones de igualación de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
           supportTitle: "Solicitar una revision",
           supportBody:
             "Para preguntas sobre reembolsos o para solicitar una revision, empieza con la ",
-          supportLink: "pagina de soporte",
+          supportLink: "página de soporte",
         }
       : {
           label: "Refunds",
@@ -124,7 +124,7 @@ export default async function StateRefundsPage({
               className="font-medium text-slate-900 underline"
             >
               {language === "es"
-                ? "Abrir la pagina de igualacion de precio"
+                ? "Abrir la página de igualación de precio"
                 : "Open the price-match request page"}
             </Link>
             .

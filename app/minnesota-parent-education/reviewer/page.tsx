@@ -23,7 +23,7 @@ export default async function MinnesotaReviewerPage() {
         label: "Revision judicial",
         title: "Enlaces de revision del curso de Minnesota en un solo lugar",
         intro:
-          "Esta pagina reune las secciones publicas principales, un orden de revision sugerido y los recursos oficiales de Minnesota mas relevantes.",
+          "Esta página reune las secciones publicas principales, un orden de revision sugerido y los recursos oficiales de Minnesota mas relevantes.",
         stepsLabel: "Orden sugerido de revision",
         stepPrefix: "Paso de revision",
         overviewCta: "Abrir resumen",

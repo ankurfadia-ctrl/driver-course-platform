@@ -17,23 +17,23 @@ export default async function MinnesotaCertificatePage() {
         label: "Certificado",
         title: "Los certificados se preparan para uso en tribunales de Minnesota",
         intro:
-          "La estructura del certificado mantiene los campos requeridos al frente y utiliza un ID de verificacion para autenticidad.",
+          "La estructura del certificado mantiene los campos requeridos al frente y utiliza un ID de verificación para autenticidad.",
         sampleLabel: "Estructura de certificado de muestra",
         certificateHeading: "Fundamentos de Coparentalidad de Minnesota",
-        certificateTitle: "Certificado de finalizacion",
+        certificateTitle: "Certificado de finalización",
         certificateLine:
-          "Se certifica que [Nombre del participante] completo Fundamentos de Coparentalidad de Minnesota el [Fecha de finalizacion] para el numero de caso [Numero de caso].",
+          "Se certifica que [Nombre del participante] completo Fundamentos de Coparentalidad de Minnesota el [Fecha de finalización] para el numero de caso [Numero de caso].",
         attendanceLabel: "Fechas de asistencia",
-        verificationLabel: "ID de verificacion",
+        verificationLabel: "ID de verificación",
         contactLabel: "Contacto del curso",
         fieldsLabel: "Campos incluidos",
-        verificationTitle: "Controles de verificacion",
+        verificationTitle: "Controles de verificación",
         nextLabel: "Siguientes pasos",
-        nextTitle: "Revisa la matricula o abre la pagina de inscripcion",
+        nextTitle: "Revisa la matrícula o abre la página de inscripción",
         nextBody:
-          "Si ya tienes los detalles del certificado, las siguientes paginas utiles son matricula e inscripcion.",
-        pricingCta: "Ver matricula",
-        enrollCta: "Abrir pagina de inscripcion",
+          "Si ya tienes los detalles del certificado, las siguientes páginas utiles son matrícula e inscripción.",
+        pricingCta: "Ver matrícula",
+        enrollCta: "Abrir página de inscripción",
       }
     : {
         label: "Certificate",

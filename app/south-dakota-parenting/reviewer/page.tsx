@@ -27,13 +27,13 @@ export default async function SouthDakotaReviewerPage() {
         label: "Revision judicial",
         title: "Un camino claro de revision para personal judicial y revisores",
         intro:
-          "Esta pagina agrupa las secciones publicas principales, el orden sugerido y las referencias oficiales mas relevantes para el paquete.",
+          "Esta página agrupa las secciones publicas principales, el orden sugerido y las referencias oficiales mas relevantes para el paquete.",
         stepsLabel: "Orden sugerido de revision",
         stepPrefix: "Paso de revision",
         overviewCta: "Abrir resumen",
         curriculumCta: "Abrir plan de estudios",
         pricingCta: "Abrir precios",
-        strengthsLabel: "Fortalezas del sitio publico",
+        strengthsLabel: "Fortalezas del sitio público",
         resourcesLabel: "Recursos oficiales de Dakota del Sur",
         followLabel: "Seguimiento",
         followBody:
