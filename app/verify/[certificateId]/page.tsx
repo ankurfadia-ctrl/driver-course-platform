@@ -4,12 +4,15 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
+import { getCourseProductConfig } from "@/lib/course-products"
 import { formatCertificateCompletionDate } from "@/lib/certificate-reference"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
 type VerificationExamRow = {
   id: string
   user_id: string
   state: string
+  course_slug: string
   score: number
   passed: boolean
   completed_at: string
@@ -26,6 +29,7 @@ type VerificationStudentRow = {
 type VerificationMatch = {
   certificateReference: string
   state: string
+  courseName: string
   score: number
   passed: boolean
   completedAt: string
@@ -39,6 +43,66 @@ function normalizeIncomingCertificateId(value: string) {
 export default function VerifyCertificatePage() {
   const params = useParams()
   const supabase = createClient()
+  const language = usePreferredSiteLanguageClient()
+  const isSpanish = language === "es"
+
+  const copy = useMemo(
+    () =>
+      isSpanish
+        ? {
+            eyebrow: "Verificacion de certificados",
+            title: "Verificar certificado",
+            intro:
+              "Usa el ID del certificado tal como aparece impreso en el certificado.",
+            certificateIdLabel: "ID de certificado",
+            missingId: "No se proporciono un ID de certificado",
+            loading: "Cargando resultado de verificacion...",
+            verifiedLabel: "Verificado",
+            verifiedTitle: "Certificado confirmado",
+            studentName: "Nombre del estudiante",
+            state: "Estado",
+            course: "Curso",
+            finalExamScore: "Puntuacion del examen final",
+            completionDate: "Fecha de finalizacion",
+            status: "Estado",
+            statusValue: "Aprobado y certificado validado",
+            notVerified: "No verificado",
+            notVerifiedBody: "No se pudo verificar el certificado.",
+            notVerifiedHint:
+              "Revisa el ID del certificado y vuelve a intentarlo.",
+            back: "Volver al inicio",
+            invalidId: "ID de certificado no valido.",
+            notFound: "Certificado no encontrado.",
+            verifyError: "No se pudo completar la verificacion. Intentalo de nuevo.",
+            verifiedStudentFallback: "Estudiante verificado",
+          }
+        : {
+            eyebrow: "Certificate Verification",
+            title: "Verify Certificate",
+            intro: "Use the certificate ID exactly as printed on the certificate.",
+            certificateIdLabel: "Certificate ID",
+            missingId: "No certificate ID provided",
+            loading: "Loading verification result...",
+            verifiedLabel: "Verified",
+            verifiedTitle: "Certificate confirmed",
+            studentName: "Student name",
+            state: "State",
+            course: "Course",
+            finalExamScore: "Final exam score",
+            completionDate: "Completion date",
+            status: "Status",
+            statusValue: "Passed and certificate validated",
+            notVerified: "Not Verified",
+            notVerifiedBody: "Certificate could not be verified.",
+            notVerifiedHint: "Double-check the certificate ID and try again.",
+            back: "Back to Home",
+            invalidId: "Invalid certificate ID.",
+            notFound: "Certificate not found.",
+            verifyError: "Verification could not be completed. Please try again.",
+            verifiedStudentFallback: "Verified Student",
+          },
+    [isSpanish]
+  )
 
   const certificateId =
     typeof params?.certificateId === "string" ? params.certificateId : ""
@@ -56,7 +120,7 @@ export default function VerifyCertificatePage() {
     const loadVerification = async () => {
       if (!normalizedCertificateId) {
         setMatch(null)
-        setErrorMessage("Invalid certificate ID.")
+        setErrorMessage(copy.invalidId)
         setLoading(false)
         return
       }
@@ -65,10 +129,11 @@ export default function VerifyCertificatePage() {
         setLoading(true)
         setErrorMessage("")
 
-        // 🔥 NEW: Direct lookup (NO scanning)
         const { data: examRow, error: examError } = await supabase
           .from("exam_results")
-          .select("id, user_id, state, score, passed, completed_at, certificate_id")
+          .select(
+            "id, user_id, state, course_slug, score, passed, completed_at, certificate_id"
+          )
           .eq("certificate_id", normalizedCertificateId)
           .maybeSingle()
 
@@ -78,7 +143,7 @@ export default function VerifyCertificatePage() {
 
         if (!examRow || !examRow.passed) {
           setMatch(null)
-          setErrorMessage("Certificate not found.")
+          setErrorMessage(copy.notFound)
           setLoading(false)
           return
         }
@@ -106,82 +171,98 @@ export default function VerifyCertificatePage() {
         setMatch({
           certificateReference: normalizedCertificateId,
           state: exam.state.toUpperCase(),
+          courseName: getCourseProductConfig(
+            exam.state,
+            exam.course_slug
+          ).courseName,
           score: exam.score,
           passed: exam.passed,
           completedAt: exam.completed_at,
-          fullName: fullName || "Verified Student",
+          fullName: fullName || copy.verifiedStudentFallback,
         })
       } catch (error) {
         console.error(error)
         setMatch(null)
-        setErrorMessage(
-          "Verification could not be completed. Please try again."
-        )
+        setErrorMessage(copy.verifyError)
       } finally {
         setLoading(false)
       }
     }
 
     void loadVerification()
-  }, [normalizedCertificateId, supabase])
+  }, [
+    normalizedCertificateId,
+    supabase,
+    copy.invalidId,
+    copy.notFound,
+    copy.verifiedStudentFallback,
+    copy.verifyError,
+  ])
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">
-          Certificate Verification
-        </p>
-        <h1 className="text-3xl font-bold text-slate-900">Verify Certificate</h1>
-        <p className="mt-2 text-slate-600">
-          Use the certificate ID exactly as printed on the certificate.
-        </p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">
+            {copy.eyebrow}
+          </p>
+          <h1 className="text-3xl font-bold text-slate-900">{copy.title}</h1>
+          <p className="mt-2 text-slate-600">{copy.intro}</p>
+        </div>
       </div>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-sm text-slate-500">Certificate ID</div>
+        <div className="text-sm text-slate-500">{copy.certificateIdLabel}</div>
         <div className="mt-2 break-all font-mono text-lg font-semibold text-slate-900">
-          {normalizedCertificateId || "No certificate ID provided"}
+          {normalizedCertificateId || copy.missingId}
         </div>
       </div>
 
       {loading ? (
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          Loading verification result...
+          {copy.loading}
         </div>
       ) : match ? (
         <div className="rounded-2xl border border-green-200 bg-green-50 p-6 shadow-sm">
           <div className="text-sm font-semibold uppercase tracking-wide text-green-700">
-            Verified
+            {copy.verifiedLabel}
           </div>
 
           <h2 className="mt-2 text-2xl font-bold text-slate-900">
-            Certificate confirmed
+            {copy.verifiedTitle}
           </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="rounded-xl bg-white p-4">
-              <div className="text-sm text-slate-500">Student name</div>
+              <div className="text-sm text-slate-500">{copy.studentName}</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {match.fullName}
               </div>
             </div>
 
             <div className="rounded-xl bg-white p-4">
-              <div className="text-sm text-slate-500">State</div>
+              <div className="text-sm text-slate-500">{copy.state}</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {match.state}
               </div>
             </div>
 
             <div className="rounded-xl bg-white p-4">
-              <div className="text-sm text-slate-500">Final exam score</div>
+              <div className="text-sm text-slate-500">{copy.course}</div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">
+                {match.courseName}
+              </div>
+            </div>
+
+            <div className="rounded-xl bg-white p-4">
+              <div className="text-sm text-slate-500">{copy.finalExamScore}</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {match.score}%
               </div>
             </div>
 
             <div className="rounded-xl bg-white p-4">
-              <div className="text-sm text-slate-500">Completion date</div>
+              <div className="text-sm text-slate-500">{copy.completionDate}</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {formatCertificateCompletionDate(match.completedAt)}
               </div>
@@ -189,22 +270,22 @@ export default function VerifyCertificatePage() {
           </div>
 
           <div className="mt-6 rounded-xl bg-white p-4">
-            <div className="text-sm text-slate-500">Status</div>
+            <div className="text-sm text-slate-500">{copy.status}</div>
             <div className="mt-1 text-lg font-semibold text-green-700">
-              Passed and certificate validated
+              {copy.statusValue}
             </div>
           </div>
         </div>
       ) : (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
           <div className="text-sm font-semibold uppercase tracking-wide text-amber-700">
-            Not Verified
+            {copy.notVerified}
           </div>
           <div className="mt-2 text-lg font-semibold text-slate-900">
-            {errorMessage || "Certificate could not be verified."}
+            {errorMessage || copy.notVerifiedBody}
           </div>
           <p className="mt-2 text-sm text-slate-600">
-            Double-check the certificate ID and try again.
+            {copy.notVerifiedHint}
           </p>
         </div>
       )}
@@ -214,7 +295,7 @@ export default function VerifyCertificatePage() {
           href="/"
           className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-50"
         >
-          Back to Home
+          {copy.back}
         </Link>
       </div>
     </div>

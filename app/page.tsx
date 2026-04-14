@@ -1,5 +1,4 @@
 import Link from "next/link"
-import LanguageToggle from "@/components/language-toggle"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 
 type LinkAction = {
@@ -458,10 +457,7 @@ export default async function HomePage() {
 
           <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="section-label">{copy.heroLabel}</div>
-                <LanguageToggle language={language} />
-              </div>
+              <div className="section-label">{copy.heroLabel}</div>
               <h1 className="display-balance text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
                 {copy.heroTitle}
               </h1>

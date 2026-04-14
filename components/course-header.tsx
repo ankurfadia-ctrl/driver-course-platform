@@ -14,6 +14,8 @@ import { createClient } from "@/lib/supabase/server"
 export default async function CourseHeader({ state }: { state: string }) {
   const config = getCourseConfig(state)
   const language = await getPreferredSiteLanguage()
+  const brandName =
+    language === "es" ? config.brandNameEs ?? config.brandName : config.brandName
   const supabase = await createClient()
   const {
     data: { user },
@@ -127,19 +129,19 @@ export default async function CourseHeader({ state }: { state: string }) {
             <div className="rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm">
               <Image
                 src={config.logoSrc}
-                alt={config.brandName}
+                alt={brandName}
                 width={42}
                 height={42}
                 priority
               />
             </div>
 
-            <div className="min-w-0 leading-tight">
+            <div className="hidden min-w-0 leading-tight sm:block">
               <div className="truncate text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-slate-500">
                 {config.stateCode}
               </div>
               <div className="truncate text-base font-semibold text-slate-950 sm:text-lg">
-                {config.brandName}
+                {brandName}
               </div>
             </div>
           </Link>

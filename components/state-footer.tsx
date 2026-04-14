@@ -1,5 +1,4 @@
 import Link from "next/link"
-import LanguageToggle from "@/components/language-toggle"
 import {
   getContactRoute,
   getCourseConfig,
@@ -53,9 +52,6 @@ export default async function StateFooter({ state }: { state: string }) {
               {copy.title}
             </div>
             <p className="mt-3 max-w-xl leading-7">{copy.description}</p>
-            <div className="mt-4">
-              <LanguageToggle language={language} />
-            </div>
           </div>
 
           <div>
