@@ -18,6 +18,10 @@ import {
   VIRGINIA_LESSON_CONTENT,
   type LessonCheckQuestion,
 } from "@/lib/virginia-course-curriculum"
+import {
+  VIRGINIA_SPANISH_LESSON_CONTENT,
+  type SpanishLessonPayload,
+} from "@/lib/virginia-course-curriculum-es"
 import { verifyIdentityAnswer } from "@/lib/identity-verification-utils"
 import {
   getStudentIdentityProfile,
@@ -25,17 +29,6 @@ import {
 } from "@/lib/student-identity"
 import { getCourseConfig } from "@/lib/course-config"
 import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
-
-type TranslatedLessonPayload = {
-  title: string
-  intro: string
-  sections: {
-    heading: string
-    body: string[]
-  }[]
-  takeaway: string
-  checks: LessonCheckQuestion[]
-}
 
 function LessonCheckSection({
   questions,
@@ -227,13 +220,13 @@ function LessonContentPage({
   lessonSlug,
   progress,
   language,
-  translatedLesson,
+  spanishLesson,
 }: {
   state: string
   lessonSlug: string
   progress: CourseProgressRow[]
   language: "en" | "es"
-  translatedLesson: TranslatedLessonPayload | null
+  spanishLesson: SpanishLessonPayload | null
 }) {
   const router = useRouter()
   const lesson = getVirginiaLessonBySlug(lessonSlug)
@@ -277,12 +270,12 @@ function LessonContentPage({
   }
 
   const completed = isLessonCompleted(progress, lesson.slug)
-  const renderedLesson = translatedLesson
+  const renderedLesson = spanishLesson
     ? {
-        title: translatedLesson.title,
-        intro: translatedLesson.intro,
-        sections: translatedLesson.sections,
-        takeaway: translatedLesson.takeaway,
+        title: spanishLesson.title,
+        intro: spanishLesson.intro,
+        sections: spanishLesson.sections,
+        takeaway: spanishLesson.takeaway,
       }
     : {
         title: lesson.title,
@@ -371,7 +364,7 @@ function LessonContentPage({
         </article>
 
         <LessonCheckSection
-          questions={translatedLesson?.checks ?? VIRGINIA_LESSON_CHECKS[lessonSlug] ?? []}
+          questions={spanishLesson?.checks ?? VIRGINIA_LESSON_CHECKS[lessonSlug] ?? []}
           language={language}
         />
 
@@ -455,60 +448,8 @@ export default function LessonPage() {
   })
   const [verificationError, setVerificationError] = useState("")
   const [lessonVerified, setLessonVerified] = useState(false)
-  const [translatedLesson, setTranslatedLesson] =
-    useState<TranslatedLessonPayload | null>(null)
-  const [translationReady, setTranslationReady] = useState(language !== "es")
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadTranslation() {
-      if (language !== "es") {
-        setTranslatedLesson(null)
-        setTranslationReady(true)
-        return
-      }
-
-      setTranslationReady(false)
-
-      try {
-        const response = await fetch("/api/course-translation", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            kind: "lesson",
-            lessonSlug,
-          }),
-        })
-
-        const data = (await response.json()) as {
-          ok?: boolean
-          translation?: TranslatedLessonPayload
-        }
-
-        if (!cancelled && data.ok && data.translation) {
-          setTranslatedLesson(data.translation)
-        }
-      } catch (error) {
-        console.error("Could not load Spanish lesson translation:", error)
-        if (!cancelled) {
-          setTranslatedLesson(null)
-        }
-      } finally {
-        if (!cancelled) {
-          setTranslationReady(true)
-        }
-      }
-    }
-
-    void loadTranslation()
-
-    return () => {
-      cancelled = true
-    }
-  }, [language, lessonSlug])
+  const spanishLesson =
+    language === "es" ? VIRGINIA_SPANISH_LESSON_CONTENT[lessonSlug] ?? null : null
 
   useEffect(() => {
     let isMounted = true
@@ -616,8 +557,8 @@ export default function LessonPage() {
           </h1>
           <p className="mt-4 leading-7 text-slate-600">
             {language === "es"
-              ? `Este estado sigue en preparacion. Las rutas directas de lecciones permaneceran cerradas hasta que el contenido y los requisitos regulatorios esten listos.`
-              : `This state is still in preparation. Direct lesson routes will remain closed until the course content and regulator-facing requirements are ready.`}
+              ? `Las lecciones estaran disponibles cuando este curso abra.`
+              : `Lessons will be available when this course opens.`}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
@@ -641,8 +582,7 @@ export default function LessonPage() {
   if (
     hasAccess === null ||
     (hasAccess && identityReady === null) ||
-    loading ||
-    !translationReady
+    loading
   ) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-10">
@@ -800,7 +740,7 @@ export default function LessonPage() {
       lessonSlug={lessonSlug}
       progress={progress}
       language={language}
-      translatedLesson={translatedLesson}
+      spanishLesson={spanishLesson}
     />
   )
 }

@@ -9,7 +9,6 @@ import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 import { formatPriceFromCents, getCoursePlans } from "@/lib/payment/plans"
 import {
   getReasonForAttendingDescription,
-  getReasonForAttendingLabel,
   isCourtRelatedReason,
   REASON_FOR_ATTENDING_OPTIONS,
   type ReasonForAttendingCode,
@@ -32,6 +31,20 @@ function isBelowVirginiaLearnersPermitAge(dateOfBirth: string) {
   return dob > minimumDate
 }
 
+function getSafeNextPath(state: string, nextPath: string | null) {
+  const defaultPath = `/${state}/dashboard`
+
+  if (!nextPath || !nextPath.startsWith("/")) {
+    return defaultPath
+  }
+
+  if (nextPath === `/${state}` || nextPath.startsWith(`/${state}/`)) {
+    return nextPath
+  }
+
+  return defaultPath
+}
+
 export default function LoginPage() {
   const params = useParams()
   const router = useRouter()
@@ -41,11 +54,20 @@ export default function LoginPage() {
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
   const config = getCourseConfig(state)
+  const rawNextPath = searchParams.get("next")
+  const reason = searchParams.get("reason")
+  const isReviewerAccess = reason === "reviewer"
+  const safeNextPath = getSafeNextPath(state, rawNextPath)
+  const allowRestrictedLogin = isReviewerAccess || Boolean(rawNextPath)
   const secondarySupportPhoneDisplay = config.secondarySupportPhoneDisplay ?? null
   const enrollmentOpen = config.enrollmentOpen
   const language = usePreferredSiteLanguageClient()
   const secondarySupportPhoneLabel =
     language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
+  const secondarySupportPhoneSummary =
+    language === "es"
+      ? "Contacto alternativo requerido por Virginia"
+      : "Virginia-required alternate contact"
   const copy =
     language === "es"
       ? {
@@ -73,6 +95,7 @@ export default function LoginPage() {
           infoCta: "Leer informacion del curso",
           email: "Correo electronico",
           password: "Contrasena",
+          confirmPassword: "Confirmar contrasena",
           forgotPassword: "Olvide mi contrasena",
           recoverTitle: "Recuperar acceso",
           recoverBody:
@@ -133,11 +156,13 @@ export default function LoginPage() {
             "Completa la informacion del tribunal antes de crear la cuenta.",
           identityFieldsRequired:
             "Completa tu nombre legal, fecha de nacimiento y numero de cliente del DMV o numero de licencia antes de crear la cuenta.",
-          registrationTitle: "Requisitos del portal de registro",
+          passwordMismatch:
+            "La confirmacion de la contrasena no coincide. Escribe la misma contrasena en ambos campos antes de crear la cuenta.",
+          registrationTitle: "Antes de inscribirte",
           registrationBody:
             secondarySupportPhoneDisplay
-              ? "Este portal de registro muestra el nombre del proveedor, la linea principal, la linea gratuita alternativa, la tarifa del curso y los campos requeridos del estudiante antes de la inscripcion."
-              : "Este portal de registro muestra el nombre del proveedor, el telefono, la tarifa del curso y los campos requeridos del estudiante antes de la inscripcion.",
+              ? "Antes de crear tu cuenta, puedes revisar el nombre del curso, la linea principal, la tarifa actual y la informacion necesaria para inscribirte. Los detalles de contacto alternativo requeridos por Virginia aparecen mas abajo."
+              : "Antes de crear tu cuenta, puedes revisar el nombre del curso, el telefono de contacto, la tarifa actual y la informacion necesaria para inscribirte.",
           providerNameLabel: "Proveedor",
           providerPhoneLabel: `Linea principal de ${config.stateName}`,
           feeLabel: "Tarifa del curso",
@@ -171,6 +196,7 @@ export default function LoginPage() {
           infoCta: "Read course information",
           email: "Email",
           password: "Password",
+          confirmPassword: "Confirm password",
           forgotPassword: "Forgot password?",
           recoverTitle: "Recover account access",
           recoverBody:
@@ -231,11 +257,13 @@ export default function LoginPage() {
             "Complete the court information before creating the account.",
           identityFieldsRequired:
             "Complete your legal name, date of birth, and DMV customer number or out-of-state license number before creating the account.",
-          registrationTitle: "Registration portal requirements",
+          passwordMismatch:
+            "Your password confirmation does not match. Enter the same password in both fields before creating your account.",
+          registrationTitle: "Before you enroll",
           registrationBody:
             secondarySupportPhoneDisplay
-              ? "This registration portal displays the provider name, the primary phone line, the toll-free alternate line, course fee, and required student fields before enrollment."
-              : "This registration portal displays the provider name, phone number, course fee, and required student fields before enrollment.",
+              ? "Before creating your account, you can review the course name, the primary line, the current course fee, and the information you need to enroll. Virginia-required alternate contact details appear further below."
+              : "Before creating your account, you can review the course name, the contact phone number, the current course fee, and the information needed to enroll.",
           providerNameLabel: "Provider",
           providerPhoneLabel: `${config.stateName} primary line`,
           feeLabel: "Course fee",
@@ -245,10 +273,14 @@ export default function LoginPage() {
             "The course and final test must be completed online through this portal. No paper test is permitted.",
         }
 
-  const requestedMode = searchParams.get("mode") === "signup" ? "signup" : "login"
+  const requestedMode =
+    isReviewerAccess || searchParams.get("mode") !== "signup"
+      ? "login"
+      : "signup"
   const [mode, setMode] = useState<"login" | "signup">(requestedMode)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [reasonForAttending, setReasonForAttending] =
     useState<ReasonForAttendingCode | "">("")
   const [firstName, setFirstName] = useState("")
@@ -266,6 +298,41 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [sendingRecovery, setSendingRecovery] = useState(false)
   const [showRecoveryForm, setShowRecoveryForm] = useState(false)
+  const heroTitle = isReviewerAccess
+    ? language === "es"
+      ? "Abrir el portal de revision."
+      : "Open the reviewer portal."
+    : mode === "login"
+      ? copy.heroTitleLogin
+      : copy.heroTitleSignup
+  const heroBody = isReviewerAccess
+    ? language === "es"
+      ? "Inicia sesion con el correo autorizado del revisor para abrir el acceso protegido y revisar los materiales del curso sin exponer herramientas administrativas ni datos de estudiantes."
+      : "Sign in with the authorized reviewer email to open the protected review environment and inspect the course materials without exposing admin tools or student data."
+    : mode === "login"
+      ? copy.heroBodyLogin
+      : copy.heroBodySignup
+  const heroItems = isReviewerAccess
+    ? [
+        "Protected reviewer-only access path",
+        "No purchase requirement and no live student data exposure",
+        "Direct return to the requested reviewer page after sign-in",
+      ]
+    : copy.heroItems
+  const formTitle = isReviewerAccess
+    ? language === "es"
+      ? "Ingreso de revisor"
+      : "Reviewer sign in"
+    : mode === "login"
+      ? copy.formTitleLogin
+      : copy.formTitleSignup
+  const formBody = isReviewerAccess
+    ? language === "es"
+      ? "Usa las credenciales del revisor aprovisionado para abrir la ruta protegida de revision."
+      : "Use the provisioned reviewer credentials to open the protected review route."
+    : mode === "login"
+      ? copy.formBodyLogin
+      : copy.formBodySignup
   const showUnderageWarning = mode === "signup" && isBelowVirginiaLearnersPermitAge(dateOfBirth)
   const courseFeeSummary = useMemo(() => {
     const fullCoursePlans = getCoursePlans(state).filter(
@@ -286,6 +353,7 @@ export default function LoginPage() {
     setMessage("")
     setSignupCreated(false)
     setSignupNeedsEmailConfirm(false)
+    setConfirmPassword("")
   }, [requestedMode])
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -308,13 +376,18 @@ export default function LoginPage() {
         }
 
         setMessage(copy.loginSuccess)
-        router.push(`/${state}/dashboard`)
+        router.push(safeNextPath)
         router.refresh()
         return
       }
 
       if (!reasonForAttending) {
         setMessage(copy.reasonRequired)
+        return
+      }
+
+      if (password !== confirmPassword) {
+        setMessage(copy.passwordMismatch)
         return
       }
 
@@ -341,61 +414,50 @@ export default function LoginPage() {
         return
       }
 
-      const origin =
-        typeof window !== "undefined" ? window.location.origin : ""
-      const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim()
-      const redirectBaseUrl =
-        configuredBaseUrl && /^https?:\/\//.test(configuredBaseUrl)
-          ? configuredBaseUrl.replace(/\/$/, "")
-          : origin
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            driverCourseProfile: {
-              reasonForAttending,
-              reasonForAttendingLabel: getReasonForAttendingLabel(reasonForAttending),
-              firstName: firstName.trim(),
-              lastName: lastName.trim(),
-              dateOfBirth: dateOfBirth.trim(),
-              driversLicenseNumber: driversLicenseNumber.trim(),
-              courtName: isCourtRelatedReason(reasonForAttending) ? courtName.trim() : "",
-              caseOrTicketNumber: isCourtRelatedReason(reasonForAttending)
-                ? caseOrTicketNumber.trim()
-                : "",
-              courtDocumentNotes: isCourtRelatedReason(reasonForAttending)
-                ? courtDocumentNotes.trim()
-                : "",
-              accuracyAcknowledged: accuracyConfirmed,
-              accuracyAcknowledgedAt: new Date().toISOString(),
-            },
-            pendingIdentityProfile: {
-              firstName: firstName.trim(),
-              lastName: lastName.trim(),
-              dateOfBirth: dateOfBirth.trim(),
-              driversLicenseNumber: driversLicenseNumber.trim(),
-            },
-            registrationProfile: {
-              middleName: middleName.trim(),
-            },
-          },
-          emailRedirectTo: redirectBaseUrl
-            ? `${redirectBaseUrl}/${state}/dashboard`
-            : undefined,
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          state,
+          email,
+          password,
+          reasonForAttending,
+          firstName,
+          middleName,
+          lastName,
+          dateOfBirth,
+          driversLicenseNumber,
+          courtName,
+          caseOrTicketNumber,
+          courtDocumentNotes,
+          accuracyConfirmed,
+        }),
       })
 
-      if (error) {
-        setMessage(error.message)
+      const result = (await response.json()) as {
+        ok?: boolean
+        error?: string
+        message?: string
+        requiresEmailConfirmation?: boolean
+      }
+
+      if (!response.ok || !result.ok) {
+        setMessage(result.error ?? "Could not create your account.")
         return
       }
 
       setPassword("")
+      setConfirmPassword("")
       setSignupCreated(true)
-      setSignupNeedsEmailConfirm(!data.session)
-      setMessage(data.session ? copy.signupSuccessNoConfirm : copy.signupSuccess)
+      setSignupNeedsEmailConfirm(Boolean(result.requiresEmailConfirmation))
+      setMessage(
+        result.message ??
+          (result.requiresEmailConfirmation
+            ? copy.signupSuccess
+            : copy.signupSuccessNoConfirm)
+      )
     } finally {
       setLoading(false)
     }
@@ -411,33 +473,35 @@ export default function LoginPage() {
     setMessage("")
 
     try {
-      const origin =
-        typeof window !== "undefined" ? window.location.origin : ""
-      const configuredBaseUrl = process.env.NEXT_PUBLIC_BASE_URL?.trim()
-      const redirectBaseUrl =
-        configuredBaseUrl && /^https?:\/\//.test(configuredBaseUrl)
-          ? configuredBaseUrl.replace(/\/$/, "")
-          : origin
-
-      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-        redirectTo: redirectBaseUrl
-          ? `${redirectBaseUrl}/${state}/reset-password`
-          : undefined,
+      const response = await fetch("/api/auth/password-reset", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          state,
+          email: email.trim(),
+        }),
       })
+      const result = (await response.json()) as {
+        ok?: boolean
+        error?: string
+        message?: string
+      }
 
-      if (error) {
-        setMessage(error.message)
+      if (!response.ok || !result.ok) {
+        setMessage(result.error ?? "Could not send the reset email.")
         return
       }
 
-      setMessage(copy.recoverSuccess)
+      setMessage(result.message ?? copy.recoverSuccess)
       setShowRecoveryForm(false)
     } finally {
       setSendingRecovery(false)
     }
   }
 
-  if (!enrollmentOpen) {
+  if (!enrollmentOpen && !allowRestrictedLogin) {
     return (
       <main className="min-h-screen px-4 py-10 sm:py-14">
         <div className="mx-auto max-w-4xl space-y-6">
@@ -450,8 +514,8 @@ export default function LoginPage() {
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
               {language === "es"
-                ? `La plataforma para ${config.stateName} sigue en preparacion. La creacion de cuentas de estudiantes se habilitara cuando el contenido, las divulgaciones y los requisitos regulatorios esten listos.`
-                : `${config.stateName} is still in preparation. Student account creation will open after the course content, disclosures, and regulator-facing requirements are ready.`}
+                ? `La creacion de cuentas para ${config.stateName} se abrira cuando la inscripcion este disponible.`
+                : `${config.stateName} student account creation will open when enrollment becomes available.`}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
@@ -479,14 +543,14 @@ export default function LoginPage() {
         <section className="glass-panel rounded-[2rem] border-[#dbe7ff] bg-white p-7 sm:p-8">
           <div className="section-label">{copy.sectionLabel}</div>
           <h1 className="mt-5 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-            {mode === "login" ? copy.heroTitleLogin : copy.heroTitleSignup}
+            {heroTitle}
           </h1>
           <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
-            {mode === "login" ? copy.heroBodyLogin : copy.heroBodySignup}
+            {heroBody}
           </p>
 
           <div className="mt-8 grid gap-4">
-            {copy.heroItems.map((item) => (
+            {heroItems.map((item) => (
               <div
                 key={item}
                 className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-700"
@@ -500,12 +564,25 @@ export default function LoginPage() {
         <section className="glass-panel rounded-[2rem] bg-white p-6 sm:p-8">
           <div className="mb-6">
             <h2 className="text-3xl font-semibold text-slate-950">
-              {mode === "login" ? copy.formTitleLogin : copy.formTitleSignup}
+              {formTitle}
             </h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">
-              {mode === "login" ? copy.formBodyLogin : copy.formBodySignup}
+              {formBody}
             </p>
           </div>
+
+          {isReviewerAccess ? (
+            <div className="mb-6 rounded-2xl border border-blue-200 bg-blue-50 p-5 text-sm leading-7 text-slate-700">
+              <div className="font-semibold uppercase tracking-[0.16em] text-blue-700">
+                Restricted reviewer access
+              </div>
+              <p className="mt-3">
+                This sign-in flow is reserved for authorized reviewer and admin
+                email addresses. Public enrollment may remain closed while
+                reviewer access stays available for regulator review.
+              </p>
+            </div>
+          ) : null}
 
           <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-slate-700">
             <div className="font-semibold uppercase tracking-[0.16em] text-amber-700">
@@ -540,6 +617,18 @@ export default function LoginPage() {
               required
               autoComplete={mode === "login" ? "current-password" : "new-password"}
             />
+
+            {mode === "signup" ? (
+              <input
+                type="password"
+                placeholder={copy.confirmPassword}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-blue-500"
+                required
+                autoComplete="new-password"
+              />
+            ) : null}
 
             {mode === "login" ? (
               <div className="-mt-2 flex justify-end">
@@ -603,10 +692,15 @@ export default function LoginPage() {
                     {config.supportPhoneDisplay}
                   </p>
                   {secondarySupportPhoneDisplay ? (
-                    <p>
-                      <span className="font-semibold">{secondarySupportPhoneLabel}:</span>{" "}
-                      {secondarySupportPhoneDisplay}
-                    </p>
+                    <details className="mt-2 text-xs leading-6 text-slate-500">
+                      <summary className="cursor-pointer list-none font-medium uppercase tracking-[0.14em] text-slate-400">
+                        {secondarySupportPhoneSummary}
+                      </summary>
+                      <p className="mt-2">
+                        <span className="font-semibold">{secondarySupportPhoneLabel}:</span>{" "}
+                        {secondarySupportPhoneDisplay}
+                      </p>
+                    </details>
                   ) : null}
                   <p>
                     <span className="font-semibold">{copy.feeLabel}:</span>{" "}
@@ -805,48 +899,52 @@ export default function LoginPage() {
             </div>
           ) : null}
 
-          <div className="mt-5 text-sm text-slate-600">
-            {mode === "login" ? (
-              <p>
-                {copy.newStudent}{" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode("signup")
-                    setMessage("")
-                    router.replace(`/${state}/login?mode=signup`)
-                  }}
-                  className="font-semibold text-blue-600 underline"
-                >
-                  {copy.createAccount}
-                </button>
-              </p>
-            ) : (
-              <p>
-                {copy.existingStudent}{" "}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode("login")
-                    setMessage("")
-                    router.replace(`/${state}/login`)
-                  }}
-                  className="font-semibold text-blue-600 underline"
-                >
-                  {copy.loginLink}
-                </button>
-              </p>
-            )}
-          </div>
+          {!isReviewerAccess ? (
+            <div className="mt-5 text-sm text-slate-600">
+              {mode === "login" ? (
+                <p>
+                  {copy.newStudent}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("signup")
+                      setMessage("")
+                      router.replace(`/${state}/login?mode=signup`)
+                    }}
+                    className="font-semibold text-blue-600 underline"
+                  >
+                    {copy.createAccount}
+                  </button>
+                </p>
+              ) : (
+                <p>
+                  {copy.existingStudent}{" "}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMode("login")
+                      setMessage("")
+                      router.replace(`/${state}/login`)
+                    }}
+                    className="font-semibold text-blue-600 underline"
+                  >
+                    {copy.loginLink}
+                  </button>
+                </p>
+              )}
+            </div>
+          ) : null}
 
-          <div className="mt-6">
-            <Link
-              href={`/${state}/checkout`}
-              className="text-sm font-medium text-slate-600 underline"
-            >
-              {copy.plansLink}
-            </Link>
-          </div>
+          {!isReviewerAccess ? (
+            <div className="mt-6">
+              <Link
+                href={`/${state}/checkout`}
+                className="text-sm font-medium text-slate-600 underline"
+              >
+                {copy.plansLink}
+              </Link>
+            </div>
+          ) : null}
 
           {message && !(mode === "signup" && signupCreated) ? (
             <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-700">

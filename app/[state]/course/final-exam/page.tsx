@@ -12,6 +12,7 @@ import {
   getRandomExamQuestionsFromBank,
   type ExamQuestion,
 } from "@/lib/final-exam"
+import { VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK } from "@/lib/final-exam-es"
 import { verifyIdentityAnswer } from "@/lib/identity-verification-utils"
 import {
   getLatestExamResult,
@@ -370,8 +371,6 @@ export default function FinalExamPage() {
     })
 
   const [questions, setQuestions] = useState<ExamQuestion[]>([])
-  const [translatedQuestionBank, setTranslatedQuestionBank] = useState<ExamQuestion[] | null>(null)
-  const [translationReady, setTranslationReady] = useState(language !== "es")
   const [answers, setAnswers] = useState<number[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [locked, setLocked] = useState(false)
@@ -411,56 +410,6 @@ export default function FinalExamPage() {
       seatTimeBypassed ? COURSE_TOTAL_REQUIRED_SECONDS : seatTimeTotalSeconds
     )
   const lessonLinks = useMemo(() => getLessonLinks(state), [state])
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadSpanishExam() {
-      if (language !== "es") {
-        setTranslatedQuestionBank(null)
-        setTranslationReady(true)
-        return
-      }
-
-      setTranslationReady(false)
-
-      try {
-        const response = await fetch("/api/course-translation", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            kind: "exam",
-          }),
-        })
-
-        const data = (await response.json()) as {
-          ok?: boolean
-          translation?: ExamQuestion[]
-        }
-
-        if (!cancelled && data.ok && data.translation) {
-          setTranslatedQuestionBank(data.translation)
-        }
-      } catch (error) {
-        console.error("Could not load Spanish exam translation:", error)
-        if (!cancelled) {
-          setTranslatedQuestionBank(null)
-        }
-      } finally {
-        if (!cancelled) {
-          setTranslationReady(true)
-        }
-      }
-    }
-
-    void loadSpanishExam()
-
-    return () => {
-      cancelled = true
-    }
-  }, [language])
 
   useEffect(() => {
     if (seatTimeTracker.totalSeconds > 0) {
@@ -572,9 +521,9 @@ export default function FinalExamPage() {
 
   const initializeExamQuestions = () => {
     const examQuestions =
-      language === "es" && translatedQuestionBank
+      language === "es"
         ? getRandomExamQuestionsFromBank(
-            translatedQuestionBank,
+            VIRGINIA_SPANISH_FINAL_EXAM_QUESTION_BANK,
             config.finalExamQuestionCount
           )
         : getFinalExamQuestions(config.finalExamQuestionCount)
@@ -966,8 +915,8 @@ export default function FinalExamPage() {
         </div>
         <p className="leading-7 text-slate-600">
           {language === "es"
-            ? `Este estado sigue en preparacion. El examen final se publicara solo despues de que el contenido, el flujo del certificado y los requisitos regulatorios esten listos.`
-            : `This state is still in preparation. The final exam will open only after the course content, certificate flow, and regulator-facing requirements are ready.`}
+            ? `El examen final estara disponible cuando este curso abra.`
+            : `The final exam will be available when this course opens.`}
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
@@ -987,7 +936,7 @@ export default function FinalExamPage() {
     )
   }
 
-  if (hasAccess === null || !translationReady) {
+  if (hasAccess === null) {
     return (
       <div className="mx-auto max-w-2xl p-6">
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">

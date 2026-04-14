@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
-import { getCourseConfig } from "@/lib/course-config"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getCourseProductConfig } from "@/lib/course-products"
 import { sendCompletionCertificateEmail } from "@/lib/email"
 import {
   buildCertificatePdfFilename,
@@ -10,6 +10,7 @@ import {
 
 type NotifyCertificateBody = {
   state?: string
+  courseSlug?: string
   certificateId?: string
 }
 
@@ -17,6 +18,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as NotifyCertificateBody
     const state = String(body.state ?? "").trim().toLowerCase()
+    const courseSlug = String(body.courseSlug ?? "driver-improvement").trim()
     const certificateId = String(body.certificateId ?? "").trim()
 
     if (!state || !certificateId) {
@@ -47,6 +49,7 @@ export async function POST(request: NextRequest) {
           .select("certificate_id, passed, score, completed_at")
           .eq("user_id", user.id)
           .eq("state", state)
+          .eq("course_slug", courseSlug)
           .eq("certificate_id", certificateId)
           .order("completed_at", { ascending: false })
           .limit(1)
@@ -66,7 +69,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!examRow || !examRow.passed || !identityRow || !user.email) {
+    if (!examRow || !examRow.passed || !user.email) {
       return NextResponse.json(
         { ok: false, error: "Completion email not available." },
         { status: 400 }
@@ -82,14 +85,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const config = getCourseConfig(state)
+    const product = getCourseProductConfig(state, courseSlug)
     const verifyUrl = `${baseUrl}/verify/${certificateId}`
+    const fallbackProfile =
+      (user.user_metadata as Record<string, unknown> | undefined) ?? {}
+    const driverCourseProfile =
+      (fallbackProfile.driverCourseProfile as Record<string, unknown> | undefined) ??
+      {}
+    const pendingIdentityProfile =
+      (fallbackProfile.pendingIdentityProfile as Record<string, unknown> | undefined) ??
+      {}
+    const firstName =
+      String(identityRow?.first_name ?? driverCourseProfile.firstName ?? pendingIdentityProfile.firstName ?? "").trim()
+    const lastName =
+      String(identityRow?.last_name ?? driverCourseProfile.lastName ?? pendingIdentityProfile.lastName ?? "").trim()
     const certificatePdf = generateCertificatePdfArrayBuffer({
       state,
-      courseName: config.courseName,
-      certificateIssuerLine: config.certificateIssuerLine,
-      firstName: String(identityRow.first_name ?? "").trim(),
-      lastName: String(identityRow.last_name ?? "").trim(),
+      courseName: product.courseName,
+      certificateIssuerLine: product.certificateIssuerLine,
+      firstName,
+      lastName,
       examScore: typeof examRow.score === "number" ? examRow.score : null,
       examCompletedAt: examRow.completed_at ?? null,
       certificateId,
@@ -99,18 +114,18 @@ export async function POST(request: NextRequest) {
     const certificatePdfBase64 = Buffer.from(certificatePdf).toString("base64")
     const certificateFilename = buildCertificatePdfFilename(
       state,
-      String(identityRow.first_name ?? "").trim(),
-      String(identityRow.last_name ?? "").trim()
+      firstName,
+      lastName
     )
 
     await sendCompletionCertificateEmail({
       email: user.email,
-      stateName: config.stateName,
-      courseName: config.courseName,
+      stateName: product.stateName,
+      courseName: product.courseName,
       certificateId,
-      certificateUrl: `${baseUrl}/${state}/certificate`,
+      certificateUrl: `${baseUrl}${product.certificatePath}`,
       verifyUrl,
-      providerEmail: config.supportEmail,
+      providerEmail: product.supportEmail,
       certificateFilename,
       certificatePdfBase64,
     })

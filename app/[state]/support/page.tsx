@@ -1,4 +1,4 @@
-import StateSupportClient from "@/components/state-support-client"
+import StateSupportSimple from "@/components/state-support-simple"
 import { getCourseConfig } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 
@@ -12,7 +12,7 @@ export default async function StateSupportPage({
   const language = await getPreferredSiteLanguage()
 
   return (
-    <StateSupportClient
+    <StateSupportSimple
       state={state}
       stateName={config.stateName}
       language={language}

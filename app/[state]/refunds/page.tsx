@@ -1,6 +1,7 @@
 import Link from "next/link"
 import {
   getCourseConfig,
+  getStateBasePath,
   getSupportRoute,
 } from "@/lib/course-config"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
@@ -37,7 +38,7 @@ export default async function StateRefundsPage({
             "Las mejoras a soporte prioritario son compras opcionales adicionales y normalmente no son reembolsables despues de la compra, aunque el beneficio mejorado no llegue a usarse despues.",
           sectionFour: "Igualacion de precio",
           sectionFourBody1:
-            "Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de Virginia en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.",
+            `Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de ${config.stateName} en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.`,
           sectionFourBody2:
             "Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas con cargos ocultos ni cursos no equivalentes.",
           supportTitle: "Solicitar una revision",
@@ -67,7 +68,7 @@ export default async function StateRefundsPage({
             "Priority-support upgrades are optional add-on purchases and are generally not refundable after purchase, even if the upgraded benefit is not later used.",
           sectionFour: "Price-match reviews",
           sectionFourBody1:
-            "If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact us before purchase and we will review it for a possible price match.",
+            `If you find a lower publicly advertised price for an equivalent ${config.stateName} online driver improvement course, contact us before purchase and we will review it for a possible price match.`,
           sectionFourBody2:
             "Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
           supportTitle: "Request a review",
@@ -117,6 +118,17 @@ export default async function StateRefundsPage({
         <div className="mt-4 space-y-4 text-sm leading-7 text-slate-700">
           <p>{copy.sectionFourBody1}</p>
           <p>{copy.sectionFourBody2}</p>
+          <p>
+            <Link
+              href={`${getStateBasePath(state)}/price-match`}
+              className="font-medium text-slate-900 underline"
+            >
+              {language === "es"
+                ? "Abrir la pagina de igualacion de precio"
+                : "Open the price-match request page"}
+            </Link>
+            .
+          </p>
         </div>
       </section>
 

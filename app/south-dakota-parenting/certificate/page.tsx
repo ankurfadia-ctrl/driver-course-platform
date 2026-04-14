@@ -1,0 +1,178 @@
+import Link from "next/link"
+import {
+  SOUTH_DAKOTA_PARENT_SITE_AUTHENTICITY,
+  SOUTH_DAKOTA_PARENT_SITE_AUTHENTICITY_ES,
+  SOUTH_DAKOTA_PARENT_SITE_CERTIFICATE_FIELDS,
+  SOUTH_DAKOTA_PARENT_SITE_CERTIFICATE_FIELDS_ES,
+  SOUTH_DAKOTA_PARENT_SITE_SUPPORT,
+} from "@/lib/south-dakota-parenting-site"
+import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+
+export default async function SouthDakotaCertificatePage() {
+  const language = await getPreferredSiteLanguage()
+  const isSpanish = language === "es"
+  const fields = isSpanish
+    ? SOUTH_DAKOTA_PARENT_SITE_CERTIFICATE_FIELDS_ES
+    : SOUTH_DAKOTA_PARENT_SITE_CERTIFICATE_FIELDS
+  const authenticity = isSpanish
+    ? SOUTH_DAKOTA_PARENT_SITE_AUTHENTICITY_ES
+    : SOUTH_DAKOTA_PARENT_SITE_AUTHENTICITY
+  const copy = isSpanish
+    ? {
+        label: "Certificado",
+        title: "Los certificados estan listos para uso de archivo en Dakota del Sur",
+        intro:
+          "La estructura mantiene los datos de finalizacion requeridos claros y utiliza un ID de verificacion para apoyo de autenticidad.",
+        sampleLabel: "Estructura de certificado de muestra",
+        certificateHeading: "Fundamentos de Coparentalidad de Dakota del Sur",
+        certificateTitle: "Certificado de finalizacion",
+        certificateLine:
+          "Se certifica que [Nombre del participante] completo Fundamentos de Coparentalidad de Dakota del Sur el [Fecha de finalizacion].",
+        courseLabel: "Nombre del curso",
+        verificationLabel: "ID de verificacion",
+        supportLabel: "Contacto del curso",
+        fieldsLabel: "Campos incluidos",
+        verificationTitle: "Controles de verificacion",
+        nextLabel: "Siguientes pasos",
+        nextTitle: "Compara precios o revisa las preguntas mas comunes",
+        nextBody:
+          "Si estabas revisando el certificado primero, las paginas utiles siguientes son precios y preguntas frecuentes.",
+        pricingCta: "Ver precios",
+        faqCta: "Leer preguntas",
+      }
+    : {
+        label: "Certificate",
+        title: "Completion certificates are built for South Dakota filing use",
+        intro:
+          "The certificate structure keeps the required completion information easy to understand while using a verification ID for authenticity support.",
+        sampleLabel: "Sample certificate structure",
+        certificateHeading: "South Dakota Co-Parenting Foundations",
+        certificateTitle: "Certificate of Completion",
+        certificateLine:
+          "This certifies that [Participant Name] completed South Dakota Co-Parenting Foundations on [Completion Date].",
+        courseLabel: "Course name",
+        verificationLabel: "Verification ID",
+        supportLabel: "Course support",
+        fieldsLabel: "Included fields",
+        verificationTitle: "Verification controls",
+        nextLabel: "Next steps",
+        nextTitle: "Compare pricing or read the most common questions",
+        nextBody:
+          "If you were checking the certificate details first, the next helpful pages are pricing and the course FAQ.",
+        pricingCta: "View pricing",
+        faqCta: "Read the FAQ",
+      }
+
+  return (
+    <div className="space-y-8">
+      <section className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8">
+        <div className="section-label !bg-amber-50 !text-amber-900 before:!bg-amber-600">
+          {copy.label}
+        </div>
+        <h2 className="mt-4 text-4xl font-semibold tracking-tight text-slate-950">
+          {copy.title}
+        </h2>
+        <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+          {copy.intro}
+        </p>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[1fr_0.95fr]">
+        <div className="glass-panel rounded-[2rem] bg-white p-8">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+            {copy.sampleLabel}
+          </div>
+          <div className="mt-6 rounded-[1.75rem] border border-amber-200 bg-[linear-gradient(180deg,#fff8ee_0%,#ffffff_100%)] p-8">
+            <div className="text-center text-xs font-semibold uppercase tracking-[0.28em] text-amber-700">
+              {copy.certificateHeading}
+            </div>
+            <div className="mt-4 text-center text-3xl font-semibold text-slate-950">
+              {copy.certificateTitle}
+            </div>
+            <p className="mt-5 text-center text-sm leading-7 text-slate-700">
+              {copy.certificateLine}
+            </p>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl border border-white/80 bg-white/90 p-4 text-sm leading-7 text-slate-700">
+                {copy.courseLabel}:{" "}
+                <span className="font-semibold">{copy.certificateHeading}</span>
+              </div>
+              <div className="rounded-2xl border border-white/80 bg-white/90 p-4 text-sm leading-7 text-slate-700">
+                {copy.verificationLabel}:{" "}
+                <span className="font-semibold">[SD-CPF-YYYY-####]</span>
+              </div>
+            </div>
+            <div className="mt-8 rounded-2xl border border-white/80 bg-white/90 p-5 text-sm leading-7 text-slate-700">
+              <div className="font-semibold text-slate-950">{copy.supportLabel}</div>
+              <div>{SOUTH_DAKOTA_PARENT_SITE_SUPPORT.organization}</div>
+              <div>{SOUTH_DAKOTA_PARENT_SITE_SUPPORT.phone}</div>
+              <div>{SOUTH_DAKOTA_PARENT_SITE_SUPPORT.email}</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="glass-panel rounded-[2rem] bg-white p-8">
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+              {copy.fieldsLabel}
+            </div>
+            <div className="mt-6 grid gap-4">
+              {fields.map((field) => (
+                <div
+                  key={field}
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-7 text-slate-700"
+                >
+                  {field}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="glass-panel rounded-[2rem] bg-white p-8">
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+              {copy.verificationTitle}
+            </div>
+            <div className="mt-6 grid gap-4">
+              {authenticity.map((field) => (
+                <div
+                  key={field}
+                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-7 text-slate-700"
+                >
+                  {field}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="glass-panel rounded-[2rem] border-[#f0e2c6] bg-white p-8">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="max-w-3xl">
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
+              {copy.nextLabel}
+            </div>
+            <h3 className="mt-3 text-3xl font-semibold text-slate-950">
+              {copy.nextTitle}
+            </h3>
+            <p className="mt-4 leading-8 text-slate-600">{copy.nextBody}</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/south-dakota-parenting/pricing"
+              className="rounded-xl bg-amber-600 px-5 py-3 font-semibold text-white hover:bg-amber-700"
+            >
+              {copy.pricingCta}
+            </Link>
+            <Link
+              href="/south-dakota-parenting/faq"
+              className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {copy.faqCta}
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}

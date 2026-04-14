@@ -104,6 +104,18 @@ export default async function AdminLaunchReadinessPage() {
             Compliance Dashboard
           </Link>
           <Link
+            href="/admin/boating-readiness"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Boating Readiness
+          </Link>
+          <Link
+            href="/admin/parent-education-readiness"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Parent Education
+          </Link>
+          <Link
             href="/admin/qa-checklist"
             className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
           >

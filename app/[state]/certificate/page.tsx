@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useParams, useSearchParams } from "next/navigation"
 import jsPDF from "jspdf"
@@ -22,6 +22,7 @@ import {
   formatCertificateCompletionDate,
   getOrCreateCertificateId,
 } from "@/lib/certificate-reference"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 
 type CertificateStudent = {
   firstName: string
@@ -47,12 +48,112 @@ export default function CertificatePage() {
   const searchParams = useSearchParams()
   const supabase = createClient()
   const autoDownloadTriggeredRef = useRef(false)
+  const language = usePreferredSiteLanguageClient()
+  const isSpanish = language === "es"
 
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
 
   const config = getCourseConfig(state)
   const seatTimeBypassed = isFinalExamSeatTimeBypassed(state)
+  const courseNameDisplay = isSpanish
+    ? config.courseNameEs ?? config.courseName
+    : config.courseName
+
+  const copy = useMemo(
+    () =>
+      isSpanish
+        ? {
+            loading: "Cargando certificado...",
+            lockedTitle: "Certificado bloqueado",
+            lockedExam:
+              "Aprueba el examen final antes de que tu certificado este disponible.",
+            lockedNotReady:
+              "Tu certificado aun no esta listo. Actualiza esta pagina en un momento.",
+            lockedSeatTimePrefix: "Aprobaste el examen final. Permanece en el curso por",
+            lockedSeatTimeSuffix:
+              "mas antes de que tu certificado pueda liberarse al completar el minimo total de 8 horas.",
+            returnCourse: "Volver al curso",
+            returnDashboard: "Volver al panel",
+            back: "Volver",
+            print: "Imprimir",
+            downloadPdf: "Descargar PDF",
+            downloading: "Generando PDF...",
+            emailCert: "Enviar certificado",
+            emailing: "Enviando correo...",
+            emailSent: "Correo de finalizacion enviado.",
+            emailError: "No se pudo enviar el correo de finalizacion en este momento.",
+            orderMailed: "Pedir copia por correo",
+            certificateHeading: "Certificado de finalizacion",
+            certifiesThat: "Se certifica que",
+            completedText:
+              "ha completado exitosamente todos los requisitos y aprobo el examen final.",
+            scoreLabel: "Puntuacion",
+            dateLabel: "Fecha",
+            certificateIdLabel: "ID de certificado",
+            verifyLabel: "Verifica este certificado en:",
+            studentNameFallback: "Nombre del estudiante",
+            passedLabel: "Aprobado",
+            pdf: {
+              heading: "CERTIFICADO DE FINALIZACION",
+              certifiesThat: "Se certifica que",
+              completedText:
+                "ha completado exitosamente todos los requisitos y aprobo el examen final de",
+              stateLabel: "Estado",
+              finalExamScoreLabel: "Puntuacion del examen final",
+              completionDateLabel: "Fecha de finalizacion",
+              certificateIdLabel: "ID de certificado",
+              verifyLabel: "Verifica este certificado en",
+            },
+            pdfError: "No se pudo generar el PDF. Intentalo de nuevo.",
+          }
+        : {
+            loading: "Loading certificate...",
+            lockedTitle: "Certificate Locked",
+            lockedExam:
+              "Pass the final exam before your certificate becomes available.",
+            lockedNotReady:
+              "Your certificate is not ready yet. Please refresh this page in a moment.",
+            lockedSeatTimePrefix:
+              "You passed the final exam. Stay in the course for",
+            lockedSeatTimeSuffix:
+              "more before your certificate can be released at the full 8-hour minimum.",
+            returnCourse: "Return to Course",
+            returnDashboard: "Return to Dashboard",
+            back: "Back",
+            print: "Print",
+            downloadPdf: "Download PDF",
+            downloading: "Generating PDF...",
+            emailCert: "Email Certificate",
+            emailing: "Sending Email...",
+            emailSent: "Completion email sent.",
+            emailError: "Could not send completion email right now.",
+            orderMailed: "Order Mailed Copy",
+            certificateHeading: "Certificate of Completion",
+            certifiesThat: "This certifies that",
+            completedText:
+              "has successfully completed all requirements and passed the final exam.",
+            scoreLabel: "Score",
+            dateLabel: "Date",
+            certificateIdLabel: "Certificate ID",
+            verifyLabel: "Verify this certificate at:",
+            studentNameFallback: "Student Name",
+            passedLabel: "Passed",
+            pdf: {
+              heading: "CERTIFICATE OF COMPLETION",
+              certifiesThat: "This certifies that",
+              completedText:
+                "has successfully completed all requirements and passed the final exam for the",
+              stateLabel: "State",
+              finalExamScoreLabel: "Final Exam Score",
+              completionDateLabel: "Completion Date",
+              certificateIdLabel: "Certificate ID",
+              verifyLabel: "Verify this certificate at",
+            },
+            pdfError: "Could not generate PDF. Please try again.",
+          },
+    [isSpanish]
+  )
 
   const [loading, setLoading] = useState(true)
   const [downloadingPdf, setDownloadingPdf] = useState(false)
@@ -168,14 +269,15 @@ export default function CertificatePage() {
         [student?.firstName, student?.lastName]
           .filter(Boolean)
           .join(" ")
-          .trim() || "Student Name"
+          .trim() || copy.studentNameFallback
 
       const pdfCertificateId = certificateId
       const pdfVerifyUrl = pdfCertificateId ? buildVerifyUrl(pdfCertificateId) : null
-      const courseName = config.courseName
-      const completionDate = formatCertificateCompletionDate(examCompletedAt)
+      const courseName = courseNameDisplay
+      const completionDate =
+        formatCertificateCompletionDate(examCompletedAt) || "--"
       const scoreText =
-        typeof examScore === "number" ? `${examScore}%` : "Passed"
+        typeof examScore === "number" ? `${examScore}%` : copy.passedLabel
 
       const pdf = new jsPDF({
         orientation: "landscape",
@@ -207,7 +309,7 @@ export default function CertificatePage() {
       pdf.setTextColor(37, 99, 235)
       pdf.setFont("helvetica", "bold")
       pdf.setFontSize(12)
-      pdf.text("CERTIFICATE OF COMPLETION", centerX, 95, { align: "center" })
+      pdf.text(copy.pdf.heading, centerX, 95, { align: "center" })
 
       pdf.setTextColor(15, 23, 42)
       pdf.setFont("times", "bold")
@@ -216,7 +318,7 @@ export default function CertificatePage() {
 
       pdf.setFont("times", "normal")
       pdf.setFontSize(16)
-      pdf.text("This certifies that", centerX, 190, { align: "center" })
+      pdf.text(copy.pdf.certifiesThat, centerX, 190, { align: "center" })
 
       pdf.setFont("times", "bold")
       pdf.setFontSize(26)
@@ -225,8 +327,7 @@ export default function CertificatePage() {
       pdf.setLineWidth(1)
       pdf.line(centerX - 180, 245, centerX + 180, 245)
 
-      const paragraph =
-        `has successfully completed all requirements and passed the final exam for the ${courseName}.`
+      const paragraph = `${copy.pdf.completedText} ${courseName}.`
 
       pdf.setFont("times", "normal")
       pdf.setFontSize(15)
@@ -243,17 +344,17 @@ export default function CertificatePage() {
       const boxes = [
         {
           x: startX,
-          label: "State",
+          label: copy.pdf.stateLabel,
           value: state.toUpperCase(),
         },
         {
           x: startX + boxWidth + gap,
-          label: "Final Exam Score",
+          label: copy.pdf.finalExamScoreLabel,
           value: scoreText,
         },
         {
           x: startX + (boxWidth + gap) * 2,
-          label: "Completion Date",
+          label: copy.pdf.completionDateLabel,
           value: completionDate || "—",
         },
       ]
@@ -285,7 +386,7 @@ export default function CertificatePage() {
         pdf.setTextColor(71, 85, 105)
         pdf.setFont("helvetica", "normal")
         pdf.setFontSize(10)
-        pdf.text("Certificate ID", centerX, footerY, { align: "center" })
+        pdf.text(copy.pdf.certificateIdLabel, centerX, footerY, { align: "center" })
 
         pdf.setTextColor(15, 23, 42)
         pdf.setFont("courier", "bold")
@@ -299,7 +400,7 @@ export default function CertificatePage() {
         pdf.setTextColor(71, 85, 105)
         pdf.setFont("helvetica", "normal")
         pdf.setFontSize(9)
-        pdf.text("Verify this certificate at", centerX, footerY, {
+        pdf.text(copy.pdf.verifyLabel, centerX, footerY, {
           align: "center",
         })
 
@@ -334,14 +435,15 @@ export default function CertificatePage() {
       pdf.save(filename)
     } catch (error) {
       console.error("PDF download failed:", error)
-      alert("Could not generate PDF. Please try again.")
+      alert(copy.pdfError)
     } finally {
       setDownloadingPdf(false)
     }
   }, [
     certificateId,
     config.certificateIssuerLine,
-    config.courseName,
+    courseNameDisplay,
+    copy,
     downloadingPdf,
     examCompletedAt,
     examScore,
@@ -392,16 +494,16 @@ export default function CertificatePage() {
         throw new Error(data.error ?? "Could not send completion email.")
       }
 
-      setEmailMessage("Completion email sent.")
+      setEmailMessage(copy.emailSent)
     } catch (error) {
       console.error("Completion email trigger failed:", error)
-      setEmailMessage("Could not send completion email right now.")
+      setEmailMessage(copy.emailError)
     } finally {
       setEmailingCertificate(false)
     }
-  }, [certificateId, emailingCertificate, state])
+  }, [certificateId, emailingCertificate, state, copy.emailError, copy.emailSent])
 
-  if (loading) return <div className="p-6">Loading certificate...</div>
+  if (loading) return <div className="p-6">{copy.loading}</div>
 
   if (!unlocked) {
     const remainingToCertificate = getRemainingToCertificate(effectiveSeatTimeTotal)
@@ -409,23 +511,23 @@ export default function CertificatePage() {
     return (
       <div className="mx-auto max-w-2xl space-y-6 p-6">
         <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-slate-900">Certificate Locked</h1>
+          <h1 className="text-2xl font-bold text-slate-900">{copy.lockedTitle}</h1>
 
           {!examPassed ? (
             <p className="mt-3 text-slate-600">
-              Pass the final exam before your certificate becomes available.
+              {copy.lockedExam}
             </p>
           ) : isCertificateUnlockedBySeatTime(effectiveSeatTimeTotal) ? (
             <p className="mt-3 text-slate-600">
-              Your certificate is not ready yet. Please refresh this page in a moment.
+              {copy.lockedNotReady}
             </p>
           ) : (
             <p className="mt-3 text-slate-600">
-              You passed the final exam. Stay in the course for{" "}
+              {copy.lockedSeatTimePrefix}{" "}
               <span className="font-semibold text-slate-900">
                 {formatCourseDuration(remainingToCertificate)}
               </span>{" "}
-              more before your certificate can be released at the full 8-hour minimum.
+              {copy.lockedSeatTimeSuffix}
             </p>
           )}
 
@@ -434,13 +536,13 @@ export default function CertificatePage() {
               href={`/${state}/course`}
               className="rounded bg-blue-600 px-4 py-2 text-white"
             >
-              Return to Course
+              {copy.returnCourse}
             </Link>
             <Link
               href={`/${state}/dashboard`}
               className="rounded border border-slate-300 px-4 py-2 text-slate-700"
             >
-              Return to Dashboard
+              {copy.returnDashboard}
             </Link>
           </div>
         </div>
@@ -465,14 +567,14 @@ export default function CertificatePage() {
       <div className="mx-auto max-w-5xl space-y-6">
         <div className="no-print flex flex-wrap gap-3">
           <Link href={`/${state}/course`} className="rounded border px-4 py-2">
-            Back
+            {copy.back}
           </Link>
 
           <button
             onClick={() => window.print()}
             className="rounded bg-blue-600 px-4 py-2 text-white"
           >
-            Print
+            {copy.print}
           </button>
 
           <button
@@ -480,7 +582,7 @@ export default function CertificatePage() {
             disabled={downloadingPdf}
             className="rounded bg-slate-900 px-4 py-2 text-white disabled:opacity-60"
           >
-            {downloadingPdf ? "Generating PDF..." : "Download PDF"}
+            {downloadingPdf ? copy.downloading : copy.downloadPdf}
           </button>
 
           <button
@@ -488,7 +590,7 @@ export default function CertificatePage() {
             disabled={emailingCertificate || !certificateId}
             className="rounded border border-slate-300 px-4 py-2 text-slate-700 disabled:opacity-60"
           >
-            {emailingCertificate ? "Sending Email..." : "Email Certificate"}
+            {emailingCertificate ? copy.emailing : copy.emailCert}
           </button>
 
           {certificateId ? (
@@ -498,7 +600,7 @@ export default function CertificatePage() {
               )}`}
               className="rounded border border-slate-300 px-4 py-2 text-slate-700"
             >
-              Order Mailed Copy
+              {copy.orderMailed}
             </Link>
           ) : null}
         </div>
@@ -512,34 +614,35 @@ export default function CertificatePage() {
         <div className="bg-white p-6">
           <div className="border-4 border-slate-300 bg-white p-12 text-center shadow-sm">
             <h2 className="text-sm uppercase tracking-widest text-blue-600">
-              Certificate of Completion
+              {copy.certificateHeading}
             </h2>
 
             <h1 className="mt-6 text-4xl font-bold">
-              {config.courseName}
+              {courseNameDisplay}
             </h1>
 
-            <p className="mt-8 text-lg">This certifies that</p>
+            <p className="mt-8 text-lg">{copy.certifiesThat}</p>
 
             <div className="mt-4 text-4xl font-bold underline">
-              {fullName || "Student Name"}
+              {fullName || copy.studentNameFallback}
             </div>
 
             <p className="mt-8 text-lg">
-              has successfully completed all requirements and passed the final exam.
+              {copy.completedText}
             </p>
 
             <div className="mt-10 text-lg">
-              Score: {typeof examScore === "number" ? `${examScore}%` : "Passed"}
+              {copy.scoreLabel}:{" "}
+              {typeof examScore === "number" ? `${examScore}%` : copy.passedLabel}
             </div>
 
             <div className="mt-4 text-lg">
-              Date: {formatCertificateCompletionDate(examCompletedAt)}
+              {copy.dateLabel}: {formatCertificateCompletionDate(examCompletedAt)}
             </div>
 
             {certificateId && (
               <div className="mt-10 text-sm text-slate-700">
-                Certificate ID:
+                {copy.certificateIdLabel}:
                 <div className="mt-1 font-mono text-lg font-semibold text-slate-900">
                   {certificateId}
                 </div>
@@ -548,7 +651,7 @@ export default function CertificatePage() {
 
             {verifyUrl && (
               <div className="mt-6 text-xs text-slate-500">
-                Verify this certificate at:
+                {copy.verifyLabel}
                 <div className="mt-1 break-all font-mono">
                   {verifyUrl}
                 </div>

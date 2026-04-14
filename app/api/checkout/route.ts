@@ -90,7 +90,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const existingPurchase = existingPurchases?.[0]
+    const relevantPurchases = (existingPurchases ?? []).filter((purchase) => {
+      const existingPlan = getStripeCheckoutPlan(String(purchase.plan_code ?? ""))
+      return existingPlan?.courseSlug === plan.courseSlug
+    })
+    const existingPurchase = relevantPurchases[0]
     const purchaseContext = {
       hasPaidAccess: Boolean(existingPurchase),
       supportTier:
@@ -163,12 +167,14 @@ export async function POST(request: NextRequest) {
     }
 
     const successUrl = `${baseUrl}${buildCheckoutSuccessUrl(
-      stateCode
+      stateCode,
+      plan.courseSlug
     )}?session_id={CHECKOUT_SESSION_ID}`
 
     const cancelUrl = `${baseUrl}${buildCheckoutCancelUrl(
       stateCode,
-      planCode
+      planCode,
+      plan.courseSlug
     )}`
 
     const session = await stripe.checkout.sessions.create({

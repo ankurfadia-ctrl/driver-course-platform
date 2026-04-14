@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { getAdminEmails } from "@/lib/admin-access"
+import { AdminSidebarNav } from "@/components/admin-sidebar-nav"
 
 export const metadata: Metadata = {
   title: "Admin | Driver Course Platform",
@@ -11,51 +12,6 @@ export const metadata: Metadata = {
     follow: false,
   },
 }
-
-const adminNavSections = [
-  {
-    title: "Overview",
-    links: [
-      { href: "/admin/state-tracker", label: "State Tracker" },
-      { href: "/admin/launch-readiness", label: "Launch Readiness" },
-      { href: "/admin/qa-checklist", label: "Hosted QA" },
-    ],
-  },
-  {
-    title: "Operations",
-    links: [
-      { href: "/admin/compliance", label: "Compliance" },
-      { href: "/admin/support", label: "Support" },
-      { href: "/admin/pricing", label: "Pricing" },
-      { href: "/admin/curriculum", label: "Curriculum" },
-      { href: "/admin/operations", label: "Operations" },
-      { href: "/admin/reporting", label: "DMV Reporting" },
-      { href: "/admin/outreach", label: "Regulatory Outreach" },
-      { href: "/admin/course-types", label: "Course Types" },
-    ],
-  },
-  {
-    title: "Virginia",
-    links: [
-      { href: "/admin/virginia-readiness", label: "Virginia Readiness" },
-      { href: "/admin/approval-packet", label: "Virginia Packet" },
-    ],
-  },
-  {
-    title: "Florida",
-    links: [
-      { href: "/admin/florida-readiness", label: "Florida Readiness" },
-      { href: "/admin/florida-approval-packet", label: "Florida Packet" },
-    ],
-  },
-  {
-    title: "California",
-    links: [
-      { href: "/admin/california-readiness", label: "California Readiness" },
-      { href: "/admin/california-approval-packet", label: "California Packet" },
-    ],
-  },
-]
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const adminCount = getAdminEmails().length
@@ -73,12 +29,20 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 Driver Course Platform
               </div>
             </div>
-            <Link
-              href="/"
-              className="inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            >
-              Public Home
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/admin"
+                className="inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Workspace Home
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              >
+                Public Home
+              </Link>
+            </div>
           </div>
 
         </div>
@@ -99,29 +63,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             </p>
           </div>
 
-          <nav className="space-y-4">
-            {adminNavSections.map((section) => (
-              <section
-                key={section.title}
-                className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm"
-              >
-                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  {section.title}
-                </div>
-                <div className="mt-3 flex flex-col gap-2">
-                  {section.links.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-white hover:text-slate-900"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </nav>
+          <AdminSidebarNav />
         </aside>
 
         <main className="min-w-0">{children}</main>

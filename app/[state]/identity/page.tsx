@@ -8,9 +8,11 @@ import { createClient } from "@/lib/supabase/client"
 import {
   EMPTY_IDENTITY_VERIFICATION_ANSWERS,
   IDENTITY_VERIFICATION_QUESTIONS,
+  IDENTITY_VERIFICATION_QUESTIONS_ES,
   getIdentityVerificationStorageKey,
   type IdentityVerificationAnswerSet,
 } from "@/lib/identity-verification"
+import { usePreferredSiteLanguageClient } from "@/lib/site-language-client"
 import {
   getStudentIdentityProfile,
   saveStudentIdentityProfile,
@@ -20,8 +22,10 @@ export default function IdentitySetupPage() {
   const params = useParams()
   const router = useRouter()
   const [supabase] = useState(() => createClient())
+  const language = usePreferredSiteLanguageClient()
   const state =
     typeof params?.state === "string" ? params.state : "virginia"
+  const isSpanish = language === "es"
 
   const [form, setForm] = useState<IdentityVerificationAnswerSet>(
     EMPTY_IDENTITY_VERIFICATION_ANSWERS
@@ -140,7 +144,11 @@ export default function IdentitySetupPage() {
     )
 
     if (hasEmptyField) {
-      alert("Please complete all identity verification fields.")
+      alert(
+        isSpanish
+          ? "Completa todos los campos de verificacion de identidad."
+          : "Please complete all identity verification fields."
+      )
       return
     }
 
@@ -157,7 +165,11 @@ export default function IdentitySetupPage() {
       router.push(`/${state}/course`)
     } catch (error) {
       console.error(error)
-      setSaveError("Could not save identity profile. Please try again.")
+      setSaveError(
+        isSpanish
+          ? "No se pudo guardar el perfil de identidad. Intentalo de nuevo."
+          : "Could not save identity profile. Please try again."
+      )
     } finally {
       setSaving(false)
     }
@@ -172,11 +184,14 @@ export default function IdentitySetupPage() {
           {state}
         </p>
         <h1 className="text-3xl font-bold text-slate-900">
-          Identity Verification Setup
+          {isSpanish
+            ? "Configuracion de verificacion de identidad"
+            : "Identity Verification Setup"}
         </h1>
         <p className="mt-2 text-slate-600">
-          Save the student identity answers now so they can be reused before
-          quizzes and the final exam.
+          {isSpanish
+            ? "Guarda ahora las respuestas de identidad para reutilizarlas antes de los cuestionarios y el examen final."
+            : "Save the student identity answers now so they can be reused before quizzes and the final exam."}
         </p>
       </div>
 
@@ -187,7 +202,10 @@ export default function IdentitySetupPage() {
       )}
 
       <div className="space-y-4">
-        {IDENTITY_VERIFICATION_QUESTIONS.map((field) => {
+        {(isSpanish
+          ? IDENTITY_VERIFICATION_QUESTIONS_ES
+          : IDENTITY_VERIFICATION_QUESTIONS
+        ).map((field) => {
           const value =
             form[field.id as keyof IdentityVerificationAnswerSet] ?? ""
 
@@ -225,7 +243,13 @@ export default function IdentitySetupPage() {
           disabled={saving}
           className="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
         >
-          {saving ? "Saving..." : "Save and Continue"}
+          {saving
+            ? isSpanish
+              ? "Guardando..."
+              : "Saving..."
+            : isSpanish
+              ? "Guardar y continuar"
+              : "Save and Continue"}
         </button>
       </div>
     </div>

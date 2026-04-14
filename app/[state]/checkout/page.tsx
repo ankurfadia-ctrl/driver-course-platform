@@ -262,7 +262,6 @@ export default function StateCheckoutPage() {
           priority: "Prioritario",
           goCourse: "Ir al curso",
           goDashboard: "Ir al panel",
-          openSupport: "Abrir soporte",
           sectionLabel: `${stateDisplayName} pago`,
           titleUpgrade: "Mejorar soporte",
           titleCheckout: "Inscripcion y pago del curso",
@@ -313,7 +312,7 @@ export default function StateCheckoutPage() {
           prioritySupportInfo:
             "Las preguntas y solicitudes con soporte prioritario se atienden antes que las solicitudes estandar y normalmente reciben la primera respuesta en menos de 1 dia habil.",
           standardSupportInfo:
-            "El soporte estandar incluye FAQ y chat con IA. Para soporte humano, el estudiante debe mejorar a soporte prioritario.",
+            "El soporte estandar incluye FAQ. Para mensajes directos, el estudiante debe mejorar a soporte prioritario.",
           optionalAddOns: "Complementos opcionales",
           addOnsBody:
             "Estos extras pueden comprarse despues del curso base.",
@@ -354,7 +353,7 @@ export default function StateCheckoutPage() {
           refundCta: "Leer politica de reembolso",
           priceMatchTitle: "Proteccion de precio",
           priceMatchBody:
-            "Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de Virginia en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.",
+            `Si encuentras un precio publico mas bajo para un curso equivalente de mejoramiento de manejo de ${stateDisplayName} en linea, contactanos antes de comprar y revisaremos una posible igualacion de precio.`,
           priceMatchNote:
             "Las revisiones de igualacion de precio no incluyen cupones privados, promociones vencidas, paquetes, ofertas ocultas ni cursos no equivalentes.",
           priceMatchCta: "Solicitar igualacion de precio",
@@ -379,7 +378,6 @@ export default function StateCheckoutPage() {
           priority: "Priority",
           goCourse: "Go to Course",
           goDashboard: "Go to Dashboard",
-          openSupport: "Open Support",
           sectionLabel: `${stateDisplayName} Checkout`,
           titleUpgrade: "Upgrade support",
           titleCheckout: "Course enrollment and payment",
@@ -429,7 +427,7 @@ export default function StateCheckoutPage() {
           prioritySupportInfo:
             "Priority support questions and requests are handled before any standard ones and usually receive a first response in less than 1 business day.",
           standardSupportInfo:
-            "Standard support includes FAQ and AI chat. Human support requires a priority support upgrade.",
+            "Standard support includes the FAQ only. Direct messaging requires a priority support upgrade.",
           optionalAddOns: "Optional add-ons",
           addOnsBody:
             "These extras can be purchased later after the base course.",
@@ -470,7 +468,7 @@ export default function StateCheckoutPage() {
           refundCta: "Read refund policy",
           priceMatchTitle: "Price-match protection",
           priceMatchBody:
-            "If you find a lower publicly advertised price for an equivalent Virginia online driver improvement course, contact us before purchase and we will review it for a possible price match.",
+            `If you find a lower publicly advertised price for an equivalent ${stateDisplayName} online driver improvement course, contact us before purchase and we will review it for a possible price match.`,
           priceMatchNote:
             "Price-match reviews do not include private coupon codes, expired promotions, bundles, hidden-fee offers, or nonequivalent courses.",
           priceMatchCta: "Request Price Match",
@@ -639,12 +637,6 @@ export default function StateCheckoutPage() {
               {copy.goDashboard}
             </Link>
 
-            <Link
-              href={`/${state}/support`}
-              className="inline-flex rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
-            >
-              {copy.openSupport}
-            </Link>
           </div>
         </div>
       </div>

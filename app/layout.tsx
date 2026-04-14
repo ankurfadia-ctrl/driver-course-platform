@@ -1,5 +1,7 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import PublicHeader from "@/components/site/public-header"
+import PublicFooter from "@/components/site/public-footer"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 import { getPublicBaseUrl } from "@/lib/runtime-config"
 import "./globals.css"
@@ -12,25 +14,25 @@ const inter = Inter({
 const baseUrl = getPublicBaseUrl()
 
 export const metadata: Metadata = {
-  title: "Driver Course Platform",
+  title: "National Course Portal",
   description:
-    "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
+    "Online parenting education, driver improvement, and boating safety course pages with enrollment, review guidance, and certificate support.",
   metadataBase: new URL(baseUrl),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Driver Course Platform",
+    title: "National Course Portal",
     description:
-      "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
+      "Online parenting education, driver improvement, and boating safety course pages with enrollment, review guidance, and certificate support.",
     url: baseUrl,
-    siteName: "Driver Course Platform",
+    siteName: "National Course Portal",
     images: [
       {
         url: `${baseUrl}/logo.svg`,
         width: 256,
         height: 256,
-        alt: "Driver Course Platform logo",
+        alt: "National Course Portal logo",
       },
     ],
     locale: "en_US",
@@ -38,9 +40,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Driver Course Platform",
+    title: "National Course Portal",
     description:
-      "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
+      "Online parenting education, driver improvement, and boating safety course pages with enrollment, review guidance, and certificate support.",
     images: [`${baseUrl}/logo.svg`],
   },
 }
@@ -55,7 +57,9 @@ export default async function RootLayout({
   return (
     <html lang={language} className={`${inter.variable} h-full antialiased`}>
       <body className={`${inter.className} min-h-full flex flex-col`}>
+        <PublicHeader language={language} />
         {children}
+        <PublicFooter language={language} />
       </body>
     </html>
   )

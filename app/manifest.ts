@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next"
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Driver Course Platform",
-    short_name: "Driver Course",
+    name: "National Course Portal",
+    short_name: "Course Portal",
     description:
-      "Online driver improvement courses with enrollment, progress tracking, final exam completion, and certificate delivery.",
+      "Online parenting education, driver improvement, and boating safety course pages with enrollment, review guidance, and certificate support.",
     start_url: "/",
     display: "standalone",
     background_color: "#f8fafc",

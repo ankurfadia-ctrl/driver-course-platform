@@ -11,10 +11,10 @@ const packetSections = [
     title: "Name approval packet",
     status: "Ready now",
     items: [
-      "Completed OL 612 name approval form",
-      "Approved proposed California school name",
-      "Mailing note and Business Licensing Unit address",
-      "No fee enclosed with OL 612",
+      "California Occupational Licensing portal account setup",
+      "Proposed California school name and owner details prepared for portal entry",
+      "OL 612 form saved locally as legacy reference material",
+      "Portal-first note so the team does not keep mailing the old form workflow",
     ],
   },
   {
@@ -74,7 +74,8 @@ const packetLinks = [
 ]
 
 const nextActions = [
-  "Mail OL 612 and wait for California DMV name approval.",
+  "Create the California DMV Occupational Licensing portal account and begin the TVS owner workflow online.",
+  "Use the proposed school name in the portal and confirm the current online name-verification path before sending anything by mail.",
   "Do not buy the California bond or start fingerprint spend until the name step is moving and California still looks worth it.",
   "Map the office, property, and local-license requirements against your real situation.",
   "Decide whether California is worth pursuing before committing to the owner, operator, instructor, and curriculum-review costs.",
@@ -104,9 +105,10 @@ export default async function CaliforniaApprovalPacketPage() {
           </h1>
           <p className="mt-2 max-w-3xl text-slate-600">
             Use this page as the California packet workspace while the
-            name-approval step is underway. It keeps the packet sections in one
-            place so you can see the full California path without spending too
-            early on the occupational-licensing pieces.
+            portal-based name and owner-setup step is underway. It keeps the
+            packet sections in one place so you can see the full California
+            path without spending too early on the occupational-licensing
+            pieces.
           </p>
         </div>
 
@@ -125,7 +127,9 @@ export default async function CaliforniaApprovalPacketPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <div className="rounded-2xl border border-blue-200 bg-blue-50 p-5 shadow-sm">
           <div className="text-sm text-blue-700">First filing step</div>
-          <div className="mt-2 text-2xl font-bold text-blue-900">OL 612</div>
+          <div className="mt-2 text-2xl font-bold text-blue-900">
+            OL portal start
+          </div>
         </div>
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 shadow-sm">
           <div className="text-sm text-amber-700">Main cost drivers</div>

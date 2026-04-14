@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { isAdminEmail } from "@/lib/admin-access"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getCoursePlans } from "@/lib/payment/plans"
 
 type DeleteComplianceBody = {
   userId?: string
@@ -34,6 +35,9 @@ export async function POST(request: NextRequest) {
     }
 
     const adminSupabase = createAdminClient()
+    const driverPlanCodes = getCoursePlans(state, "driver-improvement").map(
+      (plan) => plan.planCode
+    )
 
     const [
       purchasesResult,
@@ -47,12 +51,14 @@ export async function POST(request: NextRequest) {
         .from("course_purchases")
         .delete()
         .eq("user_id", userId)
-        .eq("state_code", state),
+        .eq("state_code", state)
+        .in("plan_code", driverPlanCodes),
       adminSupabase
         .from("exam_results")
         .delete()
         .eq("user_id", userId)
-        .eq("state", state),
+        .eq("state", state)
+        .eq("course_slug", "driver-improvement"),
       adminSupabase
         .from("student_identity_profiles")
         .delete()
@@ -62,12 +68,14 @@ export async function POST(request: NextRequest) {
         .from("course_attempts")
         .delete()
         .eq("user_id", userId)
-        .eq("state_code", state),
+        .eq("state_code", state)
+        .eq("course_slug", "driver-improvement"),
       adminSupabase
         .from("course_progress")
         .delete()
         .eq("user_id", userId)
-        .eq("state", state),
+        .eq("state", state)
+        .in("course_slug", ["driver-improvement", "driver-improvement-course"]),
       adminSupabase
         .from("support_requests")
         .delete()

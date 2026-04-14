@@ -3,6 +3,8 @@ import { redirect } from "next/navigation"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { isAdminEmail } from "@/lib/admin-access"
 import { getCourseConfig } from "@/lib/course-config"
+import { getFloridaTrackRoute } from "@/lib/florida-course-tracks"
+import { FLORIDA_BDI_TOPIC_MATRIX } from "@/lib/florida-bdi-course-content"
 
 export const dynamic = "force-dynamic"
 
@@ -14,11 +16,13 @@ const platformReady = [
   "Multi-state homepage and disclosure scaffolding is now in place",
 ]
 
-const waitingOnFlorida = [
-  "Minimum course content criteria from FLHSMV for BDI, ADI, TLSAE, and Mature Driver",
-  "Florida provider application materials and hard-copy submission details",
-  "Florida certificate, completion reporting, and course-demo requirements",
-  "Any Florida-specific support, refund, or operational rules that differ by course type",
+const confirmedByFLHSMV = [
+  "Forms confirmed current as of March 31, 2026 by Milton Grosz (FLHSMV)",
+  "Separate approval packets required for each course type and each delivery type",
+  "Pilot test confirmed active - course restricted to one jurisdiction after approval",
+  "Selected pilot jurisdiction: Miami-Dade County (11th Judicial Circuit)",
+  "~2,500 graduates with 2+ years post-course experience needed to complete the pilot study",
+  "No additional forms or instructions - provider has all materials needed",
 ]
 
 const buildSequence = [
@@ -45,10 +49,21 @@ const buildSequence = [
 ]
 
 const nextBuildTargets = [
-  "Florida state-specific disclosures",
-  "Florida support FAQ pack",
-  "Florida course-track selection model",
-  "Florida approval-packet folder and printed checklist",
+  "Florida foreign LLC packet completed, check prepared, and mailing scheduled for April 2, 2026",
+  "Track Florida business-filing confirmation and update packet entity details once the filing is accepted",
+  "Add pilot jurisdiction declaration (Miami-Dade County) to application form and cover letter",
+  "Copyright and ownership documentation attachment",
+  "Final PDF packet assembly with frozen script-page references preserved",
+  "Demo environment ready for FLHSMV committee walkthrough",
+]
+
+const bdiCompleted = [
+  "Script v0.2 paginated and page-frozen (18 pages, 10 modules)",
+  `Topic-to-page matrix complete - all ${FLORIDA_BDI_TOPIC_MATRIX.length} topic rows page-frozen`,
+  "500-question bank complete with script-page references",
+  "Cover letter drafted with Miami-Dade pilot jurisdiction declared",
+  "Submission manifest, table of contents, and all support documents drafted",
+  "Florida foreign LLC mailing packet assembled with Virginia certificate, registered-agent details, and filing check",
 ]
 
 export default async function FloridaReadinessPage() {
@@ -74,9 +89,11 @@ export default async function FloridaReadinessPage() {
             Florida Approval Readiness
           </h1>
           <p className="mt-2 max-w-3xl text-slate-600">
-            Use this workspace to prepare the Florida rollout for BDI, ADI,
-            TLSAE, and Mature Driver while waiting for FLHSMV to return the
-            official minimum content criteria.
+            Florida forms confirmed current by FLHSMV on March 31, 2026. Pilot
+            test confirmed active. Pilot jurisdiction: Miami-Dade County. LLC
+            filing packet is complete and queued for mailing on April 2, 2026.
+            BDI packet near complete - application finalization, ownership
+            attachment, and final PDF assembly remain.
           </p>
         </div>
 
@@ -86,6 +103,12 @@ export default async function FloridaReadinessPage() {
             className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Florida Packet
+          </Link>
+          <Link
+            href="/admin/florida-bdi-submission"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            BDI Step-by-Step
           </Link>
           <Link
             href="/admin/outreach"
@@ -98,6 +121,24 @@ export default async function FloridaReadinessPage() {
             className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             Operations
+          </Link>
+          <Link
+            href="/florida/reviewer-access"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Florida Reviewer Portal
+          </Link>
+          <Link
+            href="/admin/florida-approval-packet/reviewer"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Reviewer Packet
+          </Link>
+          <Link
+            href="/admin/florida-parent-education"
+            className="inline-flex rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Parent Education
           </Link>
           <Link
             href="/florida"
@@ -120,12 +161,12 @@ export default async function FloridaReadinessPage() {
           </ul>
         </section>
 
-        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <section className="rounded-3xl border border-green-200 bg-green-50 p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-slate-900">
-            Still waiting on FLHSMV
+            Confirmed by FLHSMV - March 31, 2026
           </h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700">
-            {waitingOnFlorida.map((item) => (
+            {confirmedByFLHSMV.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -160,6 +201,14 @@ export default async function FloridaReadinessPage() {
               <p className="mt-3 text-sm leading-6 text-slate-700">
                 {track.notes}
               </p>
+              <div className="mt-4">
+                <Link
+                  href={getFloridaTrackRoute(track.code)}
+                  className="inline-flex rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+                >
+                  Open public preview
+                </Link>
+              </div>
             </article>
           ))}
         </div>
@@ -182,9 +231,20 @@ export default async function FloridaReadinessPage() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-green-200 bg-green-50 p-6 shadow-sm">
         <h2 className="text-xl font-semibold text-slate-900">
-          Next build targets while waiting
+          BDI packet - completed items
+        </h2>
+        <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700">
+          {bdiCompleted.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-slate-900">
+          Remaining before submission
         </h2>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700">
           {nextBuildTargets.map((item) => (

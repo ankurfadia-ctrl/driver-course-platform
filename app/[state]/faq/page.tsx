@@ -47,9 +47,35 @@ export default async function StateFaqPage({
   const enrollmentOpen = config.enrollmentOpen
   const language = await getPreferredSiteLanguage()
 
-  const faqs = getSupportFaqEntries(language)
+  const faqs = getSupportFaqEntries(language, state)
   const baseUrl = getPublicBaseUrl()
   const canonicalUrl = `${baseUrl}/${config.stateSlug}/faq`
+  const quickFacts =
+    config.stateSlug === "virginia"
+      ? [
+          {
+            label: language === "es" ? "Detalles del curso" : "Course details",
+            value:
+              language === "es"
+                ? "Los detalles del curso de Virginia estan listos a continuacion."
+                : "Your Virginia course details are ready below.",
+          },
+          {
+            label: language === "es" ? "Duracion total" : "Total course length",
+            value:
+              language === "es"
+                ? "8 horas en total, incluido el examen final."
+                : "8 hours total, including the final exam.",
+          },
+          {
+            label: language === "es" ? "Puntuacion aprobatoria" : "Passing score",
+            value:
+              language === "es"
+                ? `${config.passingScorePercent}% en el examen final.`
+                : `${config.passingScorePercent}% on the final exam.`,
+          },
+        ]
+      : []
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -89,13 +115,17 @@ export default async function StateFaqPage({
           intro:
             enrollmentOpen
               ? "Esta pagina ofrece respuestas generales a preguntas comunes antes de la inscripcion, durante el curso y despues de completarlo."
-              : "Esta pagina ofrece respuestas generales sobre la plataforma mientras los requisitos oficiales de este estado siguen en preparacion.",
+              : "Esta pagina ofrece respuestas generales y se actualizara a medida que haya mas detalles disponibles.",
           moreInfo: "Necesitas mas informacion?",
           moreInfoBody:
             enrollmentOpen
               ? "Revisa la pagina de informacion del curso si necesitas mas detalles antes de inscribirte o depender de la finalizacion."
-              : "Revisa la pagina del estado para seguir el estado de preparacion y la informacion oficial disponible hasta ahora.",
+              : "Revisa la pagina del estado para ver la informacion disponible y futuras actualizaciones.",
           infoCta: "Leer informacion del curso",
+          quickFactsTitle:
+            config.stateSlug === "virginia"
+              ? "Resumen rapido de Virginia"
+              : null,
         }
       : {
           label: "FAQ",
@@ -103,13 +133,17 @@ export default async function StateFaqPage({
           intro:
             enrollmentOpen
               ? "This page provides general answers to common student questions before enrollment, during the course, and after completion."
-              : "This page provides general platform answers while the official requirements for this state are still being prepared.",
+              : "This page provides general answers and will be updated as more course details become available.",
           moreInfo: "Need more information?",
           moreInfoBody:
             enrollmentOpen
-              ? "Review the course information page if you need more detail before enrolling or relying on completion."
-              : "Review the state page to follow the preparation status and the official information currently available.",
+              ? "Review the course information page if you want a closer look at enrollment, identity checks, and certificate details before you begin."
+              : "Review the state page to see the current information and future updates.",
           infoCta: enrollmentOpen ? "Read Course Information" : "View State Page",
+          quickFactsTitle:
+            config.stateSlug === "virginia"
+              ? "Virginia quick facts"
+              : null,
         }
 
   return (
@@ -129,6 +163,29 @@ export default async function StateFaqPage({
         </h1>
         <p className="mt-4 leading-7 text-slate-700">{copy.intro}</p>
       </section>
+
+      {quickFacts.length > 0 && copy.quickFactsTitle ? (
+        <section className="glass-panel rounded-[2rem] bg-white p-8">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+            {copy.quickFactsTitle}
+          </div>
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
+            {quickFacts.map((fact) => (
+              <article
+                key={fact.label}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
+              >
+                <div className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">
+                  {fact.label}
+                </div>
+                <p className="mt-3 text-sm leading-7 text-slate-700">
+                  {fact.value}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="space-y-4">
         {faqs.map((item) => (

@@ -3,6 +3,7 @@ import Stripe from "stripe"
 import { createClient as createSupabaseServerClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { getCourseConfig } from "@/lib/course-config"
+import { getCourseProductConfig } from "@/lib/course-products"
 import { fulfillCertificateMailOrder } from "@/lib/certificate-mail"
 import { sendPurchaseConfirmationEmail } from "@/lib/email"
 import { getCoursePlanByCode } from "@/lib/payment/plans"
@@ -133,6 +134,7 @@ async function confirmCheckoutSession(sessionId: string) {
           .select("certificate_id, completed_at, passed")
           .eq("user_id", user.id)
           .eq("state", stateCode)
+          .eq("course_slug", plan.courseSlug)
           .eq("certificate_id", certificateId)
           .order("completed_at", { ascending: false })
           .limit(1)
@@ -184,15 +186,16 @@ async function confirmCheckoutSession(sessionId: string) {
 
   if (user.email && baseUrl && !wasAlreadyRecorded && plan.planKind !== "certificate-mail") {
     const config = getCourseConfig(stateCode)
+    const product = getCourseProductConfig(stateCode, plan.courseSlug)
 
     try {
       await sendPurchaseConfirmationEmail({
         email: user.email,
         stateName: config.stateName,
-        courseName: config.courseName,
-        dashboardUrl: `${baseUrl}/${stateCode}/dashboard`,
-        courseUrl: `${baseUrl}/${stateCode}/course`,
-        supportUrl: `${baseUrl}/${stateCode}/support`,
+        courseName: product.courseName,
+        dashboardUrl: `${baseUrl}${product.dashboardPath}`,
+        courseUrl: `${baseUrl}${product.coursePath}`,
+        supportUrl: `${baseUrl}${product.supportPath}`,
         planName: planCode,
         supportTier,
       })

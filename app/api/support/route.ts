@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Human support requests are available only with priority support. Standard plans use FAQ and AI chat.",
+          error: "Human support requests are available only with priority support. Standard plans use the FAQ.",
         },
         { status: 403 }
       )

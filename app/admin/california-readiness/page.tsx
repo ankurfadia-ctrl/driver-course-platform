@@ -10,45 +10,47 @@ const platformReady = [
   "Shared auth, support, checkout, dashboard, and admin infrastructure already exists",
   "Prep-only state gating already prevents California from opening publicly too early",
   "California submission workspace exists locally in Documents",
-  "Official starting forms have been saved, including OL 612, OL 613, and OL 704B",
+  "Official California forms and references are already saved locally, including OL 612, OL 613, and OL 704B",
   "Cost estimate and California-versus-Florida decision notes are already prepared",
 ]
 
 const californiaBlockers = [
-  "California TVS name approval must be mailed and approved first",
-  "Business office, property-use, and local-license requirements still need to be mapped to your situation",
-  "Bond, fingerprint, operator, and instructor workflows add cost and operational complexity",
-  "California internet curriculum review path must be chosen before deeper content build work",
+  "The California TVS market appears crowded and highly price-sensitive, including competitors advertising all-in pricing as low as $5",
+  "A real California LLC path would likely mean foreign registration, annual tax exposure, DMV owner licensing costs, bond, fingerprinting, and operator/instructor compliance",
+  "Low advertised course pricing makes it harder to justify the startup spend compared with Florida and parenting-course lanes",
+  "Business office, property-use, and local-license requirements still need to be mapped if California is ever reactivated",
+  "California internet curriculum review still adds another meaningful decision and cost layer if you revive the lane later",
 ]
 
 const buildSequence = [
   {
-    title: "Name approval first",
+    title: "Hold first",
     body:
-      "Mail OL 612 first and wait for California DMV name approval before spending on the heavier California occupational-licensing steps.",
+      "Treat California as paused instead of forcing momentum into a crowded, low-margin market. The next move is strategic review, not filing.",
   },
   {
-    title: "Entity and office package second",
+    title: "Re-open only if the market case improves",
     body:
-      "While name approval is pending, organize the business-office, property, local-license, and bond planning needed for the owner packet.",
+      "Only revive California if you decide the market size and acquisition path justify California foreign registration, annual taxes, and licensing overhead.",
   },
   {
-    title: "Owner, operator, instructor path third",
+    title: "Portal path remains the technical entry point",
     body:
-      "California is not just a course packet. The operational licensing path includes owner, operator, and instructor requirements that should be staged together.",
+      "If you restart California later, begin in the Occupational Licensing portal rather than with the older mail-first name approval materials.",
   },
   {
-    title: "Internet curriculum path fourth",
+    title: "Deeper compliance only after a go decision",
     body:
-      "Only after the name and licensing path are real should you commit to the original internet curriculum review path and the deeper California content build.",
+      "Do not spend on bonds, fingerprinting, operator/instructor steps, or internet-course review until you affirmatively decide California is worth pursuing.",
   },
 ]
 
 const nextBuildTargets = [
-  "California TVS owner packet organization",
-  "California operator and instructor requirement checklist",
-  "California bond and fingerprint prep notes",
-  "California office and local-license evidence checklist",
+  "Keep the California workspace archived as a later-option lane",
+  "Revisit California only if you want a national TVS footprint badly enough to absorb the low-price market",
+  "Preserve the DMV portal notes so the process is ready if you restart it",
+  "Keep comparing California against higher-leverage lanes like Florida BDI and parenting approvals",
+  "Avoid new California spend until a clear go decision is made",
 ]
 
 export default async function CaliforniaReadinessPage() {
@@ -74,10 +76,9 @@ export default async function CaliforniaReadinessPage() {
             California Approval Readiness
           </h1>
           <p className="mt-2 max-w-3xl text-slate-600">
-            Use this workspace to prepare the California traffic violator school
-            path without accidentally treating California like a simple second
-            Virginia. The first low-regret step is name approval, then the
-            heavier occupational-licensing path follows.
+            Use this workspace as a hold-state reference, not an active build
+            queue. California remains documented here, but the market looks
+            crowded and low-margin enough that it is not a priority right now.
           </p>
         </div>
 
@@ -161,9 +162,9 @@ export default async function CaliforniaReadinessPage() {
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-900">
-          Recommended build order
-        </h2>
+          <h2 className="text-xl font-semibold text-slate-900">
+            Recommended posture
+          </h2>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {buildSequence.map((item) => (
             <article
@@ -178,9 +179,9 @@ export default async function CaliforniaReadinessPage() {
       </section>
 
       <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-900">
-          Next build targets
-        </h2>
+          <h2 className="text-xl font-semibold text-slate-900">
+            Next California actions
+          </h2>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-700">
           {nextBuildTargets.map((item) => (
             <li key={item}>{item}</li>
@@ -191,7 +192,7 @@ export default async function CaliforniaReadinessPage() {
             href="/admin/california-approval-packet"
             className="inline-flex rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white transition hover:bg-blue-700"
           >
-            Open California Packet Workspace
+            Open California Reference Workspace
           </Link>
         </div>
       </section>

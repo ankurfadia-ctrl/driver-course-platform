@@ -11,68 +11,100 @@ const states = [
     name: "Virginia",
     status: "Submitted",
     category: "Active regulator review",
-    blocker: "Waiting on DMV review and follow-up",
-    nextAction: "Watch for DMV response and keep receipts, packet, and support workflow ready.",
+    blocker: "Waiting on DMV review and follow-up.",
+    nextAction:
+      "Watch for DMV response and keep receipts, packet, and support workflow ready.",
     route: "/admin/virginia-readiness",
     publicRoute: "/virginia",
-    docsFolder:
-      "C:/Users/ankur/Documents/Virginia Approval Submission",
+    docsFolder: "C:/Users/ankur/Documents/Virginia Approval Submission",
   },
   {
     code: "FL",
     name: "Florida",
-    status: "Criteria requested",
-    category: "Waiting on regulator guidance",
-    blocker: "FLHSMV minimum content criteria not received yet",
-    nextAction: "Wait for FLHSMV reply, save the response, then build BDI first.",
+    status: "DCF review active",
+    category: "Parent education acknowledged; BDI still assembling",
+    blocker:
+      "Florida parent education is in DCF review after the April 3, 2026 acknowledgment email, while Florida BDI still needs the remaining legal/business and final-packet cleanup work.",
+    nextAction:
+      "Hold the parent-education packet steady unless DCF asks for something, treat Monday, May 18, 2026 as the safe follow-up date if the thread stays quiet, and keep pushing the BDI lane toward final submission.",
     route: "/admin/florida-readiness",
-    publicRoute: "/florida",
-    docsFolder:
-      "C:/Users/ankur/Documents/Florida Approval Submission",
+    publicRoute: null,
+    docsFolder: "C:/Users/ankur/Documents/Florida Approval Submission",
+  },
+  {
+    code: "SD",
+    name: "South Dakota",
+    status: "Mailing pending",
+    category: "Parenting-course request packet assembled",
+    blocker:
+      "No regulator blocker yet. The only remaining hold is physical mailing of the signed request packet and saving proof of mailing.",
+    nextAction:
+      "Mail the signed South Dakota parenting packet as soon as possible, save proof of mailing, and then wait for court-administration follow-up.",
+    route: "/admin/south-dakota-parenting-readiness",
+    publicRoute: null,
+    docsFolder: "C:/Users/ankur/Documents/South Dakota Approval Submission",
+  },
+  {
+    code: "MN",
+    name: "Minnesota",
+    status: "Submitted",
+    category: "SCAO submission sent; public microsite live",
+    blocker:
+      "No drafting blocker remains. The remaining work is regulator follow-up only unless SCAO asks for clarification, revisions, or reviewer access.",
+    nextAction:
+      "Watch the Minnesota Parent Education Program inbox, keep the packet and public microsite stable, and respond quickly if SCAO asks for clarifications or additional materials.",
+    route: "/admin/minnesota-parent-education-readiness",
+    publicRoute: "/minnesota-parent-education",
+    docsFolder: "C:/Users/ankur/Documents/Minnesota Approval Submission",
   },
   {
     code: "CA",
     name: "California",
-    status: "Name approval starting",
-    category: "Low-regret first filing in motion",
-    blocker: "Need OL 612 response before deeper spend",
-    nextAction: "Mail OL 612, save proof of mailing, then wait before bond and licensing spend.",
+    status: "On hold",
+    category: "High-cost, saturated TVS market",
+    blocker:
+      "California now appears to be a low-price, crowded traffic-school market with meaningful setup overhead, including California foreign LLC registration, annual tax, DMV owner licensing, bond, fingerprinting, and operator/instructor compliance.",
+    nextAction:
+      "Keep California paused for now. Do not register the LLC in California, start the DMV portal, or spend on bond, fingerprinting, or curriculum review unless the market case changes materially.",
     route: "/admin/california-readiness",
-    publicRoute: "/california",
-    docsFolder:
-      "C:/Users/ankur/Documents/California Approval Submission",
+    publicRoute: null,
+    docsFolder: "C:/Users/ankur/Documents/California Approval Submission",
   },
   {
     code: "TN",
     name: "Tennessee",
     status: "Instructor path pending",
     category: "Low-friction candidate",
-    blocker: "Need Tennessee confirmation on acceptable instructor certification path",
-    nextAction: "Wait for Tennessee response on NSC acceptability before paying for certification.",
+    blocker:
+      "Need Tennessee confirmation on acceptable instructor certification path.",
+    nextAction:
+      "Wait for Tennessee response on NSC acceptability before paying for certification.",
     route: null,
     publicRoute: null,
-    docsFolder:
-      "C:/Users/ankur/Documents/Tennessee Approval Submission",
+    docsFolder: "C:/Users/ankur/Documents/Tennessee Approval Submission",
   },
   {
     code: "TX",
     name: "Texas",
     status: "On hold",
     category: "Apply-now but higher spend",
-    blocker: "Registered agent, assumed name, bond, and fee cost",
+    blocker: "Registered agent, assumed name, bond, and fee cost.",
     nextAction: "Only pursue after deciding the upfront spend is worth it.",
     route: null,
     publicRoute: null,
-    docsFolder:
-      "C:/Users/ankur/Documents/Texas Approval Submission",
+    docsFolder: "C:/Users/ankur/Documents/Texas Approval Submission",
   },
-]
+] as const
 
 const bestUseOfTime = [
-  "Respond quickly to any regulator email and save every reply into the matching state folder.",
-  "Do not spend on Texas, California bond/fingerprints, or Tennessee certification until the current blockers clear.",
-  "Keep public non-live states in prep-only mode until each state is actually ready.",
-]
+  "Mail the South Dakota parenting packet and save proof of mailing.",
+  "Watch for Florida DCF parent-education follow-up, reply quickly if they ask for clarification or reviewer access, and use Monday, May 18, 2026 as the safe no-news follow-up date.",
+  "Keep pushing Florida BDI toward submission because that remains the main unsubmitted Florida revenue lane.",
+  "Watch the Minnesota Parent Education Program thread, keep the public Minnesota microsite stable, and answer any SCAO follow-up quickly.",
+  "Keep boating in standards-review and reopening-watch mode. NASBLA says new course intake is still paused but may reopen in roughly June to July 2026.",
+  "Keep California TVS on hold unless you decide the economics justify California registration, annual taxes, DMV licensing costs, and a race-to-the-bottom price market.",
+  "Do not spin up any new public state app just to stay busy. Most value right now is in filing follow-through, tracker accuracy, and regulator-facing packet work.",
+] as const
 
 export default async function AdminStateTrackerPage() {
   const supabase = await createSupabaseServerClient()
@@ -102,11 +134,18 @@ export default async function AdminStateTrackerPage() {
         <div className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
           <div className="text-sm text-slate-500">Current focus</div>
           <div className="mt-1 text-lg font-semibold text-slate-900">
-            Wait smart, not idle
+            South Dakota mailing, Florida DCF review, Minnesota SCAO follow-up, and NASBLA watch
           </div>
           <div className="mt-2 text-sm leading-6 text-slate-600">
-            Virginia, Florida, California, and Tennessee all have active
-            external blockers, so the job is tracking and responding fast.
+            South Dakota parenting still needs the physical mailing step and
+            proof of mailing. Florida parent education received a DCF
+            acknowledgment on April 3, 2026 and is now in regulator-review
+            mode, while Minnesota has already been submitted and now needs
+            fast follow-up if SCAO asks for anything. Boating should stay in
+            standards-review and reopen-watch mode after NASBLA&apos;s April 10,
+            2026 guidance pointing to a roughly two-to-three-month wait for new
+            course intake. California is intentionally paused rather than
+            treated like an active build lane.
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic"
 const nextMoves = [
   "Add course-type fields to purchase, progress, exam, and certificate records when the next state product is built.",
   "Split Florida pricing and disclosures by course type instead of assuming one shared state course.",
-  "Build BDI first, then ADI, then TLSAE, then Mature Driver after FLHSMV criteria arrive.",
+  "Build BDI first — FLHSMV criteria confirmed March 31, 2026. ADI, TLSAE, and Mature Driver follow after BDI is approved and live.",
 ]
 
 export default async function AdminCourseTypesPage() {

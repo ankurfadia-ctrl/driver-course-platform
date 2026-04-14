@@ -184,8 +184,8 @@ export default function StatePlanCheckoutPage() {
         </div>
         <p className="leading-7 text-slate-600">
           {language === "es"
-            ? `Este estado sigue en preparacion. Los enlaces directos de compra permaneceran cerrados hasta que los requisitos estatales y el lanzamiento del curso esten listos.`
-            : `This state is still in preparation. Direct checkout links will remain closed until the state-specific requirements and course launch are ready.`}
+            ? `La compra directa aun no esta disponible para este estado.`
+            : `Direct checkout is not available for this state yet.`}
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
