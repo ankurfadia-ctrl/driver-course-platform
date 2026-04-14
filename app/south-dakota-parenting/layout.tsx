@@ -1,5 +1,6 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
+import PublicHeader from "@/components/site/public-header"
 import {
   SOUTH_DAKOTA_PARENT_SITE_NAV,
   SOUTH_DAKOTA_PARENT_SITE_NAV_ES,
@@ -17,6 +18,8 @@ export default async function SouthDakotaParentingLayout({
   const nav = isSpanish ? SOUTH_DAKOTA_PARENT_SITE_NAV_ES : SOUTH_DAKOTA_PARENT_SITE_NAV
 
   return (
+    <>
+    <PublicHeader language={language} />
     <main className="public-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="glass-panel overflow-hidden rounded-[2rem] border-[#f0e2c6] bg-white">
@@ -89,5 +92,6 @@ export default async function SouthDakotaParentingLayout({
         <div className="mt-8">{children}</div>
       </div>
     </main>
+    </>
   )
 }

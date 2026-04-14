@@ -1,8 +1,5 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import PublicHeader from "@/components/site/public-header"
-import PublicFooter from "@/components/site/public-footer"
-import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 import { getPublicBaseUrl } from "@/lib/runtime-config"
 import "./globals.css"
 
@@ -47,19 +44,15 @@ export const metadata: Metadata = {
   },
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const language = await getPreferredSiteLanguage()
-
   return (
-    <html lang={language} className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className={`${inter.className} min-h-full flex flex-col`}>
-        <PublicHeader language={language} />
         {children}
-        <PublicFooter language={language} />
       </body>
     </html>
   )
