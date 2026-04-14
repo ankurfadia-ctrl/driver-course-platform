@@ -87,20 +87,20 @@ export default function StateCoursePage() {
           checkingBody: "Confirmando tu compra del curso para este estado.",
           expiredTitle: "Acceso al curso vencido",
           lockedTitle: "Curso bloqueado",
-          expiredBody: `Este curso esta disponible por ${VIRGINIA_COURSE_ACCESS_DAYS} dias desde la compra.`,
+          expiredBody: `Este curso está disponible por ${VIRGINIA_COURSE_ACCESS_DAYS} días desde la compra.`,
           lockedBody:
             "Debes comprar este curso antes de acceder a las lecciones.",
           purchaseCourse: "Comprar curso",
           goDashboard: "Ir al panel",
-          headerLabel: `${config.stateName} curso del estudiante`,
-          identityTitle: "Se requiere verificacion de identidad",
+          headerLabel: `${config.stateName} — Curso del estudiante`,
+          identityTitle: "Se requiere verificación de identidad",
           identityBody:
             isVirginia
-              ? "Virginia requiere verificacion de identidad durante el curso y antes del examen final. Completa la configuracion de identidad antes de comenzar el progreso de las lecciones y preparate para verificar tu identidad otra vez antes de cada leccion."
-              : "La verificacion de identidad puede formar parte del flujo del curso y del acceso al examen final. Completa la configuracion de identidad antes de comenzar el progreso de las lecciones.",
-          completeIdentity: "Completar configuracion de identidad",
-          needHelp: "Necesitas ayuda?",
-          helpBody: "Obten respuestas instantaneas o contacta soporte.",
+              ? "Virginia requiere verificación de identidad durante el curso y antes del examen final. Completa la configuración de identidad antes de comenzar el progreso de las lecciones y prepárate para verificar tu identidad otra vez antes de cada lección."
+              : "La verificación de identidad puede formar parte del flujo del curso y del acceso al examen final. Completa la configuración de identidad antes de comenzar el progreso de las lecciones.",
+          completeIdentity: "Completar configuración de identidad",
+          needHelp: "¿Necesitas ayuda?",
+          helpBody: "Obtén respuestas instantáneas o contacta soporte.",
           getHelp: "Obtener ayuda",
           finalExam: "Examen final",
           available: "Disponible",
@@ -109,13 +109,13 @@ export default function StateCoursePage() {
           finalExamLockedLessons:
             "Completa todas las lecciones antes de que se desbloquee el examen final.",
           finalExamUnlockTemplate: (remaining: string) =>
-            `El examen final se desbloquea despues de al menos ${formatCourseDuration(
+            `El examen final se desbloquea después de al menos ${formatCourseDuration(
               FINAL_EXAM_UNLOCK_SECONDS
-            )} de instruccion del curso. Falta: ${remaining}.`,
+            )} de instrucción del curso. Falta: ${remaining}.`,
           goToFinalExam: "Ir al examen final",
           certificate: "Certificado",
           certificateHoldTemplate: (remaining: string) =>
-            `Aprobaste el examen final. Permanece en el curso durante ${remaining} mas antes de que el certificado se desbloquee al llegar al minimo total de 8 horas.`,
+            `Aprobaste el examen final. Permanece en el curso durante ${remaining} más antes de que el certificado se desbloquee al llegar al mínimo total de 8 horas.`,
           view: "Ver",
           download: "Descargar",
           lessonsTitle: "Lecciones",
@@ -308,8 +308,8 @@ export default function StateCoursePage() {
         </h1>
         <p className="leading-7 text-slate-600">
           {language === "es"
-            ? `Este estado sigue en preparacion. Las lecciones, el examen final y el certificado se habilitaran solo despues de que el contenido y los requisitos regulatorios esten listos.`
-            : `This state is still in preparation. Lessons, the final exam, and certificate flow will open only after the course content and regulator-facing requirements are ready.`}
+            ? `Las lecciones, el examen final y el certificado estaran disponibles cuando este curso abra.`
+            : `Lessons, the final exam, and certificate access will be available when this course opens.`}
         </p>
         <div className="flex flex-wrap gap-3">
           <Link

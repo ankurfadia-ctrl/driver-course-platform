@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import PriceMatchGuaranteePanel from "@/components/site/price-match-guarantee-panel"
 import { getCourseConfig, getDisclosuresRoute } from "@/lib/course-config"
+import { getFloridaTrackPreviews } from "@/lib/florida-course-tracks"
+import { buildDriverPriceMatchTerms } from "@/lib/price-match"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 import { getPublicBaseUrl } from "@/lib/runtime-config"
 
@@ -18,21 +21,21 @@ export async function generateMetadata({
   return {
     title: enrollmentOpen
       ? `${config.stateName} Online Driver Improvement Course | ${config.brandName}`
-      : `${config.stateName} Driver Improvement Course Preparation | ${config.brandName}`,
+      : `${config.stateName} Driver Improvement Course Information | ${config.brandName}`,
     description:
       enrollmentOpen
         ? `${config.stateName} online driver improvement course with secure enrollment, required seat-time tracking, final exam completion, certificate access, and student support.`
-        : `${config.stateName} driver improvement course preparation with state-specific rollout planning, disclosures, and approval-readiness updates.`,
+        : `${config.stateName} driver improvement course information with pricing, course details, and enrollment updates as they become available.`,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
       title: enrollmentOpen
         ? `${config.stateName} Online Driver Improvement Course`
-        : `${config.stateName} Driver Improvement Course Preparation`,
+        : `${config.stateName} Driver Improvement Course Information`,
       description: enrollmentOpen
         ? `${config.stateName} online driver improvement course with enrollment, course progress, final exam, and certificate delivery.`
-        : `${config.stateName} driver improvement course preparation with state-specific rollout planning and approval-readiness updates.`,
+        : `${config.stateName} driver improvement course information with pricing, course details, and enrollment updates as they become available.`,
       url: canonicalUrl,
       siteName: config.brandName,
       images: [
@@ -50,10 +53,10 @@ export async function generateMetadata({
       card: "summary",
       title: enrollmentOpen
         ? `${config.stateName} Online Driver Improvement Course`
-        : `${config.stateName} Driver Improvement Course Preparation`,
+        : `${config.stateName} Driver Improvement Course Information`,
       description: enrollmentOpen
         ? `${config.stateName} online driver improvement course with course access, final exam, and certificate delivery.`
-        : `${config.stateName} driver improvement course preparation with state-specific rollout planning and approval-readiness updates.`,
+        : `${config.stateName} driver improvement course information with pricing, course details, and enrollment updates as they become available.`,
       images: [`${baseUrl}${config.logoSrc}`],
     },
   }
@@ -69,42 +72,59 @@ export default async function StateHomePage({
   const secondarySupportPhoneDisplay = config.secondarySupportPhoneDisplay ?? null
   const secondarySupportPhone = config.secondarySupportPhone ?? null
   const language = await getPreferredSiteLanguage()
+  const floridaTrackPreviews =
+    config.stateSlug === "florida" ? getFloridaTrackPreviews() : []
   const primarySupportPhoneLabel =
     language === "es"
       ? `Linea principal de ${config.stateName}`
       : `${config.stateName} primary line`
   const secondarySupportPhoneLabel =
     language === "es" ? "Linea gratuita alternativa" : "Toll-free alternate line"
+  const secondarySupportPhoneSummary =
+    language === "es"
+      ? "Linea alternativa regulatoria (requerida)"
+      : "Regulatory alternate line (required)"
   const baseUrl = getPublicBaseUrl()
   const canonicalUrl = `${baseUrl}/${config.stateSlug}`
   const copy =
     language === "es"
       ? {
-          sectionLabel: `${config.stateName} curso en linea`,
+          sectionLabel: `${config.stateName} curso en línea`,
           headline:
             config.stateSlug === "virginia"
-              ? `Curso de mejoramiento para conductores de ${config.stateName} en linea.`
-              : `Preparacion de cursos de mejoramiento para conductores de ${config.stateName}.`,
+              ? `Curso de mejoramiento para conductores de ${config.stateName} en línea.`
+              : `Información del curso de mejoramiento para conductores de ${config.stateName}.`,
           intro:
             config.stateSlug === "virginia"
-              ? "Precio simple, curso en ingles y espanol, y examen final incluido dentro del minimo total de 8 horas."
-              : "Estamos preparando una experiencia multiestado con inscripcion segura, soporte y materiales regulatorios listos para aprobacion.",
+              ? "Toma tu curso de mejoramiento para conductores de Virginia en línea con envío automático al DMV y el examen final incluido dentro del total de 8 horas."
+              : "Consulta qué esperar, cómo funcionará la inscripción y dónde ver las actualizaciones cuando este curso estatal esté disponible.",
           priceCallout: "Desde $19.99",
           priceSupport:
             config.stateSlug === "virginia"
-              ? "Sin cargos ocultos del curso y con planes faciles de comparar."
-              : "Las opciones finales de precio y curso se publicaran cuando se complete la aprobacion estatal.",
-          approvalLabel: "Aprobacion pendiente",
+              ? "Sin cargos ocultos del curso y con planes fáciles de comparar."
+              : "El precio y los detalles de inscripción se publicarán aquí cuando el curso abra.",
+          approvalLabel:
+            config.stateSlug === "virginia"
+              ? config.approvalStatusLabelEs ?? "Revisión del DMV de Virginia en curso"
+              : "Aprobación pendiente",
           viewPlans:
-            config.stateSlug === "virginia" ? "Ver planes" : "Ver informacion del estado",
+            config.stateSlug === "virginia"
+              ? "Ver planes"
+              : config.stateSlug === "florida"
+                ? "Explorar cursos de Florida"
+                : "Ver información del estado",
           studentLogin:
-            config.stateSlug === "virginia" ? "Ingreso de estudiantes" : "Ver divulgaciones",
-          compareTitle: "Compara opciones rapidamente",
+            config.stateSlug === "virginia"
+              ? "Ingreso de estudiantes"
+              : config.stateSlug === "florida"
+                ? "Abrir vista previa BDI"
+                : "Ver divulgaciones",
+          compareTitle: "Compara opciones rápidamente",
           comparePlans: [
             {
-              name: "Estandar",
+              name: "Estándar",
               price: "$19.99",
-              detail: "Curso completo con FAQ y chat con IA.",
+              detail: "Curso completo con ayuda automatizada y preguntas frecuentes.",
             },
             {
               name: "Prioritario",
@@ -114,113 +134,127 @@ export default async function StateHomePage({
             {
               name: "Premium",
               price: "$34.99",
-              detail: "Curso, soporte prioritario, revision judicial y copia por correo.",
+              detail: "Curso, soporte prioritario, revisión judicial y copia por correo.",
             },
           ] as const,
           expectationsLabel:
             config.stateSlug === "virginia"
               ? "Expectativas del curso en Virginia"
-              : `Preparacion del programa en ${config.stateName}`,
+              : `Información del curso en ${config.stateName}`,
           expectations:
             config.stateSlug === "virginia"
               ? [
-                  "Curso en linea de 8 horas; el examen final cuenta dentro del minimo total de 8 horas",
-                  "La verificacion de identidad es obligatoria durante el curso y antes del examen final",
-                  "El examen final solo puede tomarse una vez por dia habil",
-                  "Los estudiantes deben completar el curso dentro de 90 dias desde la compra",
+                  "Curso en línea de 8 horas; el examen final cuenta dentro del mínimo total de 8 horas",
+                  "La verificación de identidad es obligatoria durante el curso y antes del examen final",
+                  "El examen final solo puede tomarse una vez por día hábil",
+                  "Los estudiantes deben completar el curso dentro de 90 días desde la compra",
                 ]
               : [
-                  "Los requisitos oficiales del curso se alinearan con la orientacion del regulador estatal",
-                  "Las divulgaciones, certificados y reglas de finalizacion seran especificos del estado",
-                  "Las experiencias de soporte, inscripcion y progreso se estan haciendo reutilizables para varios estados",
-                  "Las rutas del curso se publicaran cuando el contenido y los requisitos esten listos",
+                  "Los requisitos específicos del estado se publicarán aquí antes de abrir la inscripción",
+                  "Las reglas del certificado, finalización y soporte aparecerán en un solo lugar",
+                  "Vuelve a esta página para ver precios, fechas y actualizaciones de inscripción",
                 ],
           steps: [
             [
               "Paso 1",
-              config.stateSlug === "virginia" ? "Inscribete y crea tu cuenta" : "Solicita criterios oficiales",
+              config.stateSlug === "virginia" ? "Inscríbete y crea tu cuenta" : "Revisa la información del estado",
               config.stateSlug === "virginia"
-                ? "Compra el acceso al curso e inicia sesion con tu cuenta de estudiante antes de comenzar."
-                : "El siguiente estado se configura solo despues de recibir los criterios oficiales y las reglas de aprobacion del regulador.",
+                ? "Compra el acceso al curso e inicia sesión con tu cuenta de estudiante antes de comenzar."
+                : "Lee los detalles del curso y las notas de aceptación antes de hacer planes para este requisito.",
             ],
             [
               "Paso 2",
-              config.stateSlug === "virginia" ? "Completa el tiempo requerido del curso" : "Construye el paquete del curso",
+              config.stateSlug === "virginia" ? "Completa el tiempo requerido del curso" : "Consulta precios y actualizaciones",
               config.stateSlug === "virginia"
-                ? "Avanza por las lecciones en linea, mantente activo y llega al punto de desbloqueo del examen final despues de al menos 7 horas de instruccion."
-                : "El contenido, las divulgaciones, el soporte, el flujo de certificados y el paquete regulatorio se preparan de acuerdo con el estado.",
+                ? "Avanza por las lecciones en línea, mantente activo y llega al punto de desbloqueo del examen final después de al menos 7 horas de instrucción."
+                : "Cuando este curso abra, esta página mostrará precios, acceso al curso y detalles del certificado.",
             ],
             [
               "Paso 3",
-              config.stateSlug === "virginia" ? "Aprueba el examen final y recibe tu certificado" : "Lanzamiento despues de aprobacion",
+              config.stateSlug === "virginia" ? "Aprueba el examen final y recibe tu certificado" : "Crea tu cuenta cuando abra",
               config.stateSlug === "virginia"
-                ? "El examen final forma parte del minimo total de 8 horas. Despues de aprobarlo y completar el tiempo total requerido, tu certificado estara disponible en tu cuenta."
-                : "El curso solo se abrira para estudiantes despues de que la aprobacion, el reporte y los requisitos operativos del estado esten listos.",
+                ? "El examen final forma parte del mínimo total de 8 horas. Después de aprobarlo y completar el tiempo total requerido, tu certificado estará disponible en tu cuenta."
+                : "Cuando la inscripción esté disponible, podrás crear tu cuenta, comprar el curso y comenzar en línea.",
             ],
           ] as const,
-          valueLabel: "Por que elegir este curso",
+          valueLabel: "Por qué elegir este curso",
           valuePoints: [
             ...(config.stateSlug === "virginia"
               ? [
-                  "Precio bajo y transparente",
+                  "Divulgaciones claras específicas de Virginia",
                   "Examen final incluido dentro de las 8 horas",
-                  "Funciona en telefono o computadora",
-                  "Experiencia en ingles y espanol",
-                  "FAQ, IA y opcion de soporte prioritario",
+                  "Envío automático del certificado al DMV",
+                  "Funciona en teléfono o computadora",
+                  "Garantía de igualación de precio",
+                  "Líneas de soporte principal y alternativa",
                 ]
               : [
-                  "Motor compartido para varios estados",
-                  "Soporte, divulgaciones y configuracion reutilizables",
-                  "Experiencia en ingles y espanol",
-                  "Base de conocimiento integrada para preguntas frecuentes",
-                  "Paquetes regulatorios y operativos listos para escalar",
+                  "Información clara específica para cada estado",
+                  "Páginas de soporte y divulgaciones fáciles de revisar",
+                  "Ayuda integrada para preguntas frecuentes",
+                  "Precios y fechas agregados aquí cuando el curso abra",
                 ]),
           ],
           approvalTitle:
             config.stateSlug === "virginia"
-              ? "Revisa la informacion del curso antes de inscribirte"
-              : `Preparacion de aprobacion para ${config.stateName}`,
+              ? "Revisa la información del curso antes de inscribirte"
+              : config.stateSlug === "florida"
+                ? "Florida se está organizando en cuatro cursos"
+              : `Lo que debes saber antes de que abra ${config.stateName}`,
           approvalBody:
             config.stateSlug === "virginia"
-              ? "Los estudiantes son responsables de confirmar si un curso en linea de mejoramiento para conductores de Virginia es aceptable para su necesidad especifica ante tribunal, empleador, seguro o DMV antes de comprarlo. Pueden aplicarse verificaciones de identidad, controles de tiempo y reglas del examen final."
-              : `${config.stateName} aun esta en preparacion. Las divulgaciones, el contenido, la emision de certificados y cualquier regla de reporte o aceptacion se finalizaran cuando el regulador estatal proporcione los criterios oficiales.`,
-          infoCta: "Leer informacion del curso",
-          englishNote:
+              ? "La presentación de Virginia está bajo revisión del DMV. Los estudiantes siguen siendo responsables de confirmar si un curso en línea de mejoramiento para conductores de Virginia es aceptable para su necesidad específica ante tribunal, empleador, seguro o DMV antes de comprarlo. Pueden aplicarse verificaciones de identidad, controles de tiempo y reglas del examen final."
+              : config.stateSlug === "florida"
+                ? "Florida ya no se presenta como un solo curso genérico. Cada tipo de curso tendrá su propia información, detalles y calendario de apertura."
+              : `${config.stateName} aún no está abierto. Los precios, certificados y reglas específicas del estado se publicarán aquí cuando los requisitos oficiales queden confirmados.`,
+          infoCta: "Leer información del curso",
+          summaryHome:
             config.stateSlug === "virginia"
-              ? "El curso ofrece experiencia en ingles y espanol, y el contenido principal del curso y del examen final esta disponible en ambos idiomas."
-              : "La plataforma se esta configurando para ofrecer una experiencia en ingles y espanol donde el estado y el regulador lo permitan.",
-          priceMatchHome:
+              ? "Revisa la información del curso, las reglas de tiempo, la verificación de identidad y los detalles del certificado antes de inscribirte."
+              : "Los precios y los detalles de inscripción para este estado se publicarán aquí cuando el curso esté disponible.",
+          summaryHomeCta:
             config.stateSlug === "virginia"
-              ? "Si encuentras un precio publico mas bajo para un curso equivalente de Virginia en linea, preguntanos por una posible igualacion de precio antes de comprar."
-              : "La estructura final de precios para este estado se publicara cuando el curso este listo para lanzamiento.",
-          priceMatchHomeCta: "Solicitar igualacion",
+              ? "Leer información del curso"
+              : "Volver al estado",
+          summaryHomeSecondaryCta:
+            config.stateSlug === "virginia"
+              ? "Ver preguntas frecuentes"
+              : null,
         }
       : {
           sectionLabel: `${config.stateName} Online Course`,
           headline:
             config.stateSlug === "virginia"
               ? `${config.stateName} Driver Improvement Course Online`
-              : `${config.stateName} Driver Improvement Course Preparation`,
+              : `${config.stateName} Driver Improvement Course Information`,
           intro:
             config.stateSlug === "virginia"
-              ? "Simple pricing, English and Spanish course flow, and the final exam is included in the full 8-hour minimum."
-              : "State rollout planning is underway with shared enrollment, support, and approval-readiness infrastructure.",
+        ? "Take your Virginia driver improvement course online with automatic DMV reporting and the final exam included in the full 8-hour course."
+              : "See what to expect, how enrollment will work, and where to check for updates as this state course becomes available.",
           priceCallout: "From $19.99",
           priceSupport:
             config.stateSlug === "virginia"
               ? "No hidden course fees and easy plan choices."
-              : "Final pricing and course-track launch details will be published after state approval planning is complete.",
+              : "Pricing and enrollment details will be posted here when this course opens.",
           approvalLabel: config.approvalStatusLabel,
           viewPlans:
-            config.stateSlug === "virginia" ? "View Plans" : "View State Information",
+            config.stateSlug === "virginia"
+              ? "View Plans"
+              : config.stateSlug === "florida"
+                ? "Explore Florida Tracks"
+                : "View State Information",
           studentLogin:
-            config.stateSlug === "virginia" ? "Student Login" : "Read Disclosures",
+            config.stateSlug === "virginia"
+              ? "Student Login"
+              : config.stateSlug === "florida"
+                ? "Open BDI Preview"
+                : "Read Disclosures",
           compareTitle: "Compare plans quickly",
           comparePlans: [
             {
               name: "Standard",
               price: "$19.99",
-              detail: "Full course with FAQ and AI chat.",
+              detail: "Full course with self-service help and FAQ support.",
             },
             {
               name: "Priority",
@@ -236,7 +270,7 @@ export default async function StateHomePage({
           expectationsLabel:
             config.stateSlug === "virginia"
               ? "Virginia course expectations"
-              : `${config.stateName} rollout readiness`,
+              : `${config.stateName} course information`,
           expectations:
             config.stateSlug === "virginia"
               ? [
@@ -246,70 +280,76 @@ export default async function StateHomePage({
                   "Students should complete the course within 90 days of purchase",
                 ]
               : [
-                  "Official course requirements will follow state regulator guidance",
-                  "Disclosures, certificate workflow, and reporting rules will be finalized before launch",
-                  "Shared support, enrollment, and multilingual infrastructure is already being prepared",
-                  "Course tracks will publish after content criteria and submission requirements are confirmed",
+                  "State-specific requirements will be posted here before enrollment opens",
+                  "Certificate details, completion rules, and support information will be listed in one place",
+                  "Check this page for pricing and enrollment updates",
                 ],
           steps: [
             [
               "Step 1",
-              config.stateSlug === "virginia" ? "Enroll and create your account" : "Request official criteria",
+              config.stateSlug === "virginia" ? "Enroll and create your account" : "Review state information",
               config.stateSlug === "virginia"
                 ? "Purchase course access and log in with your student account before beginning coursework."
-                : "Each new state starts with official regulator guidance before course content, certificates, and workflows are finalized.",
+                : "Read the course details and acceptance notes for your state before making plans.",
             ],
             [
               "Step 2",
-              config.stateSlug === "virginia" ? "Complete the required course time" : "Build the state packet",
+              config.stateSlug === "virginia" ? "Complete the required course time" : "Watch for enrollment updates",
               config.stateSlug === "virginia"
                 ? "Work through the online lessons, remain active in the course, and reach the final-exam unlock point after at least 7 hours of instruction."
-                : "Curriculum, disclosures, support, certificate flow, and regulator-facing materials are prepared to fit that state.",
+                : "Pricing, course access, and certificate details will appear here when the course opens.",
             ],
             [
               "Step 3",
-              config.stateSlug === "virginia" ? "Pass the final exam and receive your certificate" : "Launch after approval readiness",
+              config.stateSlug === "virginia" ? "Pass the final exam and receive your certificate" : "Create your account when it opens",
               config.stateSlug === "virginia"
                 ? "The final exam is included in the overall 8-hour minimum. After you pass the exam and complete the full time requirement, your certificate will be available in your account."
-                : "The course opens only after the state-specific approval, operations, and student-facing requirements are ready.",
+                : "Once enrollment is available, you will be able to create a student account, purchase the course, and begin online.",
             ],
           ] as const,
           valueLabel: "Why choose this course",
           valuePoints: [
             ...(config.stateSlug === "virginia"
               ? [
-                  "Low transparent pricing",
+                  "Clear Virginia-specific disclosures",
                   "Final exam included in the full 8-hour minimum",
+                  "Automatic DMV certificate delivery",
                   "Works on phone or computer",
-                  "English and Spanish experience",
-                  "FAQ, AI help, and optional priority support",
+                  "Price match guaranteed",
+                  "Help center and phone support",
                 ]
               : [
-                  "Multi-state shared platform foundation",
-                  "Reusable support, disclosure, and certificate tooling",
-                  "English and Spanish experience",
-                  "Built-in knowledge-base support chat",
-                  "Approval-packet and operations workflow already in place",
+                  "Clear state-specific course information",
+                  "Support and disclosure pages that are easy to review",
+                  "Built-in help for common questions",
+                  "Pricing and enrollment updates posted here as they are available",
                 ]),
           ],
           approvalTitle:
             config.stateSlug === "virginia"
               ? "Review Virginia disclosures before enrolling"
-              : `Approval preparation for ${config.stateName}`,
+              : config.stateSlug === "florida"
+                ? "Florida is being organized into four course tracks"
+              : `What to know before ${config.stateName} opens`,
           approvalBody:
             config.stateSlug === "virginia"
-              ? "Students are responsible for confirming whether an online Virginia driver improvement course is acceptable for their specific court, employer, insurance, or DMV requirement before purchasing. Identity verification, seat-time controls, and final exam rules may apply."
-              : `${config.stateName} is still in preparation. Disclosures, content, certificate issuance, and any reporting or acceptance rules will be finalized after the state regulator returns official criteria.`,
+              ? "The Virginia submission is under DMV review. Students are still responsible for confirming whether an online Virginia driver improvement course is acceptable for their specific court, employer, insurance, or DMV requirement before purchasing. Identity verification, seat-time controls, and final exam rules may apply."
+              : config.stateSlug === "florida"
+                ? "Florida is no longer presented as one generic course. Each course type will have its own course information, pricing details, and opening updates."
+              : `${config.stateName} is not open yet. Pricing, certificates, and state-specific rules will be posted here as soon as the official requirements are confirmed.`,
           infoCta: "Read Course Information",
-          englishNote:
+          summaryHome:
             config.stateSlug === "virginia"
-              ? "The course offers an English and Spanish experience, and the main course and final-exam content are available in both languages."
-              : "The platform is being prepared to support English and Spanish experiences where the state and regulator permit them.",
-          priceMatchHome:
+        ? "Review Virginia course information, identity checks, automatic DMV reporting, and certificate details before you enroll."
+              : "State pricing and enrollment details will be posted here when the course becomes available.",
+          summaryHomeCta:
             config.stateSlug === "virginia"
-              ? "If you find a lower publicly advertised price for an equivalent Virginia online course, ask us about a possible price match before you buy."
-              : "State-specific pricing will be published when the course track is ready for launch.",
-          priceMatchHomeCta: "Request a match",
+              ? "Read course information"
+              : "Back to state",
+          summaryHomeSecondaryCta:
+            config.stateSlug === "virginia"
+              ? "View FAQ"
+              : null,
         }
 
   const organizationSchema = {
@@ -356,6 +396,8 @@ export default async function StateHomePage({
                 href={
                   config.stateSlug === "virginia"
                     ? `/${state}/checkout`
+                    : config.stateSlug === "florida"
+                      ? "#florida-course-tracks"
                     : getDisclosuresRoute(state)
                 }
                 className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
@@ -366,6 +408,8 @@ export default async function StateHomePage({
                 href={
                   config.stateSlug === "virginia"
                     ? `/${state}/login`
+                    : config.stateSlug === "florida"
+                      ? "/florida-bdi"
                     : getDisclosuresRoute(state)
                 }
                 className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50"
@@ -382,35 +426,47 @@ export default async function StateHomePage({
                 >
                   {config.supportPhoneDisplay}
                 </a>
-                {" "}
-                <span className="text-slate-400">|</span>
-                {" "}{secondarySupportPhoneLabel}:{" "}
-                <a
-                  href={`tel:${secondarySupportPhone}`}
-                  className="underline decoration-slate-300 underline-offset-4"
-                >
-                  {secondarySupportPhoneDisplay}
-                </a>
+                <details className="mt-2">
+                  <summary className="cursor-pointer list-none text-[10px] font-medium uppercase tracking-[0.2em] text-slate-300">
+                    {secondarySupportPhoneSummary}
+                  </summary>
+                  <div className="mt-2">
+                    {secondarySupportPhoneLabel}:{" "}
+                    <a
+                      href={`tel:${secondarySupportPhone}`}
+                      className="underline decoration-slate-300 underline-offset-4"
+                    >
+                      {secondarySupportPhoneDisplay}
+                    </a>
+                  </div>
+                </details>
               </div>
             ) : null}
             {config.stateSlug === "virginia" ? (
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
-                <div>{copy.priceMatchHome}</div>
-                <Link
-                  href={`/${state}/price-match`}
-                  className="mt-2 inline-flex font-semibold underline"
-                >
-                  {copy.priceMatchHomeCta}
-                </Link>
+                <div>{copy.summaryHome}</div>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <Link
+                    href={getDisclosuresRoute(state)}
+                    className="inline-flex font-semibold underline"
+                  >
+                    {copy.summaryHomeCta}
+                  </Link>
+                  {copy.summaryHomeSecondaryCta ? (
+                    <Link
+                      href={`/${state}/faq`}
+                      className="inline-flex font-semibold underline"
+                    >
+                      {copy.summaryHomeSecondaryCta}
+                    </Link>
+                  ) : null}
+                </div>
               </div>
             ) : (
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-900">
-                {copy.priceMatchHome}
+                {copy.summaryHome}
               </div>
             )}
-            <div className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
-              {copy.englishNote}
-            </div>
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm leading-6 text-slate-700">
               <div className="font-semibold uppercase tracking-[0.16em] text-slate-900">
                 {copy.valueLabel}
@@ -452,6 +508,80 @@ export default async function StateHomePage({
           </div>
         ))}
       </section>
+
+      <PriceMatchGuaranteePanel
+        label={language === "es" ? "Garantía de igualación de precio" : "Price Match Guarantee"}
+        title={
+          language === "es"
+            ? config.enrollmentOpen
+              ? `Si encuentras un precio público más bajo para un curso equivalente de ${config.stateName}, lo igualamos o lo mejoramos por $1.`
+              : `Si encuentras un precio público más bajo para un curso equivalente de ${config.stateName}, revisamos la solicitud ahora y la respetamos cuando abra la inscripción.`
+            : config.enrollmentOpen
+              ? `If you find a lower public ${config.stateName} course price, we will match it or beat it by $1.`
+              : `If you find a lower public ${config.stateName} course price, we will review it now and honor qualified requests when enrollment opens.`
+        }
+        description={
+          language === "es"
+            ? "Si encuentras un precio público más bajo para un curso equivalente, envíanoslo aquí y lo revisaremos."
+            : "If you find a lower public price for a comparable course, send it here and we will review it."
+        }
+        href={`/${state}/price-match`}
+        ctaLabel={language === "es" ? "Solicitar igualación" : "Request a price match"}
+        accent="blue"
+        terms={buildDriverPriceMatchTerms(
+          config.stateName,
+          config.enrollmentOpen,
+          language
+        )}
+      />
+
+      {config.stateSlug === "florida" ? (
+        <section
+          id="florida-course-tracks"
+          className="rounded-[2rem] border border-sky-200 bg-sky-50 p-7 shadow-sm"
+        >
+          <div className="max-w-3xl">
+            <div className="text-sm font-semibold uppercase tracking-[0.18em] text-sky-700">
+              Florida Course Options
+            </div>
+            <h2 className="mt-3 text-3xl font-semibold text-slate-950">
+              Choose the Florida course type you need
+            </h2>
+            <p className="mt-4 leading-7 text-slate-700">
+              Florida courses are listed separately so you can open the course
+              type that matches your situation and see the right details in one
+              place.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {floridaTrackPreviews.map((track) => (
+              <article
+                key={track.code}
+                className="rounded-2xl border border-sky-100 bg-white p-5"
+              >
+                <div className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">
+                  {track.shortLabel}
+                </div>
+                <h3 className="mt-4 text-xl font-semibold text-slate-950">
+                  {track.name}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {track.audience}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-slate-700">
+                  {track.summary}
+                </p>
+                <Link
+                  href={track.route}
+                  className="mt-5 inline-flex rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-100"
+                >
+                  {track.ctaLabel}
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-7 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">

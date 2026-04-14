@@ -7,6 +7,8 @@ import {
   VIRGINIA_COURSE_ACCESS_DAYS,
 } from '@/lib/course-deadline'
 import { getCoursePlanByCode } from '@/lib/payment/plans'
+import { getCourseConfig } from '@/lib/course-config'
+import { getPreferredSiteLanguage } from '@/lib/site-language-server'
 
 export default async function DashboardPage({
   params,
@@ -15,6 +17,8 @@ export default async function DashboardPage({
 }) {
   const { state } = await params
   const supabase = await createClient()
+  const config = getCourseConfig(state)
+  const language = await getPreferredSiteLanguage()
 
   const {
     data: { user },
@@ -56,6 +60,29 @@ export default async function DashboardPage({
     latestFullCoursePurchase?.purchased_at ?? null
   )
 
+  const isEs = language === "es"
+  const copy = isEs
+    ? {
+        label: `Panel de estudiante — ${config.stateName}`,
+        heading: "Panel del estudiante",
+        loggedInAs: "Sesión iniciada como",
+        accessActive: `Tu acceso al curso de ${config.stateName} está disponible hasta el ${accessDeadline}.`,
+        accessExpired: `Tu acceso al curso de ${config.stateName} venció. El acceso está disponible por ${VIRGINIA_COURSE_ACCESS_DAYS} días desde la compra.`,
+        startCourse: "Ir al curso",
+        viewPlans: "Ver planes",
+        logout: "Cerrar sesión",
+      }
+    : {
+        label: `Student Dashboard — ${config.stateName}`,
+        heading: "Student Dashboard",
+        loggedInAs: "Logged in as",
+        accessActive: `Your ${config.stateName} course access is available through ${accessDeadline}.`,
+        accessExpired: `Your ${config.stateName} course access has expired. Course access is available for ${VIRGINIA_COURSE_ACCESS_DAYS} days from purchase.`,
+        startCourse: hasPaidCourseAccess ? "Go to Course" : "View Plans",
+        viewPlans: "View Plans",
+        logout: "Log out",
+      }
+
   async function logout() {
     "use server"
     const supabase = await createClient()
@@ -64,51 +91,64 @@ export default async function DashboardPage({
   }
 
   return (
-    <main className="max-w-xl mx-auto mt-10 p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Student Dashboard</h1>
-
-      <p className="text-slate-600">
-        Logged in as <span className="font-medium">{user.email}</span>
-      </p>
+    <div className="mx-auto max-w-2xl space-y-6">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700">
+          {copy.label}
+        </div>
+        <h1 className="mt-3 text-3xl font-semibold text-slate-950">
+          {copy.heading}
+        </h1>
+        <p className="mt-3 text-slate-600">
+          {copy.loggedInAs}{" "}
+          <span className="font-medium text-slate-900">{user.email}</span>
+        </p>
+      </section>
 
       {latestFullCoursePurchase ? (
-        <div className={`rounded-xl border p-4 text-sm ${
-          accessExpired
-            ? 'border-amber-200 bg-amber-50 text-amber-900'
-            : 'border-slate-200 bg-slate-50 text-slate-700'
-        }`}>
-          {accessExpired
-            ? `Your ${state} course access has expired. Course access is available for ${VIRGINIA_COURSE_ACCESS_DAYS} days from purchase.`
-            : `Your ${state} course access remains available through ${accessDeadline}.`}
-        </div>
+        <section
+          className={`rounded-[1.75rem] border p-6 text-sm leading-7 ${
+            accessExpired
+              ? "border-amber-200 bg-amber-50 text-amber-900"
+              : "border-emerald-200 bg-emerald-50 text-emerald-900"
+          }`}
+        >
+          {accessExpired ? copy.accessExpired : copy.accessActive}
+        </section>
       ) : null}
 
-      <div className="flex flex-col sm:flex-row gap-3">
-        <Link
-          href={hasPaidCourseAccess ? `/${state}/course` : `/${state}/checkout`}
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg"
-        >
-          {hasPaidCourseAccess ? 'Start Course' : 'View Plans'}
-        </Link>
-
-        {hasPaidCourseAccess ? (
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="flex flex-wrap gap-3">
           <Link
-            href={`/${state}/checkout`}
-            className="border border-slate-300 px-6 py-3 rounded-lg"
+            href={hasPaidCourseAccess ? `/${state}/course` : `/${state}/checkout`}
+            className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
           >
-            View Plans
+            {isEs
+              ? hasPaidCourseAccess
+                ? "Ir al curso"
+                : "Ver planes"
+              : copy.startCourse}
           </Link>
-        ) : null}
-      </div>
 
-      <form action={logout}>
-        <button
-          type="submit"
-          className="mt-4 text-sm text-red-600 underline"
-        >
-          Log out
-        </button>
-      </form>
-    </main>
+          {hasPaidCourseAccess ? (
+            <Link
+              href={`/${state}/checkout`}
+              className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {copy.viewPlans}
+            </Link>
+          ) : null}
+        </div>
+
+        <form action={logout} className="mt-6 border-t border-slate-100 pt-6">
+          <button
+            type="submit"
+            className="text-sm font-medium text-red-600 underline underline-offset-4 hover:text-red-800"
+          >
+            {copy.logout}
+          </button>
+        </form>
+      </section>
+    </div>
   )
 }
