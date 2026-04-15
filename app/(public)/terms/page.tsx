@@ -114,65 +114,59 @@ export default async function TermsPage() {
         sections: sectionsEn,
       }
   return (
-    <main className="bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_18%,#ffffff_100%)]">
-      <section className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-4">
-            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-              {copy.eyebrow}
-            </div>
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-              {copy.title}
-            </h1>
-            <p className="max-w-3xl text-lg leading-8 text-slate-600">
-              {copy.intro}
-            </p>
-          </div>
+    <div className="mx-auto max-w-4xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {copy.eyebrow}
         </div>
-
-        <div className="grid gap-5">
-          {copy.sections.map((section) => (
-            <article
-              key={section.title}
-              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
-            >
-              <h2 className="text-xl font-semibold text-slate-950">
-                {section.title}
-              </h2>
-              <div className="mt-3 space-y-3 text-base leading-7 text-slate-600">
-                {section.body.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-sm leading-7 text-slate-600">
-          <p>
-            {copy.contact}{" "}
-            <a
-              href="mailto:admin@nationaldriverimprovement.com"
-              className="font-semibold text-slate-900 hover:text-blue-700"
-            >
-              admin@nationaldriverimprovement.com
-            </a>
-            .
-          </p>
-          <p className="mt-3">
-            {isSpanish ? "Puedes volver a la" : "You can return to the"}{" "}
-            <Link
-              href="/"
-              className="font-semibold text-slate-900 hover:text-blue-700"
-            >
-              {copy.back}
-            </Link>{" "}
-            {isSpanish
-              ? "para encontrar un curso o una herramienta de certificado."
-              : "to find a course or certificate tool."}
-          </p>
-        </div>
+        <h1 className="mt-3 text-3xl font-semibold text-slate-900">
+          {copy.title}
+        </h1>
+        <p className="mt-4 leading-7 text-slate-700">{copy.intro}</p>
       </section>
-    </main>
+
+      <div className="space-y-4">
+        {copy.sections.map((section) => (
+          <article
+            key={section.title}
+            className="glass-panel rounded-[2rem] bg-white p-8"
+          >
+            <h2 className="text-xl font-semibold text-slate-900">
+              {section.title}
+            </h2>
+            <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+              {section.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <p className="text-sm leading-7 text-slate-700">
+          {copy.contact}{" "}
+          <a
+            href="mailto:admin@nationaldriverimprovement.com"
+            className="font-semibold text-slate-900 hover:text-blue-700"
+          >
+            admin@nationaldriverimprovement.com
+          </a>
+          .
+        </p>
+        <p className="mt-3 text-sm leading-7 text-slate-700">
+          {isSpanish ? "Puedes volver a la" : "You can return to the"}{" "}
+          <Link
+            href="/"
+            className="font-semibold text-slate-900 hover:text-blue-700"
+          >
+            {copy.back}
+          </Link>{" "}
+          {isSpanish
+            ? "para encontrar un curso o una herramienta de certificado."
+            : "to find a course or certificate tool."}
+        </p>
+      </section>
+    </div>
   )
 }

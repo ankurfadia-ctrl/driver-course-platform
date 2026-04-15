@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import ParentingFooter from "@/components/site/parenting-footer"
 import {
   MINNESOTA_PARENT_SITE_NAV,
   MINNESOTA_PARENT_SITE_NAV_ES,
@@ -87,5 +88,15 @@ export default async function MinnesotaParentEducationLayout({
         <div className="mt-8">{children}</div>
       </div>
     </main>
+    <ParentingFooter
+      language={language}
+      courseLabel="Minnesota Parent Education"
+      courseLabelEs="Educación para padres de Minnesota"
+      title="Minnesota Co-Parenting Foundations."
+      titleEs="Fundamentos de Coparentalidad de Minnesota."
+      navItems={MINNESOTA_PARENT_SITE_NAV}
+      navItemsEs={MINNESOTA_PARENT_SITE_NAV_ES}
+      support={MINNESOTA_PARENT_SITE_SUPPORT}
+    />
   )
 }

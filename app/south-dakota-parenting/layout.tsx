@@ -6,6 +6,7 @@ import {
   SOUTH_DAKOTA_PARENT_SITE_SUPPORT,
 } from "@/lib/south-dakota-parenting-site"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
+import ParentingFooter from "@/components/site/parenting-footer"
 
 export default async function SouthDakotaParentingLayout({
   children,
@@ -89,5 +90,15 @@ export default async function SouthDakotaParentingLayout({
         <div className="mt-8">{children}</div>
       </div>
     </main>
+    <ParentingFooter
+      language={language}
+      courseLabel="South Dakota Parenting Course"
+      courseLabelEs="Curso de coparentalidad de Dakota del Sur"
+      title="South Dakota Co-Parenting Foundations."
+      titleEs="Fundamentos de coparentalidad de Dakota del Sur."
+      navItems={SOUTH_DAKOTA_PARENT_SITE_NAV}
+      navItemsEs={SOUTH_DAKOTA_PARENT_SITE_NAV_ES}
+      support={SOUTH_DAKOTA_PARENT_SITE_SUPPORT}
+    />
   )
 }

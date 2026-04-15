@@ -77,7 +77,6 @@ export default async function StateFooter({ state }: { state: string }) {
               <Link href={getContactRoute(state)} className="hover:text-slate-950">
                 {copy.contact}
               </Link>
-              </Link>
             </div>
           </div>
 

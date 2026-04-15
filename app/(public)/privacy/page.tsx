@@ -93,69 +93,65 @@ export default async function PrivacyPage() {
   const sections = isSpanish ? sectionsEs : sectionsEn
 
   return (
-    <main className="bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_18%,#ffffff_100%)]">
-      <section className="mx-auto flex max-w-4xl flex-col gap-8 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-4">
-            <div className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-              {isSpanish ? "Privacidad" : "Privacy"}
-            </div>
-            <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
-              {isSpanish ? "Política de privacidad" : "Privacy Policy"}
-            </h1>
-            <p className="max-w-3xl text-lg leading-8 text-slate-600">
-              {isSpanish
-                ? "Esta página explica las categorías básicas de información que el Portal Nacional de Cursos usa para operar el sitio, apoyar a los estudiantes y mantener los registros del curso y certificados."
-                : "This page explains the basic categories of information National Course Portal uses to operate the site, support students, and maintain course and certificate records."}
-            </p>
-          </div>
+    <div className="mx-auto max-w-4xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {isSpanish ? "Privacidad" : "Privacy"}
         </div>
-
-        <div className="grid gap-5">
-          {sections.map((section) => (
-            <article
-              key={section.title}
-              className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
-            >
-              <h2 className="text-xl font-semibold text-slate-950">
-                {section.title}
-              </h2>
-              <div className="mt-3 space-y-3 text-base leading-7 text-slate-600">
-                {section.body.map((paragraph) => (
-                  <p key={paragraph}>{paragraph}</p>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 text-sm leading-7 text-slate-600">
-          <p>
-            {isSpanish
-              ? "Las preguntas sobre privacidad o soporte de cuenta pueden enviarse a "
-              : "Questions about privacy or account support can be sent to "}
-            <a
-              href="mailto:admin@nationaldriverimprovement.com"
-              className="font-semibold text-slate-900 hover:text-blue-700"
-            >
-              admin@nationaldriverimprovement.com
-            </a>
-            .
-          </p>
-          <p className="mt-3">
-            {isSpanish ? "También puedes volver a la " : "You can also return to the "}
-            <Link
-              href="/"
-              className="font-semibold text-slate-900 hover:text-blue-700"
-            >
-              {isSpanish ? "página principal" : "homepage"}
-            </Link>{" "}
-            {isSpanish
-              ? "para encontrar tu curso o las herramientas de certificado."
-              : "to find your course or certificate tools."}
-          </p>
-        </div>
+        <h1 className="mt-3 text-3xl font-semibold text-slate-900">
+          {isSpanish ? "Política de privacidad" : "Privacy Policy"}
+        </h1>
+        <p className="mt-4 leading-7 text-slate-700">
+          {isSpanish
+            ? "Esta página explica las categorías básicas de información que el Portal Nacional de Cursos usa para operar el sitio, apoyar a los estudiantes y mantener los registros del curso y certificados."
+            : "This page explains the basic categories of information National Course Portal uses to operate the site, support students, and maintain course and certificate records."}
+        </p>
       </section>
-    </main>
+
+      <div className="space-y-4">
+        {sections.map((section) => (
+          <article
+            key={section.title}
+            className="glass-panel rounded-[2rem] bg-white p-8"
+          >
+            <h2 className="text-xl font-semibold text-slate-900">
+              {section.title}
+            </h2>
+            <div className="mt-4 space-y-3 text-sm leading-7 text-slate-700">
+              {section.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <p className="text-sm leading-7 text-slate-700">
+          {isSpanish
+            ? "Las preguntas sobre privacidad o soporte de cuenta pueden enviarse a "
+            : "Questions about privacy or account support can be sent to "}
+          <a
+            href="mailto:admin@nationaldriverimprovement.com"
+            className="font-semibold text-slate-900 hover:text-blue-700"
+          >
+            admin@nationaldriverimprovement.com
+          </a>
+          .
+        </p>
+        <p className="mt-3 text-sm leading-7 text-slate-700">
+          {isSpanish ? "También puedes volver a la " : "You can also return to the "}
+          <Link
+            href="/"
+            className="font-semibold text-slate-900 hover:text-blue-700"
+          >
+            {isSpanish ? "página principal" : "homepage"}
+          </Link>{" "}
+          {isSpanish
+            ? "para encontrar tu curso o las herramientas de certificado."
+            : "to find your course or certificate tools."}
+        </p>
+      </section>
+    </div>
   )
 }
