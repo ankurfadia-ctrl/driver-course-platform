@@ -71,6 +71,7 @@ export default function VerifyCertificatePage() {
             notVerifiedHint:
               "Revisa el ID del certificado y vuelve a intentarlo.",
             back: "Volver al inicio",
+            verifyAnother: "Verificar otro certificado",
             invalidId: "ID de certificado no válido.",
             notFound: "Certificado no encontrado.",
             verifyError: "No se pudo completar la verificación. Inténtalo de nuevo.",
@@ -96,6 +97,7 @@ export default function VerifyCertificatePage() {
             notVerifiedBody: "Certificate could not be verified.",
             notVerifiedHint: "Double-check the certificate ID and try again.",
             back: "Back to Home",
+            verifyAnother: "Verify another certificate",
             invalidId: "Invalid certificate ID.",
             notFound: "Certificate not found.",
             verifyError: "Verification could not be completed. Please try again.",
@@ -200,26 +202,25 @@ export default function VerifyCertificatePage() {
   ])
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">
-            {copy.eyebrow}
-          </p>
-          <h1 className="text-3xl font-bold text-slate-900">{copy.title}</h1>
-          <p className="mt-2 text-slate-600">{copy.intro}</p>
+    <div className="mx-auto max-w-3xl space-y-6 px-4 py-10 sm:px-6 lg:px-8">
+      <section className="glass-panel rounded-[2rem] bg-white p-8">
+        <div className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+          {copy.eyebrow}
         </div>
-      </div>
-
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div className="text-sm text-slate-500">{copy.certificateIdLabel}</div>
-        <div className="mt-2 break-words font-mono text-lg font-semibold text-slate-900">
-          {normalizedCertificateId || copy.missingId}
+        <h1 className="mt-3 text-3xl font-semibold text-slate-900">{copy.title}</h1>
+        <p className="mt-4 leading-7 text-slate-700">{copy.intro}</p>
+        <div className="mt-5">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+            {copy.certificateIdLabel}
+          </div>
+          <div className="mt-2 break-words font-mono text-lg font-semibold text-slate-900">
+            {normalizedCertificateId || copy.missingId}
+          </div>
         </div>
-      </div>
+      </section>
 
       {loading ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="glass-panel rounded-[2rem] bg-white p-8">
           <div className="flex items-center gap-3 text-slate-500">
             <svg className="h-5 w-5 animate-spin text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -232,83 +233,87 @@ export default function VerifyCertificatePage() {
             <div className="h-4 w-1/2 animate-pulse rounded bg-slate-100" />
             <div className="h-4 w-2/3 animate-pulse rounded bg-slate-100" />
           </div>
-        </div>
+        </section>
       ) : match ? (
-        <div className="rounded-2xl border border-green-200 bg-green-50 p-6 shadow-sm">
-          <div className="text-sm font-semibold uppercase tracking-wide text-green-700">
+        <section className="rounded-[2rem] border border-green-200 bg-green-50 p-8 shadow-sm">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-green-700">
             {copy.verifiedLabel}
           </div>
-
-          <h2 className="mt-2 text-2xl font-bold text-slate-900">
+          <h2 className="mt-2 text-2xl font-semibold text-slate-900">
             {copy.verifiedTitle}
           </h2>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-xl bg-white p-4">
+            <div className="rounded-2xl bg-white p-4">
               <div className="text-sm text-slate-500">{copy.studentName}</div>
-              <div className="mt-1 text-lg font-semibold text-slate-900">
-                {match.fullName}
-              </div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{match.fullName}</div>
             </div>
-
-            <div className="rounded-xl bg-white p-4">
+            <div className="rounded-2xl bg-white p-4">
               <div className="text-sm text-slate-500">{copy.state}</div>
-              <div className="mt-1 text-lg font-semibold text-slate-900">
-                {match.state}
-              </div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{match.state}</div>
             </div>
-
-            <div className="rounded-xl bg-white p-4">
+            <div className="rounded-2xl bg-white p-4">
               <div className="text-sm text-slate-500">{copy.course}</div>
-              <div className="mt-1 text-lg font-semibold text-slate-900">
-                {match.courseName}
-              </div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{match.courseName}</div>
             </div>
-
-            <div className="rounded-xl bg-white p-4">
+            <div className="rounded-2xl bg-white p-4">
               <div className="text-sm text-slate-500">{copy.finalExamScore}</div>
-              <div className="mt-1 text-lg font-semibold text-slate-900">
-                {match.score}%
-              </div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{match.score}%</div>
             </div>
-
-            <div className="rounded-xl bg-white p-4">
+            <div className="rounded-2xl bg-white p-4">
               <div className="text-sm text-slate-500">{copy.completionDate}</div>
               <div className="mt-1 text-lg font-semibold text-slate-900">
                 {formatCertificateCompletionDate(match.completedAt)}
               </div>
             </div>
-          </div>
-
-          <div className="mt-6 rounded-xl bg-white p-4">
-            <div className="text-sm text-slate-500">{copy.status}</div>
-            <div className="mt-1 text-lg font-semibold text-green-700">
-              {copy.statusValue}
+            <div className="rounded-2xl bg-white p-4">
+              <div className="text-sm text-slate-500">{copy.status}</div>
+              <div className="mt-1 text-lg font-semibold text-green-700">{copy.statusValue}</div>
             </div>
           </div>
-        </div>
+
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/verify"
+              className="rounded-xl border border-green-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-green-50"
+            >
+              {copy.verifyAnother}
+            </Link>
+            <Link
+              href="/"
+              className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {copy.back}
+            </Link>
+          </div>
+        </section>
       ) : (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
-          <div className="text-sm font-semibold uppercase tracking-wide text-amber-700">
+        <section className="rounded-[2rem] border border-amber-200 bg-amber-50 p-8 shadow-sm">
+          <div className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-700">
             {copy.notVerified}
           </div>
-          <div className="mt-2 text-lg font-semibold text-slate-900">
+          <div className="mt-2 text-xl font-semibold text-slate-900">
             {errorMessage || copy.notVerifiedBody}
           </div>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-3 text-sm leading-7 text-slate-700">
             {copy.notVerifiedHint}
           </p>
-        </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/verify"
+              className="rounded-xl border border-amber-300 bg-white px-5 py-3 font-semibold text-amber-900 hover:bg-amber-100"
+            >
+              {copy.verifyAnother}
+            </Link>
+            <Link
+              href="/"
+              className="rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              {copy.back}
+            </Link>
+          </div>
+        </section>
       )}
-
-      <div className="flex flex-wrap gap-3">
-        <Link
-          href="/"
-          className="rounded-lg border border-slate-300 px-4 py-2 font-semibold text-slate-700 hover:bg-slate-50"
-        >
-          {copy.back}
-        </Link>
-      </div>
     </div>
   )
 }
