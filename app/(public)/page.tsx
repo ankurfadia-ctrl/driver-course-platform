@@ -359,10 +359,9 @@ export default async function HomePage() {
         heroLabel: "Portal Nacional de Cursos",
         heroTitle: "Encuentra el curso que necesitas y empieza más rápido.",
         heroIntro:
-          "Inicia mejoramiento de conductores de Virginia, compara cursos para padres, vuelve a ingresar o verifica un certificado desde un solo lugar.",
+          "Inicia mejoramiento de conductores de Virginia, compara cursos para padres o vuelve a ingresar desde un solo lugar.",
         heroCtaPrimary: "Iniciar mejoramiento de conductores de Virginia",
         heroCtaSecondary: "Ver cursos para padres",
-        heroCtaThird: "Verificar un certificado",
         heroCardOneEyebrow: "Disponible ahora",
         heroCardOneTitle: "Mejoramiento de Conductores de Virginia",
         heroCardOneBody:
@@ -405,10 +404,9 @@ export default async function HomePage() {
         heroLabel: "National Course Portal",
         heroTitle: "Find the course you need and get started faster.",
         heroIntro:
-          "Start Virginia driver improvement, compare parenting courses, sign back in, or verify a certificate from one place.",
+          "Start Virginia driver improvement, compare parenting courses, or sign back in from one place.",
         heroCtaPrimary: "Start Virginia driver improvement",
         heroCtaSecondary: "Browse parenting courses",
-        heroCtaThird: "Verify a certificate",
         heroCardOneEyebrow: "Available now",
         heroCardOneTitle: "Virginia Driver Improvement",
         heroCardOneBody:
@@ -476,12 +474,6 @@ export default async function HomePage() {
                   className="rounded-xl bg-emerald-600 px-6 py-3 font-semibold text-white hover:bg-emerald-700"
                 >
                   {copy.heroCtaSecondary}
-                </Link>
-                <Link
-                  href="/verify"
-                  className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 hover:bg-slate-50"
-                >
-                  {copy.heroCtaThird}
                 </Link>
               </div>
             </div>
