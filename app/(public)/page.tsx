@@ -48,13 +48,6 @@ const quickActionsEn: QuickAction[] = [
     accent: "blue",
   },
   {
-    eyebrow: "Certificate tools",
-    label: "Verify a certificate",
-    href: "/verify",
-    note: "Enter a verification ID to check a completion certificate.",
-    accent: "sky",
-  },
-  {
     eyebrow: "Parenting",
     label: "Compare parenting courses",
     href: "#parenting-courses",
@@ -77,13 +70,6 @@ const quickActionsEs: QuickAction[] = [
     href: "/virginia/login",
     note: "Vuelve a entrar para continuar tu curso y el acceso al certificado.",
     accent: "blue",
-  },
-  {
-    eyebrow: "Herramientas de certificado",
-    label: "Verificar un certificado",
-    href: "/verify",
-    note: "Ingresa un ID de verificación para confirmar un certificado.",
-    accent: "sky",
   },
   {
     eyebrow: "Cursos para padres",
@@ -371,9 +357,9 @@ export default async function HomePage() {
         heroCardTwoBody:
           "Compara opciones, revisa precios y ve qué esperar antes de inscribirte.",
         popularLabel: "Acciones populares",
-        popularTitle: "Inicia, regresa, verifica o compara",
+        popularTitle: "Inicia, regresa o compara",
         popularIntro:
-          "Usa estos accesos rápidos para iniciar, volver a ingresar, verificar un certificado o comparar cursos para padres.",
+          "Usa estos accesos rápidos para iniciar el curso, volver a ingresar o comparar cursos para padres.",
         findCourseLabel: "Encuentra tu curso",
         findCourseTitle: "Elige el curso que se adapta a tu situación",
         findCourseIntro:
@@ -416,9 +402,9 @@ export default async function HomePage() {
         heroCardTwoBody:
           "Compare the options, review pricing, and see what to expect before you enroll.",
         popularLabel: "Popular actions",
-        popularTitle: "Start, return, verify, or compare",
+        popularTitle: "Start, return, or compare",
         popularIntro:
-          "Use these quick links to start, sign back in, verify a certificate, or compare parenting courses.",
+          "Use these quick links to start the course, sign back in, or compare parenting courses.",
         findCourseLabel: "Find your course",
         findCourseTitle: "Choose the course that fits your situation",
         findCourseIntro:
