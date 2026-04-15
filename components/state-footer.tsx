@@ -24,7 +24,6 @@ export default async function StateFooter({ state }: { state: string }) {
           faq: "Preguntas frecuentes",
           privacy: "Privacidad",
           terms: "Términos",
-          boating: "Seguridad náutica",
           refunds: "Reembolsos",
           contact: "Contacto",
         }
@@ -39,7 +38,6 @@ export default async function StateFooter({ state }: { state: string }) {
           terms: "Terms",
           refunds: "Refunds",
           contact: "Contact",
-          boating: "Boating Safety",
         }
 
   return (
@@ -79,8 +77,6 @@ export default async function StateFooter({ state }: { state: string }) {
               <Link href={getContactRoute(state)} className="hover:text-slate-950">
                 {copy.contact}
               </Link>
-              <Link href="/boating" className="hover:text-slate-950">
-                {copy.boating}
               </Link>
             </div>
           </div>

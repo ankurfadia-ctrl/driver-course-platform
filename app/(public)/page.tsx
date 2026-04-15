@@ -234,10 +234,10 @@ const futureCoursesEn: FutureCard[] = [
       "Basic Florida driver improvement for court, ticket, and driving-record needs.",
   },
   {
-    label: "Boating safety",
+    label: "Boating safety — pending approval",
     title: "State boating safety courses",
     summary:
-      "Boating safety courses with state-by-state lessons, exam prep, and certificate support.",
+      "Boating safety courses are in development pending state regulatory approval. We will publish details and enrollment once approvals are confirmed.",
   },
 ]
 
@@ -255,10 +255,10 @@ const futureCoursesEs: FutureCard[] = [
       "Mejoramiento básico de conductores en Florida para tribunal, multas y registros.",
   },
   {
-    label: "Seguridad náutica",
+    label: "Seguridad náutica — pendiente de aprobación",
     title: "Cursos estatales de seguridad náutica",
     summary:
-      "Cursos de seguridad náutica con lecciones por estado y soporte de certificados.",
+      "Los cursos de seguridad náutica están en desarrollo pendientes de aprobación regulatoria estatal. Publicaremos los detalles e inscripción una vez confirmadas las aprobaciones.",
   },
 ]
 

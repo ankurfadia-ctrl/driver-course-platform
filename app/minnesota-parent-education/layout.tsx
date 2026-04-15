@@ -1,6 +1,5 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
-import PublicHeader from "@/components/site/public-header"
 import { getPreferredSiteLanguage } from "@/lib/site-language-server"
 import {
   MINNESOTA_PARENT_SITE_NAV,
@@ -18,8 +17,6 @@ export default async function MinnesotaParentEducationLayout({
   const navItems = isSpanish ? MINNESOTA_PARENT_SITE_NAV_ES : MINNESOTA_PARENT_SITE_NAV
 
   return (
-    <>
-    <PublicHeader language={language} />
     <main className="public-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="glass-panel overflow-hidden rounded-[2rem] border-emerald-100 bg-white">
@@ -90,6 +87,5 @@ export default async function MinnesotaParentEducationLayout({
         <div className="mt-8">{children}</div>
       </div>
     </main>
-    </>
   )
 }
