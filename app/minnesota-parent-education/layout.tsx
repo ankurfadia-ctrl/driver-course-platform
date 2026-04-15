@@ -18,6 +18,7 @@ export default async function MinnesotaParentEducationLayout({
   const navItems = isSpanish ? MINNESOTA_PARENT_SITE_NAV_ES : MINNESOTA_PARENT_SITE_NAV
 
   return (
+    <>
     <main className="public-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="glass-panel overflow-hidden rounded-[2rem] border-emerald-100 bg-white">
@@ -98,5 +99,6 @@ export default async function MinnesotaParentEducationLayout({
       navItemsEs={MINNESOTA_PARENT_SITE_NAV_ES}
       support={MINNESOTA_PARENT_SITE_SUPPORT}
     />
+    </>
   )
 }

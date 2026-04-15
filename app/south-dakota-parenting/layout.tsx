@@ -18,6 +18,7 @@ export default async function SouthDakotaParentingLayout({
   const nav = isSpanish ? SOUTH_DAKOTA_PARENT_SITE_NAV_ES : SOUTH_DAKOTA_PARENT_SITE_NAV
 
   return (
+    <>
     <main className="public-shell min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="glass-panel overflow-hidden rounded-[2rem] border-amber-100 bg-white">
@@ -100,5 +101,6 @@ export default async function SouthDakotaParentingLayout({
       navItemsEs={SOUTH_DAKOTA_PARENT_SITE_NAV_ES}
       support={SOUTH_DAKOTA_PARENT_SITE_SUPPORT}
     />
+    </>
   )
 }
