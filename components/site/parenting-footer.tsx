@@ -10,8 +10,8 @@ type ParentingFooterProps = {
   courseLabelEs: string
   title: string
   titleEs: string
-  navItems: NavItem[]
-  navItemsEs: NavItem[]
+  navItems: readonly NavItem[]
+  navItemsEs: readonly NavItem[]
   support: SupportInfo
 }
 
